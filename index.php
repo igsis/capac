@@ -1,6 +1,6 @@
 <?php
 
-    require_once "controllers/template.php";
-    $template = new TemplateController();
+    require_once "controllers/ViewsController.php";
+    $template = new ViewsController();
 
-    $template->template();
+    $template->exibirTemplate();

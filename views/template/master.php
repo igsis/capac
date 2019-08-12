@@ -1,7 +1,8 @@
 <?php
-    require_once "controllers/template.php";
-    $template = new TemplateController();
+    require_once "./controllers/ViewsController.php";
+    $template = new ViewsController();
 ?>
+
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -37,7 +38,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <?php $template->content(); ?>
+
   </div>
   <!-- /.content-wrapper -->
 
@@ -53,7 +54,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- Main Footer -->
   <footer class="main-footer">
-    
+    <?php $template->footer() ?>
   </footer>
 </div>
 <!-- ./wrapper -->
