@@ -17,13 +17,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <title>AdminLTE 3 | Template</title>
 
   <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="views/plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="<?= SERVERURL ?>views/plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="views/dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="<?= SERVERURL ?>views/dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 <body class="hold-transition sidebar-mini">
+<?php
+    $view = $template->exibirViewController();
+    if ($view == 'login'):
+        require_once "./views/modulos/inicio/login.php";
+    else:
+?>
 <div class="wrapper">
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -38,7 +44,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-
+    <?php include $view ?>
   </div>
   <!-- /.content-wrapper -->
 
@@ -58,14 +64,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
   </footer>
 </div>
 <!-- ./wrapper -->
-
+<?php endif; ?>
 <!-- REQUIRED SCRIPTS -->
 
 <!-- jQuery -->
-<script src="views/plugins/jquery/jquery.min.js"></script>
+<script src="<?= SERVERURL ?>views/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="views/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="<?= SERVERURL ?>views/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
-<script src="views/dist/js/adminlte.min.js"></script>
+<script src="<?= SERVERURL ?>views/dist/js/adminlte.min.js"></script>
 </body>
 </html>
