@@ -3,38 +3,50 @@
 
 class ViewsModel
 {
-    protected function listaModulos ($mod) {
+    protected function verificaModulo ($mod) {
         $modulos = [
-            'emendaParlamentar',
-            'eventos',
-            'jovemMonitor',
-            'oficina',
-            'pessoaFisica',
-            'pessoaJurídica',
+            "eventos",
+            "formacao",
+            "inicio",
+            "jovemMonitor",
+            "oficina",
+            "pessoaFisica",
+            "pessoaJurídica",
         ];
 
         if (in_array($mod, $modulos)) {
             if (is_dir("./views/modulos/" . $mod)) {
-                $modulo = "./views/modulos/".$mod;
+                return true;
             } else {
-                $modulo = "./view/modulos";
+                return false;
             }
         } else {
-            $modulo = "./view/modulos";
+            return false;
         }
-
-        return $modulo;
     }
 
-    protected function exibirViewModel($view) {
-        $modulos = [
+    protected function exibirViewModel($view, $modulo = "") {
+        $whitelist = [
             'home',
         ];
-        $modulo = self::listaModulos($view);
-        if (in_array($view, $modulos)) {
-            if (is_file("./views/modulos/".$view."")) {
-
+        if (self::verificaModulo($modulo)) {
+            if (in_array($view, $whitelist)) {
+                if (is_file("./views/modulos/$modulo/$view.php")) {
+                    $conteudo = "./views/modulos/$modulo/$view.php";
+                } else {
+                    $conteudo = "./views/modulos/$modulo/inicio.php";
+                }
+            } else {
+                $conteudo = "./views/modulos/$modulo/inicio.php";
             }
+        } elseif ($view == "login") {
+            $conteudo = "login";
+        } elseif ($view == "index") {
+            $conteudo = "login";
+        } else {
+            $conteudo = "login";
         }
+
+        return $conteudo;
     }
 }

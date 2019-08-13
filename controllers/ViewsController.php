@@ -18,4 +18,20 @@ class ViewsController extends ViewsModel
     public function footer() {
         include "views/template/footer.php";
     }
+
+    public function exibirViewController() {
+        if (isset($_GET['views'])) {
+            $url = explode("/", $_GET['views']);
+
+            $rota = [
+                "view" => $url[1] ?? "",
+                "modulo" => $url[0] ?? ""
+            ];
+
+            $resposta = ViewsModel::exibirViewModel($rota['view'], $rota['modulo']);
+        } else {
+            $resposta = "login";
+        }
+        return $resposta;
+    }
 }
