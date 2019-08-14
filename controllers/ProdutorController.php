@@ -1,9 +1,9 @@
 <?php
 
 include_once '../models/ConnectionModel.php';
-include_once '../models/ManagerModel.php';
+include_once '../models/DbModel.php';
 
-$manager = new ManagerModel();
+$manager = new DbModel();
 
 $data = $_POST;
 

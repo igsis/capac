@@ -1,11 +1,28 @@
 <?php
 
 
-class ManagerModel extends ConnectionModel
+class DbModel
 {
-    // Método para inserir
-    public function insert($table, $data) {
-        $pdo = parent::connection();
+    public static $conn;
+
+    protected function connection() {
+        if(!isset(self::$conn)) {
+            self::$conn = new PDO(SGBD, USER, PASS, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+            self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        }
+        return self::$conn;
+    }
+
+    /**
+     * <p>Função para inserir um registro no banco de dados </p>
+     * @param string $table
+     * <p>Tabela do banco de dados</p>
+     * @param array $data
+     * <p>Dados a serem inseridos</p>
+     * @return bool|PDOStatement
+     */
+    protected function insert($table, $data) {
+        $pdo = self::connection();
         $fields = implode(", ", array_keys($data));
         $values = ":".implode(", :", array_keys($data));
         $sql = "INSERT INTO $table ($fields) VALUES ($values)";
@@ -14,11 +31,13 @@ class ManagerModel extends ConnectionModel
             $statement->bindValue(":$key", $value, PDO::PARAM_STR);
         }
         $statement->execute();
+
+        return $statement;
     }
 
     // Método para update
-    public function update($table, $data, $id){
-        $pdo = parent::connection();
+    protected function update($table, $data, $id){
+        $pdo = self::connection();
         $new_values = "";
         foreach($data as $key => $value) {
             $new_values .= "$key=:$key, ";
@@ -30,20 +49,24 @@ class ManagerModel extends ConnectionModel
             $statement->bindValue(":$key", $value, PDO::PARAM_STR);
         }
         $statement->execute();
+
+        return $statement;
     }
 
     // Método para apagar (despublicar)
-    public function delete($table, $id){
-        $pdo = parent::connection();
+    protected function delete($table, $id){
+        $pdo = self::connection();
         $sql = "UPDATE $table SET publicado = 0 WHERE id = :id";
         $statement = $pdo->prepare($sql);
         $statement->bindValue(":id", $id);
         $statement->execute();
+
+        return $statement;
     }
 
     // Método para pegar a informação
-    public function getInfo($table, $id){
-        $pdo = parent::connection();
+    protected function getInfo($table, $id){
+        $pdo = self::connection();
         $sql = "SELECT * FROM $table WHERE id = :id";
         $statement = $pdo->prepare($sql);
         $statement->bindValue(":id", $id);
@@ -53,14 +76,14 @@ class ManagerModel extends ConnectionModel
     }
 
     // Lista publicados
-    public function listaPublicado($table,$id) {
+    protected function listaPublicado($table,$id) {
         if(!empty($id)){
             $filtro_id = "AND id = :id";
         }
         else{
             $filtro_id = "";
         }
-        $pdo = parent::connection();
+        $pdo = self::connection();
         $sql = "SELECT * FROM $table WHERE publicado = 1 $filtro_id ORDER BY 2";
         $statement = $pdo->query($sql);
         $statement->execute();
