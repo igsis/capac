@@ -31,6 +31,7 @@ class ViewsModel
             'evento_cadastro',
             'atracao_cadastro',
             'produtor_cadastro',
+            'arquivos_com_prod',
         ];
         if (self::verificaModulo($modulo)) {
             if (in_array($view, $whitelist)) {
