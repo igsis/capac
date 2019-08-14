@@ -28,6 +28,7 @@ class ViewsModel
     protected function exibirViewModel($view, $modulo = "") {
         $whitelist = [
             'inicio',
+            'evento_cadastro',
         ];
         if (self::verificaModulo($modulo)) {
             if (in_array($view, $whitelist)) {
