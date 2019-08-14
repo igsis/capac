@@ -29,6 +29,7 @@ class ViewsModel
         $whitelist = [
             'inicio',
             'evento_cadastro',
+            'atracao_cadastro',
             'produtor_cadastro',
         ];
         if (self::verificaModulo($modulo)) {
