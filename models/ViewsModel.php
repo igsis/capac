@@ -35,6 +35,7 @@ class ViewsModel
             'pf_cadastro',
             'pj_cadastro',
             'representante_cadastro',
+            'informacoes_complementares_cadastro',
         ];
         if (self::verificaModulo($modulo)) {
             if (in_array($view, $whitelist)) {
