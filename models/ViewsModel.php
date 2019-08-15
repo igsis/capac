@@ -34,6 +34,7 @@ class ViewsModel
             'arquivos_com_prod',
             'pf_cadastro',
             'pj_cadastro',
+            'representante_cadastro',
         ];
         if (self::verificaModulo($modulo)) {
             if (in_array($view, $whitelist)) {
