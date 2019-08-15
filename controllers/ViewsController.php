@@ -34,4 +34,20 @@ class ViewsController extends ViewsModel
         }
         return $resposta;
     }
+
+    public function exibirMenuController() {
+        if (isset($_GET['views'])) {
+            $url = explode("/", $_GET['views']);
+
+            $rota = [
+                "view" => $url[1] ?? "",
+                "modulo" => $url[0] ?? ""
+            ];
+
+            $resposta = ViewsModel::exibirMenuModel($rota['modulo']);
+        } else {
+            $resposta = "menuPadrao";
+        }
+        return $resposta;
+    }
 }

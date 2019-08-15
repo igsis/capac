@@ -58,4 +58,18 @@ class ViewsModel
 
         return $conteudo;
     }
+
+    protected function exibirMenuModel ($modulo) {
+        if (self::verificaModulo($modulo)) {
+            if (is_file("./views/modulos/$modulo/include/menu.php")) {
+                $menu = "./views/modulos/$modulo/include/menu.php";
+            } else {
+                $menu = "./views/template/menuExemplo.php";
+            }
+        } else {
+            $menu = "./views/template/menuExemplo.php";
+        }
+
+        return $menu;
+    }
 }

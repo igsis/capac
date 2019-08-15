@@ -1,8 +1,8 @@
 <?php
 
-class UsuarioModel extends ConnectionModel
+class UsuarioModel extends DbModel
 {
-    public function getUsuario($email) {
+    protected function getUsuario($email) {
         $pdo = parent::connection();
         $sql = "SELECT * FROM usuarios AS usr WHERE usr.email = '$email' LIMIT 0,1";
         $statement = $pdo->prepare($sql);
@@ -11,4 +11,5 @@ class UsuarioModel extends ConnectionModel
 
         return $statement->fetchAll();
     }
+
 }

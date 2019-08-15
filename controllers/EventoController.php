@@ -1,6 +1,5 @@
 <?php
 
-include_once '../models/ConnectionModel.php';
 include_once '../models/DbModel.php';
 
 $manager = new DbModel();
