@@ -1,12 +1,13 @@
 <?php
     require_once "./controllers/ViewsController.php";
     $view = new ViewsController();
-    if(isset($_SESSION['nome'])){
-        $nomeUser = $_SESSION['nome'];
-    }
-    else{
-        $nomeUser = "Pessoinha";
-    }
+    /* Apagar esse bloco após login pronto
+    */
+$nomeUser = "Pessoinha Feliz";
+$_SESSION['nome'] = $nomeUser;
+    /* */
+    $nomeUser = strstr($_SESSION['nome'], ' ', true);
+
 ?>
 <!-- Brand Logo -->
 <a href="inicio" class="brand-link">
