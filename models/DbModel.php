@@ -1,13 +1,19 @@
 <?php
+if ($pedidoAjax) {
+    require_once "../models/MainModel.php";
+    require_once "../config/configAPP.php";
+} else {
+    require_once "./models/MainModel.php";
+    require_once "./config/configAPP.php";
+}
 
-
-class DbModel
+class DbModel extends MainModel
 {
     public static $conn;
 
     protected function connection() {
         if(!isset(self::$conn)) {
-            self::$conn = new PDO(SGBD, USER, PASS, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+            self::$conn = new PDO(SGDB, USER, PASS, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
             self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
         return self::$conn;
@@ -59,6 +65,14 @@ class DbModel
         $sql = "UPDATE $table SET publicado = 0 WHERE id = :id";
         $statement = $pdo->prepare($sql);
         $statement->bindValue(":id", $id);
+        $statement->execute();
+
+        return $statement;
+    }
+
+    protected function consultaSimples($consulta) {
+        $pdo = self::connection();
+        $statement = $pdo->prepare($consulta);
         $statement->execute();
 
         return $statement;

@@ -17,34 +17,34 @@
     }, false);
 })();
 
-$('.FormularioAjax').submit(function(e){
+$('.formulario-ajax').submit(function(e){
     e.preventDefault();
 
     var form=$(this);
 
     var tipo=form.attr('data-form');
-    var accion=form.attr('action');
-    var metodo=form.attr('method');
-    var respuesta=form.children('.RespuestaAjax');
+    var action=form.attr('action');
+    var method=form.attr('method');
+    var resposta=form.children('.resposta-ajax');
 
-    var msjError="<script>swal('Ocurrió un error inesperado','Por favor recargue la página','error');</script>";
+    var msgError="<script>Swal.fire('Ocorreu um erro insesperado','Por favor recarregue a pagina','error');</script>";
     var formdata = new FormData(this);
 
 
     var textoAlerta;
     if(tipo==="save"){
-        textoAlerta="Los datos que enviaras quedaran almacenados en el sistema";
+        textoAlerta="Os dados enviados serão salvos no sistema";
     }else if(tipo==="delete"){
-        textoAlerta="Los datos serán eliminados completamente del sistema";
+        textoAlerta="Os dados serão eliminados do sistema";
     }else if(tipo==="update"){
-        textoAlerta="Los datos del sistema serán actualizados";
+        textoAlerta="Os dados serão atualizados no sistema";
     }else{
-        textoAlerta="Quieres realizar la operación solicitada";
+        textoAlerta="Deseja realmente realizar a operação";
     }
 
 
-    swal({
-        title: "¿Estás seguro?",
+    Swal.fire({
+        title: "Tem Certeza?",
         text: textoAlerta,
         type: "question",
         showCancelButton: true,
@@ -52,8 +52,8 @@ $('.FormularioAjax').submit(function(e){
         cancelButtonText: "Cancelar"
     }).then(function () {
         $.ajax({
-            type: metodo,
-            url: accion,
+            type: method,
+            url: action,
             data: formdata ? formdata : form.serialize(),
             cache: false,
             contentType: false,
@@ -65,19 +65,19 @@ $('.FormularioAjax').submit(function(e){
                         var percentComplete = evt.loaded / evt.total;
                         percentComplete = parseInt(percentComplete * 100);
                         if(percentComplete<100){
-                            respuesta.html('<p class="text-center">Procesado... ('+percentComplete+'%)</p><div class="progress progress-striped active"><div class="progress-bar progress-bar-info" style="width: '+percentComplete+'%;"></div></div>');
+                            resposta.html('<p class="text-center">Procesado... ('+percentComplete+'%)</p><div class="progress progress-striped active"><div class="progress-bar progress-bar-info" style="width: '+percentComplete+'%;"></div></div>');
                         }else{
-                            respuesta.html('<p class="text-center"></p>');
+                            resposta.html('<p class="text-center"></p>');
                         }
                     }
                 }, false);
                 return xhr;
             },
             success: function (data) {
-                respuesta.html(data);
+                resposta.html(data);
             },
             error: function() {
-                respuesta.html(msjError);
+                resposta.html(msgError);
             }
         });
         return false;

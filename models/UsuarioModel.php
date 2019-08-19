@@ -1,4 +1,9 @@
 <?php
+if ($pedidoAjax) {
+    require_once "../models/DbModel.php";
+} else {
+    require_once "./models/DbModel.php";
+}
 
 class UsuarioModel extends DbModel
 {

@@ -7,8 +7,8 @@
         <div class="card-body register-card-body">
             <p class="login-box-msg">Efetue seu Cadastro</p>
 
-            <form class="needs-validation formulario-ajax" action="<?=SERVERURL?>ajax/usuarioAjax.php" method="post" novalidate>
-                <input type="hidden" name="insereUsuario" id="">
+            <form class="needs-validation formulario-ajax" data-form="save" action="<?=SERVERURL?>ajax/usuarioAjax.php" method="post">
+                <input type="hidden" name="_method" value="insereNovoUsuario">
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" name="nome" placeholder="Nome Completo" required>
                     <div class="input-group-append">
@@ -17,7 +17,7 @@
                         </div>
                     </div>
                     <div class="invalid-feedback">
-                        Insira seu Nome Completo
+                        <strong>Insira seu Nome Completo</strong>
                     </div>
                 </div>
 
@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     <div class="invalid-feedback">
-                        Insira seu Email
+                        <strong>Insira um Email Válido</strong>
                     </div>
                 </div>
                 <div class="input-group mb-3">
@@ -40,7 +40,7 @@
                         </div>
                     </div>
                     <div class="invalid-feedback">
-                        Insira sua Senha
+                        <strong>Insira sua Senha</strong>
                     </div>
                 </div>
                 <div class="input-group mb-3">
@@ -51,7 +51,7 @@
                         </div>
                     </div>
                     <div class="invalid-feedback">
-                        Confirme sua Senha
+                        <strong>Confirme sua Senha</strong>
                     </div>
                 </div>
                 <div class="mb-3">

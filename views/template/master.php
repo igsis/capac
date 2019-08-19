@@ -23,8 +23,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="<?= SERVERURL ?>views/dist/css/adminlte.min.css">
   <!-- DataTables -->
   <link rel="stylesheet" href="<?= SERVERURL ?>views/plugins/datatables/dataTables.bootstrap4.css">
+    <!-- Sweet Alert 2 -->
+    <script src="<?= SERVERURL ?>views/plugins/sweetalert2/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="<?= SERVERURL ?>views/plugins/sweetalert2/sweetalert2.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+
 </head>
 <body class="hold-transition sidebar-mini">
 <?php
