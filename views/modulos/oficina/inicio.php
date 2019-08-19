@@ -187,6 +187,9 @@
                                     <li>Listará também, quando existirem, os campos pendente para preenchimento</li>
                                 </ul>
                             </div>
+                            <div class="offset-md-4 col-md-4">
+                                <a href="<?= SERVERURL ?>oficina/evento_lista"><button class="btn btn-block btn-success">Clique aqui para começar</button></a>
+                            </div>
                         </div>
                     </div>
                     <!-- /.card -->
