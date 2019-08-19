@@ -38,7 +38,6 @@ class ViewsModel
             'representante_cadastro',
             'informacoes_complementares_cadastro',
             'complemento_oficina_cadastro',
-            'dados_necessarios',
             'evento_lista',
         ];
         if (self::verificaModulo($modulo)) {

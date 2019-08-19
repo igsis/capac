@@ -5,9 +5,9 @@
     </a>
 </li>
 <li class="nav-item">
-    <a href="<?= SERVERURL ?>oficina" class="nav-link">
-        <i class="fa fa-play nav-icon"></i>
-        <p>Início</p>
+    <a href="<?= SERVERURL ?>oficina/evento_lista" class="nav-link">
+        <i class="fa fa-list-alt nav-icon"></i>
+        <p>Oficinas</p>
     </a>
 </li>
 <li class="nav-item">

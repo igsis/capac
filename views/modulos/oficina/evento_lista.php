@@ -2,8 +2,11 @@
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
-            <div class="col-sm-6">
+            <div class="col-sm-9">
                 <h1 class="m-0 text-dark">Oficinas</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-3">
+                <a href="<?= SERVERURL ?>oficina/evento_cadastro"><button class="btn btn-success btn-block">Adicionar</button></a>
             </div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
@@ -18,18 +21,18 @@
                 <!-- Horizontal Form -->
                 <div class="card card-info">
                     <div class="card-header">
-                        <h3 class="card-title">Informações Gerais</h3>
+                        <h3 class="card-title">Oficinas cadastradas</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table id="lista_oficina" class="table table-bordered table-striped">
                             <thead>
                             <tr>
-                                <th>Rendering engine</th>
-                                <th>Browser</th>
-                                <th>Platform(s)</th>
-                                <th>Engine version</th>
-                                <th>CSS grade</th>
+                                <th>Código CAPAC</th>
+                                <th>Nome da oficina</th>
+                                <th>Data cadastro</th>
+                                <th>Enviado</th>
+                                <th>Ação</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -443,11 +446,11 @@
                             </tbody>
                             <tfoot>
                             <tr>
-                                <th>Rendering engine</th>
-                                <th>Browser</th>
-                                <th>Platform(s)</th>
-                                <th>Engine version</th>
-                                <th>CSS grade</th>
+                                <th>Código CAPAC</th>
+                                <th>Nome da oficina</th>
+                                <th>Data cadastro</th>
+                                <th>Enviado</th>
+                                <th>Ação</th>
                             </tr>
                             </tfoot>
                         </table>
@@ -463,16 +466,16 @@
 </div>
 <!-- /.content -->
 
-<script>
+<script type="text/javascript">
     $(function () {
-        $("#example1").DataTable();
-        $('#example2').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
+        $('#lista_oficina').DataTable({
+            "language": {
+                "url": '<?= SERVERURL ?>views/plugins/datatables/Portuguese-Brasil.json'
+            },
+            "responsive": true,
+            "dom": "<'row'<'col-sm-6'l><'col-sm-6 text-right'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-5'i><'col-sm-7 text-right'p>>",
         });
     });
 </script>
