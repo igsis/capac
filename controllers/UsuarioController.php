@@ -9,10 +9,6 @@ if (isset($_POST['_method']) && $_POST['_method'] != "") {
 class UsuarioController extends UsuarioModel
 {
 
-    public $manager;
-    public $usuario;
-    public $data;
-
     public function insereUsuario($dados) {
         $usuario = new UsuarioModel();
 

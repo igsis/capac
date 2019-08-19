@@ -1,6 +1,8 @@
 <?php
     require_once "./controllers/ViewsController.php";
     $template = new ViewsController();
+
+    $pedidoAjax = false;
 ?>
 
 <!DOCTYPE html>
@@ -28,6 +30,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     $view = $template->exibirViewController();
     if ($view == 'login'):
         require_once "./views/modulos/inicio/login.php";
+    elseif ($view == 'cadastro'):
+        require_once "./views/modulos/inicio/cadastro.php";
     else:
 ?>
 <div class="wrapper">
@@ -73,5 +77,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="<?= SERVERURL ?>views/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="<?= SERVERURL ?>views/dist/js/adminlte.min.js"></script>
+<!-- Outros Scripts -->
+<script src="<?= SERVERURL ?>views/dist/js/main.js"></script>
 </body>
 </html>

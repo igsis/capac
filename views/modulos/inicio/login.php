@@ -67,7 +67,7 @@
                         <a href="#">Esqueci minha senha</a>
                     </p>
                     <p class="mb-0">
-                        <a href="#" class="text-center">Não possuí cadastro? Clique aqui</a>
+                        <a href="cadastro" class="text-center">Não possuí cadastro? Clique aqui</a>
                     </p>
                 </div>
                 <!-- /.login-card-body -->

@@ -27,6 +27,7 @@ class ViewsModel
 
     protected function exibirViewModel($view, $modulo = "") {
         $whitelist = [
+            'cadastro',
             'inicio',
             'evento_cadastro',
             'atracao_cadastro',
@@ -49,9 +50,11 @@ class ViewsModel
             } else {
                 $conteudo = "./views/modulos/$modulo/inicio.php";
             }
-        } elseif ($view == "login") {
+        } elseif ($modulo == "login") {
             $conteudo = "login";
-        } elseif ($view == "index") {
+        } elseif ($modulo == "cadastro") {
+            $conteudo = "cadastro";
+        } elseif ($modulo == "index") {
             $conteudo = "login";
         } else {
             $conteudo = "login";
