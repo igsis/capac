@@ -13,13 +13,13 @@
 <li class="nav-item">
     <a href="<?= SERVERURL ?>oficina/evento_cadastro" class="nav-link">
         <i class="far fa-circle nav-icon"></i>
-        <p>Evento</p>
+        <p>Oficina</p>
     </a>
 </li>
 <li class="nav-item">
-    <a href="<?= SERVERURL ?>oficina/atracao_cadastro" class="nav-link">
+    <a href="<?= SERVERURL ?>oficina/complemento_oficina_cadastro" class="nav-link">
         <i class="far fa-circle nav-icon"></i>
-        <p>Atração</p>
+        <p>Dados complementares</p>
     </a>
 </li>
 <li class="nav-item">
@@ -29,15 +29,9 @@
     </a>
 </li>
 <li class="nav-item">
-    <a href="<?= SERVERURL ?>oficina/complemento_oficina_cadastro" class="nav-link">
-        <i class="far fa-circle nav-icon"></i>
-        <p>Oficina</p>
-    </a>
-</li>
-<li class="nav-item">
     <a href="<?= SERVERURL ?>oficina/arquivos_com_prod" class="nav-link">
         <i class="far fa-circle nav-icon"></i>
-        Anexos Comunicação/Produtor
+        <p>Comunicação/Produção</p>
     </a>
 </li>
 <li class="nav-item">
