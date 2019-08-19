@@ -50,6 +50,7 @@ class UsuarioController extends UsuarioModel
                     'alerta' => 'sucesso',
                     'titulo' => 'Usuário Cadastrado!',
                     'texto' => 'Usuário cadastrado com Sucesso!',
+                    'tipo' => 'success',
                     'location' => SERVERURL
                 ];
             }
