@@ -35,6 +35,12 @@
     </a>
 </li>
 <li class="nav-item">
+    <a href="<?= SERVERURL ?>oficina/proponente" class="nav-link">
+        <i class="far fa-circle nav-icon"></i>
+        <p>Proponente</p>
+    </a>
+</li>
+<li class="nav-item">
     <a href="<?= SERVERURL ?>oficina/pf_cadastro" class="nav-link">
         <i class="far fa-circle nav-icon"></i>
         <p>PF</p>
