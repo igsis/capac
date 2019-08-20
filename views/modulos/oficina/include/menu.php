@@ -13,7 +13,7 @@
 <li class="nav-item">
     <a href="<?= SERVERURL ?>oficina/evento_cadastro" class="nav-link">
         <i class="far fa-circle nav-icon"></i>
-        <p>Oficina</p>
+        <p>Informações iniciais</p>
     </a>
 </li>
 <li class="nav-item">

@@ -64,12 +64,12 @@
                             <tr>
                                 <td>Arquivo 1</td>
                                 <td>14/08/2018 17:00:01</td>
-                                <td><button>Apagar</button></td>
+                                <td><button class="btn btn-sm btn-danger">Apagar</button></td>
                             </tr>
                             <tr>
                                 <td>Arquivo 2</td>
                                 <td>14/08/2018 17:02:01</td>
-                                <td><button>Apagar</button></td>
+                                <td><button class="btn btn-sm btn-danger">Apagar</button></td>
                             </tr>
                             </tbody>
                         </table>
