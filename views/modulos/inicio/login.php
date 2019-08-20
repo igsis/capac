@@ -40,10 +40,10 @@
         <div class="login-box">
             <div class="card"><?php if(isset($mensagem)) echo $mensagem ?>
                 <div class="card-body login-card-body">
-                    <form action="login" method="post">
+                    <form action="" method="POST">
                         <label>E-mail</label>
                         <div class="input-group mb-3">
-                            <input type="email" class="form-control" placeholder="Email">
+                            <input name="email" type="email" class="form-control" placeholder="Email">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-envelope"></span>
@@ -52,7 +52,7 @@
                         </div>
                         <label>Senha</label>
                         <div class="input-group mb-3">
-                            <input type="senha" class="form-control" placeholder="Senha">
+                            <input name="senha" type="password" class="form-control" placeholder="Senha">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-lock"></span>

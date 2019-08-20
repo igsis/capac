@@ -3,10 +3,10 @@
     $view = new ViewsController();
     /* Apagar esse bloco após login pronto
     */
-$nomeUser = "Pessoinha Feliz";
-$_SESSION['nome'] = $nomeUser;
+//$nomeUser = "Pessoinha Feliz";
+//$_SESSION['nome'] = $nomeUser;
     /* */
-    $nomeUser = strstr($_SESSION['nome'], ' ', true);
+    $nomeUser = strstr($_SESSION['nome_c'], ' ', true);
 
 ?>
 <!-- Brand Logo -->

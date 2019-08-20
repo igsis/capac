@@ -39,11 +39,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
     elseif ($view == 'cadastro'):
         require_once "./views/modulos/inicio/cadastro.php";
     else:
+        session_start(['name' => 'cpc']);
         require_once "./controllers/UsuarioController.php";
         $usuario = new UsuarioController();
 
-        if (!isset($_SESSION['usuario_cpc'])) {
-            //
+        if (!isset($_SESSION['idUsuario_c'])) {
+            $usuario->forcarFimSessao();
         }
 ?>
 <div class="wrapper">

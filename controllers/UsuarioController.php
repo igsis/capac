@@ -1,6 +1,5 @@
 <?php
 
-
 if ($pedidoAjax) {
     require_once "../models/UsuarioModel.php";
 } else {
@@ -26,7 +25,7 @@ class UsuarioController extends UsuarioModel
             $usuario = $consultaUsuario->fetch();
 
             session_start(['name' => 'cpc']);
-            $_SESSION['idUser_c'] = $usuario['id'];
+            $_SESSION['idUsuario_c'] = $usuario['id'];
             $_SESSION['nome_c'] = $usuario['nome'];
 
             MainModel::gravarLog('Fez Login');
@@ -42,6 +41,11 @@ class UsuarioController extends UsuarioModel
 
             return MainModel::sweetAlert($alerta);
         }
+    }
+
+    public function forcarFimSessao() {
+        session_destroy();
+        return header("Location: ".SERVERURL);
     }
 
     public function insereUsuario($dados) {
