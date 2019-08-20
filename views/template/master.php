@@ -39,6 +39,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
     elseif ($view == 'cadastro'):
         require_once "./views/modulos/inicio/cadastro.php";
     else:
+        require_once "./controllers/UsuarioController.php";
+        $usuario = new UsuarioController();
+
+        if (!isset($_SESSION['usuario_cpc'])) {
+            //
+        }
 ?>
 <div class="wrapper">
     <!-- Navbar -->

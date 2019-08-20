@@ -1,3 +1,10 @@
+<?php
+    if (isset($_POST['email']) && (isset($_POST['senha']))) {
+        require_once "./controllers/UsuarioController.php";
+        $login = new UsuarioController();
+        echo $login->iniciaSessao();
+    }
+?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
     <div class="container-fluid">
@@ -33,8 +40,8 @@
         <div class="login-box">
             <div class="card"><?php if(isset($mensagem)) echo $mensagem ?>
                 <div class="card-body login-card-body">
-                    <form action=".<?= SERVERURL ?>controllers/UsuarioController.php" method="post">
-                        <label>Usuário</label>
+                    <form action="login" method="post">
+                        <label>E-mail</label>
                         <div class="input-group mb-3">
                             <input type="email" class="form-control" placeholder="Email">
                             <div class="input-group-append">
@@ -45,7 +52,7 @@
                         </div>
                         <label>Senha</label>
                         <div class="input-group mb-3">
-                            <input type="password" class="form-control" placeholder="Password">
+                            <input type="senha" class="form-control" placeholder="Senha">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-lock"></span>

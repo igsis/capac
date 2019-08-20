@@ -7,7 +7,7 @@ if ($pedidoAjax) {
     require_once "./config/configAPP.php";
 }
 
-class DbModel extends MainModel
+class DbModel
 {
     public static $conn;
 

@@ -1,7 +1,11 @@
 <?php
+if ($pedidoAjax) {
+    require_once "../models/DbModel.php";
+} else {
+    require_once "./models/DbModel.php";
+}
 
-
-class MainModel
+class MainModel extends DbModel
 {
     public function encryption($string) {
         $output = false;
@@ -17,6 +21,17 @@ class MainModel
         $iv = substr(hash('sha256', SECRET_IV), 0, 16);
         $output = openssl_decrypt(base64_decode($string), METHOD, $key, 0, $iv);
         return $output;
+    }
+
+    protected function gravarLog($descricao) {
+        $dadosLog = [
+            'usuario_id' => $_SESSION['usuario_cpc'],
+            'ip' => $_SERVER['REMOTE_ADDR'],
+            'data' => date('Y-m-d H:i:s'),
+            'descricao' => $descricao
+        ];
+
+        DbModel::insert('log', $dadosLog);
     }
 
     protected function limparString($string) {

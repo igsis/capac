@@ -5,16 +5,16 @@ if ($pedidoAjax) {
     require_once "./models/DbModel.php";
 }
 
-class UsuarioModel extends DbModel
+class UsuarioModel extends MainModel
 {
-    protected function getUsuario($email) {
+    protected function getUsuario($dados) {
         $pdo = parent::connection();
-        $sql = "SELECT * FROM usuarios AS usr WHERE usr.email = :email LIMIT 0,1";
+        $sql = "SELECT * FROM usuarios WHERE email = :email AND senha = :senha";
         $statement = $pdo->prepare($sql);
-        $statement->bindParam(":email", $email);
+        $statement->bindParam(":email", $dados['email']);
+        $statement->bindParam(":senha", $dados['senha']);
         $statement->execute();
-
-        return $statement->fetchAll();
+        return $statement;
     }
 
 }
