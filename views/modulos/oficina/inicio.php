@@ -27,7 +27,43 @@
                         </h3>
                     </div>
                     <div class="card-body">
+                        <p class="text-info"><b>Informações iniciais</b></p>
+                        <ul>
+                            <li>Nome da oficina</li>
+                            <li>Espaço em que será realizado o evento é público? (sim ou não)</li>
+                            <li>É fomento/programa? (se sim, indicar qual)</li>
+                            <li>Público (Representatividade e Visibilidade Sócio-cultural)</li>
+                            <li>Sinopse</li>
+                            <li>Ficha técnica completa</li>
+                            <li>Integrantes</li>
+                            <li>Classificação indicativa</li>
+                            <li>Links</li>
+                        </ul>
+                        <br>
+                        <p class="text-info"><b>Dados complementares da oficina</b></p>
+                        <ul>
+                            <li>Modalidade</li>
+                            <li>Data inicial</li>
+                            <li>Data final</li>
+                            <li>Dia execução 1 (segunda, terça, quarta, etc)</li>
+                            <li>Dia execução 2 (segunda, terça, quarta, etc)</li>
+                        </ul>
+                        <br>
+                        <p class="text-info"><b>Produtor</b></p>
+                        <ul>
+                            <li>Nome</li>
+                            <li>E-mail</li>
+                            <li>Telefones</li>
+                        </ul>
+                        <br>
+                        <p class="text-info"><b>Comunicação/Produção Anexos</b></p>
+                        <ul>
+                            <li>Nesta página você envia os arquivos como o rider, mapas de cenas e luz, logos de parceiros, programação de filmes de mostras de cinema, entre outros arquivos destinados à comunicação e produção.</li>
+                        </ul>
+                        <br>
+                        <p class="text-info"><b>Proponente</b></p>
                         <p>Escolha entre "Pessoa Física" ou "Pessoa Jurídica"</p>
+
                         <ul class="nav nav-tabs" id="custom-content-above-tab" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" id="custom-content-above-home-tab" data-toggle="pill" href="#custom-content-above-home" role="tab" aria-controls="custom-content-above-home" aria-selected="true">Pessoa Física</a>
@@ -83,12 +119,6 @@
                                     <li>Banco</li>
                                     <li>Agência</li>
                                     <li>Conta</li>
-                                </ul>
-                                <br>
-                                <p class="text-info"><b>Dados da oficina</b></p>
-                                <ul>
-                                    <li>Nome da oficina</li>
-                                    <li>Modalidade</li>
                                 </ul>
                                 <br>
                                 <p class="text-info"><b>Demais anexos</b></p>
@@ -161,12 +191,6 @@
                                     <li>Banco</li>
                                     <li>Agência</li>
                                     <li>Conta</li>
-                                </ul>
-                                <br>
-                                <p class="text-info"><b>Dados da oficina</b></p>
-                                <ul>
-                                    <li>Nome da oficina</li>
-                                    <li>Modalidade</li>
                                 </ul>
                                 <br>
                                 <p class="text-info"><b>Demais anexos</b></p>
