@@ -1,33 +1,61 @@
 <?php
+$pedidoAjax = 1;
+require_once "../models/MainModel.php";
+define('SERVERURL', "http://{$_SERVER['HTTP_HOST']}/capac/");
 
-include_once '../models/DbModel.php';
+class ProdutorController extends MainModel
+{
+    public function insereProdutor($dados){
+        /* executa limpeza nos campos */
+        $dados = [];
+        foreach ($_POST as $campo => $post) {
+            if (($campo != "cadastrar") && ($campo != "_method")) {
+                $dados[$campo] = MainModel::limparString($post);
+            }
+        }
+        /* ./limpeza */
 
-$manager = new DbModel();
+        /* cadastro */
+        $insere = DbModel::insert('produtores', $dados);
+        if ($insere) {
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Produtor',
+                'texto' => 'Produtor cadastrado com sucesso!',
+                'tipo' => 'success',
+                'location' => SERVERURL.'oficina/produtor_cadastro'
+            ];
 
-$data = $_POST;
+        }
+        /* ./cadastro */
+        return MainModel::sweetAlert($alerta);
+    }
 
-if(isset($_POST['cadastra'])){
-    if(isset($data) && !empty($data)) {
-        $manager->insert("produtores", $data);
-
-        header("Location: ../index.php?produtor_add");
+    /* edita */
+    public function editaProdutor($dados, $id){
+        $edita = DbModel::update('produtores', $dados, $id);
+        if ($edita) {
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Produtor',
+                'texto' => 'Produtor editado com sucesso!',
+                'tipo' => 'success',
+                'location' => SERVERURL.'oficina/produtor_cadastro'
+            ];
+        }
+        return MainModel::sweetAlert($alerta);
     }
 }
 
-if(isset($_POST['edita'])){
-    $id = $_POST['id'];
-    if(isset($id) && !empty($id)) {
-        $manager->update("produtores", $data, $id);
-
-        header("Location: ../index.php?produtor_update");
-    }
+if(isset($_POST['cadastrar'])){
+    $dados = $_POST;
+    $produtor = new ProdutorController();
+    $produtor -> insereProdutor($dados);
 }
 
-if(isset($_POST['apaga'])){
+if(isset($_POST['editar'])){
+    $dados = $_POST;
     $id = $_POST['id'];
-    if(isset($id) && !empty($id)) {
-        $manager->update("produtores", $data, $id);
-
-        header("Location: ../index.php?produtor_delete");
-    }
+    $produtor = new ProdutorController();
+    $produtor -> editaProdutor($dados, $id);
 }

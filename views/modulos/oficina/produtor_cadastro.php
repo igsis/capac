@@ -28,7 +28,7 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal" method="POST" action="#" role="form">
+                    <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>controllers/ProdutorController.php" role="form">
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-12">
@@ -61,8 +61,7 @@
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-info float-right">Gravar</button>
-                            <button type="submit" class="btn btn-default">Cancel</button>
+                            <button type="submit" class="btn btn-info float-right" name="cadastrar">Gravar</button>
                         </div>
                         <!-- /.card-footer -->
                     </form>
