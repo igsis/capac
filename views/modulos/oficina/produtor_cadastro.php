@@ -24,15 +24,17 @@
                 <!-- Horizontal Form -->
                 <div class="card card-info">
                     <div class="card-header">
-                        <h3 class="card-title">Informações Gerais</h3>
+                        <h3 class="card-title">Dados</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
                     <form class="form-horizontal" method="POST" action="#" role="form">
                         <div class="card-body">
-                            <div class="form-group row">
-                                <label for="nome">Nome: *</label>
-                                <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite o nome completo" maxlength="120" required>
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label for="nome">Nome: *</label>
+                                    <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite o nome completo" maxlength="120" required>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-6">
@@ -49,9 +51,11 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
-                                <label for="observacao">Observação</label>
-                                <textarea name="observacao" id="observacao" class="form-control" rows="3"></textarea>
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label for="observacao">Observação</label>
+                                    <textarea name="observacao" id="observacao" class="form-control" rows="3"></textarea>
+                                </div>
                             </div>
 
                         </div>

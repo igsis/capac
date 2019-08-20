@@ -39,6 +39,7 @@ class ViewsModel
             'informacoes_complementares_cadastro',
             'complemento_oficina_cadastro',
             'evento_lista',
+            'proponente',
         ];
         if (self::verificaModulo($modulo)) {
             if (in_array($view, $whitelist)) {
