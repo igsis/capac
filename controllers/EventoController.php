@@ -1,33 +1,36 @@
 <?php
+$pedidoAjax = 1;
+//require_once "../models/MainModel.php";
 
-include_once '../models/DbModel.php';
+class EventoController extends MainModel
+{
+    public function listaEvento(){
 
-$manager = new DbModel();
-
-$data = $_POST;
-
-if(isset($_POST['cadastra'])){
-    if(isset($data) && !empty($data)) {
-        $manager->insert("eventos", $data);
-
-        header("Location: ../index.php?evento_add");
     }
-}
 
-if(isset($_POST['edita'])){
-    $id = $_POST['id'];
-    if(isset($id) && !empty($id)) {
-        $manager->update("eventos", $data, $id);
+    public function insereEvento($dados){
+        /* executa limpeza nos campos */
+        $dados = [];
+        foreach ($_POST as $campo => $post) {
+            if (($campo != "cadastrar") && ($campo != "_method")) {
+                $dados[$campo] = MainModel::limparString($post);
+            }
+        }
+        /* /.limpeza */
 
-        header("Location: ../index.php?evento_update");
-    }
-}
+        /* cadastro */
+        $insere = DbModel::insert('eventos', $dados);
+        if ($insere) {
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Oficina',
+                'texto' => 'Dados cadastrados com sucesso!',
+                'tipo' => 'success',
+                'location' => SERVERURL
+            ];
 
-if(isset($_POST['apaga'])){
-    $id = $_POST['id'];
-    if(isset($id) && !empty($id)) {
-        $manager->update("eventos", $data, $id);
-
-        header("Location: ../index.php?evento_delete");
+        }
+        /* /.cadastro */
+        return MainModel::sweetAlert($alerta);
     }
 }
