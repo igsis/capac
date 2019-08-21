@@ -1,3 +1,8 @@
+<?php
+require_once "../../../models/EventoModel.php";
+
+$oficinas = new EventoModel();
+?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
     <div class="container-fluid">
@@ -35,7 +40,16 @@
                                 <th>Ação</th>
                             </tr>
                             </thead>
-                            <tbody>
+<!--                            <tbody>-->
+                            <?php foreach ($oficinas ->getOficinas("1") as $oficina): ?>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><button class="btn">Abrir</button> </td>
+                            </tr>
+                            <?php endforeach; ?>
                             <tr>
                                 <td>Trident</td>
                                 <td>Internet
