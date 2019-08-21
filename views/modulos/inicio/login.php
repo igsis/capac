@@ -9,8 +9,11 @@
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1 class="m-0 text-dark">CAPAC</h1>
+            <div class="col-sm-10">
+                <h1 class="m-0 text-dark">CAPAC - Cadastro de Artistas e Profissionais de Arte e Cultura</h1>
+            </div>
+            <div class="col-sm-2">
+                <img src="<?= SERVERURL ?>views/dist/img/CULTURA_HORIZONTAL_pb_positivo.png" alt="logo cultura">
             </div>
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
@@ -21,18 +24,21 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-10">
+            <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <p class="card-text">
-                            Este sistema tem por objetivo criar um ambiente para credenciamento de artistas e profissionais de arte e cultura a fim de agilizar os processos de contratação artística em eventos realizados pela Secretaria Municipal de Cultura de São Paulo.</p>
+                        <div class="offset-1 col-md-10">
+                            <p class="card-text">
+                                Este sistema tem por objetivo criar um ambiente para credenciamento de artistas e profissionais de arte e cultura a fim de agilizar os processos de contratação artística em eventos realizados pela Secretaria Municipal de Cultura de São Paulo.</p>
 
-                        <p class="card-text">Uma vez cadastrados, esses artistas poderão atualizar suas informações e enviar a documentação necessária para o processo de contratação. Como o sistema possui ligação direta com o sistema da programação, a medida que o cadastro do artista no IGSIS - CAPAC encontra-se atualizado, o processo de contratação consequentemente é agilizado.</p>
+                            <p class="card-text">Uma vez cadastrados, esses artistas poderão atualizar suas informações e enviar a documentação necessária para o processo de contratação. Como o sistema possui ligação direta com o sistema da programação, a medida que o cadastro do artista no IGSIS - CAPAC encontra-se atualizado, o processo de contratação consequentemente é agilizado.</p>
 
-                        <p class="card-text">Podem se cadastrar artistas ou grupos artísticos, como pessoa física ou jurídica.</p>
+                            <p class="card-text">Podem se cadastrar artistas ou grupos artísticos, como pessoa física ou jurídica.</p>
 
-                        <p class="card-text">Dúvidas entre em contato com o setor responsável por sua contratação.
-                        </p>
+                            <p class="card-text">Dúvidas entre em contato com o setor responsável por sua contratação.
+                            </p>
+
+                        </div>
                     </div>
                 </div>
             </div>
