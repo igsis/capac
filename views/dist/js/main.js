@@ -83,3 +83,11 @@ $('.formulario-ajax').submit(function(e){
         return false;
     });
 });
+
+$(function () {
+    $("#tabela").DataTable({
+        "language": {
+            "url": '../views/plugins/datatables/Portuguese-Brasil.json'
+        },
+    });
+});
