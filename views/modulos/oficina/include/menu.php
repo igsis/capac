@@ -58,22 +58,3 @@
         <p>Representante Legal</p>
     </a>
 </li>
-<li class="nav-item"><hr></li>
-<li class="nav-item">
-    <a href="#" class="nav-link">
-        <i class="fa fa-user"></i>
-        <p>Minha conta</p>
-    </a>
-</li>
-<li class="nav-item">
-    <a href="#" class="nav-link">
-        <i class="fa fa-question"></i>
-        <p>Ajuda</p>
-    </a>
-</li>
-<li class="nav-item">
-    <a href="#" class="nav-link">
-        <i class="fa fa-sign-out"></i>
-        <p>Sair</p>
-    </a>
-</li>
