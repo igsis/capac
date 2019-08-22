@@ -10,7 +10,7 @@
 This is a starter template page. Use this page to start your new project from
 scratch. This page gets rid of all links and provides the needed markup only.
 -->
-<html lang="en">
+<html lang="pt">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -70,8 +70,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
     <div class="p-3">
-      <h5>Title</h5>
-      <p>Sidebar content</p>
+      <h5>Sobre</h5>
+      <p>Versão 2.0</p>
+      <br>
+      <p>Desenvolvido por:</p>
     </div>
   </aside>
   <!-- /.control-sidebar -->
@@ -86,7 +88,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <div class="box-header with-border">
                       <h4 class="box-title">
                           <a data-toggle="collapse" data-parent="#accordion" href="#collapseRodape">
-                              Configurações
+                              <i class="fa fa-cogs" aria-hidden="true"></i>
                           </a>
                       </h4>
                   </div>
