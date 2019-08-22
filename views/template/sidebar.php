@@ -30,15 +30,36 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <!-- Add icons to the links using the .nav-icon class
                  with font-awesome or any other icon font library -->
-            <?php
-            /** @var ViewsController $view */
-            $menu = $view->exibirMenuController();
-            if ($menu == 'login') {
-                require_once "./views/template/menuExemplo.php";
-            } else {
-                require_once $menu;
-            }
-            ?>
+            <div class="user-panel pb-3 mb-3">
+                <?php
+                /** @var ViewsController $view */
+                $menu = $view->exibirMenuController();
+                if ($menu == 'login') {
+                    require_once "./views/template/menuExemplo.php";
+                } else {
+                    require_once $menu;
+                }
+                ?>
+            </div>
+
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fa fa-user"></i>
+                    <p>Minha conta</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fa fa-question"></i>
+                    <p>Ajuda</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fa fa-sign-out"></i>
+                    <p>Sair</p>
+                </a>
+            </li>
         </ul>
     </nav>
     <!-- /.sidebar-menu -->
