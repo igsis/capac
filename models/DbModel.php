@@ -52,7 +52,7 @@ class DbModel
         $sql = "UPDATE $table SET $new_values WHERE id = :id";
         $statement = $pdo->prepare($sql);
         foreach($data as $key => $value) {
-            $statement->bindValue(":$key", $value, PDO::PARAM_STR);
+            $statement->bindValue(":$id", $value, PDO::PARAM_STR);
         }
         $statement->execute();
 

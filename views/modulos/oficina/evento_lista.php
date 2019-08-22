@@ -1,7 +1,7 @@
 <?php
-require_once "../../../models/EventoModel.php";
+require_once "./controllers/EventoController.php";
 
-$oficinas = new EventoModel();
+$oficinas = new EventoController();
 ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -40,8 +40,8 @@ $oficinas = new EventoModel();
                                 <th>Ação</th>
                             </tr>
                             </thead>
-<!--                            <tbody>-->
-                            <?php foreach ($oficinas ->getOficinas("1") as $oficina): ?>
+                            <tbody>
+                            <?php foreach ($oficinas -> listaEvento("1") as $oficina): ?>
                             <tr>
                                 <td></td>
                                 <td></td>
