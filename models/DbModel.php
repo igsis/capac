@@ -51,6 +51,7 @@ class DbModel
         $new_values = substr($new_values, 0, -2);
         $sql = "UPDATE $table SET $new_values WHERE id = :id";
         $statement = $pdo->prepare($sql);
+        $statement->bindValue(":id", $id, PDO::PARAM_STR);
         foreach($data as $key => $value) {
             $statement->bindValue(":$id", $value, PDO::PARAM_STR);
         }
@@ -86,7 +87,7 @@ class DbModel
         $statement->bindValue(":id", $id);
         $statement->execute();
 
-        return $statement->fetchAll();
+        return $statement;
     }
 
     // Lista publicados

@@ -1,3 +1,9 @@
+<?php
+    $id = isset($_GET['id']) ? $_GET['id'] : null;
+    require_once "./controllers/ProdutorController.php";
+    $insProdutor = new ProdutorController();
+    $produtor = $insProdutor->recuperaProdutor($id)->fetch();
+?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
     <div class="container-fluid">
@@ -28,12 +34,16 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>controllers/ProdutorController.php" role="form">
+                    <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/produtorAjax.php" role="form" data-form="<?= ($id) ? "update" : "save" ?>">
+                        <input type="hidden" name="_method" value="<?= ($id) ? "editar" : "cadastrar" ?>">
+                        <?php if ($id): ?>
+                            <input type="hidden" name="id" value="<?= $id ?>">
+                        <?php endif; ?>
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-12">
                                     <label for="nome">Nome: *</label>
-                                    <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite o nome completo" maxlength="120" required>
+                                    <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite o nome completo" maxlength="120" value="<?=$produtor['nome']?>" required>
                                 </div>
                             </div>
                             <div class="row">
@@ -61,10 +71,14 @@
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-info float-right" name="cadastrar">Gravar</button>
+                            <button type="submit" class="btn btn-info float-right">Gravar</button>
                         </div>
                         <!-- /.card-footer -->
+                        <div class="resposta-ajax">
+
+                        </div>
                     </form>
+
                 </div>
                 <!-- /.card -->
             </div>

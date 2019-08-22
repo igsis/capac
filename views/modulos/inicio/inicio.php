@@ -105,7 +105,7 @@
                     <div class="bg-light col-md">
                         <p>Oficineiros<br>JÁ SELECIONADOS NO EDITAL nº 002/2018 SMC/GAB</p>
                     </div>
-                    <a href="oficina" class="small-box-footer">
+                    <a href="<?=SERVERURL?>oficina" class="small-box-footer">
                         Acesse <i class="fas fa-arrow-circle-right"></i>
                     </a>
 

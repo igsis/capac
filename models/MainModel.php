@@ -53,6 +53,18 @@ class MainModel extends DbModel
         return $string;
     }
 
+    /**
+     * @param array $post
+     * @return array
+     */
+    protected function limpaPost($post) {
+        $dados = [];
+        foreach ($post as $campo => $value) {
+            $dados[$campo] = self::limparString($value);
+        }
+        return $dados;
+    }
+
     protected function sweetAlert($dados) {
         if ($dados['alerta'] == "simples") {
             $alerta = "
