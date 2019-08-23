@@ -53,7 +53,7 @@ class DbModel
         $statement = $pdo->prepare($sql);
         $statement->bindValue(":id", $id, PDO::PARAM_STR);
         foreach($data as $key => $value) {
-            $statement->bindValue(":$id", $value, PDO::PARAM_STR);
+            $statement->bindValue(":$key", $value, PDO::PARAM_STR);
         }
         $statement->execute();
 
