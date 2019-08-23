@@ -7,8 +7,7 @@
 ?>
 <!-- Brand Logo -->
 <a href="<?= SERVERURL ?>inicio" class="brand-link">
-    <img src="<?= SERVERURL ?>views/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-         style="opacity: .8">
+    <img src="<?= SERVERURL ?>views/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
     <span class="brand-text font-weight-light"><?= NOMESIS ?></span>
 </a>
 
@@ -17,7 +16,7 @@
     <!-- Sidebar user panel (optional) -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="info">
-            <a href="<?= SERVERURL ?>inicio/cadastro" class="d-block">Olá, <?= $nomeUser ?>!</a>
+            <a href="<?= SERVERURL ?>inicio/edita" class="d-block">Olá, <?= $nomeUser ?>!</a>
         </div>
     </div>
 
@@ -39,21 +38,18 @@
 
             <li class="nav-header">CONTA</li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="fa fa-user"></i>
-                    <p>Minha conta</p>
+                <a href="<?= SERVERURL ?>inicio/edita" class="nav-link">
+                    <i class="fa fa-user"></i>&nbsp; Minha conta
                 </a>
             </li>
             <li class="nav-item">
                 <a href="#" class="nav-link">
-                    <i class="fa fa-question"></i>
-                    <p>Ajuda</p>
+                    <i class="fa fa-question"></i>&nbsp; Ajuda
                 </a>
             </li>
             <li class="nav-item">
                 <a href="#" class="nav-link">
-                    <i class="fa fa-sign-out"></i>
-                    <p>Sair</p>
+                    <i class="fas fa-sign-out-alt"></i>&nbsp; Sair
                 </a>
             </li>
         </ul>

@@ -93,8 +93,77 @@ class UsuarioController extends UsuarioModel
                 ];
             }
         }
-
         return MainModel::sweetAlert($alerta);
+    }
+
+    /* edita */
+    public function editaUsuario($dados, $id){
+        unset($dados['_method']);
+        unset($dados['id']);
+        $dados = MainModel::limpaPost($dados);
+        $edita = DbModel::update('usuarios', $dados, $id);
+        if ($edita) {
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Usuário',
+                'texto' => 'Informações alteradas com sucesso!',
+                'tipo' => 'success',
+                'location' => SERVERURL.'inicio/edita'
+            ];
+        } else {
+            $alerta = [
+                'alerta' => 'simples',
+                'titulo' => 'Erro!',
+                'texto' => 'Erro ao salvar!',
+                'tipo' => 'error',
+                'location' => SERVERURL.'inicio/edita'
+            ];
+        }
+        return MainModel::sweetAlert($alerta);
+    }
+
+    public function trocaSenha($dados,$id){
+        // Valida Senha
+        if ($_POST['senha'] != $_POST['senha2']) {
+            $alerta = [
+                'alerta' => 'simples',
+                'titulo' => "Erro!",
+                'texto' => "As senhas inseridas não conferem. Tente novamente",
+                'tipo' => "error"
+            ];
+        }
+        else{
+            unset($dados['_method']);
+            unset($dados['id']);
+            unset($dados['senha2']);
+            $dados = MainModel::limpaPost($dados);
+            $dados['senha'] = MainModel::encryption($dados['senha']);
+            $edita = DbModel::update('usuarios', $dados, $id);
+            if ($edita) {
+                $alerta = [
+                    'alerta' => 'sucesso',
+                    'titulo' => 'Usuário',
+                    'texto' => 'Senha alterada com sucesso!',
+                    'tipo' => 'success',
+                    'location' => SERVERURL.'inicio/edita'
+                ];
+            }
+            else{
+                $alerta = [
+                    'alerta' => 'simples',
+                    'titulo' => 'Erro!',
+                    'texto' => 'Erro ao salvar!',
+                    'tipo' => 'error',
+                    'location' => SERVERURL.'inicio/edita'
+                ];
+            }
+        }
+        return MainModel::sweetAlert($alerta);
+    }
+
+    public function recuperaUsuario($id) {
+        $usuario = DbModel::getInfo('usuarios',$id);
+        return $usuario;
     }
 
 //    if (isset($_POST['edita'])) {
