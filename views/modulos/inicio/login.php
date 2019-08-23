@@ -27,7 +27,6 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-
                         <div class="row">
                             <div class="col-md-6">
                                 <p class="card-text"><span style="text-align: justify; display:block;">
@@ -39,55 +38,51 @@
                             </div>
                             <div class="col-md-1"></div>
                             <div class="col-md-5">
-                                    <div class="card"><?php if(isset($mensagem)) echo $mensagem ?>
-                                        <div class="card-body login-card-body">
-                                            <form action="" method="POST">
-                                                <label>E-mail</label>
-                                                <div class="input-group mb-3">
-                                                    <input name="email" type="email" class="form-control" placeholder="Email">
-                                                    <div class="input-group-append">
-                                                        <div class="input-group-text">
-                                                            <span class="fas fa-envelope"></span>
-                                                        </div>
+                                <div class="card"><?php if(isset($mensagem)) echo $mensagem ?>
+                                    <div class="card-body login-card-body">
+                                        <form action="" method="POST">
+                                            <label>E-mail</label>
+                                            <div class="input-group mb-3">
+                                                <input name="email" type="email" class="form-control" placeholder="Email">
+                                                <div class="input-group-append">
+                                                    <div class="input-group-text">
+                                                        <span class="fas fa-envelope"></span>
                                                     </div>
                                                 </div>
-                                                <label>Senha</label>
-                                                <div class="input-group mb-3">
-                                                    <input name="senha" type="password" class="form-control" placeholder="Senha">
-                                                    <div class="input-group-append">
-                                                        <div class="input-group-text">
-                                                            <span class="fas fa-lock"></span>
-                                                        </div>
+                                            </div>
+                                            <label>Senha</label>
+                                            <div class="input-group mb-3">
+                                                <input name="senha" type="password" class="form-control" placeholder="Senha">
+                                                <div class="input-group-append">
+                                                    <div class="input-group-text">
+                                                        <span class="fas fa-lock"></span>
                                                     </div>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-8">
-
-                                                    </div>
-                                                    <!-- /.col -->
-                                                    <div class="col-4">
-                                                        <button type="submit" class="btn btn-primary btn-block btn-flat">Entrar</button>
-                                                    </div>
-                                                    <!-- /.col -->
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-8">
                                                 </div>
-                                            </form>
-                                            <p class="mb-1">
-                                                <a href="#">Esqueci minha senha</a>
-                                            </p>
-                                            <p class="mb-0">
-                                                <a href="cadastro" class="text-center">Não possuí cadastro? Clique aqui</a>
-                                            </p>
-                                        </div>
-                                        <!-- /.login-card-body -->
+                                                <!-- /.col -->
+                                                <div class="col-4">
+                                                    <button type="submit" class="btn btn-primary btn-block btn-flat">Entrar</button>
+                                                </div>
+                                                <!-- /.col -->
+                                            </div>
+                                        </form>
+                                        <p class="mb-1">
+                                            <a href="#">Esqueci minha senha</a>
+                                        </p>
+                                        <p class="mb-0">
+                                            <a href="cadastro" class="text-center">Não possuí cadastro? Clique aqui</a>
+                                        </p>
                                     </div>
-
+                                    <!-- /.login-card-body -->
+                                </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
