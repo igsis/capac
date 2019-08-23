@@ -21,6 +21,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="<?= SERVERURL ?>views/plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?= SERVERURL ?>views/dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="<?= SERVERURL ?>views/dist/css/custom.min.css">
   <!-- DataTables -->
   <link rel="stylesheet" href="<?= SERVERURL ?>views/plugins/datatables/dataTables.bootstrap4.css">
     <!-- Sweet Alert 2 -->

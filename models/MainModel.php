@@ -65,6 +65,34 @@ class MainModel extends DbModel
         return $dados;
     }
 
+    /**
+     * <p>Função criada para gerar automáticamente options para a tag 'select'</p>
+     * @param string $tabela
+     * <p>Nome da tabela que deve ser consultada</p>
+     * @param string $selected [opcional]
+     * <p>Valor a qual deve vir selecionado</p>
+     * @param bool $publicado [opcional]
+     * <p>Caso a tabela utilize a coluna "publicado", o valor deve ser true</p>
+     */
+    public function geraOpcao($tabela, $selected = "", $publicado = false) {
+        $publicado = $publicado ? 'WHERE publicado = 1' : '';
+        $sql = "SELECT * FROM $tabela $publicado ORDER BY 2";
+        $consulta = DbModel::consultaSimples($sql);
+        if ($consulta->rowCount() >= 1) {
+            foreach ($consulta->fetchAll() as $option) {
+                if ($option[0] == $selected) {
+                    echo "<option value='" . $option[0] . "' selected >" . $option[1] . "</option>";
+                } else {
+                    echo "<option value='" . $option[0] . "'>" . $option[1] . "</option>";
+                }
+            }
+        }
+    }
+
+    public function geraCheckbox() {
+        //
+    }
+
     protected function sweetAlert($dados) {
         if ($dados['alerta'] == "simples") {
             $alerta = "

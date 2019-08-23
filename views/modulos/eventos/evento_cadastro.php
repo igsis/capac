@@ -1,3 +1,7 @@
+<?php
+    require_once "./controllers/EventoController.php";
+    $evento = new EventoController();
+?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
     <div class="container-fluid">
@@ -53,14 +57,14 @@
                                     <select class="form-control" name="tipoFomento" id="tipoFomento">
                                         <option value="">Selecione uma opção...</option>
                                         <?php
-                                            //geraOpcao("fomentos");
+                                            $evento->geraOpcao('fomentos');
                                         ?>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-7">
                                     <label for="acao">Público (Representatividade e Visibilidade Sócio-cultural)* <i>(multipla escolha) </i></label>
                                     <button class='btn btn-default' type='button' data-toggle='modal'
                                             data-target='#modalPublico' style="border-radius: 30px;">
@@ -70,6 +74,85 @@
                                             <span style="color: red;">Selecione ao menos uma representatividade!</span>
                                         </div>
                                     </div>
+                                    <div class="checkbox-grid-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                            <label class="form-check-label"> Acessibilidade</label>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox-grid-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                            <label class="form-check-label"> Consciência Negra</label>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox-grid-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                            <label class="form-check-label"> Consciência Indígena</label>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox-grid-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                            <label class="form-check-label"> Imigrantes</label>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox-grid-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                            <label class="form-check-label"> Mulheres</label>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox-grid-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                            <label class="form-check-label"> LGBTQ+</label>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox-grid-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                            <label class="form-check-label"> Terceira idade</label>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox-grid-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                            <label class="form-check-label"> Primeira infância</label>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox-grid-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                            <label class="form-check-label"> Criança</label>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox-grid-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                            <label class="form-check-label"> Adolescente</label>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox-grid-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                            <label class="form-check-label"> Adulto</label>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox-grid-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                            <label class="form-check-label"> Alternativo / colaborativo</label>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox-grid-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                            <label class="form-check-label"> Vulnerabilidade social</label>
+                                        </div>
+                                    </div>
+
                                     <?php
                                     //geraCheckBox('publicos', 'publico', 'evento_publico', 'col-md-6', 'evento_id', 'publico_id', null);
                                     ?>

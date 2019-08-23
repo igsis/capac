@@ -40,15 +40,7 @@
                             <li>Links</li>
                         </ul>
                         <br>
-                        <p class="text-info"><b>Dados complementares da oficina</b></p>
-                        <ul>
-                            <li>Modalidade</li>
-                            <li>Data inicial</li>
-                            <li>Data final</li>
-                            <li>Dia execução 1 (segunda, terça, quarta, etc)</li>
-                            <li>Dia execução 2 (segunda, terça, quarta, etc)</li>
-                        </ul>
-                        <br>
+
                         <p class="text-info"><b>Produtor</b></p>
                         <ul>
                             <li>Nome</li>
@@ -106,13 +98,7 @@
                                     <li>Comprovante de Residência</li>
                                 </ul>
                                 <br>
-                                <p class="text-info"><b>Informações Complementares</b></p>
-                                <ul>
-                                    <li>Nível</li>
-                                    <li>Linguagem</li>
-                                    <li>Curriculo</li>
-                                </ul>
-                                <br>
+
                                 <p class="text-info"><b>Dados Bancários</b></p>
                                 <div class="alert alert-danger">Realizamos pagamentos de valores acima de R$ 5.000,00 *SOMENTE COM CONTA CORRENTE NO BANCO DO BRASIL*.<br />Não são aceitas: conta fácil, poupança e conjunta.</div>
                                 <ul>
@@ -211,12 +197,14 @@
                                     <li>Listará também, quando existirem, os campos pendente para preenchimento</li>
                                 </ul>
                             </div>
-                            <div class="offset-md-4 col-md-4">
-                                <a href="<?= SERVERURL ?>oficina/evento_lista"><button class="btn btn-block btn-success">Clique aqui para começar</button></a>
-                            </div>
                         </div>
                     </div>
-                    <!-- /.card -->
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                        <div class="offset-md-4 col-md-4">
+                            <a href="<?= SERVERURL ?>eventos/evento_lista"><button class="btn btn-block btn-success">Clique aqui para começar</button></a>
+                        </div>
+                    </div>
                 </div>
                 <!-- /.card -->
             </div>

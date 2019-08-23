@@ -29,7 +29,7 @@
                     <div class="bg-light col-md">
                         <p>Aqui são inseridas as informações sobre o seu evento com cachê, incluindo pessoa jurídica e/ou física.</p>
                     </div>
-                    <a href="#" class="small-box-footer">
+                    <a href="<?= SERVERURL ?>eventos/inicio" class="small-box-footer">
                         Acesse <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
@@ -48,7 +48,7 @@
                     <div class="bg-light col-md">
                         <p>Aqui são inseridas as informações sobre o seu evento sem cachê, incluindo pessoa jurídica e/ou física.</p>
                     </div>
-                    <a href="#" class="small-box-footer">
+                    <a href="<?= SERVERURL ?>eventos/inicio" class="small-box-footer">
                         Acesse <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
@@ -67,7 +67,7 @@
                     <div class="bg-light col-md">
                         <p>Para evento com contratação através de emenda parlamentar, incluindo pessoa jurídica e/ou física.</p>
                     </div>
-                    <a href="#" class="small-box-footer">
+                    <a href="<?= SERVERURL ?>eventos/inicio" class="small-box-footer">
                         Acesse <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
