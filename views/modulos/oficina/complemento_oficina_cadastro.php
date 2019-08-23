@@ -1,3 +1,10 @@
+<?php
+$id = isset($_GET['id']) ? $_GET['id'] : null;
+//$atracao_id = $_POST['atracao_id'];
+require_once "./controllers/OficinaController.php";
+$insOficina = new OficinaController();
+$oficina = $insOficina->recuperaOficina($id)->fetch();
+?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
     <div class="container-fluid">
@@ -28,7 +35,14 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal" method="POST" action="#" role="form">
+                    <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/oficinaAjax.php" role="form" data-form="<?= ($id) ? "update" : "save" ?>">
+                        <input type="hidden" name="_method" value="<?= ($id) ? "editar" : "cadastrar" ?>">
+                        <!--
+                        <input type="hidden" name="atracao_id" value="">
+                        -->
+                        <?php if ($id): ?>
+                            <input type="hidden" name="id" value="<?= $id ?>">
+                        <?php endif; ?>
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-4">
@@ -62,7 +76,6 @@
                         <!-- /.card-body -->
                         <div class="card-footer">
                             <button type="submit" class="btn btn-info float-right">Gravar</button>
-                            <button type="submit" class="btn btn-default">Cancel</button>
                         </div>
                         <!-- /.card-footer -->
                     </form>
