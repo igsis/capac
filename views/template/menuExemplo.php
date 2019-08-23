@@ -1,4 +1,4 @@
-<li class="nav-item has-treeview menu-open">
+<!--<li class="nav-item has-treeview menu-open">
     <a href="#" class="nav-link active">
         <i class="nav-icon fas fa-tachometer-alt"></i>
         <p>
@@ -20,13 +20,12 @@
             </a>
         </li>
     </ul>
-</li>
+</li>-->
 <li class="nav-item">
-    <a href="#" class="nav-link">
-        <i class="nav-icon fas fa-th"></i>
+    <a href="<?= SERVERURL ?>inicio" class="nav-link">
+        <i class="nav-icon fas fa-home"></i>
         <p>
-            Simple Link
-            <span class="right badge badge-danger">New</span>
+            Início
         </p>
     </a>
 </li>
