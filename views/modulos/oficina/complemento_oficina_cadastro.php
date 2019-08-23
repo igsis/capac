@@ -12,12 +12,6 @@ $oficina = $insOficina->recuperaOficina($id)->fetch();
             <div class="col-sm-6">
                 <h1 class="m-0 text-dark">Dados complementares da oficina</h1>
             </div><!-- /.col -->
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Starter Page</li>
-                </ol>
-            </div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
 </div>
@@ -53,11 +47,11 @@ $oficina = $insOficina->recuperaOficina($id)->fetch();
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label for="data_inicio">Data inicial:</label><br/>
-                                    <input type="date" id="data_inicio" name="data_inicio" class="form-control">
+                                <input type="date" id="data_inicio" name="data_inicio" class="form-control" value="<?= $oficina['data_inicio'] ?>">
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label for="data_fim">Data final:</label><br/>
-                                    <input type="date" id="data_fim" name="data_fim" class="form-control">
+                                    <input type="date" id="data_fim" name="data_fim" class="form-control" value="<?= $oficina['data_fim'] ?>">
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label for="execucao_dia1_id">Dia execução 1:</label><br/>
