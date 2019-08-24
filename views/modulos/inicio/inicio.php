@@ -16,7 +16,7 @@
         <!-- Small Box (Stat card) -->
         <h5 class="mb-2 mt-4"></h5>
         <div class="row">
-            <div class="col-lg-3 col-6">
+            <div class="col-lg-2 col-6">
                 <!-- small card -->
                 <div class="small-box bg-gradient-primary">
                     <div class="inner">
@@ -35,7 +35,9 @@
                 </div>
             </div>
             <!-- ./col -->
-            <div class="col-lg-3 col-6">
+            <div class="col-sm-1">&nbsp;</div>
+            <!-- ./col -->
+            <div class="col-lg-2 col-6">
                 <!-- small card -->
                 <div class="small-box bg-gradient-primary">
                     <div class="inner">
@@ -54,7 +56,9 @@
                 </div>
             </div>
             <!-- ./col -->
-            <div class="col-lg-3 col-6">
+            <div class="col-sm-1">&nbsp;</div>
+            <!-- ./col -->
+            <div class="col-lg-2 col-6">
                 <!-- small card -->
                 <div class="small-box bg-gradient-primary">
                     <div class="inner">
@@ -73,7 +77,9 @@
                 </div>
             </div>
             <!-- ./col -->
-            <div class="col-lg-3 col-6">
+            <div class="col-sm-1">&nbsp;</div>
+            <!-- ./col -->
+            <div class="col-lg-2 col-6">
                 <!-- small card -->
                 <div class="small-box bg-gradient-primary">
                     <div class="inner">
@@ -92,7 +98,7 @@
         </div>
         <!-- ./row -->
         <div class="row">
-            <div class="col-lg-3 col-6">
+            <div class="col-lg-2 col-6">
                 <!-- small card -->
                 <div class="small-box bg-gradient-primary">
                     <div class="inner">
@@ -112,9 +118,11 @@
                 </div>
             </div>
             <!-- ./col -->
-            <div class="col-lg-3 col-6">
+            <div class="col-sm-1">&nbsp;</div>
+            <!-- ./col -->
+            <div class="col-lg-2 col-6">
                 <!-- small card -->
-                <div class="small-box bg-gradient-primary">
+                <div class="small-box bg-secondary">
                     <div class="inner">
                         <h3>Formação</h3>
                         <p>Edital</p>
@@ -131,7 +139,9 @@
                 </div>
             </div>
             <!-- ./col -->
-            <div class="col-lg-3 col-6">
+            <div class="col-sm-1">&nbsp;</div>
+            <!-- ./col -->
+            <div class="col-lg-2 col-6">
                 <!-- small card -->
                 <div class="small-box bg-gradient-primary">
                     <div class="inner">
