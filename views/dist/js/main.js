@@ -91,3 +91,27 @@ $(function () {
         },
     });
 });
+
+function mtel(v){
+    v=v.replace(/\D/g,"");             //Remove tudo o que não é dígito
+    v=v.replace(/^(\d{2})(\d)/g,"($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
+    v=v.replace(/(\d)(\d{4})$/,"$1-$2");    //Coloca hífen entre o quarto e o quinto dígitos
+    return v;
+}
+
+function mask(t, mask){
+    var i = t.value.length;
+    var saida = mask.substring(1,0);
+    var texto = mask.substring(i)
+    if (texto.substring(0,1) != saida){
+        t.value += texto.substring(0,1);
+    }
+}
+
+$(function(){
+    $("#CEP").mask("99999-999");
+});
+
+$(function(){
+    $( ".processo" ).mask("9999.9999/9999999-9");
+});
