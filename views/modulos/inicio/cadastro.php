@@ -1,7 +1,18 @@
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-10">
+                <h1 class="m-0 text-dark">CAPAC - Cadastro de Artistas e Profissionais de Arte e Cultura</h1>
+            </div>
+            <div class="col-sm-2">
+                <img src="<?= SERVERURL ?>views/dist/img/CULTURA_HORIZONTAL_pb_positivo.png" alt="logo cultura">
+            </div>
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
 <div class="register-box">
-    <div class="register-logo">
-        <a href="login"><?= NOMESIS ?></a>
-    </div>
 
     <div class="card">
         <div class="card-body register-card-body">
@@ -20,7 +31,6 @@
                         <strong>Insira seu Nome Completo</strong>
                     </div>
                 </div>
-
                 <div class="input-group mb-3">
                     <input type="email" class="form-control" name="email" placeholder="Email" required>
                     <div class="input-group-append">
@@ -30,6 +40,17 @@
                     </div>
                     <div class="invalid-feedback">
                         <strong>Insira um Email Válido</strong>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" name="telefone" placeholder="Telefone" onkeyup="mascara( this, mtel );" maxlength="15" required>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-phone"></span>
+                        </div>
+                    </div>
+                    <div class="invalid-feedback">
+                        <strong>Insira um Telefone Válido</strong>
                     </div>
                 </div>
                 <div class="input-group mb-3">
