@@ -63,7 +63,13 @@ class PessoaJuridicaController extends MainModel
 
     public function recuperaPessoaJuridica($id) {
         $id = MainModel::decryption($id);
-        $pj = DbModel::getInfo('pessoa_juridicas',$id);
+        $pj = DbModel::consultaSimples(
+            "SELECT * FROM pessoa_juridicas AS pj
+            LEFT JOIN pj_telefones pt on pj.id = pt.pessoa_juridica_id
+            LEFT JOIN pj_enderecos pe on pj.id = pe.pessoa_juridica_id
+            LEFT JOIN pj_bancos pb on pj.id = pb.pessoa_juridica_id
+            LEFT JOIN pj_oficinas po on pj.id = po.pessoa_juridica_id
+            WHERE pj.id = '$id'");
         return $pj;
     }
 }

@@ -89,6 +89,25 @@ $pf = $insPessoaFisica->recuperaPessoaFisica($id)->fetch();
                             </div>
                             <hr/>
                             <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="email">E-mail: *</label>
+                                    <input type="email" name="email" class="form-control" maxlength="60" placeholder="Digite o E-mail" value="<?= $pf['email'] ?>" required>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label>Telefone #1: *</label>
+                                    <input type="text" id="telefone" name="telefone[0]" onkeyup="mascara( this, mtel );"  class="form-control" placeholder="Digite o telefone" required value="<?= $pf['telefone'] ?>" maxlength="15">
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label>Telefone #2:</label>
+                                    <input type="text" id="telefone1" name="telefone[1]" onkeyup="mascara( this, mtel );"  class="form-control" placeholder="Digite o telefone" maxlength="15" value="<?= $pf['telefone'] ?>">
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label>Telefone #3:</label>
+                                    <input type="text" id="telefone2" name="telefone[2]" onkeyup="mascara( this, mtel );"  class="form-control telefone" placeholder="Digite o telefone" maxlength="15" value="<?= $pf['telefone'] ?>">
+                                </div>
+                            </div>
+                            <hr/>
+                            <div class="row">
                                 <div class="form-group col-md-4">
                                     <label for="cep">CEP: *</label>
                                     <input type="text" class="form-control" name="cep" id="cep" maxlength="9" placeholder="Digite o CEP" required data-mask="00000-000" value="<?= $pf['cep'] ?>" >
@@ -125,24 +144,6 @@ $pf = $insPessoaFisica->recuperaPessoaFisica($id)->fetch();
                                 </div>
                             </div>
                             <hr/>
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="email">E-mail: *</label>
-                                    <input type="email" name="email" class="form-control" maxlength="60" placeholder="Digite o E-mail" value="<?= $pf['email'] ?>" required>
-                                </div>
-                                <div class="form-group col-md-2">
-                                    <label>Telefone #1: *</label>
-                                    <input type="text" id="telefone" name="telefone[0]" onkeyup="mascara( this, mtel );"  class="form-control" placeholder="Digite o telefone" required value="<?= $pf['telefone'] ?>" maxlength="15">
-                                </div>
-                                <div class="form-group col-md-2">
-                                    <label>Telefone #2:</label>
-                                    <input type="text" id="telefone1" name="telefone[1]" onkeyup="mascara( this, mtel );"  class="form-control" placeholder="Digite o telefone" maxlength="15" value="<?= $pf['telefone'] ?>">
-                                </div>
-                                <div class="form-group col-md-2">
-                                    <label>Telefone #3:</label>
-                                    <input type="text" id="telefone2" name="telefone[2]" onkeyup="mascara( this, mtel );"  class="form-control telefone" placeholder="Digite o telefone" maxlength="15" value="<?= $pf['telefone'] ?>">
-                                </div>
-                            </div>
                             <div class="row">
                                 <div class="form-group col-md-12">
                                     <label for="nit">NIT: </label>
