@@ -48,7 +48,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="<?= SERVERURL ?>inicio/logout" class="nav-link">
                     <i class="fas fa-sign-out-alt"></i>&nbsp; Sair
                 </a>
             </li>

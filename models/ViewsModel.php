@@ -41,6 +41,7 @@ class ViewsModel
             'evento_lista',
             'proponente',
             'edita',
+            'logout',
         ];
         if (self::verificaModulo($modulo)) {
             if (in_array($view, $whitelist)) {
