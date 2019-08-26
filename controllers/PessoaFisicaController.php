@@ -69,7 +69,7 @@ class PessoaFisicaController extends MainModel
             LEFT JOIN pf_enderecos pe on pf.id = pe.pessoa_fisica_id
             LEFT JOIN pf_bancos pb on pf.id = pb.pessoa_fisica_id
             LEFT JOIN pf_oficinas po on pf.id = po.pessoa_fisica_id
-            WHERE id = {$id};");
+            WHERE pf.id = '$id'");
         return $pf;
     }
 }

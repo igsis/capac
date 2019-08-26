@@ -82,7 +82,7 @@ $pf = $insPessoaFisica->recuperaPessoaFisica($id)->fetch();
                                     <select class="form-control" id="nacionalidade" name="nacionalidade_id" required>
                                         <option value="">Selecione uma opção...</option>
                                         <?php
-                                        //geraOpcao("nacionalidades","");
+                                        $insPessoaFisica->geraOpcao("nacionalidades");
                                         ?>
                                     </select>
                                 </div>
@@ -91,7 +91,7 @@ $pf = $insPessoaFisica->recuperaPessoaFisica($id)->fetch();
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label for="cep">CEP: *</label>
-                                    <input type="text" class="form-control" name="cep" id="cep" maxlength="9" placeholder="Digite o CEP" required data-mask="00000-000" value="<?= $pf[''] ?>" >
+                                    <input type="text" class="form-control" name="cep" id="cep" maxlength="9" placeholder="Digite o CEP" required data-mask="00000-000" value="<?= $pf['cep'] ?>" >
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label>&nbsp;</label><br>
@@ -101,27 +101,27 @@ $pf = $insPessoaFisica->recuperaPessoaFisica($id)->fetch();
                             <div class="row">
                                 <div class="form-group col-md-3">
                                     <label for="rua">Rua: *</label>
-                                    <input type="text" class="form-control" name="rua" id="rua" placeholder="Digite a rua" maxlength="200" value="<?= $pf[''] ?>" readonly>
+                                    <input type="text" class="form-control" name="logradouro" id="rua" placeholder="Digite a rua" maxlength="200" value="<?= $pf['logradouro'] ?>" readonly>
                                 </div>
                                 <div class="form-group col-md-1">
                                     <label for="numero">Número: *</label>
-                                    <input type="number" name="numero" class="form-control" placeholder="Ex.: 10" value="<?= $pf[''] ?>" required>
+                                    <input type="number" name="numero" class="form-control" placeholder="Ex.: 10" value="<?= $pf['numero'] ?>" required>
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label for="complemento">Complemento:</label>
-                                    <input type="text" name="complemento" class="form-control" maxlength="20" placeholder="Digite o complemento" value="<?= $pf[''] ?>">
+                                    <input type="text" name="complemento" class="form-control" maxlength="20" placeholder="Digite o complemento" value="<?= $pf['complemento'] ?>">
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="bairro">Bairro: *</label>
-                                    <input type="text" class="form-control" name="bairro" id="bairro" placeholder="Digite o Bairro" maxlength="80" value="<?= $pf[''] ?>" readonly>
+                                    <input type="text" class="form-control" name="bairro" id="bairro" placeholder="Digite o Bairro" maxlength="80" value="<?= $pf['bairro'] ?>" readonly>
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label for="cidade">Cidade: *</label>
-                                    <input type="text" class="form-control" name="cidade" id="cidade" placeholder="Digite a cidade" maxlength="50" value="<?= $pf[''] ?>" readonly>
+                                    <input type="text" class="form-control" name="cidade" id="cidade" placeholder="Digite a cidade" maxlength="50" value="<?= $pf['cidade'] ?>" readonly>
                                 </div>
                                 <div class="form-group col-md-1">
                                     <label for="estado">Estado: *</label>
-                                    <input type="text" class="form-control" name="estado" id="estado" maxlength="2" placeholder="Ex.: SP" value="<?= $pf[''] ?>" readonly>
+                                    <input type="text" class="form-control" name="uf" id="estado" maxlength="2" placeholder="Ex.: SP" value="<?= $pf['estado'] ?>" readonly>
                                 </div>
                             </div>
                             <hr/>
@@ -132,21 +132,21 @@ $pf = $insPessoaFisica->recuperaPessoaFisica($id)->fetch();
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label>Telefone #1: *</label>
-                                    <input type="text" id="telefone" name="telefone[0]" onkeyup="mascara( this, mtel );"  class="form-control" placeholder="Digite o telefone" required value="<?= $pf[''] ?>" maxlength="15">
+                                    <input type="text" id="telefone" name="telefone[0]" onkeyup="mascara( this, mtel );"  class="form-control" placeholder="Digite o telefone" required value="<?= $pf['telefone'] ?>" maxlength="15">
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label>Telefone #2:</label>
-                                    <input type="text" id="telefone1" name="telefone[1]" onkeyup="mascara( this, mtel );"  class="form-control" placeholder="Digite o telefone" maxlength="15" value="<?= $pf[''] ?>">
+                                    <input type="text" id="telefone1" name="telefone[1]" onkeyup="mascara( this, mtel );"  class="form-control" placeholder="Digite o telefone" maxlength="15" value="<?= $pf['telefone'] ?>">
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label>Telefone #3:</label>
-                                    <input type="text" id="telefone2" name="telefone[2]" onkeyup="mascara( this, mtel );"  class="form-control telefone" placeholder="Digite o telefone" maxlength="15" value="<?= $pf[''] ?>">
+                                    <input type="text" id="telefone2" name="telefone[2]" onkeyup="mascara( this, mtel );"  class="form-control telefone" placeholder="Digite o telefone" maxlength="15" value="<?= $pf['telefone'] ?>">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-12">
                                     <label for="nit">NIT: </label>
-                                    <input type="text" id="nit" name="nit" class="form-control" maxlength="45" placeholder="Digite o NIT" value="<?= $pf[''] ?>">
+                                    <input type="text" id="nit" name="nit" class="form-control" maxlength="45" placeholder="Digite o NIT" value="<?= $pf['nit'] ?>">
                                 </div>
                             </div>
                             <hr/>
@@ -156,17 +156,47 @@ $pf = $insPessoaFisica->recuperaPessoaFisica($id)->fetch();
                                     <select required id="banco" name="banco" class="form-control">
                                         <option value="">Selecione um banco...</option>
                                         <?php
-                                        //geraOpcao("bancos", "");
+                                        $insPessoaFisica->geraOpcao("pf_bancos");
                                         ?>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="agencia">Agência: *</label>
-                                    <input type="text" id="agencia" name="agencia" class="form-control"  placeholder="Digite a Agência" maxlength="12" value="<?= $pf[''] ?>" required>
+                                    <input type="text" id="agencia" name="agencia" class="form-control"  placeholder="Digite a Agência" maxlength="12" value="<?= $pf['agencia'] ?>" required>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="conta">Conta: *</label>
-                                    <input type="text" id="conta" name="conta" class="form-control" placeholder="Digite a Conta" maxlength="12" value="<?= $pf[''] ?>" required>
+                                    <input type="text" id="conta" name="conta" class="form-control" placeholder="Digite a Conta" maxlength="12" value="<?= $pf['conta'] ?>" required>
+                                </div>
+                            </div>
+                            <hr/>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label for="oficina_nivel_id">Nível:</label>
+                                    <select required id="oficina_nivel_id" name="oficina_nivel_id" class="form-control">
+                                        <option value="">Selecione um nível...</option>
+                                        <?php
+                                        $insPessoaFisica->geraOpcao("oficina_niveis");
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="oficina_linguagem_id">Linguagem: *</label>
+                                    <select required id="oficina_linguagem_id" name="oficina_linguagem_id" class="form-control">
+                                        <option value="">Selecione uma linguagem...</option>
+                                        <?php
+                                        $insPessoaFisica->geraOpcao("oficina_linguagens");
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="oficina_sublinguagem_id">Sub linguagem: *</label>
+                                    <select required id="oficina_sublinguagem_id" name="oficina_sublinguagem_id" class="form-control">
+                                        <option value="">Selecione uma sub linguagem...</option>
+                                        <?php
+                                        $insPessoaFisica->geraOpcao("oficina_sublinguagens");
+                                        ?>
+                                    </select>
                                 </div>
                             </div>
                         </div>
