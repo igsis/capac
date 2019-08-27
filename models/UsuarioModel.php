@@ -17,4 +17,12 @@ class UsuarioModel extends MainModel
         return $statement;
     }
 
+    protected function getEmail($dados) {
+        $pdo = parent::connection();
+        $sql = "SELECT * FROM usuarios WHERE email = :email";
+        $statement = $pdo->prepare($sql);
+        $statement->bindParam(":email", $dados['email']);
+        $statement->execute();
+        return $statement;
+    }
 }
