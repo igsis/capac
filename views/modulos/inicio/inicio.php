@@ -3,7 +3,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Bem Vindo ao Sistema Capac</h1>
+                <h1 class="m-0 text-dark">Bem-vindo ao Sistema CAPAC</h1>
             </div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
@@ -29,10 +29,11 @@
                     <div class="bg-light col-md">
                         <p>Aqui são inseridas as informações sobre o seu evento com cachê, incluindo pessoa jurídica e/ou física.</p>
                     </div>
-
-                    <a href="<?= SERVERURL ?>eventos/inicio" class="small-box-footer">
-                        Acesse <i class="fas fa-arrow-circle-right"></i>
-                    </a>
+                    <div align="center">
+                        <a href="<?= SERVERURL ?>eventos/inicio" class="small-box-footer">
+                            Acesse <i class="fas fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
             <!-- ./col -->
@@ -46,13 +47,14 @@
                         </h3>
                         <p>Sem cachê</p>
                     </div>
-
                     <div class="bg-light col-md">
                         <p>Aqui são inseridas as informações sobre o seu evento sem cachê, incluindo pessoa jurídica e/ou física.</p>
                     </div>
-                    <a href="<?= SERVERURL ?>eventos/inicio" class="small-box-footer">
-                        Acesse <i class="fas fa-arrow-circle-right"></i>
-                    </a>
+                    <div align="center">
+                        <a href="<?= SERVERURL ?>eventos/inicio" class="small-box-footer">
+                            Acesse <i class="fas fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
             <!-- ./col -->
@@ -69,9 +71,11 @@
                     <div class="bg-light col-md">
                         <p>Para evento com contratação através de emenda parlamentar, incluindo pessoa jurídica e/ou física.</p>
                     </div>
-                    <a href="<?= SERVERURL ?>eventos/inicio" class="small-box-footer">
-                        Acesse <i class="fas fa-arrow-circle-right"></i>
-                    </a>
+                    <div align="center">
+                        <a href="<?= SERVERURL ?>eventos/inicio" class="small-box-footer">
+                            Acesse <i class="fas fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
             <!-- ./col -->
@@ -85,74 +89,78 @@
                         </h3>
                         <p>Divulgação</p>
                     </div>
-                    <a href="#" class="small-box-footer">
-                        Acesse <i class="fas fa-arrow-circle-right"></i>
-                    </a>
+                    <div class="bg-light col-md">
+                        <p>Área para inserção de eventos de unidades externas para divulgação através do site Agendão.</p>
+                    </div>
+                    <div align="center">
+                        <a href="#" class="small-box-footer">
+                            Acesse <i class="fas fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
             <!-- ./col -->
         </div>
         <!-- ./row -->
         <div class="row">
-            <div class="col-lg-2 col-6">
+            <div class="col-md-3">
                 <!-- small card -->
-                <div class="small-box bg-gradient-primary">
-                    <div class="inner">
-                        <h3>Oficinas</h3>
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-file-alt"></i>
+                            Oficinas
+                        </h3>
                         <p>Edital nº 002/2018</p>
                     </div>
-                    <div class="icon">
-                        <i class="fas fa-file-alt"></i>
-                    </div>
                     <div class="bg-light col-md">
-                        <p>Oficineiros<br>JÁ SELECIONADOS NO EDITAL nº 002/2018 SMC/GAB</p>
+                        <p>Oficineiros<br>SELECIONADOS NO EDITAL nº 002/2018 SMC/GAB</p>
                     </div>
                     <a href="<?=SERVERURL?>oficina" class="small-box-footer">
                         Acesse <i class="fas fa-arrow-circle-right"></i>
                     </a>
-
                 </div>
             </div>
             <!-- ./col -->
-            <div class="col-sm-1">&nbsp;</div>
-            <!-- ./col -->
-            <div class="col-lg-2 col-6">
+            <div class="col-md-3">
                 <!-- small card -->
-                <div class="small-box bg-secondary">
-                    <div class="inner">
-                        <h3>Formação</h3>
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-file-alt"></i>
+                            Formação
+                        </h3>
                         <p>Edital</p>
                     </div>
-                    <div class="icon">
-                        <i class="fas fa-file-alt"></i>
-                    </div>
                     <div class="bg-light col-md">
-                        <p>Artistas Orientadores e Educadores<br>JÁ SELECIONADOS NO EDITAL nº 002/2018 SMC/GAB</p>
+                        <p>Artistas Orientadores e Educadores<br>SELECIONADOS NO EDITAL nº 002/2018 SMC/GAB</p>
                     </div>
-                    <a href="#" class="small-box-footer">
-                        Acesse <i class="fas fa-arrow-circle-right"></i>
-                    </a>
+                    <div align="center">
+                        <a href="#" class="small-box-footer">
+                            Acesse <i class="fas fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
             <!-- ./col -->
-            <div class="col-sm-1">&nbsp;</div>
-            <!-- ./col -->
-            <div class="col-lg-2 col-6">
+            <div class="col-md-3">
                 <!-- small card -->
-                <div class="small-box bg-gradient-primary">
-                    <div class="inner">
-                        <h3>Jovem Monitor</h3>
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-file-alt"></i>
+                            Jovem Monitor
+                        </h3>
                         <p>Edital</p>
                     </div>
-                    <div class="icon">
-                        <i class="fas fa-file-alt"></i>
-                    </div>
                     <div class="bg-light col-md">
-                        <p>Estudantes<br>JÁ SELECIONADOS NO EDITAL nº 002/2018 SMC/GAB</p>
+                        <p>Estudantes<br>SELECIONADOS NO EDITAL nº 002/2018 SMC/GAB</p>
                     </div>
-                    <a href="#" class="small-box-footer">
-                        Acesse <i class="fas fa-arrow-circle-right"></i>
-                    </a>
+                    <div align="center">
+                        <a href="#" class="small-box-footer">
+                            Acesse <i class="fas fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
             <!-- ./col -->
