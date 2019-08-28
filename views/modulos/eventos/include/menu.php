@@ -17,4 +17,10 @@
             <p>Informações Iniciais</p>
         </a>
     </li>
+    <li class="nav-item">
+        <a href="<?= SERVERURL ?>eventos/atracao_cadastro" class="nav-link">
+            <i class="far fa-circle nav-icon"></i>
+            <p>Dados da Atração</p>
+        </a>
+    </li>
 <?php //endif; ?>

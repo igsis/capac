@@ -1,7 +1,6 @@
 <?php
     require_once "./controllers/EventoController.php";
     $eventoObj = new EventoController();
-    $tipoContratacao = $_SESSION['tipoContratacao_c']
 ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -29,14 +28,12 @@
                 <!-- Horizontal Form -->
                 <div class="card card-info">
                     <div class="card-header">
-                        <h3 class="card-title">Informações iniciais</h3>
+                        <h3 class="card-title">Dados da Atração</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-<!--                    <form class="form-horizontal" method="POST" action="--><?//=SERVERURL?><!--ajax/eventoAjax.php" role="form">-->
-                    <form class="form-horizontal" method="POST" role="form">
+                    <form class="form-horizontal" method="POST" action="" role="form">
                         <input type="hidden" name="_method" value="cadastrarEvento">
-                        <input type="hidden" name="contratacao" value="<?=$tipoContratacao?>">
                         <div class="card-body">
                             <div class="form-group row">
                                 <label for="nome_evento">Nome do Evento *</label>
@@ -45,13 +42,13 @@
 
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label>Espaço em que será realizado o evento é público?</label>
+                                    <label for="contratacao">Espaço em que será realizado o evento é público?</label>
                                     <div class="form-check-inline">
                                         <input name="espaco_publico" class="form-check-input" type="radio" value="1">
                                         <label class="form-check-label">Sim</label>
                                     </div>
                                     <div class="form-check-inline">
-                                        <input name="espaco_publico" class="form-check-input" type="radio" value="0" checked>
+                                        <input name="espaco_publico" class="form-check-input" type="radio" value="0">
                                         <label class="form-check-label">Não</label>
                                     </div>
                                 </div>
@@ -64,7 +61,7 @@
                                         <label class="form-check-label">Sim</label>
                                     </div>
                                     <div class="form-check-inline">
-                                        <input name="fomento" class="form-check-input" type="radio" value="0" checked>
+                                        <input name="fomento" class="form-check-input" type="radio" value="0">
                                         <label class="form-check-label">Não</label>
                                     </div>
                                 </div>
@@ -113,86 +110,95 @@
             </div>
         </div>
         <!-- /.row -->
-        <div class="modal fade" id="modal-default">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title"><strong>Classificação Indicativa</strong></h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span></button>
-                    </div>
-                    <div class="modal-body">
-                        <h4><strong>Informação e Liberdade de Escolha</strong></h4>
-                        <p align="justify">A Classificação Indicativa é um conjunto de informações sobre o conteúdo de
-                            obras audiovisuais e diversões públicas quanto à adequação de horário, local e faixa etária.
-                            Ela alerta os pais ou responsáveis sobre a adequação da programação à idade de crianças e
-                            adolescentes. É da Secretaria Nacional de Justiça (SNJ), do Ministério da Justiça (MJ), a
-                            responsabilidade da Classificação Indicativa de programas TV, filmes, espetáculos, jogos
-                            eletrônicos e de interpretação (RPG).</p>
-                        <p align="justify">Programas jornalísticos ou noticiosos, esportivos, propagandas eleitorais e
-                            publicidade, espetáculos circenses, teatrais e shows musicais não são classificados pelo
-                            Ministério da Justiça e podem ser exibidos em qualquer horário.</p>
-                        <p align="justify">Os programas ao vivo poderão ser classificados se apresentarem inadequações,
-                            a partir de monitoramento ou denúncia.</p>
-                        <p align="justify">
-                            <strong>Livre:</strong> Não expõe crianças a conteúdos potencialmente prejudiciais. Exibição
-                            em qualquer horário.<br>
-                            <strong>10 anos:</strong> Conteúdo violento ou linguagem inapropriada para crianças, ainda
-                            que em menor intensidade. Exibição em qualquer horário.<br>
-                            <strong>12 anos:</strong> As cenas podem conter agressão física, consumo de drogas e
-                            insinuação sexual. Exibição a partir das 20h.<br>
-                            <strong>14 anos:</strong> Conteúdos mais violentos e/ou de linguagem sexual mais acentuada.
-                            Exibição a partir das 21h.<br>
-                            <strong>16 anos:</strong> Conteúdos mais violentos ou com conteúdo sexual mais intenso, com
-                            cenas de tortura, suicídio, estupro ou nudez total. Exibição a partir das 22h.<br>
-                            <strong>18 anos:</strong> Conteúdos violentos e sexuais extremos. Cenas de sexo, incesto ou
-                            atos repetidos de tortura, mutilação ou abuso sexual. Exibição a partir das 23h.
-                        </p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>
-                    </div>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
-        <!-- /.modal -->
-
-        <!-- modal público -->
-        <div class="modal fade" id="modalPublico" style="display: none" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Público (Representatividade e Visibilidade Sócio-cultural)</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <div class="modal-body" style="text-align: left;">
-                        <table class="table table-bordered table-responsive">
-                            <thead>
-                            <tr>
-                                <th>Público</th>
-                                <th>Descrição</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                <?php $eventoObj->exibeDescricaoPublico() ?>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-theme" data-dismiss="modal">Fechar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /.modal público -->
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
 
 <!-- /modal -->
+<div class="modal fade" id="modal-default">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><strong>Classificação Indicativa</strong></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <h4><strong>Informação e Liberdade de Escolha</strong></h4>
+                <p align="justify">A Classificação Indicativa é um conjunto de informações sobre o conteúdo de
+                    obras audiovisuais e diversões públicas quanto à adequação de horário, local e faixa etária.
+                    Ela alerta os pais ou responsáveis sobre a adequação da programação à idade de crianças e
+                    adolescentes. É da Secretaria Nacional de Justiça (SNJ), do Ministério da Justiça (MJ), a
+                    responsabilidade da Classificação Indicativa de programas TV, filmes, espetáculos, jogos
+                    eletrônicos e de interpretação (RPG).</p>
+                <p align="justify">Programas jornalísticos ou noticiosos, esportivos, propagandas eleitorais e
+                    publicidade, espetáculos circenses, teatrais e shows musicais não são classificados pelo
+                    Ministério da Justiça e podem ser exibidos em qualquer horário.</p>
+                <p align="justify">Os programas ao vivo poderão ser classificados se apresentarem inadequações,
+                    a partir de monitoramento ou denúncia.</p>
+                <p align="justify">
+                    <strong>Livre:</strong> Não expõe crianças a conteúdos potencialmente prejudiciais. Exibição
+                    em qualquer horário.<br>
+                    <strong>10 anos:</strong> Conteúdo violento ou linguagem inapropriada para crianças, ainda
+                    que em menor intensidade. Exibição em qualquer horário.<br>
+                    <strong>12 anos:</strong> As cenas podem conter agressão física, consumo de drogas e
+                    insinuação sexual. Exibição a partir das 20h.<br>
+                    <strong>14 anos:</strong> Conteúdos mais violentos e/ou de linguagem sexual mais acentuada.
+                    Exibição a partir das 21h.<br>
+                    <strong>16 anos:</strong> Conteúdos mais violentos ou com conteúdo sexual mais intenso, com
+                    cenas de tortura, suicídio, estupro ou nudez total. Exibição a partir das 22h.<br>
+                    <strong>18 anos:</strong> Conteúdos violentos e sexuais extremos. Cenas de sexo, incesto ou
+                    atos repetidos de tortura, mutilação ou abuso sexual. Exibição a partir das 23h.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
+<!-- modal público -->
+<div class="modal fade" id="modalPublico" style="display: none" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Público (Representatividade e Visibilidade Sócio-cultural)</h4>
+            </div>
+            <div class="modal-body" style="text-align: left;">
+                <table class="table table-bordered table-responsive">
+                    <thead>
+                    <tr>
+                        <th>Público</th>
+                        <th>Descrição</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    $sqlConsultaPublico = "SELECT publico, descricao FROM publicos WHERE publicado = '1' ORDER BY 1";
+                    foreach ($con->query($sqlConsultaPublico)->fetch_all(MYSQLI_ASSOC) as $publico) {
+                        ?>
+                        <tr>
+                            <td><?= $publico['publico'] ?></td>
+                            <td><?= $publico['descricao'] ?></td>
+                        </tr>
+                        <?php
+                    }
+                    ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-theme" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.modal público -->
 
 
 <script>

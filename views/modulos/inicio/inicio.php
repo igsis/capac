@@ -30,7 +30,7 @@
                         <p>Aqui são inseridas as informações sobre o seu evento com cachê, incluindo pessoa jurídica e/ou física.</p>
                     </div>
                     <div align="center">
-                        <a href="<?= SERVERURL ?>eventos/inicio" class="small-box-footer">
+                        <a href="<?= SERVERURL ?>eventos/inicio&contratacao=1" class="small-box-footer">
                             Acesse <i class="fas fa-arrow-circle-right"></i>
                         </a>
                     </div>
@@ -51,7 +51,7 @@
                         <p>Aqui são inseridas as informações sobre o seu evento sem cachê, incluindo pessoa jurídica e/ou física.</p>
                     </div>
                     <div align="center">
-                        <a href="<?= SERVERURL ?>eventos/inicio" class="small-box-footer">
+                        <a href="<?= SERVERURL ?>eventos/inicio&contratacao=2" class="small-box-footer">
                             Acesse <i class="fas fa-arrow-circle-right"></i>
                         </a>
                     </div>

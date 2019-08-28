@@ -115,13 +115,13 @@ class MainModel extends DbModel
     }
 
     /**
-     * <p>Função criada para gerar automáticamente options para a tag 'select'</p>
+     * <p>Gera options para a tag <i>select</i> a partir dos registros de uma tabela</p>
      * @param string $tabela
      * <p>Nome da tabela que deve ser consultada</p>
      * @param string $selected [opcional]
      * <p>Valor a qual deve vir selecionado</p>
      * @param bool $publicado [opcional]
-     * <p><strong>FALSE</strong> por padrão. Quando <strong>TRUE</strong>, busca valores onde a coluna "publicado" seja 1</p>
+     * <p><strong>FALSE</strong> por padrão. Quando <strong>TRUE</strong>, busca valores onde a coluna <i>publicado</i> seja 1</p>
      */
     public function geraOpcao($tabela, $selected = "", $publicado = false) {
         $publicado = $publicado ? 'WHERE publicado = 1' : '';
@@ -139,6 +139,7 @@ class MainModel extends DbModel
     }
 
     /**
+     *
      * @param string $tabela
      * @param string $tabelaRelacionamento
      * @param null|int $idEvento [opcional]
@@ -226,4 +227,8 @@ class MainModel extends DbModel
         return $alerta;
     }
 
+    protected function atualizaRelacionamento($dadosRelacionamento) {
+        $sqlConsultaRelacionamento = "SELECT * FROM {$dadosRelacionamento['tabela']} WHERE {$dadosRelacionamento['entidadeForte']} = '{$dadosRelacionamento['idEntidadeForte']}'";
+        $consultaRelacionamento = DbModel::consultaSimples($sqlConsultaRelacionamento);
+    }
 }

@@ -1,3 +1,8 @@
+<?php
+if (isset($_GET['contratacao'])) {
+    $_SESSION['tipoContratacao_c'] = $_GET['contratacao'];
+}
+?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
     <div class="container-fluid">
