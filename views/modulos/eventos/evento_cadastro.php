@@ -1,6 +1,6 @@
 <?php
     require_once "./controllers/EventoController.php";
-    $evento = new EventoController();
+    $eventoObj = new EventoController();
 ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -56,9 +56,7 @@
                                     <label for="tipoFomento">Fomento/Programa</label> <br>
                                     <select class="form-control" name="tipoFomento" id="tipoFomento">
                                         <option value="">Selecione uma opção...</option>
-                                        <?php
-                                            $evento->geraOpcao('fomentos');
-                                        ?>
+                                        <?php $eventoObj->geraOpcao('fomentos'); ?>
                                     </select>
                                 </div>
                             </div>
@@ -74,88 +72,7 @@
                                             <span style="color: red;">Selecione ao menos uma representatividade!</span>
                                         </div>
                                     </div>
-                                    <div class="checkbox-grid-2">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label"> Acessibilidade</label>
-                                        </div>
-                                    </div>
-                                    <div class="checkbox-grid-2">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label"> Consciência Negra</label>
-                                        </div>
-                                    </div>
-                                    <div class="checkbox-grid-2">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label"> Consciência Indígena</label>
-                                        </div>
-                                    </div>
-                                    <div class="checkbox-grid-2">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label"> Imigrantes</label>
-                                        </div>
-                                    </div>
-                                    <div class="checkbox-grid-2">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label"> Mulheres</label>
-                                        </div>
-                                    </div>
-                                    <div class="checkbox-grid-2">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label"> LGBTQ+</label>
-                                        </div>
-                                    </div>
-                                    <div class="checkbox-grid-2">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label"> Terceira idade</label>
-                                        </div>
-                                    </div>
-                                    <div class="checkbox-grid-2">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label"> Primeira infância</label>
-                                        </div>
-                                    </div>
-                                    <div class="checkbox-grid-2">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label"> Criança</label>
-                                        </div>
-                                    </div>
-                                    <div class="checkbox-grid-2">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label"> Adolescente</label>
-                                        </div>
-                                    </div>
-                                    <div class="checkbox-grid-2">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label"> Adulto</label>
-                                        </div>
-                                    </div>
-                                    <div class="checkbox-grid-2">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label"> Alternativo / colaborativo</label>
-                                        </div>
-                                    </div>
-                                    <div class="checkbox-grid-2">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label"> Vulnerabilidade social</label>
-                                        </div>
-                                    </div>
-
-                                    <?php
-                                    //geraCheckBox('publicos', 'publico', 'evento_publico', 'col-md-6', 'evento_id', 'publico_id', null);
-                                    ?>
+                                    <?php $eventoObj->geraCheckbox('publicos', 'evento_publico', true); ?>
                                 </div>
                             </div>
 

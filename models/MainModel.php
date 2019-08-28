@@ -7,6 +7,32 @@ if ($pedidoAjax) {
 
 class MainModel extends DbModel
 {
+    /** <p> Verifica se o valor existe dentro de uma matriz</p>
+     * @param mixed $needle
+     * <p>Valor a ser procurado</p>
+     * @param array $haystack
+     * <p>Matriz onde sera procurado o valor</p>
+     * @param bool $strict [opcional]
+     * <p><strong>FALSE</strong> por padrão. Quando <strong>TRUE</strong>, verifica também se o tipo é igual</p>
+     * @return bool
+     * <p>Retorna <strong>TRUE</strong> se o valor é encontrado. Se não, retorna <strong>FALSE</strong></p>
+     */
+    protected function in_array_r($needle, $haystack, $strict = false) {
+        foreach ($haystack as $item) {
+            if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && self::in_array_r($needle, $item, $strict))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * <p>Encripta a mensagem usando o "openssl_encrypt"</p>
+     * @param string $string
+     * <p>Mensagem a ser encriptada</p>
+     * @return string
+     * <p>Retorna o valor já encriptado</p>
+     */
     public function encryption($string) {
         $output = false;
         $key = hash('sha256', SECRET_KEY);
@@ -16,6 +42,13 @@ class MainModel extends DbModel
         return $output;
     }
 
+    /**
+     * <p>Decripta uma mensagem encriptada com a função "encryption"</p>
+     * @param string $string
+     * <p>Mensagem a ser decriptada</p>
+     * @return string
+     * <p>Retorna a mensagem decriptada</p>
+     */
     protected function decryption($string) {
         $key = hash('sha256', SECRET_KEY);
         $iv = substr(hash('sha256', SECRET_IV), 0, 16);
@@ -23,6 +56,12 @@ class MainModel extends DbModel
         return $output;
     }
 
+    /**
+     * Insere registro na tabela "log" do banco de dados
+     * @param string $descricao
+     * <p>Registramos o comando SQL de <strong>UPDATE</strong> ou <strong>INSERT</strong>,
+     * se o usuário <strong>FEZ LOGIN</strong>, ou <strong>FEZ LOGOUT</strong></p>
+     */
     protected function gravarLog($descricao) {
         $dadosLog = [
             'usuario_id' => $_SESSION['idUsuario_c'],
@@ -34,6 +73,13 @@ class MainModel extends DbModel
         DbModel::insert('log', $dadosLog);
     }
 
+    /**
+     * <p>Executa uma série de comandos de tratamento da string para inserção no banco de dados</p>
+     * @param string $string
+     * <p>Mensagem que será tratada</p>
+     * @return mixed|string
+     * <p>Retorna a mensagem já tratada</p>
+     */
     protected function limparString($string) {
         $string = trim($string);
         $string = stripslashes($string);
@@ -54,8 +100,11 @@ class MainModel extends DbModel
     }
 
     /**
+     * <p>Executa a função "limparString" em um array</p>
      * @param array $post
+     * <p>Array de dados que deve ser tratado</p>
      * @return array
+     * <p>Retorna os dados já tratados</p>
      */
     protected function limpaPost($post) {
         $dados = [];
@@ -72,7 +121,7 @@ class MainModel extends DbModel
      * @param string $selected [opcional]
      * <p>Valor a qual deve vir selecionado</p>
      * @param bool $publicado [opcional]
-     * <p>Caso a tabela utilize a coluna "publicado", o valor deve ser true</p>
+     * <p><strong>FALSE</strong> por padrão. Quando <strong>TRUE</strong>, busca valores onde a coluna "publicado" seja 1</p>
      */
     public function geraOpcao($tabela, $selected = "", $publicado = false) {
         $publicado = $publicado ? 'WHERE publicado = 1' : '';
@@ -89,10 +138,49 @@ class MainModel extends DbModel
         }
     }
 
-    public function geraCheckbox() {
-        //
+    /**
+     * @param string $tabela
+     * @param string $tabelaRelacionamento
+     * @param null|int $idEvento [opcional]
+     * @param bool $publicado [opcional]
+     */
+    public function geraCheckbox($tabela, $tabelaRelacionamento, $idEvento = null, $publicado = false) {
+        $publicado = $publicado ? "WHERE publicado = '1'" : "";
+        $sql = "SELECT * FROM $tabela $publicado ORDER BY 2";
+        $consulta = DbModel::consultaSimples($sql);
+
+        // Parte do relacionamento
+        $sqlConsultaRelacionamento = "SELECT * FROM $tabelaRelacionamento WHERE evento_id = '$idEvento'";
+        $relacionamentos = DbModel::consultaSimples($sqlConsultaRelacionamento)->fetchAll();
+
+        foreach ($consulta->fetchAll() as $checkbox) {
+            ?>
+                <div class='checkbox-grid-2'>
+                    <div class='form-check'>
+                        <input class='form-check-input' type='checkbox' name='<?=$tabela?>[]' value='<?=$checkbox[0]?>' <?=self::in_array_r($checkbox[0], $relacionamentos) ? "checked" : ""?>>
+                        <label class='form-check-label'><?=$checkbox[1]?></label>
+                    </div>
+                </div>
+            <?php
+        }
     }
 
+    /**
+     * <p>Exibe um alerta da Tanair</p>
+     * @param array $dados
+     * <p>Um array que deve conter os seguintes índices:</p>
+     * </ul>
+     *  <li>alerta - deve conter os valores: <strong>simples</strong>, <strong>sucesso</strong> ou
+     * <strong>limpar</strong></li>
+     *  <li>titulo - Texto que será usado como título do alerta</li>
+     *  <li>texto - Texto que será usado no corpo do alerta</li>
+     *  <li>tipo - Tipo do alerta. Deve conter os valores: <strong>success</strong>, <strong>error</strong>,
+     * <strong>warning</strong>, <strong>info</strong> ou <strong>question</strong></li>
+     * <li>location - Caso o alerta seja <strong>sucesso</strong>, este índice deve conter a página para qual o usuário
+     * será retornado</li>
+     * @return string
+     * <p>Retorna o alerta</p>
+     */
     protected function sweetAlert($dados) {
         if ($dados['alerta'] == "simples") {
             $alerta = "
@@ -137,4 +225,5 @@ class MainModel extends DbModel
 
         return $alerta;
     }
+
 }
