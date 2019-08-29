@@ -30,19 +30,30 @@ class EventoController extends MainModel
         $insere = DbModel::insert('eventos', $dadosEvento);
         if ($insere->rowCount() >= 1) {
             $evento_id = DbModel::connection()->lastInsertId();
-            $dadosRelacionamento = [
-                'tabela' => 'evento_publico',
-                'entidadeForte' => 'evento_id',
-                'idEntidadeForte' => $evento_id,
-                'entidadeFraca' => 'fomento_id',
-                'idsEntidadeFraca' => $post['publico']
-            ];
+            $atualizaRelacionamento = MainModel::atualizaRelacionamento('evento_publico', 'evento_id', $evento_id, 'fomento_id', $post['publico']);
+
+            if ($atualizaRelacionamento) {
+                $alerta = [
+                    'alerta' => 'sucesso',
+                    'titulo' => 'Evento Cadastrado!',
+                    'texto' => 'Dados cadastrados com sucesso!',
+                    'tipo' => 'success',
+                    'location' => SERVERURL . 'eventos/evento_cadastro&key='.MainModel::encryption($evento_id)
+                ];
+            } else {
+                $alerta = [
+                    'alerta' => 'simples',
+                    'titulo' => 'Oops! Algo deu Errado!',
+                    'texto' => 'Falha ao salvar os dados no servidor, tente novamente mais tarde',
+                    'tipo' => 'error',
+                ];
+            }
+        } else {
             $alerta = [
-                'alerta' => 'sucesso',
-                'titulo' => 'Oficina',
-                'texto' => 'Dados cadastrados com sucesso!',
-                'tipo' => 'success',
-                'location' => SERVERURL.'eventos/evento_cadastro'
+                'alerta' => 'simples',
+                'titulo' => 'Oops! Algo deu Errado!',
+                'texto' => 'Falha ao salvar os dados no servidor, tente novamente mais tarde',
+                'tipo' => 'error',
             ];
         }
         /* /.cadastro */
@@ -83,6 +94,12 @@ class EventoController extends MainModel
                 'location' => SERVERURL
             ];
         }
+    }
+
+    public function recuperaEvento($id) {
+        $id = MainModel::decryption($id);
+        $evento = DbModel::getInfo('eventos', $id);
+        return $evento;
     }
 
     public function exibeDescricaoPublico() {

@@ -170,7 +170,6 @@ class MainModel extends DbModel
      * <p>Exibe um alerta da Tanair</p>
      * @param array $dados
      * <p>Um array que deve conter os seguintes índices:</p>
-     * </ul>
      *  <li>alerta - deve conter os valores: <strong>simples</strong>, <strong>sucesso</strong> ou
      * <strong>limpar</strong></li>
      *  <li>titulo - Texto que será usado como título do alerta</li>
@@ -227,8 +226,66 @@ class MainModel extends DbModel
         return $alerta;
     }
 
-    protected function atualizaRelacionamento($dadosRelacionamento) {
-        $sqlConsultaRelacionamento = "SELECT * FROM {$dadosRelacionamento['tabela']} WHERE {$dadosRelacionamento['entidadeForte']} = '{$dadosRelacionamento['idEntidadeForte']}'";
-        $consultaRelacionamento = DbModel::consultaSimples($sqlConsultaRelacionamento);
+    /**
+     * Verifica a tabela de relacionamento passada e atualiza conforme os dados informados
+     * @param string $tabela <p>Nome da tabela de relacionamento</p>
+     * @param string $entidadeForte <p>Nome da coluna que representa a entidade forte <i>(tabela principal)</i></p>
+     * @param int $idEntidadeForte <p>ID da entidade forte</p>
+     * @param string $entidadeFraca <p>Nome da coluna que representa a entidade fraca <i>(tabela auxiliar)</i></p>
+     * @param array $idsEntidadeFraca <p>Array com os IDs da entidade fraca</p>
+     * @return bool
+     */
+    protected function atualizaRelacionamento($tabela, $entidadeForte, $idEntidadeForte, $entidadeFraca, $idsEntidadeFraca) {
+        /* Consulta a tabela de relacionamento
+        para verificar se existe algum registro
+        para a entidade forte informada */
+        $sqlConsultaRelacionamento = "SELECT $entidadeFraca FROM $tabela WHERE $entidadeForte = '$idEntidadeForte'";
+        $relacionamento = DbModel::consultaSimples($sqlConsultaRelacionamento);
+
+        /* Se não existe nenhum registro,apenas insere um para cada id de entidade fraca */
+        if ($relacionamento->rowCount() == 0) {
+            foreach ($idsEntidadeFraca as $checkbox) {
+                $dadosInsert = [
+                    $entidadeForte => $idEntidadeForte,
+                    $entidadeFraca => $checkbox
+                ];
+                $insert = DbModel::insert($tabela, $dadosInsert);
+                if ($insert->rowCount() == 0) {
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            /* Se existe registros, primeiro, verifica se
+            na tabela existe algum que não tenha sido
+            passado nos IDs da entidade fraca.
+            Cada registro que não possui ID passado é excluído */
+            foreach ($relacionamento->fetchAll() as $item) {
+                if (!in_array($item, $idsEntidadeFraca)) {
+                    $delete = DbModel::consultaSimples("DELETE FROM $tabela WHERE $entidadeForte = '$idEntidadeForte' AND $entidadeFraca = $item");
+                    if ($delete->rowCount() == 0) {
+                        return false;
+                    }
+                }
+            }
+
+            /* Após excluir os registros que não possuem ID passado,
+            verifica se dos IDs informados, existe algum que não
+            tenha registro. Caso sim, insere um novo */
+            foreach ($idsEntidadeFraca as $checkbox) {
+                if (!in_array($checkbox, $relacionamento->fetchAll())) {
+                    $dadosInsert = [
+                        $entidadeForte => $idEntidadeForte,
+                        $entidadeFraca => $checkbox
+                    ];
+                    $insertNovo = DbModel::insert($tabela, $dadosInsert);
+                    if ($insertNovo->rowCount() == 0) {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
     }
 }

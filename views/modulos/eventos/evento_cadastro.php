@@ -1,7 +1,11 @@
 <?php
+    $tipoContratacao = $_SESSION['tipoContratacao_c'];
+
+    $id = isset($_GET['key']) ? $_GET['key'] : null;
     require_once "./controllers/EventoController.php";
     $eventoObj = new EventoController();
-    $tipoContratacao = $_SESSION['tipoContratacao_c']
+    $evento = $eventoObj->recuperaEvento($id)->fetch();
+    
 ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -46,6 +50,7 @@
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label>Espaço em que será realizado o evento é público?</label>
+                                    <br>
                                     <div class="form-check-inline">
                                         <input name="espaco_publico" class="form-check-input" type="radio" value="1">
                                         <label class="form-check-label">Sim</label>
