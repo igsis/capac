@@ -14,6 +14,7 @@ class EventoController extends MainModel
 
     public function insereEvento($post){
         /* executa limpeza nos campos */
+        session_start(['name' => 'cpc']);
         $dadosEvento = [];
         unset($post['_method']);
         foreach ($post as $campo => $valor) {
@@ -30,7 +31,7 @@ class EventoController extends MainModel
         $insere = DbModel::insert('eventos', $dadosEvento);
         if ($insere->rowCount() >= 1) {
             $evento_id = DbModel::connection()->lastInsertId();
-            $atualizaRelacionamento = MainModel::atualizaRelacionamento('evento_publico', 'evento_id', $evento_id, 'fomento_id', $post['publico']);
+            $atualizaRelacionamento = MainModel::atualizaRelacionamento('evento_publico', 'evento_id', $evento_id, 'fomento_id', $post['publicos']);
 
             if ($atualizaRelacionamento) {
                 $alerta = [

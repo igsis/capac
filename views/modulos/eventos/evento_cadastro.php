@@ -5,7 +5,10 @@
     require_once "./controllers/EventoController.php";
     $eventoObj = new EventoController();
     $evento = $eventoObj->recuperaEvento($id)->fetch();
-    
+    if ($evento) {
+        $tipoContratacao = $evento['contratacao'];
+    }
+
 ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -37,14 +40,13 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-<!--                    <form class="form-horizontal" method="POST" action="--><?//=SERVERURL?><!--ajax/eventoAjax.php" role="form">-->
-                    <form class="form-horizontal" method="POST" role="form">
-                        <input type="hidden" name="_method" value="cadastrarEvento">
+                    <form class="form-horizontal" method="POST" action="<?=SERVERURL?>ajax/eventoAjax.php" role="form">
+                        <input type="hidden" name="_method" value="<?= ($id) ? "editarEvento" : "cadastrarEvento" ?>">
                         <input type="hidden" name="contratacao" value="<?=$tipoContratacao?>">
                         <div class="card-body">
                             <div class="form-group row">
                                 <label for="nome_evento">Nome do Evento *</label>
-                                <input type="text" class="form-control" id="nome_evento" name="nome_evento" placeholder="Digite o nome do Evento" maxlength="240" required>
+                                <input type="text" class="form-control" id="nome_evento" name="nome_evento" placeholder="Digite o nome do Evento" maxlength="240" value="<?=$evento['nome_evento']?>" required>
                             </div>
 
                             <div class="row">
@@ -52,11 +54,11 @@
                                     <label>Espaço em que será realizado o evento é público?</label>
                                     <br>
                                     <div class="form-check-inline">
-                                        <input name="espaco_publico" class="form-check-input" type="radio" value="1">
+                                        <input name="espaco_publico" class="form-check-input" type="radio" value="1" <?=$evento['espaco_publico'] == 1 ? "checked" : ""?>>
                                         <label class="form-check-label">Sim</label>
                                     </div>
                                     <div class="form-check-inline">
-                                        <input name="espaco_publico" class="form-check-input" type="radio" value="0" checked>
+                                        <input name="espaco_publico" class="form-check-input" type="radio" value="0"<?=($evento['espaco_publico'] == 0 || $evento == false) ? "checked" : ""?>>
                                         <label class="form-check-label">Não</label>
                                     </div>
                                 </div>
@@ -65,11 +67,11 @@
                                     <label for="fomento">É fomento/programa?</label>
                                     <br>
                                     <div class="form-check-inline">
-                                        <input name="fomento" class="form-check-input" type="radio" value="1">
+                                        <input name="fomento" class="form-check-input" type="radio" value="1" <?=$evento['fomento'] == 1 ? "checked" : ""?>>
                                         <label class="form-check-label">Sim</label>
                                     </div>
                                     <div class="form-check-inline">
-                                        <input name="fomento" class="form-check-input" type="radio" value="0" checked>
+                                        <input name="fomento" class="form-check-input" type="radio" value="0" <?=($evento['fomento'] == 0 || $evento == false) ? "checked" : ""?>>
                                         <label class="form-check-label">Não</label>
                                     </div>
                                 </div>
@@ -78,6 +80,7 @@
                                     <label for="tipoFomento">Fomento/Programa</label> <br>
                                     <select class="form-control" name="fomento_id" id="tipoFomento">
                                         <option value="">Selecione uma opção...</option>
+                                        <!-- TODO: Preciso de uma função pra puxar os relacionados -->
                                         <?php $eventoObj->geraOpcao('fomentos'); ?>
                                     </select>
                                 </div>
@@ -94,6 +97,7 @@
                                             <span style="color: red;">Selecione ao menos uma representatividade!</span>
                                         </div>
                                     </div>
+                                    <!-- TODO: Preciso de uma função pra puxar os relacionados -->
                                     <?php $eventoObj->geraCheckbox('publicos', 'evento_publico', true); ?>
                                 </div>
                             </div>
@@ -103,7 +107,7 @@
                                 <i>Esse campo deve conter uma breve descrição do que será apresentado no evento.</i>
                                 <p align="justify"><span style="color: gray; "><strong><i>Texto de exemplo:</strong><br/>Ana Cañas faz o show de lançamento do seu quarto disco, “Tô na Vida” (Som Livre/Guela Records). Produzido por Lúcio Maia (Nação Zumbi) em parceria com Ana e mixado por Mario Caldato Jr, é o primeiro disco totalmente autoral da carreira da cantora e traz parcerias com Arnaldo Antunes e Dadi entre outros.</span></i>
                                 </p>
-                                <textarea name="sinopse" id="sinopse" class="form-control" rows="5" required></textarea>
+                                <textarea name="sinopse" id="sinopse" class="form-control" rows="5" required><?=$evento['sinopse']?></textarea>
                             </div>
                         </div>
                         <!-- /.card-body -->
