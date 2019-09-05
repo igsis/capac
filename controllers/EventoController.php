@@ -32,16 +32,38 @@ class EventoController extends EventoModel
         if ($insere->rowCount() >= 1) {
             $evento_id = DbModel::connection()->lastInsertId();
             $atualizaRelacionamentoPublicos = MainModel::atualizaRelacionamento('evento_publico', 'evento_id', $evento_id, 'publico_id', $post['publicos']);
-            $atualizaRelacionamentoFomento = MainModel::atualizaRelacionamento('evento_fomento', 'evento_id', $evento_id, 'fomento_id', $post['fomento']);
+            if ($dadosEvento['fomento'] == 1) {
+                $atualizaRelacionamentoFomento = MainModel::atualizaRelacionamento('evento_fomento', 'evento_id', $evento_id, 'fomento_id', $post['fomento']);
+            }
 
-            if ($atualizaRelacionamento) {
-                $alerta = [
-                    'alerta' => 'sucesso',
-                    'titulo' => 'Evento Cadastrado!',
-                    'texto' => 'Dados cadastrados com sucesso!',
-                    'tipo' => 'success',
-                    'location' => SERVERURL . 'eventos/evento_cadastro&key='.MainModel::encryption($evento_id)
-                ];
+            if ($atualizaRelacionamentoPublicos) {
+                if ($dadosEvento['fomento'] == 1) {
+                    $atualizaRelacionamentoFomento = MainModel::atualizaRelacionamento('evento_fomento', 'evento_id', $evento_id, 'fomento_id', $post['fomento']);
+                    if ($atualizaRelacionamentoFomento) {
+                        $alerta = [
+                            'alerta' => 'sucesso',
+                            'titulo' => 'Evento Cadastrado!',
+                            'texto' => 'Dados cadastrados com sucesso!',
+                            'tipo' => 'success',
+                            'location' => SERVERURL . 'eventos/evento_cadastro&key=' . MainModel::encryption($evento_id)
+                        ];
+                    } else {
+                        $alerta = [
+                            'alerta' => 'simples',
+                            'titulo' => 'Oops! Algo deu Errado!',
+                            'texto' => 'Falha ao salvar os dados no servidor, tente novamente mais tarde',
+                            'tipo' => 'error',
+                        ];
+                    }
+                } else {
+                    $alerta = [
+                        'alerta' => 'sucesso',
+                        'titulo' => 'Evento Cadastrado!',
+                        'texto' => 'Dados cadastrados com sucesso!',
+                        'tipo' => 'success',
+                        'location' => SERVERURL . 'eventos/evento_cadastro&key=' . MainModel::encryption($evento_id)
+                    ];
+                }
             } else {
                 $alerta = [
                     'alerta' => 'simples',
