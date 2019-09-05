@@ -32,13 +32,10 @@ class EventoController extends EventoModel
         if ($insere->rowCount() >= 1) {
             $evento_id = DbModel::connection()->lastInsertId();
             $atualizaRelacionamentoPublicos = MainModel::atualizaRelacionamento('evento_publico', 'evento_id', $evento_id, 'publico_id', $post['publicos']);
-            if ($dadosEvento['fomento'] == 1) {
-                $atualizaRelacionamentoFomento = MainModel::atualizaRelacionamento('evento_fomento', 'evento_id', $evento_id, 'fomento_id', $post['fomento']);
-            }
 
             if ($atualizaRelacionamentoPublicos) {
                 if ($dadosEvento['fomento'] == 1) {
-                    $atualizaRelacionamentoFomento = MainModel::atualizaRelacionamento('evento_fomento', 'evento_id', $evento_id, 'fomento_id', $post['fomento']);
+                    $atualizaRelacionamentoFomento = MainModel::atualizaRelacionamento('evento_fomento', 'evento_id', $evento_id, 'fomento_id', $post['fomento_id']);
                     if ($atualizaRelacionamentoFomento) {
                         $alerta = [
                             'alerta' => 'sucesso',

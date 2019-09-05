@@ -15,7 +15,8 @@ class EventoModel extends MainModel
         $statement = $pdo->prepare($sql);
         $statement->bindParam(':eventoId', $id);
         $statement->execute();
-        return $statement->fetchAll(PDO::FETCH_COLUMN);
+        $fomento = $statement->fetch();
+        return $fomento['fomento_id'];
     }
 
     protected function recuperaEventoPublico($id) {
@@ -32,8 +33,8 @@ class EventoModel extends MainModel
     protected function getEvento($id) {
         $evento = DbModel::getInfo('eventos', $id)->fetchObject();
         if ($evento) {
-            $evento->fomentos = $this->recuperaEventoFomento($id);
-            $evento->publicos = $this->recuperaEventoPublico($id);
+            $evento->fomento_id = $this->recuperaEventoFomento($id);
+            $evento->publicos = (object) $this->recuperaEventoPublico($id);
         }
         return $evento;
     }

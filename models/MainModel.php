@@ -232,7 +232,7 @@ class MainModel extends DbModel
      * @param string $entidadeForte <p>Nome da coluna que representa a entidade forte <i>(tabela principal)</i></p>
      * @param int $idEntidadeForte <p>ID da entidade forte</p>
      * @param string $entidadeFraca <p>Nome da coluna que representa a entidade fraca <i>(tabela auxiliar)</i></p>
-     * @param array $idsEntidadeFraca <p>Array com os IDs da entidade fraca</p>
+     * @param int|array $idsEntidadeFraca <p>Array com os IDs da entidade fraca</p>
      * @return bool
      */
     protected function atualizaRelacionamento($tabela, $entidadeForte, $idEntidadeForte, $entidadeFraca, $idsEntidadeFraca) {
@@ -244,10 +244,21 @@ class MainModel extends DbModel
 
         /* Se não existe nenhum registro,apenas insere um para cada id de entidade fraca */
         if ($relacionamento->rowCount() == 0) {
-            foreach ($idsEntidadeFraca as $checkbox) {
+            if (is_array($idsEntidadeFraca)) {
+                foreach ($idsEntidadeFraca as $checkbox) {
+                    $dadosInsert = [
+                        $entidadeForte => $idEntidadeForte,
+                        $entidadeFraca => $checkbox
+                    ];
+                    $insert = DbModel::insert($tabela, $dadosInsert);
+                    if ($insert->rowCount() == 0) {
+                        return false;
+                    }
+                }
+            } else {
                 $dadosInsert = [
                     $entidadeForte => $idEntidadeForte,
-                    $entidadeFraca => $checkbox
+                    $entidadeFraca => $idsEntidadeFraca
                 ];
                 $insert = DbModel::insert($tabela, $dadosInsert);
                 if ($insert->rowCount() == 0) {
