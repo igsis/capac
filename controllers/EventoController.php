@@ -1,11 +1,11 @@
 <?php
 if ($pedidoAjax) {
-    require_once "../models/MainModel.php";
+    require_once "../models/EventoModel.php";
 } else {
-    require_once "./models/MainModel.php";
+    require_once "./models/EventoModel.php";
 }
 
-class EventoController extends MainModel
+class EventoController extends EventoModel
 {
     public function listaEvento($usuario_id){
         $consultaEvento = DbModel::consultaSimples("SELECT * FROM eventos AS e INNER JOIN atracoes a on e.id = a.evento_id WHERE e.publicado = 1 AND a.publicado AND a.oficina = 1 AND usuario_id = '$usuario_id'");
@@ -31,7 +31,8 @@ class EventoController extends MainModel
         $insere = DbModel::insert('eventos', $dadosEvento);
         if ($insere->rowCount() >= 1) {
             $evento_id = DbModel::connection()->lastInsertId();
-            $atualizaRelacionamento = MainModel::atualizaRelacionamento('evento_publico', 'evento_id', $evento_id, 'fomento_id', $post['publicos']);
+            $atualizaRelacionamentoPublicos = MainModel::atualizaRelacionamento('evento_publico', 'evento_id', $evento_id, 'publico_id', $post['publicos']);
+            $atualizaRelacionamentoFomento = MainModel::atualizaRelacionamento('evento_fomento', 'evento_id', $evento_id, 'fomento_id', $post['fomento']);
 
             if ($atualizaRelacionamento) {
                 $alerta = [
@@ -99,7 +100,7 @@ class EventoController extends MainModel
 
     public function recuperaEvento($id) {
         $id = MainModel::decryption($id);
-        $evento = DbModel::getInfo('eventos', $id);
+        $evento = EventoModel::getEvento($id);
         return $evento;
     }
 

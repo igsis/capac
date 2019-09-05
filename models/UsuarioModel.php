@@ -1,8 +1,8 @@
 <?php
 if ($pedidoAjax) {
-    require_once "../models/DbModel.php";
+    require_once "../models/MainModel.php";
 } else {
-    require_once "./models/DbModel.php";
+    require_once "./models/MainModel.php";
 }
 
 class UsuarioModel extends MainModel

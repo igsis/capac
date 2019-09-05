@@ -1,9 +1,7 @@
 <?php
 if ($pedidoAjax) {
-    require_once "../models/MainModel.php";
     require_once "../config/configAPP.php";
 } else {
-    require_once "./models/MainModel.php";
     require_once "./config/configAPP.php";
 }
 
