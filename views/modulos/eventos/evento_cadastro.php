@@ -67,11 +67,11 @@
                                     <label for="fomento">É fomento/programa?</label>
                                     <br>
                                     <div class="form-check-inline">
-                                        <input name="fomento" class="form-check-input" type="radio" value="1" <?=$evento ? ($evento->fomento == 1 ? "checked" : "") : ""?>>
+                                        <input name="fomento" class="form-check-input fomento" type="radio" value="1" id="sim" <?=$evento ? ($evento->fomento == 1 ? "checked" : "") : ""?>>
                                         <label class="form-check-label">Sim</label>
                                     </div>
                                     <div class="form-check-inline">
-                                        <input name="fomento" class="form-check-input" type="radio" value="0" <?=$evento ? ($evento->fomento == 0 ? "checked" : "") : "checked"?>>
+                                        <input name="fomento" class="form-check-input fomento" type="radio" value="0" <?=$evento ? ($evento->fomento == 0 ? "checked" : "") : "checked"?>>
                                         <label class="form-check-label">Não</label>
                                     </div>
                                 </div>
@@ -80,7 +80,6 @@
                                     <label for="tipoFomento">Fomento/Programa</label> <br>
                                     <select class="form-control" name="fomento_id" id="tipoFomento">
                                         <option value="">Selecione uma opção...</option>
-                                        <!-- TODO: Preciso de uma função pra puxar os relacionados -->
                                         <?php $eventoObj->geraOpcao('fomentos', $evento->fomento_id ?? ""); ?>
                                     </select>
                                 </div>
@@ -111,7 +110,7 @@
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-info float-right">Gravar</button>
+                            <button type="submit" class="btn btn-info float-right" id="cadastra">Gravar</button>
                             <button type="submit" class="btn btn-default">Cancel</button>
                         </div>
                         <!-- /.card-footer -->
@@ -159,8 +158,6 @@
 <!-- /.content -->
 
 <!-- /modal -->
-
-
 
 <script>
     let fomento = $('.fomento');
@@ -214,10 +211,7 @@
     fomento.on("change", verificaFomento);
     oficinaRadio.on("change", verificaOficina);
 
-    $(document).ready(
-        verificaFomento(),
-        verificaOficina()
-    );
+
 
     function verificaFomento() {
         if ($('#sim').is(':checked')) {
@@ -230,9 +224,11 @@
                 .attr('required', false)
         }
     }
-</script>
 
-<script>
+    $(document).ready(
+        verificaFomento(),
+        verificaOficina()
+    );
 
     function publicoValidacao() {
         var isMsg = $('#msgEsconde');
@@ -240,7 +236,7 @@
 
         var i = 0;
         var counter = 0;
-        var publico = $('.publico');
+        var publico = $('.publicos');
 
         for (; i < publico.length; i++) {
             if (publico[i].checked) {
@@ -261,5 +257,5 @@
 
     $(document).ready(publicoValidacao);
 
-    $('.publico').on("change", publicoValidacao);
+    $('.publicos').on("change", publicoValidacao);
 </script>

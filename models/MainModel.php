@@ -158,7 +158,7 @@ class MainModel extends DbModel
             ?>
                 <div class='checkbox-grid-2'>
                     <div class='form-check'>
-                        <input class='form-check-input' type='checkbox' name='<?=$tabela?>[]' value='<?=$checkbox[0]?>' <?=self::in_array_r($checkbox[0], $relacionamentos) ? "checked" : ""?>>
+                        <input class='form-check-input <?=$tabela?>' type='checkbox' name='<?=$tabela?>[]' value='<?=$checkbox[0]?>' <?=self::in_array_r($checkbox[0], $relacionamentos) ? "checked" : ""?>>
                         <label class='form-check-label'><?=$checkbox[1]?></label>
                     </div>
                 </div>
