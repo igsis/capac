@@ -157,9 +157,14 @@ class MainModel extends DbModel
 
         // Parte do relacionamento
         $sqlConsultaRelacionamento = "SELECT * FROM $tabelaRelacionamento WHERE evento_id = '$idEvento'";
-        $relacionamentos = DbModel::consultaSimples($sqlConsultaRelacionamento)->fetchAll();
+        $relacionamentos = DbModel::consultaSimples($sqlConsultaRelacionamento)->fetchAll(PDO::FETCH_ASSOC);
 
-        foreach ($consulta->fetchAll() as $checkbox) {
+        foreach ($consulta->fetchAll(PDO::FETCH_NUM) as $checkbox) {
+            foreach ($relacionamentos as $key => $item) {
+                if (isset($item['evento_id'])) {
+                    unset($relacionamentos[$key]['evento_id']);
+                }
+            }
             ?>
                 <div class='checkbox-grid-2'>
                     <div class='form-check'>
@@ -273,30 +278,48 @@ class MainModel extends DbModel
             }
             return true;
         } else {
+            $relacionamentos = $relacionamento->fetchAll(PDO::FETCH_COLUMN);
             /* Se existe registros, primeiro, verifica se
             na tabela existe algum que não tenha sido
             passado nos IDs da entidade fraca.
             Cada registro que não possui ID passado é excluído */
-            foreach ($relacionamento->fetchAll() as $item) {
-                if (!in_array($item, $idsEntidadeFraca)) {
-                    $delete = DbModel::consultaSimples("DELETE FROM $tabela WHERE $entidadeForte = '$idEntidadeForte' AND $entidadeFraca = $item");
+            if (is_array($idsEntidadeFraca)) {
+                foreach ($relacionamentos as $item) {
+                    if (!in_array($item, $idsEntidadeFraca)) {
+                        $delete = DbModel::consultaSimples("DELETE FROM $tabela WHERE $entidadeForte = '$idEntidadeForte' AND $entidadeFraca = $item");
+                        if ($delete->rowCount() == 0) {
+                            return false;
+                        }
+                    }
+                }
+
+                /* Após excluir os registros que não possuem ID passado,
+                verifica se dos IDs informados, existe algum que não
+                tenha registro. Caso sim, insere um novo */
+                foreach ($idsEntidadeFraca as $checkbox) {
+                    if (!in_array($checkbox, $relacionamentos)) {
+                        $dadosInsert = [
+                            $entidadeForte => $idEntidadeForte,
+                            $entidadeFraca => $checkbox
+                        ];
+                        $insertNovo = DbModel::insert($tabela, $dadosInsert);
+                        if ($insertNovo->rowCount() == 0) {
+                            return false;
+                        }
+                    }
+                }
+            } else {
+                if (!in_array($idsEntidadeFraca, $relacionamentos)) {
+                    $delete = DbModel::consultaSimples("DELETE FROM $tabela WHERE $entidadeForte = '$idEntidadeForte'");
                     if ($delete->rowCount() == 0) {
                         return false;
                     }
-                }
-            }
-
-            /* Após excluir os registros que não possuem ID passado,
-            verifica se dos IDs informados, existe algum que não
-            tenha registro. Caso sim, insere um novo */
-            foreach ($idsEntidadeFraca as $checkbox) {
-                if (!in_array($checkbox, $relacionamento->fetchAll())) {
                     $dadosInsert = [
                         $entidadeForte => $idEntidadeForte,
-                        $entidadeFraca => $checkbox
+                        $entidadeFraca => $idsEntidadeFraca
                     ];
-                    $insertNovo = DbModel::insert($tabela, $dadosInsert);
-                    if ($insertNovo->rowCount() == 0) {
+                    $insert = DbModel::insert($tabela, $dadosInsert);
+                    if ($insert->rowCount() == 0) {
                         return false;
                     }
                 }

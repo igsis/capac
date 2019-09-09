@@ -42,7 +42,10 @@
                     <!-- form start -->
                     <form class="form-horizontal formulario-ajax" method="POST" action="<?=SERVERURL?>ajax/eventoAjax.php" role="form" data-form="<?= ($id) ? "update" : "save" ?>">
                         <input type="hidden" name="_method" value="<?= ($id) ? "editarEvento" : "cadastrarEvento" ?>">
-                        <input type="hidden" name="contratacao" value="<?=$tipoContratacao?>">
+                        <input type="hidden" name="tipo_contratacao_id" value="<?=$tipoContratacao?>">
+                        <?php if ($id): ?>
+                            <input type="hidden" name="id" value="<?=$evento->id?>">
+                        <?php endif; ?>
                         <div class="card-body">
                             <div class="form-group row">
                                 <label for="nome_evento">Nome do Evento *</label>
@@ -96,7 +99,7 @@
                                             <span style="color: red;">Selecione ao menos uma representatividade!</span>
                                         </div>
                                     </div>
-                                    <?php $eventoObj->geraCheckbox('publicos', 'evento_publico', $evento->id ?? null); ?>
+                                    <?php $eventoObj->geraCheckbox('publicos', 'evento_publico', $evento->id ?? null, true); ?>
                                 </div>
                             </div>
 
@@ -161,57 +164,8 @@
 
 <script>
     let fomento = $('.fomento');
-    let acao = $("input[name='acao[]']");
-    const oficinaId = "Oficinas e Formação Cultural";
-    let oficinaRadio = $("input[name='oficina']");
-    var oficinaOficial = acao[8];
-
-    function verificaOficina() {
-        if ($('#simOficina').is(':checked')) {
-            checaCampos(oficinaOficial);
-        } else {
-            checaCampos("");
-        }
-    }
-
-    function checaCampos(obj) {
-        if (obj.id == oficinaId && obj.value == '8') {
-
-            for (i = 0; i < acao.size(); i++) {
-                if (!(acao[i] == obj)) {
-                    let acoes = acao[i].id;
-
-                    document.getElementById(acoes).disabled = true;
-                    document.getElementById(acoes).checked = false;
-                    document.getElementById(oficinaId).checked = true;
-                    document.getElementById(oficinaId).disabled = false;
-
-                    document.getElementById(oficinaId).readonly = true;
-
-                }
-            }
-        } else {
-            for (i = 0; i < acao.size(); i++) {
-
-                if (!(acao[i] == acao[8])) {
-                    let acoes = acao[i].id;
-
-                    document.getElementById(acoes).disabled = false;
-                    document.getElementById(acoes).checked = false;
-                    document.getElementById(oficinaId).checked = false;
-                    document.getElementById(oficinaId).disabled = true;
-
-                    document.getElementById(oficinaId).readonly = false;
-                }
-            }
-
-        }
-    }
 
     fomento.on("change", verificaFomento);
-    oficinaRadio.on("change", verificaOficina);
-
-
 
     function verificaFomento() {
         if ($('#sim').is(':checked')) {
@@ -227,7 +181,6 @@
 
     $(document).ready(
         verificaFomento(),
-        verificaOficina()
     );
 
     function publicoValidacao() {
