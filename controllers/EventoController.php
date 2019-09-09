@@ -8,8 +8,15 @@ if ($pedidoAjax) {
 class EventoController extends EventoModel
 {
     public function listaEvento($usuario_id){
-        $consultaEvento = DbModel::consultaSimples("SELECT * FROM eventos AS e INNER JOIN atracoes a on e.id = a.evento_id WHERE e.publicado = 1 AND a.publicado AND a.oficina = 1 AND usuario_id = '$usuario_id'");
-        return $consultaEvento->fetchAll();
+        $consultaEvento = DbModel::consultaSimples("SELECT * FROM eventos AS e INNER JOIN tipos_contratacoes tc on e.tipo_contratacao_id = tc.id WHERE e.publicado != 0 AND usuario_id = '$usuario_id'");
+        $eventos = $consultaEvento->fetchAll(PDO::FETCH_OBJ);
+        return $eventos;
+    }
+
+    public function recuperaEvento($id) {
+        $id = MainModel::decryption($id);
+        $evento = EventoModel::getEvento($id);
+        return $evento;
     }
 
     public function insereEvento($post){
@@ -115,12 +122,6 @@ class EventoController extends EventoModel
                 'location' => SERVERURL
             ];
         }
-    }
-
-    public function recuperaEvento($id) {
-        $id = MainModel::decryption($id);
-        $evento = EventoModel::getEvento($id);
-        return $evento;
     }
 
     public function exibeDescricaoPublico() {

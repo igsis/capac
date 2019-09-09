@@ -42,6 +42,11 @@ class MainModel extends DbModel
         return $output;
     }
 
+    public function dataParaBR($data) {
+        $novaData = new DateTime($data);
+        return $novaData->format('d/m/Y');
+    }
+
     /**
      * <p>Decripta uma mensagem encriptada com a função "encryption"</p>
      * @param string $string
@@ -244,6 +249,7 @@ class MainModel extends DbModel
 
         /* Se não existe nenhum registro,apenas insere um para cada id de entidade fraca */
         if ($relacionamento->rowCount() == 0) {
+            /* Verifica se o ID da entidade fraca está em um array */
             if (is_array($idsEntidadeFraca)) {
                 foreach ($idsEntidadeFraca as $checkbox) {
                     $dadosInsert = [

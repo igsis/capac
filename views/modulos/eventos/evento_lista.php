@@ -1,7 +1,7 @@
 <?php
 require_once "./controllers/EventoController.php";
 
-$eventos = new EventoController();
+$eventoObj = new EventoController();
 ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -37,17 +37,26 @@ $eventos = new EventoController();
                                     <th>Nome do Evento</th>
                                     <th>Data cadastro</th>
                                     <th>Enviado</th>
+                                    <th>Tipo do Evento</th>
                                     <th>Ação</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($eventos -> listaEvento("1") as $evento): ?>
+                                <?php foreach ($eventoObj->listaEvento($_SESSION['idUsuario_c']) as $evento): ?>
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td><button class="btn">Abrir</button> </td>
+                                    <td><?=$evento->id?></td>
+                                    <td><?=$evento->nome_evento?></td>
+                                    <td><?=$eventoObj->dataParaBR($evento->data_cadastro)?></td>
+                                    <td><?=$evento->publicado == 1 ? "Não" : "Sim"?></td>
+                                    <td><?=$evento->tipo_contratacao?></td>
+                                    <td>
+                                        <?php if ($evento->publicado == 1): ?>
+                                            <a href="<?=SERVERURL."eventos/evento_cadastro&key=".$eventoObj->encryption($evento->id)?>">
+                                                <button class="btn btn-app"><i class="fas fa-edit"></i>Editar</button>
+                                            </a>
+                                            <button class="btn btn-app"><i class="fas fa-trash"></i>Apagar</button>
+                                        <?php endif; ?>
+                                    </td>
                                 </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -57,6 +66,7 @@ $eventos = new EventoController();
                                     <th>Nome do Evento</th>
                                     <th>Data cadastro</th>
                                     <th>Enviado</th>
+                                    <th>Tipo do Evento</th>
                                     <th>Ação</th>
                                 </tr>
                             </tfoot>

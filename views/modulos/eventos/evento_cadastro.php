@@ -6,7 +6,7 @@
     $eventoObj = new EventoController();
     $evento = $eventoObj->recuperaEvento($id);
     if ($evento) {
-        $tipoContratacao = $evento->contratacao;
+        $tipoContratacao = $evento->tipo_contratacao_id;
     }
 
 ?>
