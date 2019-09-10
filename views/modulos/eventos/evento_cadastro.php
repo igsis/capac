@@ -219,3 +219,9 @@
 
     $('.publicos').on("change", publicoValidacao);
 </script>
+<script type="application/javascript">
+    $(document).ready(function () {
+        $('.nav-link').removeClass('active');
+        $('#evento_cc_cadastro').addClass('active');
+    })
+</script>
