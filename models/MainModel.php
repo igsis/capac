@@ -144,25 +144,38 @@ class MainModel extends DbModel
     }
 
     /**
-     *
+     * <p>Transforma os registros de uma tabela em inputs tipo checkbox,
+     * ajustados em duas colunas</p>
      * @param string $tabela
+     * <p>Tabela para qual os registros deve ser os checkboxes.
+     * <strong>Importante:</strong> o valor desta variável será
+     * o valor do atributo <i>name</i> dos inputs</p>
      * @param string $tabelaRelacionamento
-     * @param null|int $idEvento [opcional]
+     * <p>Tabela de relacionamento onde deve procurar os valores
+     * já cadastrados para determinado Evento / Atração</p>
+     * @param string $colunaEntidadeForte
+     * <p>Nome da coluna que representa a <strong>entidade forte</strong> na tabela de relacionamento</p>
+     * @param null|int $idEntidadeForte [opcional]
+     * <p>ID da entidade forte. <b>NULL</b> por padrão, quando informado,
+     * busca os registros na tabela de relacionamento</p>
      * @param bool $publicado [opcional]
+     * <p><b>FALSE</b> por padrão. Quando <b>TRUE</b>,
+     * adiciona a clausula <i>"WHERE publicado = 1"
+     * na listagem dos registros do checkbox</i></p>
      */
-    public function geraCheckbox($tabela, $tabelaRelacionamento, $idEvento = null, $publicado = false) {
+    public function geraCheckbox($tabela, $tabelaRelacionamento, $colunaEntidadeForte, $idEntidadeForte = null, $publicado = false) {
         $publicado = $publicado ? "WHERE publicado = '1'" : "";
         $sql = "SELECT * FROM $tabela $publicado ORDER BY 2";
         $consulta = DbModel::consultaSimples($sql);
 
         // Parte do relacionamento
-        $sqlConsultaRelacionamento = "SELECT * FROM $tabelaRelacionamento WHERE evento_id = '$idEvento'";
+        $sqlConsultaRelacionamento = "SELECT * FROM $tabelaRelacionamento WHERE $colunaEntidadeForte = '$idEntidadeForte'";
         $relacionamentos = DbModel::consultaSimples($sqlConsultaRelacionamento)->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($consulta->fetchAll(PDO::FETCH_NUM) as $checkbox) {
             foreach ($relacionamentos as $key => $item) {
-                if (isset($item['evento_id'])) {
-                    unset($relacionamentos[$key]['evento_id']);
+                if (isset($item[$colunaEntidadeForte])) {
+                    unset($relacionamentos[$key][$colunaEntidadeForte]);
                 }
             }
             ?>
