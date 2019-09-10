@@ -1,5 +1,8 @@
 <?php
 require_once "./controllers/EventoController.php";
+if (isset($_SESSION['idEvento_c'])) {
+    unset($_SESSION['idEvento_c']);
+}
 
 $eventoObj = new EventoController();
 ?>

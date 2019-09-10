@@ -38,6 +38,7 @@ class EventoController extends EventoModel
         $insere = DbModel::insert('eventos', $dadosEvento);
         if ($insere->rowCount() >= 1) {
             $evento_id = DbModel::connection()->lastInsertId();
+            $_SESSION['idEvento_c'] = MainModel::encryption($evento_id);
             $atualizaRelacionamentoPublicos = MainModel::atualizaRelacionamento('evento_publico', 'evento_id', $evento_id, 'publico_id', $post['publicos']);
 
             if ($atualizaRelacionamentoPublicos) {
@@ -126,10 +127,11 @@ class EventoController extends EventoModel
                         ];
                     }
                 } else {
+                    DbModel::consultaSimples("DELETE FROM evento_fomento WHERE evento_id = '$evento_id'");
                     $alerta = [
                         'alerta' => 'sucesso',
-                        'titulo' => 'Evento Cadastrado!',
-                        'texto' => 'Dados cadastrados com sucesso!',
+                        'titulo' => 'Evento Atualizado!',
+                        'texto' => 'Dados atualizados com sucesso!',
                         'tipo' => 'success',
                         'location' => SERVERURL . 'eventos/evento_cadastro&key=' . MainModel::encryption($evento_id)
                     ];

@@ -1,7 +1,14 @@
 <?php
     $tipoContratacao = $_SESSION['tipoContratacao_c'];
 
-    $id = isset($_GET['key']) ? $_GET['key'] : null;
+    if (isset($_GET['key'])) {
+        $_SESSION['idEvento_c'] = $id = $_GET['key'];
+    } elseif (isset($_SESSION['idEvento_c'])) {
+        $id = $_SESSION['idEvento_c'];
+    } else {
+        $id = null;
+    }
+
     require_once "./controllers/EventoController.php";
     $eventoObj = new EventoController();
     $evento = $eventoObj->recuperaEvento($id);
@@ -99,7 +106,7 @@
                                             <span style="color: red;">Selecione ao menos uma representatividade!</span>
                                         </div>
                                     </div>
-                                    <?php $eventoObj->geraCheckbox('publicos', 'evento_publico', $evento->id ?? null, true); ?>
+                                    <?php $eventoObj->geraCheckbox('publicos', 'evento_publico', 'evento_id',$evento->id ?? null, true); ?>
                                 </div>
                             </div>
 

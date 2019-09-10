@@ -10,7 +10,7 @@
         <p>Eventos</p>
     </a>
 </li>
-<?php //if (isset($_SESSION['idEvento_c'])): ?>
+<?php if (isset($_SESSION['idEvento_c'])): ?>
     <li class="nav-item">
         <a href="<?= SERVERURL ?>eventos/evento_cadastro" class="nav-link">
             <i class="far fa-circle nav-icon"></i>
@@ -23,4 +23,4 @@
             <p>Dados da Atração</p>
         </a>
     </li>
-<?php //endif; ?>
+<?php endif; ?>
