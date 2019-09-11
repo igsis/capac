@@ -7,8 +7,9 @@ if ($pedidoAjax) {
 
 class AtracaoController extends AtracaoModel
 {
-    public function listaEvento($usuario_id){
-        $consultaEvento = DbModel::consultaSimples("SELECT * FROM eventos AS e INNER JOIN tipos_contratacoes tc on e.tipo_contratacao_id = tc.id WHERE e.publicado != 0 AND usuario_id = '$usuario_id'");
+    public function listaAtracoes($evento_id){
+        $evento_id = MainModel::decryption($evento_id);
+        $consultaEvento = DbModel::consultaSimples("SELECT * FROM atracoes AS a WHERE a.publicado = 1 AND a.evento_id = '$evento_id'");
         $eventos = $consultaEvento->fetchAll(PDO::FETCH_OBJ);
         return $eventos;
     }
@@ -37,6 +38,7 @@ class AtracaoController extends AtracaoModel
         $insere = DbModel::insert('atracoes', $dadosAtracao);
         if ($insere->rowCount() >= 1) {
             $atracao_id = DbModel::connection()->lastInsertId();
+            $_SESSION['idAtracao_c'] = MainModel::encryption($atracao_id);
             $atualizaRelacionamentoAcoes = MainModel::atualizaRelacionamento('acao_atracao', 'atracao_id', $atracao_id, 'acao_id', $post['acoes']);
 
             if ($atualizaRelacionamentoAcoes) {
@@ -67,53 +69,32 @@ class AtracaoController extends AtracaoModel
         return MainModel::sweetAlert($alerta);
     }
 
-    public function editaAtracao($post,$evento_id){
+    public function editaAtracao($post,$atracao_id){
         /* executa limpeza nos campos */
         session_start(['name' => 'cpc']);
-        $dadosEvento = [];
+        $dadosAtracao = [];
         unset($post['_method']);
         unset($post['id']);
         foreach ($post as $campo => $valor) {
-            if (($campo != "publicos") && ($campo != "fomento_id")) {
-                $dadosEvento[$campo] = MainModel::limparString($valor);
+            if ($campo != "acoes") {
+                $dadosAtracao[$campo] = MainModel::limparString($valor);
                 unset($post[$campo]);
             }
         }
         /* /.limpeza */
 
         // edição
-        $edita = DbModel::update("eventos",$dadosEvento,$evento_id);
+        $edita = DbModel::update("atracoes",$dadosAtracao,$atracao_id);
         if ($edita->rowCount() >= 1 || DbModel::connection()->errorCode() == 0) {
-            $atualizaRelacionamentoPublicos = MainModel::atualizaRelacionamento('evento_publico', 'evento_id', $evento_id, 'publico_id', $post['publicos']);
+            $atualizaRelacionamentoPublicos = MainModel::atualizaRelacionamento('acao_atracao', 'atracao_id', $atracao_id, 'acao_id', $post['acoes']);
             if ($atualizaRelacionamentoPublicos) {
-                if ($dadosEvento['fomento'] == 1) {
-                    $atualizaRelacionamentoFomento = MainModel::atualizaRelacionamento('evento_fomento', 'evento_id', $evento_id, 'fomento_id', $post['fomento_id']);
-                    if ($atualizaRelacionamentoFomento) {
-                        $alerta = [
-                            'alerta' => 'sucesso',
-                            'titulo' => 'Evento Atualizado!',
-                            'texto' => 'Dados atualizados com sucesso!',
-                            'tipo' => 'success',
-                            'location' => SERVERURL . 'eventos/evento_cadastro&key=' . MainModel::encryption($evento_id)
-                        ];
-                    } else {
-                        $alerta = [
-                            'alerta' => 'simples',
-                            'titulo' => 'Oops! Algo deu Errado!',
-                            'texto' => 'Falha ao salvar os dados no servidor, tente novamente mais tarde',
-                            'tipo' => 'error',
-                        ];
-                    }
-                } else {
-                    DbModel::consultaSimples("DELETE FROM evento_fomento WHERE evento_id = '$evento_id'");
-                    $alerta = [
-                        'alerta' => 'sucesso',
-                        'titulo' => 'Evento Atualizado!',
-                        'texto' => 'Dados atualizados com sucesso!',
-                        'tipo' => 'success',
-                        'location' => SERVERURL . 'eventos/evento_cadastro&key=' . MainModel::encryption($evento_id)
-                    ];
-                }
+                $alerta = [
+                    'alerta' => 'sucesso',
+                    'titulo' => 'Atração Atualizada!',
+                    'texto' => 'Dados atualizados com sucesso!',
+                    'tipo' => 'success',
+                    'location' => SERVERURL . 'eventos/atracao_cadastro&key=' . MainModel::encryption($atracao_id)
+                ];
             } else {
                 $alerta = [
                     'alerta' => 'simples',

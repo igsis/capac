@@ -2,7 +2,9 @@
     $evento_id = $_SESSION['idEvento_c'];
 
     if (isset($_GET['key'])) {
-        $id = $_GET['key'];
+        $_SESSION['idAtracao_c'] = $id = $_GET['key'];
+    } elseif (isset($_SESSION['idAtracao_c'])) {
+        $id = $_SESSION['idAtracao_c'];
     } else {
         $id = null;
     }

@@ -31,6 +31,7 @@ class ViewsModel
             'inicio',
             'evento_cadastro',
             'atracao_cadastro',
+            'atracao_lista',
             'produtor_cadastro',
             'arquivos_com_prod',
             'pf_cadastro',
