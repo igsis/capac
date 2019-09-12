@@ -6,12 +6,10 @@ if (isset($_POST['_method'])) {
     require_once "../controllers/ProdutorController.php";
     $insProdutor = new ProdutorController();
 
-    if (isset($_POST['nome']) && (isset($_POST['email']))) {
-        if ($_POST['_method'] == "cadastrar") {
-            echo $insProdutor->insereProdutor($_POST);
-        } elseif ($_POST['_method'] == "editar") {
-            echo $insProdutor->editaProdutor($_POST, $_POST['id']);
-        }
+    if ($_POST['_method'] == "cadastrarProdutor") {
+        echo $insProdutor->insereProdutor($_POST, $_POST['tabela_referencia'], $_POST['atracao_referencia_id']);
+    } elseif ($_POST['_method'] == "editarProdutor") {
+        echo $insProdutor->editaProdutor($_POST, $_POST['produtor_id']);
     }
 } else {
     session_start(['name' => 'cpc']);

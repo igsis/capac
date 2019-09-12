@@ -1,8 +1,10 @@
 <?php
 if ($pedidoAjax) {
     require_once "../models/AtracaoModel.php";
+    require_once "../controllers/ProdutorController.php";
 } else {
     require_once "./models/AtracaoModel.php";
+    require_once "./controllers/ProdutorController.php";
 }
 
 class AtracaoController extends AtracaoModel
@@ -10,8 +12,12 @@ class AtracaoController extends AtracaoModel
     public function listaAtracoes($evento_id){
         $evento_id = MainModel::decryption($evento_id);
         $consultaEvento = DbModel::consultaSimples("SELECT * FROM atracoes AS a WHERE a.publicado = 1 AND a.evento_id = '$evento_id'");
-        $eventos = $consultaEvento->fetchAll(PDO::FETCH_OBJ);
-        return $eventos;
+        $atracoes = $consultaEvento->fetchAll(PDO::FETCH_OBJ);
+        foreach ($atracoes as $key => $atracao) {
+            $produtor_id = MainModel::encryption($atracao->produtor_id);
+            $atracoes[$key]->produtor = (new ProdutorController)->recuperaProdutor($produtor_id)->fetchObject();
+        }
+        return $atracoes;
     }
 
     public function recuperaAtracao($id) {

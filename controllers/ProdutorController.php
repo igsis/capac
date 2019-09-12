@@ -7,48 +7,73 @@ if ($pedidoAjax) {
 
 class ProdutorController extends MainModel
 {
-    public function insereProdutor($dados){
+    public function insereProdutor($post, $tabelaReferencia, $idAtracaoReferencia){
         /* executa limpeza nos campos */
+        $idAtracaoReferencia = MainModel::decryption($idAtracaoReferencia);
+        unset($post['_method']);
+        unset($post['tabela_referencia']);
+        unset($post['atracao_referencia_id']);
         $dados = [];
-        foreach ($_POST as $campo => $post) {
-            if (($campo != "cadastrar") && ($campo != "_method")) {
-                $dados[$campo] = MainModel::limparString($post);
+        foreach ($post as $campo => $valor) {
+            if ($campo != "pagina") {
+                $dados[$campo] = MainModel::limparString($valor);
             }
         }
         /* ./limpeza */
 
         /* cadastro */
         $insere = DbModel::insert('produtores', $dados);
-        if ($insere) {
-            $id = DbModel::connection()->lastInsertId();
+        if ($insere->rowCount() >= 1) {
+            $produtor_id = DbModel::connection()->lastInsertId();
+            $dadosUpdate = ["produtor_id" => $produtor_id];
+            $atracao = DbModel::update($tabelaReferencia, $dadosUpdate, $idAtracaoReferencia);
+            if ($atracao->rowCount() >= 1) {
+                $alerta = [
+                    'alerta' => 'sucesso',
+                    'titulo' => 'Produtor Cadastrado!',
+                    'texto' => 'Produtor cadastrado com sucesso!',
+                    'tipo' => 'success',
+                    'location' => SERVERURL . $post['pagina'].'/produtor_cadastro&key=' . MainModel::encryption($produtor_id)
+                ];
+            } else {
+                $alerta = [
+                    'alerta' => 'simples',
+                    'titulo' => 'Oops! Algo deu Errado!',
+                    'texto' => 'Falha ao salvar os dados no servidor, tente novamente mais tarde',
+                    'tipo' => 'error',
+                ];
+            }
+        } else {
             $alerta = [
-                'alerta' => 'sucesso',
-                'titulo' => 'Produtor',
-                'texto' => 'Produtor cadastrado com sucesso!',
-                'tipo' => 'success',
-                'location' => SERVERURL.'oficina/produtor_cadastro&id='.MainModel::encryption($id)
+                'alerta' => 'simples',
+                'titulo' => 'Oops! Algo deu Errado!',
+                'texto' => 'Falha ao salvar os dados no servidor, tente novamente mais tarde',
+                'tipo' => 'error',
             ];
-
         }
         /* ./cadastro */
         return MainModel::sweetAlert($alerta);
     }
 
     /* edita */
-    public function editaProdutor($dados, $id){
-        $idDecryp = MainModel::decryption($id);
-        unset($dados['editar']);
-        unset($dados['_method']);
-        unset($dados['id']);
-        $dados = MainModel::limpaPost($dados);
-        $edita = DbModel::update('produtores', $dados, $idDecryp);
-        if ($edita) {
+    public function editaProdutor($post, $produtor_id){
+        unset($post['_method']);
+        unset($post['produtor_id']);
+        $dados = [];
+        foreach ($post as $campo => $valor) {
+            if ($campo != "pagina") {
+                $dados[$campo] = MainModel::limparString($valor);
+            }
+        }
+
+        $edita = DbModel::update('produtores', $dados, $produtor_id);
+        if ($edita->rowCount() >= 1) {
             $alerta = [
                 'alerta' => 'sucesso',
-                'titulo' => 'Produtor',
+                'titulo' => 'Produtor Atualizado',
                 'texto' => 'Produtor editado com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL.'oficina/produtor_cadastro&id='.$id
+                'location' => SERVERURL.$post['pagina'].'/produtor_cadastro&key='.$id
             ];
         } else {
             $alerta = [

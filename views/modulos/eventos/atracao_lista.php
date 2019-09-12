@@ -16,7 +16,7 @@ $atracaoObj = new AtracaoController();
                 <h1 class="m-0 text-dark">Eventos</h1>
             </div><!-- /.col -->
             <div class="col-sm-3">
-                <a href="<?= SERVERURL ?>eventos/evento_cadastro"><button class="btn btn-success btn-block">Adicionar</button></a>
+                <a href="<?= SERVERURL ?>eventos/atracao_cadastro"><button class="btn btn-success btn-block">Adicionar</button></a>
             </div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
@@ -49,10 +49,17 @@ $atracaoObj = new AtracaoController();
                                     <td><?=$atracao->nome_atracao?></td>
                                     <td>
                                         <?php if (!$atracao->produtor_id): ?>
-                                            <a href="<?=SERVERURL."eventos/produtor_cadastro"?>">
-                                                <button class="btn btn-app"><i class="fas fa-plus"></i>Adicionar Produtor</button>
+                                            <form action="<?=SERVERURL."eventos/produtor_cadastro"?>" method="post">
+                                                <input type="hidden" name="atracao_id" value="<?=$atracaoObj->encryption($atracao->id)?>">
+                                                <button type="submit" class="btn btn-app"><i class="fas fa-plus"></i>Adicionar Produtor</button>
+                                            </form>
+                                        <?php else: ?>
+                                            <a href="<?=SERVERURL."eventos/produtor_cadastro&key=".$atracaoObj->encryption($atracao->produtor_id)?>">
+                                                <button class="btn btn-app"><i class="fas fa-edit"></i><?=$atracao->produtor->nome?></button>
                                             </a>
+                                            <button class="btn btn-app"><i class="fas fa-trash"></i>Remover</button>
                                         <?php endif; ?>
+
                                     </td>
                                     <td>
                                         <a href="<?=SERVERURL."eventos/atracao_cadastro&key=".$atracaoObj->encryption($atracao->id)?>">
