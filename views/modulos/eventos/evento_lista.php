@@ -1,7 +1,8 @@
 <?php
 require_once "./controllers/EventoController.php";
-if (isset($_SESSION['idEvento_c'])) {
-    unset($_SESSION['idEvento_c']);
+if (isset($_SESSION['evento_id_c'])) {
+    unset($_SESSION['evento_id_c']);
+    unset($_SESSION['atracao_id_c']);
 }
 
 $eventoObj = new EventoController();
@@ -39,19 +40,19 @@ $eventoObj = new EventoController();
                                     <th>Código CAPAC</th>
                                     <th>Nome do Evento</th>
                                     <th>Data cadastro</th>
-                                    <th>Enviado</th>
                                     <th>Tipo do Evento</th>
+                                    <th>Enviado</th>
                                     <th>Ação</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($eventoObj->listaEvento($_SESSION['idUsuario_c']) as $evento): ?>
+                                <?php foreach ($eventoObj->listaEvento($_SESSION['usuario_id_c']) as $evento): ?>
                                 <tr>
-                                    <td><?=$evento->id?></td>
+                                    <td><?=$evento->publicado == 2 ? $evento->id : ""?></td>
                                     <td><?=$evento->nome_evento?></td>
                                     <td><?=$eventoObj->dataParaBR($evento->data_cadastro)?></td>
-                                    <td><?=$evento->publicado == 1 ? "Não" : "Sim"?></td>
                                     <td><?=$evento->tipo_contratacao?></td>
+                                    <td><?=$evento->publicado == 1 ? "Não" : "Sim"?></td>
                                     <td>
                                         <?php if ($evento->publicado == 1): ?>
                                             <a href="<?=SERVERURL."eventos/evento_cadastro&key=".$eventoObj->encryption($evento->id)?>">
@@ -68,8 +69,8 @@ $eventoObj = new EventoController();
                                     <th>Código CAPAC</th>
                                     <th>Nome do Evento</th>
                                     <th>Data cadastro</th>
-                                    <th>Enviado</th>
                                     <th>Tipo do Evento</th>
+                                    <th>Enviado</th>
                                     <th>Ação</th>
                                 </tr>
                             </tfoot>

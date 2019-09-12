@@ -2,9 +2,9 @@
     $tipoContratacao = $_SESSION['tipoContratacao_c'];
 
     if (isset($_GET['key'])) {
-        $_SESSION['idEvento_c'] = $id = $_GET['key'];
-    } elseif (isset($_SESSION['idEvento_c'])) {
-        $id = $_SESSION['idEvento_c'];
+        $_SESSION['evento_id_c'] = $id = $_GET['key'];
+    } elseif (isset($_SESSION['evento_id_c'])) {
+        $id = $_SESSION['evento_id_c'];
     } else {
         $id = null;
     }

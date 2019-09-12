@@ -28,7 +28,7 @@ class UsuarioController extends UsuarioModel
                 $usuario = $consultaUsuario->fetch();
 
                 session_start(['name' => 'cpc']);
-                $_SESSION['idUsuario_c'] = $usuario['id'];
+                $_SESSION['usuario_id_c'] = $usuario['id'];
                 $_SESSION['nome_c'] = $usuario['nome'];
 
                 MainModel::gravarLog('Fez Login');

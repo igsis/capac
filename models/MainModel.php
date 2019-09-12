@@ -42,6 +42,14 @@ class MainModel extends DbModel
         return $output;
     }
 
+    /**
+     * <p>Transforma data padrão sql para BR</p>
+     * @param string $data
+     * <p>Valor deve estar no padrão AAAA-MM-DD</p>
+     * @return string
+     * <p>Retorna a data no padrão BR. DD/MM/YYYY</p>
+     * @throws Exception
+     */
     public function dataParaBR($data) {
         $novaData = new DateTime($data);
         return $novaData->format('d/m/Y');
@@ -69,7 +77,7 @@ class MainModel extends DbModel
      */
     protected function gravarLog($descricao) {
         $dadosLog = [
-            'usuario_id' => $_SESSION['idUsuario_c'],
+            'usuario_id' => $_SESSION['usuario_id_c'],
             'ip' => $_SERVER['REMOTE_ADDR'],
             'data' => date('Y-m-d H:i:s'),
             'descricao' => $descricao

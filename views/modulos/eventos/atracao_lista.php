@@ -1,10 +1,10 @@
 <?php
 require_once "./controllers/AtracaoController.php";
-if (isset($_SESSION['idAtracao_c'])) {
-    unset($_SESSION['idAtracao_c']);
+if (isset($_SESSION['atracao_id_c'])) {
+    unset($_SESSION['atracao_id_c']);
 }
 
-$evento_id = $_SESSION['idEvento_c'];
+$evento_id = $_SESSION['evento_id_c'];
 
 $atracaoObj = new AtracaoController();
 ?>
@@ -47,7 +47,13 @@ $atracaoObj = new AtracaoController();
                                 <?php foreach ($atracaoObj->listaAtracoes($evento_id) as $atracao): ?>
                                 <tr>
                                     <td><?=$atracao->nome_atracao?></td>
-                                    <td></td>
+                                    <td>
+                                        <?php if (!$atracao->produtor_id): ?>
+                                            <a href="<?=SERVERURL."eventos/produtor_cadastro"?>">
+                                                <button class="btn btn-app"><i class="fas fa-plus"></i>Adicionar Produtor</button>
+                                            </a>
+                                        <?php endif; ?>
+                                    </td>
                                     <td>
                                         <a href="<?=SERVERURL."eventos/atracao_cadastro&key=".$atracaoObj->encryption($atracao->id)?>">
                                             <button class="btn btn-app"><i class="fas fa-edit"></i>Editar</button>

@@ -1,10 +1,10 @@
 <?php
-    $evento_id = $_SESSION['idEvento_c'];
+    $evento_id = $_SESSION['evento_id_c'];
 
     if (isset($_GET['key'])) {
-        $_SESSION['idAtracao_c'] = $id = $_GET['key'];
-    } elseif (isset($_SESSION['idAtracao_c'])) {
-        $id = $_SESSION['idAtracao_c'];
+        $_SESSION['atracao_id_c'] = $id = $_GET['key'];
+    } elseif (isset($_SESSION['atracao_id_c'])) {
+        $id = $_SESSION['atracao_id_c'];
     } else {
         $id = null;
     }
