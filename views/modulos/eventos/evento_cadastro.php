@@ -24,12 +24,6 @@
             <div class="col-sm-6">
                 <h1 class="m-0 text-dark">Cadastro do Evento</h1>
             </div><!-- /.col -->
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Starter Page</li>
-                </ol>
-            </div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
 </div>
@@ -121,7 +115,6 @@
                         <!-- /.card-body -->
                         <div class="card-footer">
                             <button type="submit" class="btn btn-info float-right" id="cadastra">Gravar</button>
-                            <button type="submit" class="btn btn-default">Cancel</button>
                         </div>
                         <!-- /.card-footer -->
                         <div class="resposta-ajax">
