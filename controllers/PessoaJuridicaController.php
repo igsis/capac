@@ -72,4 +72,9 @@ class PessoaJuridicaController extends MainModel
             WHERE pj.id = '$id'");
         return $pj;
     }
+/*
+    public function getCNPJ($cnpj){
+        $consulta_pj_cnpj = DbModel::consultaSimples("SELECT * FROM pessoa_juridicas WHERE cnpj = '$cnpj'");
+        return $consulta_pj_cnpj;
+    }*/
 }
