@@ -16,6 +16,7 @@ class PessoaFisicaController extends MainModel
         $dados_en = [];
         $dados_te = [];
         $dados_ni = [];
+        $dados_dr = [];
         foreach ($_POST as $campo => $post) {
             $dig = explode("_",$campo)[0];
             switch ($dig) {
@@ -28,16 +29,20 @@ class PessoaFisicaController extends MainModel
                     $dados_bc[$campo] = MainModel::limparString($post);
                     break;
                 case "en":
-                    $campo = substr($campo,3);
+                    $campo = substr($campo, 3);
                     $dados_en[$campo] = MainModel::limparString($post);
                     break;
                 case "te":
-                    $campo = substr($campo,3);
+                    $campo = substr($campo, 3);
                     $dados_te[$campo] = MainModel::limparString($post);
                     break;
                 case "ni":
-                    $campo = substr($campo,3);
+                    $campo = substr($campo, 3);
                     $dados_ni[$campo] = MainModel::limparString($post);
+                    break;
+                case "dr":
+                    $campo = substr($campo, 3);
+                    $dados_dr[$campo] = MainModel::limparString($post);
                     break;
             }
         }
@@ -47,6 +52,7 @@ class PessoaFisicaController extends MainModel
         $insere = DbModel::insert('pessoa_fisicas', $dados_pf);
         if ($insere->rowCount()>0) {
             $id = DbModel::connection()->lastInsertId();
+
             if (count($dados_bc)>0){
                 $dados_bc['pessoa_fisica_id'] = $id;
                 $insere_banco = DbModel::insert('pf_bancos', $dados_bc);
@@ -55,6 +61,11 @@ class PessoaFisicaController extends MainModel
             if (count($dados_en)>0){
                 $dados_en['pessoa_fisica_id'] = $id;
                 $insere_endereco = DbModel::insert('pf_enderecos', $dados_en);
+            }
+
+            if (count($dados_dr)>0){
+                $dados_dr['pessoa_fisica_id'] = $id;
+                $insere_drt = DbModel::insert('drts', $dados_dr);
             }
 
             if (count($dados_ni)>0){
@@ -67,15 +78,21 @@ class PessoaFisicaController extends MainModel
                 $insere_telefone = DbModel::insert('pf_telefones', $dados_te);
             }
 
-
-
-
             $alerta = [
                 'alerta' => 'sucesso',
                 'titulo' => 'Pessoa Física',
                 'texto' => 'Pessoa Física cadastrada com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL.'oficina/pf_cadastro&id='.MainModel::encryption($id)
+                'location' => SERVERURL.'eventos/pf_cadastro&id='.MainModel::encryption($id)
+            ];
+        }
+        else {
+            $alerta = [
+                'alerta' => 'simples',
+                'titulo' => 'Erro!',
+                'texto' => 'Erro ao salvar!',
+                'tipo' => 'error',
+                'location' => SERVERURL.'eventos/proponente'
             ];
         }
         /* ./cadastro */
@@ -103,20 +120,7 @@ class PessoaFisicaController extends MainModel
                 }
             }
 
-            if (count($dados_en) > 0) {
-                $dados_en['pessoa_fisica_id'] = $id;
-                $insere_endereco = DbModel::insert('pf_enderecos', $dados_en);
-            }
 
-            if (count($dados_ni) > 0) {
-                $dados_ni['pessoa_fisica_id'] = $id;
-                $insere_nit = DbModel::insert('nits', $dados_ni);
-            }
-
-            if (count($dados_te) > 0) {
-                $dados_te['pessoa_fisica_id'] = $id;
-                $insere_telefone = DbModel::insert('pf_telefones', $dados_te);
-            }
         }
 
 
@@ -151,17 +155,19 @@ class PessoaFisicaController extends MainModel
             LEFT JOIN pf_enderecos pe on pf.id = pe.pessoa_fisica_id
             LEFT JOIN pf_bancos pb on pf.id = pb.pessoa_fisica_id
             LEFT JOIN pf_oficinas po on pf.id = po.pessoa_fisica_id
+            LEFT JOIN drts d on pf.id = d.pessoa_fisica_id
+            LEFT JOIN nits n on pf.id = n.pessoa_fisica_id
             WHERE pf.id = '$id'");
         return $pf;
     }
 
     public function getCPF($cpf){
-        $consulta_pf_cpf = DbModel::consultaSimples("SELECT * FROM pessoa_fisicas WHERE cpf = '$cpf'");
+        $consulta_pf_cpf = DbModel::consultaSimples("SELECT id, cpf FROM pessoa_fisicas WHERE cpf = '$cpf'");
         return $consulta_pf_cpf;
     }
 
     public function getPassaporte($passaporte){
-        $consulta_pf_pass = DbModel::consultaSimples("SELECT * FROM pessoa_fisicas WHERE passaporte = '$passaporte'");
+        $consulta_pf_pass = DbModel::consultaSimples("SELECT id, passaporte FROM pessoa_fisicas WHERE passaporte = '$passaporte'");
         return $consulta_pf_pass;
     }
 }

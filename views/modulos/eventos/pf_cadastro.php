@@ -2,13 +2,24 @@
 $id = isset($_GET['id']) ? $_GET['id'] : null;
 require_once "./controllers/PessoaFisicaController.php";
 $insPessoaFisica = new PessoaFisicaController();
+//$pf = $insPessoaFisica->recuperaPessoaFisica($id)->fetch();
 if (isset($_POST['cpf'])){
     $documento = $_POST['cpf'];
     $pf = $insPessoaFisica->getCPF($documento)->fetch();
+    if ($pf['cpf'] != ''){
+        $id = MainModel::encryption($pf['id']);
+        $pf = $insPessoaFisica->recuperaPessoaFisica($id)->fetch();
+        $documento = $pf['cpf'];
+    }
 }
 if (isset($_POST['passaporte'])){
     $documento = $_POST['passaporte'];
     $pf = $insPessoaFisica->getPassaporte($documento)->fetch();
+    if ($pf['passaporte'] != ''){
+        $id = MainModel::encryption($pf['id']);
+        $pf = $insPessoaFisica->recuperaPessoaFisica($id)->fetch();
+        $documento = $pf['passaporte'];
+    }
 }
 ?>
 
@@ -90,7 +101,7 @@ if (isset($_POST['passaporte'])){
                                     <select class="form-control" id="nacionalidade" name="pf_nacionalidade_id" required>
                                         <option value="">Selecione uma opção...</option>
                                         <?php
-                                        $insPessoaFisica->geraOpcao("nacionalidades");
+                                        $insPessoaFisica->geraOpcao("nacionalidades",$pf['nacionalidade_id']);
                                         ?>
                                     </select>
                                 </div>
@@ -148,14 +159,18 @@ if (isset($_POST['passaporte'])){
                                 </div>
                                 <div class="form-group col-md-1">
                                     <label for="estado">Estado: *</label>
-                                    <input type="text" class="form-control" name="en_uf" id="estado" maxlength="2" placeholder="Ex.: SP" value="<?= $pf['estado'] ?>" readonly>
+                                    <input type="text" class="form-control" name="en_uf" id="estado" maxlength="2" placeholder="Ex.: SP" value="<?= $pf['uf'] ?>" readonly>
                                 </div>
                             </div>
                             <hr/>
                             <div class="row">
-                                <div class="form-group col-md-12">
+                                <div class="form-group col-md-6">
                                     <label for="nit">NIT: </label>
                                     <input type="text" id="nit" name="ni_nit" class="form-control" maxlength="45" placeholder="Digite o NIT" value="<?= $pf['nit'] ?>">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="drt">DRT: </label>
+                                    <input type="text" id="drt" name="dr_drt" class="form-control" maxlength="45" placeholder="Digite o DRT em caso de artes cênicas" value="<?= $pf['drt'] ?>">
                                 </div>
                             </div>
                             <hr/>
@@ -165,7 +180,7 @@ if (isset($_POST['passaporte'])){
                                     <select required id="banco" name="bc_banco_id" class="form-control">
                                         <option value="">Selecione um banco...</option>
                                         <?php
-                                        $insPessoaFisica->geraOpcao("bancos");
+                                        $insPessoaFisica->geraOpcao("bancos",$pf['banco_id']);
                                         ?>
                                     </select>
                                 </div>
@@ -184,6 +199,7 @@ if (isset($_POST['passaporte'])){
                             <button type="submit" class="btn btn-info float-right">Gravar</button>
                         </div>
                         <!-- /.card-footer -->
+                        <div class="resposta-ajax"></div>
                     </form>
                 </div>
                 <!-- /.card -->

@@ -23,7 +23,7 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal" method="POST" action="#" role="form">
+                    <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>eventos/pj_cadastro" role="form">
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-12">
@@ -77,7 +77,7 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal" method="POST" action="#" role="form">
+                    <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>eventos/pf_cadastro" role="form">
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-12">
