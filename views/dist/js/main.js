@@ -111,10 +111,11 @@ function mtel(v){
 }
 /* /.telefone */
 
-$(function(){
-    $("#CEP").mask("99999-999");
-});
-
-$(function(){
-    $( ".processo" ).mask("9999.9999/9999999-9");
-});
+function mask(t, mask) {
+    let i = t.value.length;
+    let saida = mask.substring(1, 0);
+    let texto = mask.substring(i);
+    if (texto.substring(0, 1) !== saida) {
+        t.value += texto.substring(0, 1);
+    }
+}

@@ -1,5 +1,4 @@
 <?php
-
 $id = isset($_GET['id']) ? $_GET['id'] : null;
 require_once "./controllers/PessoaFisicaController.php";
 $insPessoaFisica = new PessoaFisicaController();
@@ -11,8 +10,8 @@ if (isset($_POST['passaporte'])){
     $documento = $_POST['passaporte'];
     $pf = $insPessoaFisica->getPassaporte($documento)->fetch();
 }
-
 ?>
+
 <!-- Content Header (Page header) -->
 <div class="content-header">
     <div class="container-fluid">
@@ -119,7 +118,7 @@ if (isset($_POST['passaporte'])){
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label for="cep">CEP: *</label>
-                                    <input type="text" class="form-control" name="en_cep" id="cep" maxlength="9" placeholder="Digite o CEP" required data-mask="00000-000" value="<?= $pf['cep'] ?>" >
+                                    <input type="text" class="form-control" name="en_cep" id="cep" onkeypress="mask(this, '#####-###')" maxlength="9" placeholder="Digite o CEP" required value="<?= $pf['cep'] ?>" >
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label>&nbsp;</label><br>
@@ -194,3 +193,6 @@ if (isset($_POST['passaporte'])){
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
+
+
+<script src="../views/dist/js/cep_api.js"></script>
