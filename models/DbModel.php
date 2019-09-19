@@ -58,6 +58,25 @@ class DbModel
         return $statement;
     }
 
+    // Método para update especial
+    protected function updateEspecial($table, $data, $campo, $campo_id){
+        $pdo = self::connection();
+        $new_values = "";
+        foreach($data as $key => $value) {
+            $new_values .= "$key=:$key, ";
+        }
+        $new_values = substr($new_values, 0, -2);
+        $sql = "UPDATE $table SET $new_values WHERE $campo = :$campo";
+        $statement = $pdo->prepare($sql);
+        $statement->bindValue(":$campo", $campo_id, PDO::PARAM_STR);
+        foreach($data as $key => $value) {
+            $statement->bindValue(":$key", $value, PDO::PARAM_STR);
+        }
+        $statement->execute();
+
+        return $statement;
+    }
+
     // Método para apagar (despublicar)
     protected function delete($table, $id){
         $pdo = self::connection();

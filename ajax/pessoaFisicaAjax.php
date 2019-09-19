@@ -7,9 +7,9 @@ if (isset($_POST['_method'])) {
     $insPessoaFisica = new PessoaFisicaController();
 
     if ($_POST['_method'] == "cadastrar") {
-        echo $insPessoaFisica->inserePessoaFisica($_POST);
+        echo $insPessoaFisica->inserePessoaFisica();
     } elseif ($_POST['_method'] == "editar") {
-        echo $insPessoaFisica->editaPessoaFisica($_POST, $_POST['id']);
+        echo $insPessoaFisica->editaPessoaFisica($_POST['id']);
     }
 } else {
     session_start(['name' => 'cpc']);
