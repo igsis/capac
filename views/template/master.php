@@ -52,17 +52,17 @@ else:
     }
     ?>
     <div class="wrapper">
-        <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
-            <?php include $view ?>
-        </div>
-        <!-- /.content-wrapper -->
-
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <?php $template->navbar(); ?>
         </nav>
         <!-- /.navbar -->
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <?php include $view ?>
+        </div>
+        <!-- /.content-wrapper -->
 
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -84,7 +84,6 @@ else:
         <!-- Main Footer -->
         <footer class="main-footer">
             <?php $template->footer() ?>
-
         </footer>
     </div>
     <!-- ./wrapper -->
