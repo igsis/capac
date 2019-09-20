@@ -55,17 +55,16 @@ $atracaoObj = new AtracaoController();
                                             </form>
                                         <?php else: ?>
                                             <a href="<?=SERVERURL."eventos/produtor_cadastro&key=".$atracaoObj->encryption($atracao->produtor_id)?>">
-                                                <button class="btn btn-app"><i class="fas fa-edit"></i><?=$atracao->produtor->nome?></button>
+                                                <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> <?=$atracao->produtor->nome?></button>
                                             </a>
-                                            <button class="btn btn-app"><i class="fas fa-trash"></i>Remover</button>
                                         <?php endif; ?>
 
                                     </td>
                                     <td>
                                         <a href="<?=SERVERURL."eventos/atracao_cadastro&key=".$atracaoObj->encryption($atracao->id)?>">
-                                            <button class="btn btn-app"><i class="fas fa-edit"></i>Editar</button>
+                                            <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</button>
                                         </a>
-                                        <button class="btn btn-app"><i class="fas fa-trash"></i>Apagar</button>
+                                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Apagar</button>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>

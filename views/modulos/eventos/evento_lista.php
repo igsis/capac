@@ -56,9 +56,9 @@ $eventoObj = new EventoController();
                                     <td>
                                         <?php if ($evento->publicado == 1): ?>
                                             <a href="<?=SERVERURL."eventos/evento_cadastro&key=".$eventoObj->encryption($evento->id)?>">
-                                                <button class="btn btn-app"><i class="fas fa-edit"></i>Editar</button>
+                                                <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</button>
                                             </a>
-                                            <button class="btn btn-app"><i class="fas fa-trash"></i>Apagar</button>
+                                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Apagar</button>
                                         <?php endif; ?>
                                     </td>
                                 </tr>
