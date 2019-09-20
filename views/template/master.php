@@ -52,6 +52,12 @@ else:
     }
     ?>
     <div class="wrapper">
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <?php include $view ?>
+        </div>
+        <!-- /.content-wrapper -->
+
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <?php $template->navbar(); ?>
@@ -62,12 +68,6 @@ else:
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <?php $template->sidebar(); ?>
         </aside>
-
-        <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
-            <?php include $view ?>
-        </div>
-        <!-- /.content-wrapper -->
 
         <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">
