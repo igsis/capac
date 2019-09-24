@@ -5,9 +5,9 @@ if ($pedidoAjax) {
     require_once "./models/MainModel.php";
 }
 
-class PessoaFisicaModel extends MainModel
+class PessoaJuridicaModel extends MainModel
 {
-    protected function limparStringPF($dados) {
+    protected function limparStringPJ($dados) {
         unset($dados['_method']);
         unset($dados['pagina']);
         /* executa limpeza nos campos */
@@ -15,9 +15,9 @@ class PessoaFisicaModel extends MainModel
         foreach ($dados as $campo => $post) {
             $dig = explode("_",$campo)[0];
             switch ($dig) {
-                case "pf":
+                case "pj":
                     $campo = substr($campo, 3);
-                    $dadosLimpos['pf'][$campo] = MainModel::limparString($post);
+                    $dadosLimpos['pj'][$campo] = MainModel::limparString($post);
                     break;
                 case "bc":
                     $campo = substr($campo, 3);
@@ -31,14 +31,6 @@ class PessoaFisicaModel extends MainModel
                     if($dados[$campo] != ''){
                         $dadosLimpos['telefones'][$campo]['telefone'] = MainModel::limparString($post);
                     }
-                    break;
-                case "ni":
-                    $campo = substr($campo, 3);
-                    $dadosLimpos['ni'][$campo] = MainModel::limparString($post);
-                    break;
-                case "dr":
-                    $campo = substr($campo, 3);
-                    $dadosLimpos['dr'][$campo] = MainModel::limparString($post);
                     break;
             }
         }
