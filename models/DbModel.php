@@ -98,7 +98,7 @@ class DbModel
         return $statement;
     }
 
-    protected function consultaSimples($consulta) {
+    public function consultaSimples($consulta) {
         $pdo = self::connection();
         $statement = $pdo->prepare($consulta);
         $statement->execute();

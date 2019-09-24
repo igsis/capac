@@ -96,7 +96,7 @@ if (isset($_POST['pj_cnpj'])){
                             <div class="row">
                                 <div class="form-group col-md-3">
                                     <label for="rua">Rua: *</label>
-                                    <input type="text" class="form-control" name="en_logradouro" id="rua" placeholder="Digite a rua" maxlength="200" value="<?= $pj['logradouro'] ?>" readonly>
+                                    <input type="text" class="form-control" name="en_logradouro" id="rua" placeholder="Digite a rua" maxlength="2   00" value="<?= $pj['logradouro'] ?>" readonly>
                                 </div>
                                 <div class="form-group col-md-1">
                                     <label for="numero">Número: *</label>
@@ -150,6 +150,49 @@ if (isset($_POST['pj_cnpj'])){
                     </form>
                 </div>
                 <!-- /.card -->
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Horizontal Form -->
+                <div class="card card-info">
+                    <div class="card-body">
+                        <div class="row">
+                            <?php
+                            if  ($id):
+                                if ($pj['representante_legal1_id']):
+                                    $r1 = $pj['representante_legal1_id'];
+                                    $rep1 = DbModel::consultaSimples("SELECT * FROM representante_legais WHERE id = '$r1'")->fetch();
+                            ?>
+                                    <table id="tabela" class="table table-bordered table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>RG</th>
+                                            <th>CPF</th>
+                                            <th>Ação</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><?= $rep1['nome'] ?></tr>
+                                            <tr><?= $rep1['rg'] ?></tr>
+                                            <tr><?= $rep1['cpf'] ?></tr>
+                                            <tr></tr>
+                                        </tbody>
+                                    </table>
+                            <?php
+                                else:
+                                    ?>
+                                    <button class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Novo Representante Legal #1</button>
+                            <?php
+                                endif;
+                            endif;
+                            ?>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- /.row -->
