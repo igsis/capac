@@ -28,7 +28,7 @@
                             <div class="row">
                                 <div class="form-group col-md-12">
                                     <label for="cnpj">CNPJ:</label>
-                                    <input type="text" class="form-control" id="cnpj" name="cnpj" maxlength="17" required>
+                                    <input type="text" class="form-control" id="cnpj" name="pj_cnpj" maxlength="17" required>
                                 </div>
                             </div>
 
@@ -55,7 +55,7 @@
                             <div class="row">
                                 <div class="form-group col-md-12">
                                     <label for="cpf">CPF:</label>
-                                    <input type="text" class="form-control" id="cpf" name="cpf" maxlength="14" required>
+                                    <input type="text" class="form-control" id="cpf" name="pf_cpf" maxlength="14" required>
                                 </div>
                             </div>
 
@@ -82,7 +82,7 @@
                             <div class="row">
                                 <div class="form-group col-md-12">
                                     <label for="passaporte">Passaporte:</label>
-                                    <input type="text" class="form-control" id="passaporte" name="passaporte" maxlength="14" required>
+                                    <input type="text" class="form-control" id="passaporte" name="pf_passaporte" maxlength="14" required>
                                 </div>
                             </div>
 

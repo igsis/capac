@@ -2,18 +2,27 @@
 $id = isset($_GET['id']) ? $_GET['id'] : null;
 require_once "./controllers/PessoaFisicaController.php";
 $insPessoaFisica = new PessoaFisicaController();
-//$pf = $insPessoaFisica->recuperaPessoaFisica($id)->fetch();
-if (isset($_POST['cpf'])){
-    $documento = $_POST['cpf'];
+
+if ($id) {
+    $pf = $insPessoaFisica->recuperaPessoaFisica($id);
+    if ($pf['cpf'] != "") {
+        $documento = $pf['cpf'];
+    } else {
+        $documento = $pf['passaporte'];
+    }
+}
+
+if (isset($_POST['pf_cpf'])){
+    $documento = $_POST['pf_cpf'];
     $pf = $insPessoaFisica->getCPF($documento)->fetch();
     if ($pf['cpf'] != ''){
         $id = MainModel::encryption($pf['id']);
-        $pf = $insPessoaFisica->recuperaPessoaFisica($id)->fetch();
+        $pf = $insPessoaFisica->recuperaPessoaFisica($id);
         $documento = $pf['cpf'];
     }
 }
-if (isset($_POST['passaporte'])){
-    $documento = $_POST['passaporte'];
+if (isset($_POST['pf_passaporte'])){
+    $documento = $_POST['pf_passaporte'];
     $pf = $insPessoaFisica->getPassaporte($documento)->fetch();
     if ($pf['passaporte'] != ''){
         $id = MainModel::encryption($pf['id']);
@@ -49,6 +58,7 @@ if (isset($_POST['passaporte'])){
                     <!-- form start -->
                     <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/pessoaFisicaAjax.php" role="form" data-form="<?= ($id) ? "update" : "save" ?>">
                         <input type="hidden" name="_method" value="<?= ($id) ? "editar" : "cadastrar" ?>">
+                        <input type="hidden" name="pagina" value="eventos">
                         <input type="hidden" name="pf_ultima_atualizacao" value="<?= date('Y-m-d H-i-s') ?>">
                         <?php if ($id): ?>
                             <input type="hidden" name="id" value="<?= $id ?>">
@@ -67,7 +77,7 @@ if (isset($_POST['passaporte'])){
 
                             <div class="row">
                                 <?php
-                                if (isset($_POST['cpf'])){
+                                if (isset($_POST['pf_cpf']) || $pf['cpf'] != ""){
                                     ?>
                                     <div class="form-group col-md-2">
                                         <label for="rg">RG: *</label>
@@ -114,15 +124,15 @@ if (isset($_POST['passaporte'])){
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label>Telefone #1: *</label>
-                                    <input type="text" id="telefone" name="te_telefone[0]" onkeyup="mascara( this, mtel );"  class="form-control" placeholder="Digite o telefone" required value="<?= $pf['telefone'] ?>" maxlength="15">
+                                    <input type="text" id="telefone" name="te_telefone_1" onkeyup="mascara( this, mtel );"  class="form-control" placeholder="Digite o telefone" required value="<?= $pf['telefones']['tel_0'] ?? "" ?>" maxlength="15">
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label>Telefone #2:</label>
-                                    <input type="text" id="telefone1" name="te_telefone[1]" onkeyup="mascara( this, mtel );"  class="form-control" placeholder="Digite o telefone" maxlength="15" value="<?= $pf['telefone'] ?>">
+                                    <input type="text" id="telefone1" name="te_telefone_2" onkeyup="mascara( this, mtel );"  class="form-control" placeholder="Digite o telefone" maxlength="15" value="<?= $pf['telefones']['tel_1'] ?? "" ?>">
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label>Telefone #3:</label>
-                                    <input type="text" id="telefone2" name="te_telefone[2]" onkeyup="mascara( this, mtel );"  class="form-control telefone" placeholder="Digite o telefone" maxlength="15" value="<?= $pf['telefone'] ?>">
+                                    <input type="text" id="telefone2" name="te_telefone_3" onkeyup="mascara( this, mtel );"  class="form-control telefone" placeholder="Digite o telefone" maxlength="15" value="<?= $pf['telefones']['tel_2'] ?? "" ?>">
                                 </div>
                             </div>
                             <hr/>

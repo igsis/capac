@@ -9,7 +9,7 @@ if (isset($_POST['_method'])) {
     if ($_POST['_method'] == "cadastrar") {
         echo $insPessoaFisica->inserePessoaFisica();
     } elseif ($_POST['_method'] == "editar") {
-        echo $insPessoaFisica->editaPessoaFisica($_POST['id']);
+        echo $insPessoaFisica->editaPessoaFisica($_POST['id'], $_POST['pagina']);
     }
 } else {
     session_start(['name' => 'cpc']);

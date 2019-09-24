@@ -158,7 +158,7 @@ class EventoController extends EventoModel
     }
 
     public function apagaEvento($id){
-        $apaga = DbModel::delete("eventos", $id);
+        $apaga = DbModel::apaga("eventos", $id);
         if ($apaga){
             $alerta = [
                 'alerta' => 'sucesso',

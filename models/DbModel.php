@@ -78,11 +78,21 @@ class DbModel
     }
 
     // Método para apagar (despublicar)
-    protected function delete($table, $id){
+    protected function apaga($table, $id){
         $pdo = self::connection();
         $sql = "UPDATE $table SET publicado = 0 WHERE id = :id";
         $statement = $pdo->prepare($sql);
         $statement->bindValue(":id", $id);
+        $statement->execute();
+
+        return $statement;
+    }
+
+    protected function deleteEspecial($table, $campo, $campo_id){
+        $pdo = self::connection();
+        $sql = "DELETE FROM $table WHERE $campo = :$campo";
+        $statement = $pdo->prepare($sql);
+        $statement->bindValue(":$campo", $campo_id, PDO::PARAM_STR);
         $statement->execute();
 
         return $statement;
