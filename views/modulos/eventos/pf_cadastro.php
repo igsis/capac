@@ -26,7 +26,7 @@ if (isset($_POST['pf_passaporte'])){
     $pf = $insPessoaFisica->getPassaporte($documento)->fetch();
     if ($pf['passaporte'] != ''){
         $id = MainModel::encryption($pf['id']);
-        $pf = $insPessoaFisica->recuperaPessoaFisica($id)->fetch();
+        $pf = $insPessoaFisica->recuperaPessoaFisica($id);
         $documento = $pf['passaporte'];
     }
 }
@@ -89,7 +89,7 @@ if (isset($_POST['pf_passaporte'])){
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label for="ccm">CCM:</label>
-                                        <input type="text" name="pf_ccm" class="form-control" placeholder="Digite o CCM" maxlength="11" value="<?= $pf['ccm'] ?>">
+                                        <input type="text" id="ccm" name="pf_ccm" class="form-control" placeholder="Digite o CCM" maxlength="11" value="<?= $pf['ccm'] ?>">
                                     </div>
                                     <?php
                                 }
@@ -97,7 +97,7 @@ if (isset($_POST['pf_passaporte'])){
                                     ?>
                                     <div class="form-group col-md-6">
                                         <label for="passaporte" id="documento">Passaporte: </label>
-                                        <input type="text" id="passaporte" name="pf_passaporte" class="form-control" value="<?= $pf['passaporte'] ?>" readonly>
+                                        <input type="text" id="passaporte" name="pf_passaporte" class="form-control" value="<?= $documento ?>" readonly>
                                     </div>
                                     <?php
                                 }
