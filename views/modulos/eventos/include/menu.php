@@ -24,6 +24,12 @@
         </a>
     </li>
     <li class="nav-item">
+        <a href="<?= SERVERURL ?>eventos/arquivos_com_prod" class="nav-link" id="com_prod">
+            <i class="far fa-circle nav-icon"></i>
+            <p>Comunicação/Produção</p>
+        </a>
+    </li>
+    <li class="nav-item">
         <a href="<?= SERVERURL ?>eventos/proponente" class="nav-link" id="proponente">
             <i class="far fa-circle nav-icon"></i>
             <p>Proponente</p>

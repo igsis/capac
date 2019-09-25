@@ -349,4 +349,9 @@ class MainModel extends DbModel
             return true;
         }
     }
+
+    protected function retiraAcentos($string) {
+        $newstring = preg_replace("/[^a-zA-Z0-9_.]/", "", strtr($string, "áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ ", "aaaaeeiooouucAAAAEEIOOOUUC_"));
+        return $newstring;
+    }
 }
