@@ -4,10 +4,10 @@ require_once "../config/configGeral.php";
 
 if (isset($_POST['_method'])) {
     require_once "../controllers/AtracaoController.php";
-    $atracaoObj = new AtracaoController();
+    $atracaoObj = new ArquivoComProdController();
 
     if ($_POST['_method'] == "cadastrarAtracao") {
-        echo $atracaoObj->insereAtracao($_POST);
+        echo $atracaoObj->enviarArquivo();
     } elseif ($_POST['_method'] == "editarAtracao") {
         echo $atracaoObj->editaAtracao($_POST, $_POST['id']);
     }

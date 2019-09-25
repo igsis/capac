@@ -1,23 +1,6 @@
 <?php
-
-foreach ($_FILES as $file) {
-    $numArquivos = count($file['error']);
-    foreach ($file as $key => $dados) {
-        for ($i = 0; $i < $numArquivos; $i++) {
-            $arquivos[$i][$key] = $file[$key][$i];
-        }
-    }
-
-    foreach ($arquivos as $key => $arquivo) {
-        if ($arquivo['error'] != 4) {
-            echo "lógica marota";
-        } else {
-            echo "unset";
-        }
-    }
-}
+    $evento_id = $_SESSION['evento_id_c'];
 ?>
-
 <!-- Content Header (Page header) -->
 <div class="content-header">
     <div class="container-fluid">
@@ -111,6 +94,9 @@ foreach ($_FILES as $file) {
                     <!-- table start -->
                     <div class="card-body p-0">
                         <form method="POST" action="" enctype="multipart/form-data">
+                            <input type="hidden" name="_method" value="<?= $evento_id ?>">
+                            <input type="hidden" name="evento_id" value="<?= $evento_id ?>">
+                            <input type="hidden" name="lista_documento_id" value="1">
                             <table class="table table-striped">
                             <?php
                                 echo "<tbody>";

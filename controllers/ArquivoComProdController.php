@@ -7,7 +7,7 @@ if ($pedidoAjax) {
 
 class ArquivoComProdController extends MainModel
 {
-    public function enviarArquivo($dados, $origem_id, $lista_documento_id) {
+    public function enviarArquivo($origem_id, $lista_documento_id) {
         foreach ($_FILES as $file) {
             $numArquivos = count($file['errors']);
             foreach ($file as $key => $dados) {
@@ -17,7 +17,8 @@ class ArquivoComProdController extends MainModel
             }
         }
 
-        foreach ($arquivos as $arquivo) {
+        foreach ($arquivos as $key => $arquivo) {
+            $erros[$key]['bol'] = false;
             if ($arquivo['error'] != 4) {
                 $nomeArquivo = $arquivo['name'];
                 $tamanhoArquivo = $arquivo['size'];
@@ -36,17 +37,43 @@ class ArquivoComProdController extends MainModel
                     ];
 
                     $insertArquivo = DbModel::insert('arquivos', $dadosInsertArquivo);
-                    if ($insertArquivo->rowCount() > 0) {
-                        $alerta = [
-                            'alerta' => 'sucesso',
-                            'titulo' => 'Atração Cadastrada!',
-                            'texto' => 'Dados cadastrados com sucesso!',
-                            'tipo' => 'success',
-                            'location' => SERVERURL . 'eventos/atracao_cadastro&key=' . MainModel::encryption($atracao_id)
-                        ];
+                    if ($insertArquivo->rowCount() == 0) {
+                        $erros[$key]['bol'] = true;
+                        $erros[$key]['motivo'] = "Falha ao salvar na base de dados";
+                        $erros[$key]['arquivo'] = $nomeArquivo;
                     }
+                } else {
+                    $erros[$key]['bol'] = true;
+                    $erros[$key]['motivo'] = "Falha ao enviar o arquivo ao servidor";
+                    $erros[$key]['arquivo'] = $nomeArquivo;
                 }
+            } else {
+                $erros[$key]['bol'] = true;
+                $erros[$key]['motivo'] = "Nenhum Arquivo Enviado";
+                $erros[$key]['arquivo'] = "Nenhum Arquivo Enviado";
             }
+        }
+        
+        $erro = MainModel::in_array_r(false, $erros);
+
+        if ($erro) {
+            foreach ($erros as $erro) {
+                $lis[] = "<li>".$erro['arquivo'].": ".$erro['motivo']."</li>";
+            }
+            $alerta = [
+                'alerta' => 'simples',
+                'titulo' => 'Oops! Tivemos alguns Erros!',
+                'texto' => implode(" + ", $lis),
+                'tipo' => 'error',
+            ];
+        } else {
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Arquivos Enviados!',
+                'texto' => 'Arquivos enviados com sucesso!',
+                'tipo' => 'success',
+                'location' => SERVERURL . 'eventos/arquivos_com_prod'
+            ];
         }
 
         return $alerta;
