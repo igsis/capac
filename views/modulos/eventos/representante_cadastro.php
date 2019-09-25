@@ -3,6 +3,25 @@ $id = isset($_GET['id']) ? $_GET['id'] : null;
 require_once "./controllers/RepresentanteController.php";
 $insRepresentante = new RepresentanteController();
 $representante = $insRepresentante->recuperaRepresentante($id)->fetch();
+
+if ($id) {
+    $representante = $insRepresentante->recuperaRepresentante($id);
+    if ($representante['cpf'] != "") {
+        $documento = $representante['cpf'];
+    } else {
+        $documento = $representante['passaporte'];
+    }
+}
+
+if (isset($_POST['cpf'])){
+    $documento = $_POST['cpf'];
+    $representante = $insRepresentante->getCPF($documento)->fetch();
+    if ($representante['cpf'] != ''){
+        $id = MainModel::encryption($representante['id']);
+        $representante = $insRepresentante->recuperaRepresentante($id)->fetch();
+        $documento = $representante['cpf'];
+    }
+}
 ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -45,7 +64,7 @@ $representante = $insRepresentante->recuperaRepresentante($id)->fetch();
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="cpf">CPF: </label>
-                                    <input type="text" class="form-control" id="cpf" name="cpf" value="<?= $representante['cpf'] ?>" required readonly>
+                                    <input type="text" class="form-control" id="cpf" name="cpf" value="<?= $documento ?>" required readonly>
                                 </div>
                             </div>
                         </div>

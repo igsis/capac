@@ -66,4 +66,9 @@ class RepresentanteController extends MainModel
         $representante = DbModel::getInfo('representante_legais',$id);
         return $representante;
     }
+
+    public function getCPF($cpf){
+        $consulta_pf_cpf = DbModel::consultaSimples("SELECT id, cpf FROM representante_legais WHERE cpf = '$cpf'");
+        return $consulta_pf_cpf;
+    }
 }

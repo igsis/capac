@@ -185,7 +185,7 @@ if (isset($_POST['pj_cnpj'])){
                             <?php
                                 else:
                                     ?>
-                                    <button class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Novo Representante Legal #1</button>
+                                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-default"><i class="fas fa-plus"></i> Novo Representante Legal #1</button>
                             <?php
                                 endif;
                             endif;
@@ -199,5 +199,35 @@ if (isset($_POST['pj_cnpj'])){
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
+
+<div class="modal fade" id="modal-default">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Representante Legal</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>eventos/representante_cadastro" role="form">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label for="cpf">CPF:</label>
+                            <input type="text" class="form-control" id="cpf" name="cpf" maxlength="14" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary btn">Pesquisar</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
 <script src="../views/dist/js/cep_api.js"></script>
