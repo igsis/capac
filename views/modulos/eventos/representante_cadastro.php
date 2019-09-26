@@ -4,13 +4,11 @@ require_once "./controllers/RepresentanteController.php";
 $insRepresentante = new RepresentanteController();
 $representante = $insRepresentante->recuperaRepresentante($id)->fetch();
 
+$idPj = isset($_POST['idPj']) ? $_POST['idPj'] : $_GET['idPj'];
+
 if ($id) {
-    $representante = $insRepresentante->recuperaRepresentante($id);
-    if ($representante['cpf'] != "") {
-        $documento = $representante['cpf'];
-    } else {
-        $documento = $representante['passaporte'];
-    }
+    $representante = $insRepresentante->recuperaRepresentante($id)->fetch();
+    $documento = $representante['cpf'];
 }
 
 if (isset($_POST['cpf'])){
@@ -49,6 +47,11 @@ if (isset($_POST['cpf'])){
                     <!-- form start -->
                     <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/representanteAjax.php" role="form" data-form="<?= ($id) ? "update" : "save" ?>">
                         <input type="hidden" name="_method" value="<?= ($id) ? "editar" : "cadastrar" ?>">
+                        <input type="hidden" name="idPj" value="<?= $idPj ?>">
+                        <input type="hidden" name="pagina" value="eventos">
+                        <?php if (isset($_POST['representante'])): ?>
+                            <input type="hidden" name="representante" value="<?= $_POST['representante'] ?>">
+                        <?php endif; ?>
                         <?php if ($id): ?>
                             <input type="hidden" name="id" value="<?= $id ?>">
                         <?php endif; ?>
@@ -68,12 +71,16 @@ if (isset($_POST['cpf'])){
                                 </div>
                             </div>
                         </div>
+                        <div class="resposta-ajax"></div>
                         <!-- /.card-body -->
                         <div class="card-footer">
                             <button type="submit" class="btn btn-info float-right">Gravar</button>
+                    </form>
+                            <button type="button" class="btn btn-default float-left">Voltar</button>
                         </div>
                         <!-- /.card-footer -->
-                    </form>
+
+
                 </div>
                 <!-- /.card -->
             </div>

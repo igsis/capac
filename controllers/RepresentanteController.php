@@ -7,11 +7,14 @@ if ($pedidoAjax) {
 
 class RepresentanteController extends MainModel
 {
-    public function insereRepresentante($dados){
+    public function insereRepresentante($pagina){
         /* executa limpeza nos campos */
         $dados = [];
+        unset($_POST['cadastrar']);
+        unset($_POST['_method']);
+        unset($_POST['pagina']);
         foreach ($_POST as $campo => $post) {
-            if (($campo != "cadastrar") && ($campo != "_method")) {
+            if (($campo != "idPj") && ($campo != "representante")) {
                 $dados[$campo] = MainModel::limparString($post);
             }
         }
@@ -19,14 +22,40 @@ class RepresentanteController extends MainModel
 
         /* cadastro */
         $insere = DbModel::insert('representante_legais', $dados);
+        $idPj = MainModel::decryption($_POST['idPj']);
         if ($insere) {
             $id = DbModel::connection()->lastInsertId();
+            $rep = $_POST['representante'];
+            $pj_dados = [
+                'representante_legal'.$rep.'_id' => $id
+            ];
+            $edita_pj = DbModel::update('pessoa_juridicas',$pj_dados,$idPj);
+            if ($edita_pj){
+                $alerta = [
+                    'alerta' => 'sucesso',
+                    'titulo' => 'Representante Legal',
+                    'texto' => 'Representante Legal cadastrado com sucesso!',
+                    'tipo' => 'success',
+                    'location' => SERVERURL.$pagina.'/representante_cadastro&id='.MainModel::encryption($id).'&idPj='.MainModel::encryption($idPj)
+                ];
+            }
+            else{
+                $alerta = [
+                    'alerta' => 'simples',
+                    'titulo' => 'Erro!',
+                    'texto' => 'Erro ao salvar!',
+                    'tipo' => 'error',
+                    'location' => SERVERURL.$pagina.'/pj_cadastro&id='.MainModel::encryption($idPj)
+                ];
+            }
+        }
+        else{
             $alerta = [
-                'alerta' => 'sucesso',
-                'titulo' => 'Representante Legal',
-                'texto' => 'Representante Legal cadastrado com sucesso!',
-                'tipo' => 'success',
-                'location' => SERVERURL.'oficina/representante_cadastro&id='.MainModel::encryption($id)
+                'alerta' => 'simples',
+                'titulo' => 'Erro!',
+                'texto' => 'Erro ao salvar!',
+                'tipo' => 'error',
+                'location' => SERVERURL.$pagina.'/pj_cadastro&id='.MainModel::encryption($idPj)
             ];
         }
         /* ./cadastro */

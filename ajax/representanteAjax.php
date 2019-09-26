@@ -8,9 +8,9 @@ if (isset($_POST['_method'])) {
 
     if (isset($_POST['nome']) && (isset($_POST['cpf']))) {
         if ($_POST['_method'] == "cadastrar") {
-            echo $insRepresentante->insereRepresentante($_POST);
+            echo $insRepresentante->insereRepresentante($_POST['pagina']);
         } elseif ($_POST['_method'] == "editar") {
-            echo $insRepresentante->editaRepresentante($_POST, $_POST['id']);
+            echo $insRepresentante->editaRepresentante($_POST['id'], $_POST['pagina']);
         }
     }
 } else {
