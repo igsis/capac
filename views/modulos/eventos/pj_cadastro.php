@@ -242,7 +242,7 @@ if (isset($_POST['pj_cnpj'])){
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>eventos/representante_cadastro" role="form">
+            <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>eventos/representante_cadastro&idPj=<?= $id ?>" role="form">
                 <input type="hidden" name="idPj" value="<?= $id ?>">
                 <input type="hidden" name="representante" id="representante">
                 <div class="modal-body">
