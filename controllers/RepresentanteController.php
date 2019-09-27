@@ -63,28 +63,49 @@ class RepresentanteController extends MainModel
     }
 
     /* edita */
-    public function editaRepresentante($dados, $id){
+    public function editaRepresentante($id,$pagina){
         $idDecryp = MainModel::decryption($id);
-        unset($dados['editar']);
-        unset($dados['_method']);
-        unset($dados['id']);
-        $dados = MainModel::limpaPost($dados);
+        $idPj = MainModel::decryption($_POST['idPj']);
+
+        unset($_POST['_method']);
+        unset($_POST['pagina']);
+        unset($_POST['id']);
+        unset($_POST['idPj']);
+
+        $dados = MainModel::limpaPost($_POST);
+
         $edita = DbModel::update('representante_legais', $dados, $idDecryp);
         if ($edita) {
-            $alerta = [
-                'alerta' => 'sucesso',
-                'titulo' => 'Representante Legal',
-                'texto' => 'Representante Legal editado com sucesso!',
-                'tipo' => 'success',
-                'location' => SERVERURL.'oficina/representante_cadastro&id='.$id
+            $rep = $_POST['representante'];
+            $pj_dados = [
+                'representante_legal'.$rep.'_id' => $id
             ];
+            $edita_pj = DbModel::update('pessoa_juridicas',$pj_dados,$idPj);
+            if ($edita_pj){
+                $alerta = [
+                    'alerta' => 'sucesso',
+                    'titulo' => 'Representante Legal',
+                    'texto' => 'Representante Legal editado com sucesso!',
+                    'tipo' => 'success',
+                    'location' => SERVERURL.$pagina.'/representante_cadastro&id='.$id.'&idPj='.MainModel::encryption($idPj)
+                ];
+            }
+            else{
+                $alerta = [
+                    'alerta' => 'simples',
+                    'titulo' => 'Erro!',
+                    'texto' => 'Erro ao salvar!',
+                    'tipo' => 'error',
+                    'location' => SERVERURL.$pagina.'/representante_cadastro&id='.$id.'&idPj='.MainModel::encryption($idPj)
+                ];
+            }
         } else {
             $alerta = [
                 'alerta' => 'simples',
                 'titulo' => 'Erro!',
                 'texto' => 'Erro ao salvar!',
                 'tipo' => 'error',
-                'location' => SERVERURL.'oficina/representante_cadastro&id='.$id
+                'location' => SERVERURL.$pagina.'/representante_cadastro&id='.$id.'&idPj='.MainModel::encryption($idPj)
             ];
         }
         return MainModel::sweetAlert($alerta);
