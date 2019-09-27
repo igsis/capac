@@ -201,7 +201,9 @@ if (isset($_POST['pj_cnpj'])){
                                                     <td><?= $rep2['rg'] ?></td>
                                                     <td><?= $rep2['cpf'] ?></td>
                                                     <td>
-                                                        <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</button>
+                                                        <a href="<?= SERVERURL ?>eventos/representante_cadastro&idPj=<?= $id ?>&id=<?= MainModel::encryption($rep2['id']) ?>">
+                                                            <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</button>
+                                                        </a>
                                                         <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Apagar</button>
                                                     </td>
                                                 </tr>
