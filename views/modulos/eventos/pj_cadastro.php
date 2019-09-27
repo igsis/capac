@@ -13,6 +13,9 @@ if (isset($_POST['pj_cnpj'])){
     if ($pj['cnpj'] != ''){
         $id = MainModel::encryption($pj['id']);
         $pj = $insPessoaJuridica->recuperaPessoaJuridica($id);
+        $cnpj = $pj['cnpj'];
+    }
+    else{
         $cnpj = $_POST['pj_cnpj'];
     }
 }
