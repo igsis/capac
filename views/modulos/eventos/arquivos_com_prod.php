@@ -1,5 +1,8 @@
 <?php
-    $evento_id = $_SESSION['evento_id_c'];
+$evento_id = $_SESSION['evento_id_c'];
+require_once "./controllers/ArquivoController.php";
+$arquivosObj = new ArquivoController();
+$lista_documento_id = $arquivosObj->recuperaIdListaDocumento(4)->fetch(PDO::FETCH_COLUMN);
 ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -64,16 +67,28 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>Arquivo 1</td>
-                                <td>14/08/2018 17:00:01</td>
-                                <td><button class="btn btn-sm btn-danger">Apagar</button></td>
-                            </tr>
-                            <tr>
-                                <td>Arquivo 2</td>
-                                <td>14/08/2018 17:02:01</td>
-                                <td><button class="btn btn-sm btn-danger">Apagar</button></td>
-                            </tr>
+                            <?php
+                            $arquivosEnviados = $arquivosObj->listarArquivos($evento_id, $lista_documento_id)->fetchAll(PDO::FETCH_OBJ);
+                            if (count($arquivosEnviados) != 0) {
+                                foreach ($arquivosEnviados as $arquivo) {
+                                    ?>
+                                    <tr>
+                                        <td><a href="<?=SERVERURL."uploads/".$arquivo->arquivo?>" target="_blank"><?= $arquivo->arquivo ?></a></td>
+                                        <td><?= $arquivosObj->dataParaBR($arquivo->data) ?></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-danger">Apagar</button>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
+                            } else {
+                                ?>
+                                <tr>
+                                    <td class="text-center" colspan="3">Nenhum arquivo enviado</td>
+                                </tr>
+                                <?php
+                            }
+                            ?>
                             </tbody>
                         </table>
                     </div>
@@ -93,15 +108,14 @@
                     <!-- /.card-header -->
                     <!-- table start -->
                     <div class="card-body p-0">
-                        <form method="POST" action="" enctype="multipart/form-data">
-                            <input type="hidden" name="_method" value="<?= $evento_id ?>">
-                            <input type="hidden" name="evento_id" value="<?= $evento_id ?>">
-                            <input type="hidden" name="lista_documento_id" value="1">
+                        <form class="formulario-ajax" method="POST" action="<?=SERVERURL?>ajax/arquivosAjax.php" data-form="save" enctype="multipart/form-data">
+                            <input type="hidden" name="_method" value="enviarArquivo">
+                            <input type="hidden" name="origem_id" value="<?= $evento_id ?>">
+                            <input type="hidden" name="lista_documento_id" value="<?=$lista_documento_id?>">
                             <table class="table table-striped">
                             <?php
                                 echo "<tbody>";
-                                $linhas = 0;
-                                for ($i = 5    ; $i > $linhas; $i--) {
+                                for ($i =0;$i<5;$i++) {
                             ?>
                                     <tr>
                                         <td>
@@ -117,6 +131,10 @@
                             ?>
                             </table>
                             <input type="submit" class="btn btn-success btn-md btn-block" name="enviar" value='Enviar'>
+
+                            <div class="resposta-ajax">
+
+                            </div>
                     </div>
                 </div>
                 <!-- /.card -->

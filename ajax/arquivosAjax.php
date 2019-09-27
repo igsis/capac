@@ -3,11 +3,11 @@ $pedidoAjax = true;
 require_once "../config/configGeral.php";
 
 if (isset($_POST['_method'])) {
-    require_once "../controllers/AtracaoController.php";
-    $atracaoObj = new ArquivoComProdController();
+    require_once "../controllers/ArquivoController.php";
+    $arquivoObj = new ArquivoController();
 
-    if ($_POST['_method'] == "cadastrarAtracao") {
-        echo $atracaoObj->enviarArquivo();
+    if ($_POST['_method'] == "enviarArquivo") {
+        echo $arquivoObj->enviarArquivo($_POST['origem_id'], $_POST['lista_documento_id']);
     } elseif ($_POST['_method'] == "editarAtracao") {
         echo $atracaoObj->editaAtracao($_POST, $_POST['id']);
     }

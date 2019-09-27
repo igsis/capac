@@ -1,18 +1,35 @@
 <?php
 if ($pedidoAjax) {
     require_once "../models/MainModel.php";
+    define('UPLOADDIR', "../uploads/");
 } else {
     require_once "./models/MainModel.php";
+    define('UPLOADDIR', "./uploads/");
 }
 
-class ArquivoComProdController extends MainModel
+class ArquivoController extends MainModel
 {
-    public function enviarArquivo($origem_id, $lista_documento_id) {
+    public function recuperaIdListaDocumento($tipo_documento_id) {
+        $sql = "SELECT id FROM lista_documentos WHERE tipo_documento_id = '$tipo_documento_id'";
+        $lista_documento_id = DbModel::consultaSimples($sql);
+
+        return $lista_documento_id;
+    }
+    public function listarArquivos($origem_id, $lista_documento_id) {
+        $origem_id = MainModel::decryption($origem_id);
+        $sql = "SELECT * FROM arquivos WHERE `origem_id` = '$origem_id' AND lista_documento_id = '$lista_documento_id' AND publicado = '1'";
+        $arquivos = DbModel::consultaSimples($sql);
+
+        return $arquivos;
+    }
+
+    public function enviarArquivo($origem_id, $lista_documento_id, $validaExtencao = [false, null]) {
+        $origem_id = MainModel::decryption($origem_id);
         foreach ($_FILES as $file) {
-            $numArquivos = count($file['errors']);
+            $numArquivos = count($file['error']);
             foreach ($file as $key => $dados) {
                 for ($i = 0; $i < $numArquivos; $i++) {
-                $arquivos[$i][$key] = $file[$key][$i];
+                    $arquivos[$i][$key] = $file[$key][$i];
                 }
             }
         }
@@ -23,10 +40,10 @@ class ArquivoComProdController extends MainModel
                 $nomeArquivo = $arquivo['name'];
                 $tamanhoArquivo = $arquivo['size'];
                 $arquivoTemp = $arquivo['tmp_name'];
-                $extensao = strtolower(end(explode('.', $arquivo['name'])));
+                $extensao = strtolower(end(explode('.', $nomeArquivo)));
 
                 $dataAtual = date("Y-m-d H:i:s");
-                $novoNome = date('YmaHis') . MainModel::retiraAcentos($nomeArquivo);
+                $novoNome = date('YmdHis')."_".MainModel::retiraAcentos($nomeArquivo);
 
                 if (move_uploaded_file($arquivoTemp, UPLOADDIR.$novoNome)) {
                     $dadosInsertArquivo = [
@@ -53,17 +70,20 @@ class ArquivoComProdController extends MainModel
                 $erros[$key]['arquivo'] = "Nenhum Arquivo Enviado";
             }
         }
-        
+
         $erro = MainModel::in_array_r(false, $erros);
 
         if ($erro) {
             foreach ($erros as $erro) {
-                $lis[] = "<li>".$erro['arquivo'].": ".$erro['motivo']."</li>";
+                if ($erro['bol']){
+                    $lis[] = "'<li>" . $erro['arquivo'] . ": " . $erro['motivo'] . "</li>'";
+                }
             }
             $alerta = [
                 'alerta' => 'simples',
                 'titulo' => 'Oops! Tivemos alguns Erros!',
-                'texto' => implode(" + ", $lis),
+//                'texto' => $lis,
+                'texto' => 'em teste',
                 'tipo' => 'error',
             ];
         } else {
@@ -76,7 +96,7 @@ class ArquivoComProdController extends MainModel
             ];
         }
 
-        return $alerta;
+        return MainModel::sweetAlert($alerta);
     }
 
     public function apagarArquivo ($dados){

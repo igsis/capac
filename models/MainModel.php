@@ -214,15 +214,14 @@ class MainModel extends DbModel
      */
     protected function sweetAlert($dados) {
         if ($dados['alerta'] == "simples") {
-            $alerta = "
-                    <script>
-                        Swal.fire(
-                            '{$dados['titulo']}',
-                            '{$dados['texto']}',
-                            '{$dados['tipo']}'
-                        );
-                    </script>
-                ";
+            $alerta = " <script> 
+                            Swal.fire(
+                                '{$dados['titulo']}',
+                                '{$dados['texto']}',
+                                '{$dados['tipo']}'
+                            ); 
+                        </script>
+                        ";
         } elseif ($dados['alerta'] == "sucesso") {
             $alerta = "
                     <script>
