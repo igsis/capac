@@ -72,13 +72,17 @@ class RepresentanteController extends MainModel
         unset($_POST['id']);
         unset($_POST['idPj']);
 
-        $dados = MainModel::limpaPost($_POST);
+        foreach ($_POST as $campo => $post) {
+            if (($campo != "idPj") && ($campo != "representante")) {
+                $dados[$campo] = MainModel::limparString($post);
+            }
+        }
 
         $edita = DbModel::update('representante_legais', $dados, $idDecryp);
         if ($edita) {
             $rep = $_POST['representante'];
             $pj_dados = [
-                'representante_legal'.$rep.'_id' => $id
+                'representante_legal'.$rep.'_id' => MainModel::decryption($id)
             ];
             $edita_pj = DbModel::update('pessoa_juridicas',$pj_dados,$idPj);
             if ($edita_pj){

@@ -77,7 +77,7 @@ if (isset($_POST['cpf'])){
                             <button type="submit" class="btn btn-info float-right">Gravar</button>
                     </form>
                     <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>eventos/pj_cadastro&id=<?= $idPj ?>" role="form">
-                            <button type="submit" class="btn btn-default float-left">Voltar</button>
+                        <button type="submit" class="btn btn-default float-left">Voltar</button>
                     </form>
                         </div>
                         <!-- /.card-footer -->

@@ -179,17 +179,22 @@ if (isset($_POST['pj_cnpj'])){
                                             <th>Ação</th>
                                         </tr>
                                         </thead>
-                                        <tbody>
+<!--                                        <tbody>-->
                                             <tr>
                                                 <td><b>#1</b></td>
                                                 <td><?= $rep1['nome'] ?></td>
                                                 <td><?= $rep1['rg'] ?></td>
                                                 <td><?= $rep1['cpf'] ?></td>
                                                 <td>
-                                                    <a href="<?= SERVERURL ?>eventos/representante_cadastro&idPj=<?= $id ?>&id=<?= MainModel::encryption($rep1['id']) ?>">
-                                                        <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</button>
-                                                    </a>
-                                                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Apagar</button>
+                                                    <div class="row">
+                                                        <form class="form-horizontal mr-2" method="POST" action="<?= SERVERURL ?>eventos/representante_cadastro&idPj=<?= $id ?>&id=<?= MainModel::encryption($rep1['id']) ?>" role="form">
+                                                            <input type="hidden" name="representante" value="1">
+                                                            <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</button>
+                                                        </form>
+                                                        <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>eventos/representante_cadastro&idPj=<?= $id ?>&id=<?= MainModel::encryption($rep1['id']) ?>" role="form">
+                                                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Apagar</button>
+                                                        </form>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             <?php
@@ -203,10 +208,15 @@ if (isset($_POST['pj_cnpj'])){
                                                     <td><?= $rep2['rg'] ?></td>
                                                     <td><?= $rep2['cpf'] ?></td>
                                                     <td>
-                                                        <a href="<?= SERVERURL ?>eventos/representante_cadastro&idPj=<?= $id ?>&id=<?= MainModel::encryption($rep2['id']) ?>">
-                                                            <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</button>
-                                                        </a>
-                                                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Apagar</button>
+                                                        <div class="row">
+                                                            <form class="form-horizontal mr-2" method="POST" action="<?= SERVERURL ?>eventos/representante_cadastro&idPj=<?= $id ?>&id=<?= MainModel::encryption($rep2['id']) ?>" role="form">
+                                                                <input type="hidden" name="representante" value="2">
+                                                                <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</button>
+                                                            </form>
+                                                            <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>eventos/representante_cadastro&idPj=<?= $id ?>&id=<?= MainModel::encryption($rep2['id']) ?>" role="form">
+                                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Apagar</button>
+                                                            </form>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             <?php
