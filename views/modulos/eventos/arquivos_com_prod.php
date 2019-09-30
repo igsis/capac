@@ -40,8 +40,11 @@ $lista_documento_id = $arquivosObj->recuperaIdListaDocumento(4)->fetch(PDO::FETC
                     <div class="card-body">
                         Nesta página você envia os arquivos como o rider, mapas de cenas e luz, logos de parceiros, programação de filmes de mostras de cinema, entre outros arquivos destinados à comunicação e produção. Não envie cópias de documentos nesta página.<br/>
                         Em caso de envio de fotografia, considerar as seguintes especificações técnicas:
-                        <br>- formato: horizontal
-                        <br>- tamanho: mínimo de 300dpi
+                        <ul>
+                            <li><strong>Formato:</strong> horizontal</li>
+                            <li><strong>Resolução:</strong> mínimo de 300dpi</li>
+                            <li><strong>Tamanho Máximo:</strong> 15Mb</li>
+                        </ul>
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -76,7 +79,12 @@ $lista_documento_id = $arquivosObj->recuperaIdListaDocumento(4)->fetch(PDO::FETC
                                         <td><a href="<?=SERVERURL."uploads/".$arquivo->arquivo?>" target="_blank"><?= $arquivo->arquivo ?></a></td>
                                         <td><?= $arquivosObj->dataParaBR($arquivo->data) ?></td>
                                         <td>
-                                            <button class="btn btn-sm btn-danger">Apagar</button>
+                                            <form class="formulario-ajax" action="<?=SERVERURL?>ajax/arquivosAjax.php" method="POST" data-form="delete">
+                                                <input type="hidden" name="_method" value="removerArquivo">
+                                                <input type="hidden" name="arquivo_id" value="<?=$arquivosObj->encryption($arquivo->id)?>">
+                                                <button type="submit" class="btn btn-sm btn-danger">Apagar</button>
+                                                <div class="resposta-ajax"></div>
+                                            </form>
                                         </td>
                                     </tr>
                                     <?php

@@ -201,13 +201,14 @@ class MainModel extends DbModel
      * <p>Exibe um alerta da Tanair</p>
      * @param array $dados
      * <p>Um array que deve conter os seguintes índices:</p>
-     *  <li>alerta - deve conter os valores: <strong>simples</strong>, <strong>sucesso</strong> ou
-     * <strong>limpar</strong></li>
+     *  <li>alerta - deve conter os valores: <strong>simples</strong>, <strong>sucesso</strong>,
+     * <strong>limpar</strong> ou <strong>arquivos</strong></li>
      *  <li>titulo - Texto que será usado como título do alerta</li>
      *  <li>texto - Texto que será usado no corpo do alerta</li>
      *  <li>tipo - Tipo do alerta. Deve conter os valores: <strong>success</strong>, <strong>error</strong>,
      * <strong>warning</strong>, <strong>info</strong> ou <strong>question</strong></li>
-     * <li>location - Caso o alerta seja <strong>sucesso</strong>, este índice deve conter a página para qual o usuário
+     * <li>location - Caso o alerta seja <strong>sucesso</strong> ou <strong>arquivos</strong>,
+     * este índice deve conter a página para qual o usuário
      * será retornado</li>
      * @return string
      * <p>Retorna o alerta</p>
@@ -251,6 +252,24 @@ class MainModel extends DbModel
                         });
                     </script>
                 ";
+        } elseif ($dados['alerta'] == "arquivos") {
+            $alerta = sprintf("
+                    <script>
+                        Swal.fire({
+                          title: '{$dados['titulo']}',
+                          html: %s,
+                          type: '{$dados['tipo']}',
+                          allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            showCancelButton: false,
+                          confirmButtonText: 'Confirmar'
+                        }).then(function() {
+                          window.location.href = '{$dados['location']}';
+                        });
+                    </script>
+                ",
+                is_array($dados['texto']) ? implode(" + ", $dados['texto'])." + 'Os demais arquivos foram enviados!'" : "'{$dados['texto']}'"
+            );
         }
 
         return $alerta;

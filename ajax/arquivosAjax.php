@@ -8,8 +8,8 @@ if (isset($_POST['_method'])) {
 
     if ($_POST['_method'] == "enviarArquivo") {
         echo $arquivoObj->enviarArquivo($_POST['origem_id'], $_POST['lista_documento_id']);
-    } elseif ($_POST['_method'] == "editarAtracao") {
-        echo $atracaoObj->editaAtracao($_POST, $_POST['id']);
+    } elseif ($_POST['_method'] == "removerArquivo") {
+        echo $arquivoObj->apagarArquivo($_POST['arquivo_id']);
     }
 } else {
     session_start(['name' => 'cpc']);

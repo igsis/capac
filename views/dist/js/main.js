@@ -82,7 +82,7 @@ $('.formulario-ajax').submit(function(e){
                 }
             });
         }
-        return false;
+
     });
 });
 

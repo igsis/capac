@@ -23,7 +23,7 @@ class ArquivoController extends MainModel
         return $arquivos;
     }
 
-    public function enviarArquivo($origem_id, $lista_documento_id, $validaExtencao = [false, null]) {
+    public function enviarArquivo($origem_id, $lista_documento_id, $validacoes = [false, null]) {
         $origem_id = MainModel::decryption($origem_id);
         foreach ($_FILES as $file) {
             $numArquivos = count($file['error']);
@@ -40,38 +40,42 @@ class ArquivoController extends MainModel
                 $nomeArquivo = $arquivo['name'];
                 $tamanhoArquivo = $arquivo['size'];
                 $arquivoTemp = $arquivo['tmp_name'];
-                $extensao = strtolower(end(explode('.', $nomeArquivo)));
+                $explode = explode('.', $nomeArquivo);
+                $extensao = strtolower(end($explode));
 
                 $dataAtual = date("Y-m-d H:i:s");
                 $novoNome = date('YmdHis')."_".MainModel::retiraAcentos($nomeArquivo);
+                $tamanhoMaximo = (7*1000)*1000;
 
-                if (move_uploaded_file($arquivoTemp, UPLOADDIR.$novoNome)) {
-                    $dadosInsertArquivo = [
-                        'origem_id' => $origem_id,
-                        'lista_documento_id' => $lista_documento_id,
-                        'arquivo' => $novoNome,
-                        'data' => $dataAtual
-                    ];
+                if ($tamanhoArquivo < $tamanhoMaximo) {
+                    if (move_uploaded_file($arquivoTemp, UPLOADDIR . $novoNome)) {
+                        $dadosInsertArquivo = [
+                            'origem_id' => $origem_id,
+                            'lista_documento_id' => $lista_documento_id,
+                            'arquivo' => $novoNome,
+                            'data' => $dataAtual
+                        ];
 
-                    $insertArquivo = DbModel::insert('arquivos', $dadosInsertArquivo);
-                    if ($insertArquivo->rowCount() == 0) {
+                        $insertArquivo = DbModel::insert('arquivos', $dadosInsertArquivo);
+                        if ($insertArquivo->rowCount() == 0) {
+                            $erros[$key]['bol'] = true;
+                            $erros[$key]['motivo'] = "Falha ao salvar na base de dados";
+                            $erros[$key]['arquivo'] = $nomeArquivo;
+                        }
+                    } else {
                         $erros[$key]['bol'] = true;
-                        $erros[$key]['motivo'] = "Falha ao salvar na base de dados";
+                        $erros[$key]['motivo'] = "Falha ao enviar o arquivo ao servidor";
                         $erros[$key]['arquivo'] = $nomeArquivo;
                     }
                 } else {
                     $erros[$key]['bol'] = true;
-                    $erros[$key]['motivo'] = "Falha ao enviar o arquivo ao servidor";
+                    $erros[$key]['motivo'] = "Arquivo maior que o tamanho máximo permitido";
                     $erros[$key]['arquivo'] = $nomeArquivo;
                 }
-            } else {
-                $erros[$key]['bol'] = true;
-                $erros[$key]['motivo'] = "Nenhum Arquivo Enviado";
-                $erros[$key]['arquivo'] = "Nenhum Arquivo Enviado";
             }
         }
 
-        $erro = MainModel::in_array_r(false, $erros);
+        $erro = MainModel::in_array_r(true, $erros, true);
 
         if ($erro) {
             foreach ($erros as $erro) {
@@ -80,11 +84,11 @@ class ArquivoController extends MainModel
                 }
             }
             $alerta = [
-                'alerta' => 'simples',
+                'alerta' => 'arquivos',
                 'titulo' => 'Oops! Tivemos alguns Erros!',
-//                'texto' => $lis,
-                'texto' => 'em teste',
+                'texto' => $lis,
                 'tipo' => 'error',
+                'location' => SERVERURL . 'eventos/arquivos_com_prod'
             ];
         } else {
             $alerta = [
@@ -99,17 +103,26 @@ class ArquivoController extends MainModel
         return MainModel::sweetAlert($alerta);
     }
 
-    public function apagarArquivo ($dados){
-        if (isset($_POST['apagar'])) {
-            $idArquivo = $_POST['idArquivo'];
-            $sql_apagar_arquivo = "UPDATE arquivos SET publicado = 0 WHERE id = '$idArquivo'";
-            if (mysqli_query($con, $sql_apagar_arquivo)) {
-                $arq = recuperaDados("arquivos", $idArquivo, "id");
-                $mensagem = mensagem("success", "Arquivo " . $arq['arquivo'] . "apagado com sucesso!");
-                gravarLog($sql_apagar_arquivo);
-            } else {
-                $mensagem = mensagem("danger", "Erro ao apagar o arquivo. Tente novamente!");
-            }
+    public function apagarArquivo ($arquivo_id){
+        $arquivo_id = MainModel::decryption($arquivo_id);
+        $remover = DbModel::apaga('arquivos', $arquivo_id);
+        if ($remover->rowCount() > 0) {
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Arquivo Apagado!',
+                'texto' => 'Arquivo apagado com sucesso!',
+                'tipo' => 'success',
+                'location' => SERVERURL . 'eventos/arquivos_com_prod'
+            ];
+        } else {
+            $alerta = [
+                'alerta' => 'simples',
+                'titulo' => 'Oops! Algo deu Errado!',
+                'texto' => 'Falha ao remover o arquivo do servidor, tente novamente mais tarde',
+                'tipo' => 'error',
+            ];
         }
+
+        return MainModel::sweetAlert($alerta);
     }
 }
