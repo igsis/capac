@@ -191,9 +191,7 @@ if (isset($_POST['pj_cnpj'])){
                                                             <input type="hidden" name="representante" value="1">
                                                             <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</button>
                                                         </form>
-                                                        <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>eventos/representante_cadastro&idPj=<?= $id ?>&id=<?= MainModel::encryption($rep1['id']) ?>" role="form">
-                                                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Apagar</button>
-                                                        </form>
+                                                        <button class="btn btn-sm btn-danger" id="e1"><i class="fas fa-trash"></i> Apagar</button>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -213,9 +211,7 @@ if (isset($_POST['pj_cnpj'])){
                                                                 <input type="hidden" name="representante" value="2">
                                                                 <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</button>
                                                             </form>
-                                                            <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>eventos/representante_cadastro&idPj=<?= $id ?>&id=<?= MainModel::encryption($rep2['id']) ?>" role="form">
-                                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Apagar</button>
-                                                            </form>
+                                                            <button class="btn btn-sm btn-danger" id="e2"><i class="fas fa-trash"></i> Apagar</button>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -279,6 +275,37 @@ if (isset($_POST['pj_cnpj'])){
 </div>
 <!-- /.modal -->
 
+<!--.modal-->
+<div class="modal fade" id="modal-exclusao">
+    <div class="modal-dialog">
+        <div class="modal-content bg-danger">
+            <div class="modal-header">
+                <h4 class="modal-title">Representante Legal</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/representanteAjax.php" role="form" data-form="update">
+                <input type="hidden" name="_method" value="remover">
+                <input type="hidden" name="idPj" value="<?= $id ?>">
+                <input type="hidden" name="pagina" value="eventos">
+                <input type="hidden" name="representante" id="representanteEx">
+                <div class="modal-body">
+                    <p>Realmente deseja remover o represente legal?</p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Não</button>
+                    <button type="submit" class="btn btn-default">Sim</button>
+                </div>
+                <div class="resposta-ajax"></div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
 <script>
     $(document).ready(function(){
         $("#1").click(function(){
@@ -288,6 +315,14 @@ if (isset($_POST['pj_cnpj'])){
         $("#2").click(function(){
             $("#representante").attr("value","2");
             $("#modal-default").modal();
+        });
+        $("#e1").click(function(){
+            $("#representanteEx").attr("value","1");
+            $("#modal-exclusao").modal();
+        });
+        $("#e2").click(function(){
+            $("#representanteEx").attr("value","2");
+            $("#modal-exclusao").modal();
         });
     });
 </script>

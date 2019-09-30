@@ -81,8 +81,6 @@ if (isset($_POST['cpf'])){
                     </form>
                         </div>
                         <!-- /.card-footer -->
-
-
                 </div>
                 <!-- /.card -->
             </div>

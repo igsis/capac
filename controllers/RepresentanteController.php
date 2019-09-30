@@ -115,6 +115,37 @@ class RepresentanteController extends MainModel
         return MainModel::sweetAlert($alerta);
     }
 
+    public function removeRepresentante($pagina){
+        unset($_POST['_method']);
+        unset($_POST['pagina']);
+
+        $idPj = MainModel::decryption($_POST['idPj']);
+        $rep = $_POST['representante'];
+        $pj_dados = [
+            'representante_legal'.$rep.'_id' => NULL
+        ];
+        $remove_rep = DbModel::update('pessoa_juridicas',$pj_dados,$idPj);
+        if ($remove_rep){
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Representante Legal',
+                'texto' => 'Representante Legal removido com sucesso!',
+                'tipo' => 'success',
+                'location' => SERVERURL.$pagina.'/pj_cadastro&id='.MainModel::encryption($idPj)
+            ];
+        }
+        else{
+            $alerta = [
+                'alerta' => 'simples',
+                'titulo' => 'Erro!',
+                'texto' => 'Erro ao remover!',
+                'tipo' => 'error',
+                'location' => SERVERURL.$pagina.'/pj_cadastro&id='.MainModel::encryption($idPj)
+            ];
+        }
+        return MainModel::sweetAlert($alerta);
+    }
+
     public function recuperaRepresentante($id) {
         $id = MainModel::decryption($id);
         $representante = DbModel::getInfo('representante_legais',$id);
