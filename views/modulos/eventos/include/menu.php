@@ -35,4 +35,12 @@
             <p>Proponente</p>
         </a>
     </li>
+    <?php if (isset($_SESSION['pedido_id_c'])): ?>
+        <li class="nav-item">
+            <a href="<?= SERVERURL ?>eventos/proponente" class="nav-link" id="proponente">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Anexos</p>
+            </a>
+        </li>
+    <?php endif; ?>
 <?php endif; ?>
