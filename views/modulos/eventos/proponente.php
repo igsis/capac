@@ -1,4 +1,3 @@
-
 <!-- Content Header (Page header) -->
 <div class="content-header">
     <div class="container-fluid">
@@ -23,12 +22,14 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>eventos/pj_cadastro" role="form">
+                    <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>eventos/pj_cadastro"
+                          role="form">
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-12">
                                     <label for="cnpj">CNPJ:</label>
-                                    <input type="text" class="form-control" id="cnpj" name="pj_cnpj" maxlength="17" required>
+                                    <input type="text" onkeypress="mask(this,'##.###.###/####-##')" class="form-control" id="cnpj" name="pj_cnpj" maxlength="18"
+                                           required>
                                 </div>
                             </div>
 
@@ -50,12 +51,14 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>eventos/pf_cadastro" role="form">
+                    <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>eventos/pf_cadastro"
+                          role="form">
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-12">
                                     <label for="cpf">CPF:</label>
-                                    <input type="text" class="form-control" id="cpf" name="pf_cpf" maxlength="14" required>
+                                    <input type="text" class="form-control" id="cpf" name="pf_cpf" maxlength="14"
+                                           required onkeypress="mask(this, '###.###.###-##')">
                                 </div>
                             </div>
 
@@ -77,12 +80,14 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>eventos/pf_cadastro" role="form">
+                    <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>eventos/pf_cadastro"
+                          role="form">
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-12">
                                     <label for="passaporte">Passaporte:</label>
-                                    <input type="text" class="form-control" id="passaporte" name="pf_passaporte" maxlength="14" required>
+                                    <input type="text" class="form-control" id="passaporte" name="pf_passaporte"
+                                           maxlength="14" required>
                                 </div>
                             </div>
 

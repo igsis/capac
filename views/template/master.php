@@ -89,7 +89,9 @@ else:
     <!-- ./wrapper -->
 <?php endif; ?>
 <!-- REQUIRED SCRIPTS -->
-
+<?php if(isset($sectionJS))
+        echo $sectionJS;
+?>
 <!-- Bootstrap 4 -->
 <script src="<?= SERVERURL ?>views/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
