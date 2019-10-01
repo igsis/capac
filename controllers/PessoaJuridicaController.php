@@ -89,13 +89,7 @@ class PessoaJuridicaController extends PessoaJuridicaModel
                 $telefone_existe = DbModel::consultaSimples("SELECT * FROM pj_telefones WHERE pessoa_juridica_id = '$idDecryp'");
 
                 if ($telefone_existe->rowCount()>0){
-                    $confirm = DbModel::deleteEspecial('pj_telefones', "pessoa_juridica_id",$idDecryp);
-                    if ($confirm->rowCount() > 0) {
-                        $aeoo = true;
-                    } else {
-                        $aeoo = false;
-                    }
-
+                    DbModel::deleteEspecial('pj_telefones', "pessoa_juridica_id",$idDecryp);
                 }
 
                 foreach ($dadosLimpos['telefones'] as $telefone){
@@ -103,7 +97,7 @@ class PessoaJuridicaController extends PessoaJuridicaModel
                     DbModel::insert('pj_telefones', $telefone);
                 }
             }
-
+            //$consulta_pedidos = DbModel::consultaSimples("SELECT * FROM ")
 
             $alerta = [
                 'alerta' => 'sucesso',

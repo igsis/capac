@@ -40,6 +40,10 @@ class PessoaFisicaModel extends MainModel
                     $campo = substr($campo, 3);
                     $dadosLimpos['dr'][$campo] = MainModel::limparString($post);
                     break;
+                case "of":
+                    $campo = substr($campo, 3);
+                    $dadosLimpos['of'][$campo] = MainModel::limparString($post);
+                    break;
             }
         }
 

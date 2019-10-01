@@ -7,7 +7,7 @@ if ($pedidoAjax) {
 
 class PessoaFisicaController extends PessoaFisicaModel
 {
-    public function inserePessoaFisica(){
+    public function inserePessoaFisica($pagina){
 
         $dadosLimpos = PessoaFisicaModel::limparStringPF($_POST);
 
@@ -43,21 +43,27 @@ class PessoaFisicaController extends PessoaFisicaModel
                 }
             }
 
+            if (count($dadosLimpos['of'])>0){
+                $dadosLimpos['of']['pessoa_fisica_id'] = $id;
+                DbModel::insert('pf_oficinas', $dadosLimpos['of']);
+            }
+
             $alerta = [
                 'alerta' => 'sucesso',
                 'titulo' => 'Pessoa Física',
                 'texto' => 'Pessoa Física cadastrada com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL.'eventos/pf_cadastro&id='.MainModel::encryption($id)
+                'location' => SERVERURL.$pagina.'&id='.MainModel::encryption($id)
             ];
         }
         else {
+            $pagina = explode("/",$pagina);
             $alerta = [
                 'alerta' => 'simples',
                 'titulo' => 'Erro!',
                 'texto' => 'Erro ao salvar!',
                 'tipo' => 'error',
-                'location' => SERVERURL.'eventos/proponente'
+                'location' => SERVERURL.$pagina[0].'/proponente'
             ];
         }
         /* ./cadastro */
@@ -99,15 +105,8 @@ class PessoaFisicaController extends PessoaFisicaModel
                 $telefone_existe = DbModel::consultaSimples("SELECT * FROM pf_telefones WHERE pessoa_fisica_id = '$idDecryp'");
 
                 if ($telefone_existe->rowCount()>0){
-                    $confirm = DbModel::deleteEspecial('pf_telefones', "pessoa_fisica_id",$idDecryp);
-                    if ($confirm->rowCount() > 0) {
-                        $aeoo = true;
-                    } else {
-                        $aeoo = false;
-                    }
-
+                    DbModel::deleteEspecial('pf_telefones', "pessoa_fisica_id",$idDecryp);
                 }
-
                 foreach ($dadosLimpos['telefones'] as $telefone){
                     $telefone['pessoa_fisica_id'] = $idDecryp;
                     DbModel::insert('pf_telefones', $telefone);
@@ -136,21 +135,33 @@ class PessoaFisicaController extends PessoaFisicaModel
                 }
             }
 
+            if (count($dadosLimpos['of']) > 0) {
+                $oficina_existe = DbModel::consultaSimples("SELECT * FROM pf_oficinas WHERE pessoa_fisica_id = '$idDecryp'");
+                if ($oficina_existe->rowCount()>0){
+                    DbModel::updateEspecial('ofts', $dadosLimpos['of'], "pessoa_fisica_id",$idDecryp);
+                }
+                else{
+                    $dadosLimpos['of']['pessoa_fisica_id'] = $idDecryp;
+                    DbModel::insert('ofts', $dadosLimpos['of']);
+                }
+            }
+
             $alerta = [
                 'alerta' => 'sucesso',
                 'titulo' => 'Pessoa Física',
                 'texto' => 'Pessoa Física editada com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL.$pagina.'/pf_cadastro&id='.$id
+                'location' => SERVERURL.$pagina.'&id='.$id
             ];
 
         } else {
+            $pagina = explode("/",$pagina);
             $alerta = [
                 'alerta' => 'simples',
                 'titulo' => 'Erro!',
                 'texto' => 'Erro ao salvar!',
                 'tipo' => 'error',
-                'location' => SERVERURL.$pagina.'/proponente'
+                'location' => SERVERURL.$pagina[0].'/proponente'
             ];
         }
         return MainModel::sweetAlert($alerta);
