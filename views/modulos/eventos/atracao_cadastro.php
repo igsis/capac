@@ -216,22 +216,41 @@ $sectionJS = "
     function acoesValidacao() {
         var msg = $('#msgEsconde')
         msg.hide()
-        
-        var ativo = true
+        var ativo = false
         var acoes = $('.acoes')
-        var x = 0
-        for(;x<acoes.lenght; x++){
+        
+        for(let x = 0;x<acoes.length; x++){
             if (acoes[x].checked){
-                if (check[x].value == 5){
-                    console.log('É oficina');
+                if(acoes[8].checked){
+                    disableCheckBox()
                 }
                 ativo = true;
                 x = acoes.lenght;
             }
         }
-        
-        if (ativo){
+        if (!acoes[8].checked){
+            activeCheckBox()
+        }
+        if (!ativo){
             msg.show()
+        }
+    }
+    
+    function activeCheckBox() {
+        let acoes = $('.acoes')
+        for (let i =0; i!=acoes.length;i++){
+            acoes[i].disabled = false;
+        }
+      
+    }
+    
+    function disableCheckBox(){
+        let acoes = $('.acoes')
+        for (let i =0; i!=acoes.length;i++){
+            if (i != 8){
+                acoes[i].checked = false;
+                acoes[i].disabled = true;
+            }
         }
     }
     
