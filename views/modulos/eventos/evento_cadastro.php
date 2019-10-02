@@ -1,5 +1,5 @@
 <?php
-    $tipoContratacao = $_SESSION['tipoContratacao_c'];
+    $tipoContratacao = $_SESSION['modulo_c'];
 
     if (isset($_GET['key'])) {
         $_SESSION['evento_id_c'] = $id = $_GET['key'];

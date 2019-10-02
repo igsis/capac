@@ -179,7 +179,7 @@ if (isset($_POST['pj_cnpj'])){
                                             <th>Ação</th>
                                         </tr>
                                         </thead>
-<!--                                        <tbody>-->
+                                        <tbody>
                                             <tr>
                                                 <td><b>#1</b></td>
                                                 <td><?= $rep1['nome'] ?></td>

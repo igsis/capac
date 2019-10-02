@@ -1,3 +1,7 @@
+<?php
+unset($_SESSION['evento_id_c']);
+unset($_SESSION['modulo']);
+?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
     <div class="container-fluid">
@@ -30,7 +34,7 @@
                         <p>Aqui são inseridas as informações sobre o seu evento com cachê, incluindo pessoa jurídica e/ou física.</p>
                     </div>
                     <div align="center">
-                        <a href="<?= SERVERURL ?>eventos/inicio&contratacao=1" class="small-box-footer">
+                        <a href="<?= SERVERURL ?>eventos/inicio&modulo=1" class="small-box-footer">
                             Acesse <i class="fas fa-arrow-circle-right"></i>
                         </a>
                     </div>
@@ -51,7 +55,7 @@
                         <p>Aqui são inseridas as informações sobre o seu evento sem cachê, incluindo pessoa jurídica e/ou física.</p>
                     </div>
                     <div align="center">
-                        <a href="<?= SERVERURL ?>eventos/inicio&contratacao=2" class="small-box-footer">
+                        <a href="<?= SERVERURL ?>eventos/inicio&modulo=2" class="small-box-footer">
                             Acesse <i class="fas fa-arrow-circle-right"></i>
                         </a>
                     </div>
@@ -72,7 +76,7 @@
                         <p>Para evento com contratação através de emenda parlamentar, incluindo pessoa jurídica e/ou física.</p>
                     </div>
                     <div align="center">
-                        <a href="<?= SERVERURL ?>eventos/inicio" class="small-box-footer">
+                        <a href="<?= SERVERURL ?>eventos/inicio&modulo=3" class="small-box-footer">
                             Acesse <i class="fas fa-arrow-circle-right"></i>
                         </a>
                     </div>
@@ -117,7 +121,7 @@
                         <p>Oficineiros<br>SELECIONADOS NO EDITAL nº 002/2018 SMC/GAB</p>
                     </div>
                     <div align="center">
-                        <a href="<?=SERVERURL?>oficina" class="small-box-footer">
+                        <a href="<?=SERVERURL?>oficina&modulo=5" class="small-box-footer">
                             Acesse <i class="fas fa-arrow-circle-right"></i>
                         </a>
                     </div>
