@@ -1,8 +1,10 @@
 <?php
 if ($pedidoAjax) {
     require_once "../models/PessoaJuridicaModel.php";
+    require_once "../controllers/PedidoController.php";
 } else {
     require_once "./models/PessoaJuridicaModel.php";
+    require_once "./controllers/PedidoController.php";
 }
 
 class PessoaJuridicaController extends PessoaJuridicaModel
@@ -32,6 +34,8 @@ class PessoaJuridicaController extends PessoaJuridicaModel
                     DbModel::insert('pj_telefones', $telefone);
                 }
             }
+
+            PedidoController::inserePedido("2",$id);
 
             $alerta = [
                 'alerta' => 'sucesso',
@@ -97,7 +101,8 @@ class PessoaJuridicaController extends PessoaJuridicaModel
                     DbModel::insert('pj_telefones', $telefone);
                 }
             }
-            //$consulta_pedidos = DbModel::consultaSimples("SELECT * FROM ")
+
+            PedidoController::inserePedido("2",$idDecryp);
 
             $alerta = [
                 'alerta' => 'sucesso',
