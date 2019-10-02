@@ -44,6 +44,7 @@ class ViewsModel
             'edita',
             'logout',
             'lider_cadastro',
+            'lider',
         ];
         if (self::verificaModulo($modulo)) {
             if (in_array($view, $whitelist)) {

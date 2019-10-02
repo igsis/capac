@@ -3,8 +3,6 @@ $id = isset($_GET['id']) ? $_GET['id'] : null;
 require_once "./controllers/PessoaFisicaController.php";
 $insPessoaFisica = new PessoaFisicaController();
 
-$pf=1;
-
 if ($id) {
     $pf = $insPessoaFisica->recuperaPessoaFisica($id);
     if ($pf['cpf'] != "") {
