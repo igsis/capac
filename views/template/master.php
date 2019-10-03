@@ -1,5 +1,4 @@
 <?php
-require_once "./controllers/ViewsController.php";
 $template = new ViewsController();
 
 $pedidoAjax = false;
@@ -66,7 +65,7 @@ else:
 
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
-            <?php $template->sidebar(); ?>
+            <?php include $template->sidebar(); ?>
         </aside>
 
         <!-- Control Sidebar -->

@@ -12,7 +12,7 @@ class ViewsController extends ViewsModel
     }
 
     public function sidebar() {
-        include "views/template/sidebar.php";
+        return "views/template/sidebar.php";
     }
 
     public function footer() {

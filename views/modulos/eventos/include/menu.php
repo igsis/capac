@@ -37,8 +37,9 @@
     </li>
     <?php
     if (isset($_SESSION['pedido_id_c'])):
-
+        require_once "./controllers/PedidoController.php";
         $pedidoObj = new PedidoController();
+
         $idPedido = $pedidoObj->getPedido($_SESSION['pedido_id_c']);
 
         $pedido = $pedidoObj->consultaSimples("SELECT * FROM pedidos WHERE id = $idPedido AND pessoa_juridica_id IS NOT NULL");

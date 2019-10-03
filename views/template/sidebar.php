@@ -1,5 +1,4 @@
 <?php
-    require_once "./controllers/ViewsController.php";
     $view = new ViewsController();
 
     $nomeUser = strstr($_SESSION['nome_c'], ' ', true);
@@ -30,9 +29,9 @@
             echo "<li class='nav-header'>".strtoupper($menuTitulo['0'])."</li>";
             $menu = $view->exibirMenuController();
             if ($menu == 'login') {
-                require_once "./views/template/menuExemplo.php";
+                include "./views/template/menuExemplo.php";
             } else {
-                require_once $menu;
+                include $menu;
             }
             ?>
 
