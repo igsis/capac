@@ -22,7 +22,7 @@ class PedidoController extends PedidoModel
                 'titulo' => 'Pessoa Jurídica',
                 'texto' => 'Cadastro realizado com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL.'eventos/pj_cadastro&id='.MainModel::encryption($idPj)
+                'location' => SERVERURL.$pagina.'/pj_cadastro&id='.MainModel::encryption($idPj)
             ];
         }
         else{
@@ -31,7 +31,7 @@ class PedidoController extends PedidoModel
                 'titulo' => 'Erro!',
                 'texto' => 'Erro ao salvar!',
                 'tipo' => 'error',
-                'location' => SERVERURL.'eventos/proponente'
+                'location' => SERVERURL.$pagina.'/proponente'
             ];
         }
         return MainModel::sweetAlert($alerta);
@@ -56,7 +56,7 @@ class PedidoController extends PedidoModel
                 'titulo' => 'Erro!',
                 'texto' => 'Erro ao salvar!',
                 'tipo' => 'error',
-                'location' => SERVERURL.'eventos/proponente'
+                'location' => SERVERURL.$pagina.'/proponente'
             ];
         }
         return MainModel::sweetAlert($alerta);
