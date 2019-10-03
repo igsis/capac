@@ -52,7 +52,7 @@
                                                 <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</button>
                                             </a>
                                             <a href="#">
-                                                <button class="btn btn-sm btn-secondary"><i class="fas fa-retweet"></i> Trocar Proponente</button>
+                                                <button class="btn btn-sm bg-purple"><i class="fas fa-retweet"></i> Trocar Proponente</button>
                                             </a>
                                             <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Apagar</button>
                                     </td>
