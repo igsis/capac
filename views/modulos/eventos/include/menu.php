@@ -29,12 +29,27 @@
             <p>Comunicação/Produção</p>
         </a>
     </li>
-    <li class="nav-item">
-        <a href="<?= SERVERURL ?>eventos/proponente" class="nav-link" id="proponente">
-            <i class="far fa-circle nav-icon"></i>
-            <p>Proponente</p>
-        </a>
-    </li>
+    <?php
+    if (isset($_SESSION['pedido_id_c'])) {
+        ?>
+        <li class="nav-item">
+            <a href="<?= SERVERURL ?>eventos/proponente_lista" class="nav-link" id="proponente">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Proponente</p>
+            </a>
+        </li>
+        <?php
+    } else {
+        ?>
+        <li class="nav-item">
+            <a href="<?= SERVERURL ?>eventos/proponente" class="nav-link" id="proponente">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Proponente</p>
+            </a>
+        </li>
+        <?php
+    }
+    ?>
     <?php
     if (isset($_SESSION['pedido_id_c'])):
 
@@ -42,15 +57,15 @@
         $idPedido = $pedidoObj->getPedido($_SESSION['pedido_id_c']);
 
         $pedido = $pedidoObj->consultaSimples("SELECT * FROM pedidos WHERE id = $idPedido AND pessoa_juridica_id IS NOT NULL");
-        if ($pedido->rowCount()>0):
-        ?>
+        if ($pedido->rowCount() > 0):
+            ?>
             <li class="nav-item">
                 <a href="<?= SERVERURL ?>eventos/lider" class="nav-link" id="proponente">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Líder</p>
                 </a>
             </li>
-        <?php endif;?>
+        <?php endif; ?>
         <li class="nav-item">
             <a href="<?= SERVERURL ?>eventos/proponente" class="nav-link" id="proponente">
                 <i class="far fa-circle nav-icon"></i>
