@@ -48,4 +48,11 @@ class PedidoController extends MainModel
         $id = MainModel::decryption($id);
         return $id;
     }
+
+    public function startPedido()
+    {
+       $idEvento = MainModel::decryption($_SESSION['evento_id_c']);
+       $consulta =  DbModel::consultaSimples("SELECT id FROM pedidos WHERE origem_tipo_id = 2 AND origem_id =$idEvento AND publicado = 1");
+       $_SESSION['pedido_id_c'] = MainModel::encryption($consulta);
+    }
 }

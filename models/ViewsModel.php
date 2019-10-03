@@ -45,6 +45,7 @@ class ViewsModel
             'logout',
             'lider_cadastro',
             'lider',
+            'proponente_lista',
         ];
         if (self::verificaModulo($modulo)) {
             if (in_array($view, $whitelist)) {
