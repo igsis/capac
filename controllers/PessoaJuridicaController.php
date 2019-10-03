@@ -9,7 +9,7 @@ if ($pedidoAjax) {
 
 class PessoaJuridicaController extends PessoaJuridicaModel
 {
-    public function inserePessoaJuridica($retornaId = false){
+    public function inserePessoaJuridica($pagina,$retornaId = false){
 
         $dadosLimpos = PessoaJuridicaModel::limparStringPJ($_POST);
 
@@ -35,8 +35,6 @@ class PessoaJuridicaController extends PessoaJuridicaModel
                 }
             }
 
-            //PedidoController::inserePedido("2",$id);
-
             if($retornaId){
                 return $id;
             } else{
@@ -45,7 +43,7 @@ class PessoaJuridicaController extends PessoaJuridicaModel
                     'titulo' => 'Pessoa Jurídica',
                     'texto' => 'Pessoa Jurídica cadastrada com sucesso!',
                     'tipo' => 'success',
-                    'location' => SERVERURL.'eventos/pj_cadastro&id='.MainModel::encryption($id)
+                    'location' => SERVERURL.$pagina.'/pj_cadastro&id='.MainModel::encryption($id)
                 ];
                 return MainModel::sweetAlert($alerta);
             }
@@ -56,7 +54,7 @@ class PessoaJuridicaController extends PessoaJuridicaModel
                 'titulo' => 'Erro!',
                 'texto' => 'Erro ao salvar!',
                 'tipo' => 'error',
-                'location' => SERVERURL.'eventos/proponente'
+                'location' => SERVERURL.$pagina.'/proponente'
             ];
             return MainModel::sweetAlert($alerta);
         }
@@ -107,7 +105,7 @@ class PessoaJuridicaController extends PessoaJuridicaModel
                 }
             }
 
-            PedidoController::inserePedido("2",$idDecryp);
+            //PedidoController::inserePedido("2",$idDecryp);
 
             $alerta = [
                 'alerta' => 'sucesso',

@@ -7,7 +7,7 @@ if ($pedidoAjax) {
 
 class PessoaFisicaController extends PessoaFisicaModel
 {
-    public function inserePessoaFisica($pagina){
+    public function inserePessoaFisica($pagina,$retornaId = false){
 
         $dadosLimpos = PessoaFisicaModel::limparStringPF($_POST);
 
@@ -48,13 +48,18 @@ class PessoaFisicaController extends PessoaFisicaModel
                 DbModel::insert('pf_oficinas', $dadosLimpos['of']);
             }
 
-            $alerta = [
-                'alerta' => 'sucesso',
-                'titulo' => 'Pessoa Física',
-                'texto' => 'Pessoa Física cadastrada com sucesso!',
-                'tipo' => 'success',
-                'location' => SERVERURL.$pagina.'&id='.MainModel::encryption($id)
-            ];
+            if($retornaId){
+                return $id;
+            } else{
+                $alerta = [
+                    'alerta' => 'sucesso',
+                    'titulo' => 'Pessoa Física',
+                    'texto' => 'Pessoa Física cadastrada com sucesso!',
+                    'tipo' => 'success',
+                    'location' => SERVERURL.$pagina.'&id='.MainModel::encryption($id)
+                ];
+                return MainModel::sweetAlert($alerta);
+            }
         }
         else {
             $pagina = explode("/",$pagina);

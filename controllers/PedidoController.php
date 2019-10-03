@@ -2,22 +2,24 @@
 if ($pedidoAjax) {
     require_once "../models/PedidoModel.php";
     require_once "../controllers/PessoaJuridicaController.php";
+    require_once "../controllers/PessoaFisicaController.php";
 } else {
     require_once "./models/PedidoModel.php";
     require_once "./controllers/PessoaJuridicaController.php";
+    require_once "./controllers/PessoaFisicaController.php";
 }
 
 class PedidoController extends PedidoModel
 {
-    public function inserePedidoJuridica()
+    public function inserePedidoJuridica($pagina)
     {
-        $idPj= PessoaJuridicaController::inserePessoaJuridica(true);
+        $idPj= PessoaJuridicaController::inserePessoaJuridica($pagina,true);
 
         $pedido = PedidoModel::inserePedido(2,$idPj);
         if($pedido){
             $alerta = [
                 'alerta' => 'sucesso',
-                'titulo' => 'Cadastro',
+                'titulo' => 'Pessoa Jurídica',
                 'texto' => 'Cadastro realizado com sucesso!',
                 'tipo' => 'success',
                 'location' => SERVERURL.'eventos/pj_cadastro&id='.MainModel::encryption($idPj)
@@ -33,7 +35,31 @@ class PedidoController extends PedidoModel
             ];
         }
         return MainModel::sweetAlert($alerta);
-        
+    }
+
+    public function inserePedidoFisica($pagina)
+    {
+        $idPf = PessoaFisicaController::inserePessoaFisica($pagina, true);
+        $pedido = PedidoModel::inserePedido(1,$idPf);
+        if($pedido){
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Pessoa Física',
+                'texto' => 'Cadastro realizado com sucesso!',
+                'tipo' => 'success',
+                'location' => SERVERURL.$pagina.'/pf_cadastro&id='.MainModel::encryption($idPf)
+            ];
+        }
+        else{
+            $alerta = [
+                'alerta' => 'simples',
+                'titulo' => 'Erro!',
+                'texto' => 'Erro ao salvar!',
+                'tipo' => 'error',
+                'location' => SERVERURL.'eventos/proponente'
+            ];
+        }
+        return MainModel::sweetAlert($alerta);
     }
 
     public function getPedido($id)
