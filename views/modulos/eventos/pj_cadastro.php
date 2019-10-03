@@ -123,6 +123,10 @@ if (isset($_POST['pj_cnpj'])){
                                 </div>
                             </div>
                             <hr/>
+                            <div class="alert alert-warning alert-dismissible">
+                                <h5><i class="icon fas fa-exclamation-triangle"></i> Atenção!</h5>
+                                Realizamos pagamentos de valores acima de R$ 5.000,00 <b>* SOMENTE COM CONTA CORRENTE NO BANCO DO BRASIL *</b>. Não são aceitas: conta fácil, poupança e conjunta.
+                            </div>
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label for="banco">Banco:</label>
