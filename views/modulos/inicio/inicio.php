@@ -1,5 +1,6 @@
 <?php
 unset($_SESSION['evento_id_c']);
+unset($_SESSION['pedido_id_c']);
 unset($_SESSION['modulo']);
 ?>
 <!-- Content Header (Page header) -->

@@ -44,7 +44,7 @@ if (isset($_POST['pj_cnpj'])){
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/pessoaJuridicaAjax.php" role="form" data-form="<?= ($id) ? "update" : "save" ?>">
+                    <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/pedidoJuridicaAjax.php" role="form" data-form="<?= ($id) ? "update" : "save" ?>">
                         <input type="hidden" name="_method" value="<?= ($id) ? "editar" : "cadastrar" ?>">
                         <input type="hidden" name="ultima_atualizacao" value="<?= date('Y-m-d H-i-s') ?>">
                         <input type="hidden" name="pagina" value="eventos">

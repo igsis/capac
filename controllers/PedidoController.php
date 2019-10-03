@@ -1,46 +1,39 @@
 <?php
 if ($pedidoAjax) {
-    require_once "../models/MainModel.php";
+    require_once "../models/PedidoModel.php";
+    require_once "../controllers/PessoaJuridicaController.php";
 } else {
-    require_once "./models/MainModel.php";
+    require_once "./models/PedidoModel.php";
+    require_once "./controllers/PessoaJuridicaController.php";
 }
 
-class PedidoController extends MainModel
+class PedidoController extends PedidoModel
 {
-    public function inserePedido($pessoa_tipo,$pessoa_id){
-        session_start(['name' => 'cpc']);
-        if (isset($_SESSION['evento_id_c'])){
-            $origem_tipo = 1;
-            $origem_id = MainModel::decryption($_SESSION['evento_id_c']);
-        }
-        if (isset($_SESSION['formacao_id_c'])){
-            $origem_tipo = 2;
-            $origem_id = MainModel::decryption($_SESSION['formacao_id_c']);
-        }
+    public function inserePedidoJuridica()
+    {
+        $idPj= PessoaJuridicaController::inserePessoaJuridica(true);
 
-        $dados = [
-            'origem_tipo_id' => $origem_tipo,
-            'origem_id' => $origem_id,
-            'pessoa_tipo_id' => $pessoa_tipo
-        ];
-
-        if ($pessoa_tipo == 1){
-            $dados['pessoa_fisica_id'] = $pessoa_id;
+        $pedido = PedidoModel::inserePedido(2,$idPj);
+        if($pedido){
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Cadastro',
+                'texto' => 'Cadastro realizado com sucesso!',
+                'tipo' => 'success',
+                'location' => SERVERURL.'eventos/pj_cadastro&id='.MainModel::encryption($idPj)
+            ];
         }
         else{
-            $dados['pessoa_juridica_id'] = $pessoa_id;
+            $alerta = [
+                'alerta' => 'simples',
+                'titulo' => 'Erro!',
+                'texto' => 'Erro ao salvar!',
+                'tipo' => 'error',
+                'location' => SERVERURL.'eventos/proponente'
+            ];
         }
-
-        $consulta = DbModel::consultaSimples("SELECT id FROM pedidos WHERE origem_tipo_id = $origem_tipo AND origem_id = $origem_id AND publicado = 1");
-        if ($consulta ->rowCount()<1){
-            DbModel::insert("pedidos",$dados);
-            $_SESSION['pedido_id_c'] = MainModel::encryption(DbModel::connection()->lastInsertId());
-        }
-        else{
-            $idPedido = $consulta->fetch()['id'];
-            DbModel::update("pedidos",$dados,$idPedido);
-            $_SESSION['pedido_id_c'] = MainModel::encryption($idPedido);
-        }
+        return MainModel::sweetAlert($alerta);
+        
     }
 
     public function getPedido($id)

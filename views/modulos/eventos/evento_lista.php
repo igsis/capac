@@ -4,6 +4,9 @@ if (isset($_SESSION['evento_id_c'])) {
     unset($_SESSION['evento_id_c']);
     unset($_SESSION['atracao_id_c']);
 }
+if(isset($_SESSION['pedido_id_c'])){
+    unset($_SESSION['pedido_id_c']);
+}
 
 $eventoObj = new EventoController();
 ?>
