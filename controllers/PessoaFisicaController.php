@@ -76,7 +76,7 @@ class PessoaFisicaController extends PessoaFisicaModel
     }
 
     /* edita */
-    public function editaPessoaFisica($id,$pagina){
+    public function editaPessoaFisica($id,$pagina,$retornaId = false){
         $idDecryp = MainModel::decryption($_POST['id']);
 
         $dadosLimpos = PessoaFisicaModel::limparStringPF($_POST);
@@ -151,13 +151,18 @@ class PessoaFisicaController extends PessoaFisicaModel
                 }
             }
 
-            $alerta = [
-                'alerta' => 'sucesso',
-                'titulo' => 'Pessoa Física',
-                'texto' => 'Pessoa Física editada com sucesso!',
-                'tipo' => 'success',
-                'location' => SERVERURL.$pagina.'&id='.$id
-            ];
+            if($retornaId){
+                return $idDecryp;
+            } else{
+                $alerta = [
+                    'alerta' => 'sucesso',
+                    'titulo' => 'Pessoa Física',
+                    'texto' => 'Pessoa Física editada com sucesso!',
+                    'tipo' => 'success',
+                    'location' => SERVERURL.$pagina.'&id='.$id
+                ];
+                return MainModel::sweetAlert($alerta);
+            }
 
         } else {
             $pagina = explode("/",$pagina);
