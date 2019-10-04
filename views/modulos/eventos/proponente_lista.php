@@ -1,6 +1,8 @@
 <?php
 require_once "./controllers/PedidoController.php";
 
+$pedidoObj = new PedidoController()
+
 ?>
 
 <!-- Content Header (Page header) -->
@@ -9,9 +11,6 @@ require_once "./controllers/PedidoController.php";
         <div class="row mb-2">
             <div class="col-sm-9">
                 <h1 class="m-0 text-dark">Proponente</h1>
-            </div><!-- /.col -->
-            <div class="col-sm-3">
-                <a href="<?= SERVERURL ?>eventos/proponente"><button class="btn btn-success btn-block">Adicionar</button></a>
             </div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
@@ -30,7 +29,7 @@ require_once "./controllers/PedidoController.php";
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="tabela" class="table table-bordered table-striped">
+                        <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th>Razão social</th>
@@ -41,20 +40,19 @@ require_once "./controllers/PedidoController.php";
                                 </tr>
                             </thead>
                             <tbody>
-
+                            <?php $proponente = $pedidoObj->recuperaPedido(2)  ?>
                                 <tr>
-                                    <td>xxxxxxxx</td>
-                                    <td>xxxxxxxxxxxxx</td>
-                                    <td>xxxxxxxxxxxxxxx</td>
-                                    <td>xxxxxxxxxxxxx</td>
+                                    <td><?= $proponente->razao_social ?></td>
+                                    <td><?= $proponente->cnpj ?></td>
+                                    <td><?= $proponente->ccm ?></td>
+                                    <td><?= $proponente->email ?></td>
                                     <td>
-                                            <a href="#">
+                                            <a href="<?=SERVERURL."eventos/evento_cadastro&key=".$_SESSION['evento_id_c'] ?>">
                                                 <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</button>
                                             </a>
                                             <a href="#">
                                                 <button class="btn btn-sm bg-purple"><i class="fas fa-retweet"></i> Trocar Proponente</button>
                                             </a>
-                                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Apagar</button>
                                     </td>
                                 </tr>
                             </tbody>
