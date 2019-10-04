@@ -14,8 +14,32 @@ class PedidoController extends PedidoModel
     public function inserePedidoJuridica($pagina)
     {
         $idPj= PessoaJuridicaController::inserePessoaJuridica($pagina,true);
-
         $pedido = PedidoModel::inserePedido(2,$idPj);
+        if($pedido){
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Pessoa Jurídica',
+                'texto' => 'Cadastro realizado com sucesso!',
+                'tipo' => 'success',
+                'location' => SERVERURL.$pagina.'/pj_cadastro&id='.MainModel::encryption($idPj)
+            ];
+        }
+        else{
+            $alerta = [
+                'alerta' => 'simples',
+                'titulo' => 'Erro!',
+                'texto' => 'Erro ao salvar!',
+                'tipo' => 'error',
+                'location' => SERVERURL.$pagina.'/proponente'
+            ];
+        }
+        return MainModel::sweetAlert($alerta);
+    }
+
+    public function editaPedidoJuridica($idPj,$pagina)
+    {
+        $pj = PessoaJuridicaController::editaPessoaJuridica($idPj,$pagina,true);
+        $pedido = PedidoModel::inserePedido(2,$pj);
         if($pedido){
             $alerta = [
                 'alerta' => 'sucesso',
@@ -60,6 +84,12 @@ class PedidoController extends PedidoModel
             ];
         }
         return MainModel::sweetAlert($alerta);
+    }
+
+    public function recuperaPedido($origem_tipo, $origem_id)
+    {
+        $pedido = DbModel::consultaSimples("SELECT id FROM pedidos WHERE origem_tipo_id = $origem_tipo AND origem_id = $origem_id AND publicado = 1")->fetch();
+        return $pedido;
     }
 
     public function getPedido($id)

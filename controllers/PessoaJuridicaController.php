@@ -62,7 +62,7 @@ class PessoaJuridicaController extends PessoaJuridicaModel
     }
 
     /* edita */
-    public function editaPessoaJuridica($id,$pagina){
+    public function editaPessoaJuridica($id,$pagina,$retornaId = false){
         $idDecryp = MainModel::decryption($_POST['id']);
 
         $dadosLimpos = PessoaJuridicaModel::limparStringPJ($_POST);
@@ -105,16 +105,18 @@ class PessoaJuridicaController extends PessoaJuridicaModel
                 }
             }
 
-            //PedidoController::inserePedido("2",$idDecryp);
-
-            $alerta = [
-                'alerta' => 'sucesso',
-                'titulo' => 'Pessoa Jurídica',
-                'texto' => 'Pessoa Jurídica editada com sucesso!',
-                'tipo' => 'success',
-                'location' => SERVERURL.$pagina.'/pj_cadastro&id='.$id
-            ];
-
+            if($retornaId){
+                return $idDecryp;
+            } else{
+                $alerta = [
+                    'alerta' => 'sucesso',
+                    'titulo' => 'Pessoa Jurídica',
+                    'texto' => 'Pessoa Jurídica editada com sucesso!',
+                    'tipo' => 'success',
+                    'location' => SERVERURL.$pagina.'/pj_cadastro&id='.$id
+                ];
+                return MainModel::sweetAlert($alerta);
+            }
         } else {
             $alerta = [
                 'alerta' => 'simples',
@@ -123,8 +125,8 @@ class PessoaJuridicaController extends PessoaJuridicaModel
                 'tipo' => 'error',
                 'location' => SERVERURL.$pagina.'/proponente'
             ];
+            return MainModel::sweetAlert($alerta);
         }
-        return MainModel::sweetAlert($alerta);
     }
 
     public function recuperaPessoaJuridica($id)
