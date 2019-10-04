@@ -8,6 +8,8 @@ if (isset($_POST['_method'])) {
 
     if ($_POST['_method'] == "cadastrar") {
         echo $insPedidoFisica->inserePedidoFisica($_POST['pagina']);
+    }elseif ($_POST['_method'] == "editar") {
+        echo $insPedidoFisica->editaPedidoFisica($_POST['id'],$_POST['pagina']);
     }
 } else {
     session_start(['name' => 'cpc']);

@@ -44,7 +44,7 @@ class PedidoController extends PedidoModel
             $alerta = [
                 'alerta' => 'sucesso',
                 'titulo' => 'Pessoa Jurídica',
-                'texto' => 'Cadastro realizado com sucesso!',
+                'texto' => 'Cadastro alterado com sucesso!',
                 'tipo' => 'success',
                 'location' => SERVERURL.$pagina.'/pj_cadastro&id='.$idPj
             ];
@@ -72,6 +72,31 @@ class PedidoController extends PedidoModel
                 'texto' => 'Cadastro realizado com sucesso!',
                 'tipo' => 'success',
                 'location' => SERVERURL.$pagina.'/pf_cadastro&id='.MainModel::encryption($idPf)
+            ];
+        }
+        else{
+            $alerta = [
+                'alerta' => 'simples',
+                'titulo' => 'Erro!',
+                'texto' => 'Erro ao salvar!',
+                'tipo' => 'error',
+                'location' => SERVERURL.$pagina.'/proponente'
+            ];
+        }
+        return MainModel::sweetAlert($alerta);
+    }
+
+    public function editaPedidoFisica($idPf,$pagina)
+    {
+        $pf = PessoaFisicaController::editaPessoaFisica($idPf,$pagina,true);
+        $pedido = PedidoModel::inserePedido(2,$pf);
+        if($pedido){
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Pessoa Física',
+                'texto' => 'Cadastro alterado com sucesso!',
+                'tipo' => 'success',
+                'location' => SERVERURL.$pagina.'/pf_cadastro&id='.$idPf
             ];
         }
         else{
