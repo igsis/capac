@@ -8,7 +8,7 @@ if ($pedidoAjax) {
 
 class ArquivoModel extends MainModel
 {
-    protected function separaArquivos() {
+    protected function separaArquivosComProd() {
         foreach ($_FILES as $file) {
             $numArquivos = count($file['error']);
             foreach ($file as $key => $dados) {
@@ -28,17 +28,18 @@ class ArquivoModel extends MainModel
      * @param $validaExtensao
      * @return mixed
      */
-    protected function enviaArquivos($arquivos, $origem_id, $lista_documento_id, $tamanhoMaximo, $validaExtensao) {
+    protected function enviaArquivos($arquivos, $origem_id, $tamanhoMaximo, $validaPDF = false) {
         foreach ($arquivos as $key => $arquivo) {
             $erros[$key]['bol'] = false;
             if ($arquivo['error'] != 4) {
                 $nomeArquivo = $arquivo['name'];
                 $tamanhoArquivo = $arquivo['size'];
                 $arquivoTemp = $arquivo['tmp_name'];
+                $lista_documento_id = $arquivo['lista_documento_id'];
                 $explode = explode('.', $nomeArquivo);
                 $extensao = strtolower(end($explode));
 
-                if ($validaExtensao[0] && $extensao != $validaExtensao[1]) {
+                if ($validaPDF && $extensao != 'pdf') {
                     $erros[$key]['bol'] = true;
                     $erros[$key]['motivo'] = "Arquivo em formato não aceito";
                     $erros[$key]['arquivo'] = $nomeArquivo;

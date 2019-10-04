@@ -79,3 +79,11 @@ require_once "./controllers/PedidoController.php";
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
+
+<script type="application/javascript">
+    $(document).ready(function () {
+        $('.nav-link').removeClass('active');
+        $('#itens-proponente').addClass('menu-open');
+        $('#proponentes-cadastrados').addClass('active');
+    })
+</script>
