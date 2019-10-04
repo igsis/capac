@@ -3,6 +3,10 @@
 
     if (isset($_GET['key'])) {
         $_SESSION['evento_id_c'] = $id = $_GET['key'];
+        require_once "./controllers/PedidoController.php";
+        $pedidoObj = new PedidoController();
+        $pedidoObj->startPedido();
+
     } elseif (isset($_SESSION['evento_id_c'])) {
         $id = $_SESSION['evento_id_c'];
     } else {
