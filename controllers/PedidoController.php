@@ -46,7 +46,7 @@ class PedidoController extends PedidoModel
                 'titulo' => 'Pessoa Jurídica',
                 'texto' => 'Cadastro realizado com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL.$pagina.'/pj_cadastro&id='.MainModel::encryption($idPj)
+                'location' => SERVERURL.$pagina.'/pj_cadastro&id='.$idPj
             ];
         }
         else{
