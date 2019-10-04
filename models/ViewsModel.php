@@ -46,6 +46,7 @@ class ViewsModel
             'lider_cadastro',
             'lider',
             'proponente_lista',
+            'anexos_proponente',
         ];
         if (self::verificaModulo($modulo)) {
             if (in_array($view, $whitelist)) {

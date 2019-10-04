@@ -15,7 +15,15 @@ class ArquivoController extends ArquivoModel
 
         return $lista_documento_id;
     }
-    public function listarArquivos($origem_id, $lista_documento_id) {
+
+    public function listarArquivos($tipo_documento_id) {
+        $sql = "SELECT * FROM lista_documentos WHERE tipo_documento_id = '$tipo_documento_id'";
+        $arquivos = DbModel::consultaSimples($sql);
+
+        return $arquivos;
+    }
+
+    public function listarArquivosEnviados($origem_id, $lista_documento_id) {
         $origem_id = MainModel::decryption($origem_id);
         $sql = "SELECT * FROM arquivos WHERE `origem_id` = '$origem_id' AND lista_documento_id = '$lista_documento_id' AND publicado = '1'";
         $arquivos = DbModel::consultaSimples($sql);
@@ -23,10 +31,10 @@ class ArquivoController extends ArquivoModel
         return $arquivos;
     }
 
-    public function enviarArquivo($origem_id, $lista_documento_id, $validaExtensao = [false, null]) {
+    public function enviarArquivoComProd($origem_id) {
         $origem_id = MainModel::decryption($origem_id);
-        $arquivos = ArquivoModel::separaArquivos();
-        $erros = ArquivoModel::enviaArquivos($arquivos, $origem_id, $lista_documento_id, 15, $validaExtensao);
+        $arquivos = ArquivoModel::separaArquivosComProd();
+        $erros = ArquivoModel::enviaArquivos($arquivos, $origem_id, 15);
         $erro = MainModel::in_array_r(true, $erros, true);
 
         if ($erro) {
@@ -49,6 +57,37 @@ class ArquivoController extends ArquivoModel
                 'texto' => 'Arquivos enviados com sucesso!',
                 'tipo' => 'success',
                 'location' => SERVERURL . 'eventos/arquivos_com_prod'
+            ];
+        }
+
+        return MainModel::sweetAlert($alerta);
+    }
+
+    public function enviarArquivo($origem_id) {
+//        $origem_id = MainModel::decryption($origem_id);
+        $erros = ArquivoModel::enviaArquivos($_FILES, $origem_id,15, true);
+        $erro = MainModel::in_array_r(true, $erros, true);
+
+        if ($erro) {
+            foreach ($erros as $erro) {
+                if ($erro['bol']){
+                    $lis[] = "'<li>" . $erro['arquivo'] . ": " . $erro['motivo'] . "</li>'";
+                }
+            }
+            $alerta = [
+                'alerta' => 'arquivos',
+                'titulo' => 'Oops! Tivemos alguns Erros!',
+                'texto' => $lis,
+                'tipo' => 'error',
+                'location' => SERVERURL . 'eventos/arquivos_com_prod'
+            ];
+        } else {
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Arquivos Enviados!',
+                'texto' => 'Arquivos enviados com sucesso!',
+                'tipo' => 'success',
+                'location' => SERVERURL . 'eventos/anexos_proponente'
             ];
         }
 

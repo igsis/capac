@@ -71,7 +71,7 @@ $lista_documento_id = $arquivosObj->recuperaIdListaDocumento(4)->fetch(PDO::FETC
                             </thead>
                             <tbody>
                             <?php
-                            $arquivosEnviados = $arquivosObj->listarArquivos($evento_id, $lista_documento_id)->fetchAll(PDO::FETCH_OBJ);
+                            $arquivosEnviados = $arquivosObj->listarArquivosEnviados($evento_id, $lista_documento_id)->fetchAll(PDO::FETCH_OBJ);
                             if (count($arquivosEnviados) != 0) {
                                 foreach ($arquivosEnviados as $arquivo) {
                                     ?>
@@ -117,7 +117,7 @@ $lista_documento_id = $arquivosObj->recuperaIdListaDocumento(4)->fetch(PDO::FETC
                     <!-- table start -->
                     <div class="card-body p-0">
                         <form class="formulario-ajax" method="POST" action="<?=SERVERURL?>ajax/arquivosAjax.php" data-form="save" enctype="multipart/form-data">
-                            <input type="hidden" name="_method" value="enviarArquivo">
+                            <input type="hidden" name="_method" value="enviarArquivoComProd">
                             <input type="hidden" name="origem_id" value="<?= $evento_id ?>">
                             <input type="hidden" name="lista_documento_id" value="<?=$lista_documento_id?>">
                             <table class="table table-striped">

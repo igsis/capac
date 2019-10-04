@@ -29,22 +29,47 @@
             <p>Comunicação/Produção</p>
         </a>
     </li>
+
     <?php
     if (isset($_SESSION['pedido_id_c'])) {
         ?>
-        <li class="nav-item">
-            <a href="<?= SERVERURL ?>eventos/proponente_lista" class="nav-link" id="proponente">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Proponente</p>
+        <li class="nav-item has-treeview" id="itens-proponente">
+            <a href="#" class="nav-link"><i class="far fa-circle nav-icon"></i>
+                <p>
+                    Proponente
+                    <i class="right fas fa-angle-left"></i>
+                </p>
             </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="<?= SERVERURL ?>eventos/proponente_lista" class="nav-link" id="proponentes-cadastrados">
+
+                        <div class="row">
+                            <div class="col-3"><i class="ml-3 far fa-dot-circle nav-icon"></i></div>
+                            <div class="col-9">Proponentes Cadastrados</div>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?= SERVERURL ?>eventos/anexos_proponente" class="nav-link" id="anexos-proponente">
+                        <div class="row">
+                            <div class="col-3"><i class="ml-3 far fa-dot-circle nav-icon"></i></div>
+                            <div class="col-9">Anexos do Proponente</div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
         </li>
         <?php
     } else {
         ?>
+
         <li class="nav-item">
             <a href="<?= SERVERURL ?>eventos/proponente" class="nav-link" id="proponente">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Proponente</p>
+                <p>
+                    Proponente
+                </p>
             </a>
         </li>
         <?php
@@ -68,7 +93,7 @@
             </li>
         <?php endif; ?>
         <li class="nav-item">
-            <a href="<?= SERVERURL ?>eventos/proponente" class="nav-link" id="proponente">
+            <a href="<?= SERVERURL ?>eventos/anexos" class="nav-link" id="anexos">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Anexos</p>
             </a>

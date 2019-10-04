@@ -3,13 +3,14 @@ $evento_id = $_SESSION['evento_id_c'];
 require_once "./controllers/ArquivoController.php";
 $arquivosObj = new ArquivoController();
 $lista_documento_id = $arquivosObj->recuperaIdListaDocumento(4)->fetch(PDO::FETCH_COLUMN);
+$proponente_id = 1;
 ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Comunicação / Produção</h1>
+                <h1 class="m-0 text-dark">Anexos do Proponente</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -124,12 +125,14 @@ $lista_documento_id = $arquivosObj->recuperaIdListaDocumento(4)->fetch(PDO::FETC
                                 <?php
                                 $arquivos = $arquivosObj->listarArquivos(1)->fetchAll(PDO::FETCH_OBJ);
                                 foreach ($arquivos as $arquivo) {
+                                    $_FILES[$arquivo->sigla]['lista_documento_id'] = $arquivo->id;
                                     ?>
                                     <tr>
                                         <td>
                                             <label for=""><?=$arquivo->documento?></label>
                                         </td>
                                         <td>
+                                            <input type="hidden" name="lista_documento_id" value="<?=$arquivo->id?>">
                                             <input class="text-center" type='file' name='<?=$arquivo->sigla?>'><br>
                                         </td>
                                     </tr>
@@ -140,9 +143,7 @@ $lista_documento_id = $arquivosObj->recuperaIdListaDocumento(4)->fetch(PDO::FETC
                             </table>
                             <input type="submit" class="btn btn-success btn-md btn-block" name="enviar" value='Enviar'>
 
-                            <div class="resposta-ajax">
-
-                            </div>
+                            <div class="resposta-ajax"></div>
                     </div>
                 </div>
                 <!-- /.card -->
