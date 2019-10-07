@@ -111,15 +111,13 @@ class PedidoController extends PedidoModel
     {
         $origem_id = MainModel::decryption($_SESSION['evento_id_c']);
         if ($origem_tipo == 2) {
-            $pedido = DbModel::consultaSimples("SELECT pj.razao_social,
-                                                            pj.cnpj, pj.ccm, pj.email 
+            $pedido = DbModel::consultaSimples("SELECT pj.id, pj.razao_social, pj.cnpj, pj.ccm, pj.email 
                                                     FROM pessoa_juridicas AS pj JOIN pedidos AS p ON pj.id = p.pessoa_juridica_id 
                                                     WHERE origem_tipo_id = $origem_tipo AND origem_id = $origem_id AND publicado = 1")
                 ->fetch(PDO::FETCH_OBJ);
         }else {
-            $pedido = DbModel::consultaSimples("SELECT pj.razao_social,
-                                                            pj.cnpj, pj.ccm, pj.email 
-                                                    FROM pessoa_juridicas AS pj JOIN pedidos AS p ON pj.id = p.pessoa_fisica_id 
+            $pedido = DbModel::consultaSimples("SELECT pf.nome, pf.cpf, pf.ccm, pf.email 
+                                                    FROM pessoa_fisica AS pf JOIN pedidos AS p ON pf.id = p.pessoa_fisica_id 
                                                     WHERE origem_tipo_id = $origem_tipo AND origem_id = $origem_id AND publicado = 1")
                 ->fetch(PDO::FETCH_OBJ);
         }

@@ -31,39 +31,63 @@ $pedidoObj = new PedidoController()
                     <div class="card-body">
                         <table class="table table-bordered table-striped">
                             <thead>
-                                <tr>
-                                    <th>Razão social</th>
-                                    <th>CNPJ</th>
-                                    <th>CCM</th>
-                                    <th>E-mail</th>
-                                    <th>Ação</th>
-                                </tr>
+                            <tr>
+                                <th>Razão social</th>
+                                <th>CNPJ</th>
+                                <th>CCM</th>
+                                <th>E-mail</th>
+                                <th>Ação</th>
+                            </tr>
                             </thead>
                             <tbody>
-                            <?php $proponente = $pedidoObj->recuperaPedido(2)  ?>
+                            <?php
+                            if (isset($proponente)) {
+                                $proponente = $pedidoObj->recuperaPedido(2)
+                                ?>
                                 <tr>
                                     <td><?= $proponente->razao_social ?></td>
                                     <td><?= $proponente->cnpj ?></td>
                                     <td><?= $proponente->ccm ?></td>
                                     <td><?= $proponente->email ?></td>
                                     <td>
-                                            <a href="<?=SERVERURL."eventos/evento_cadastro&key=".$_SESSION['evento_id_c'] ?>">
-                                                <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</button>
+                                        <div class="row">
+                                            <form class="mr-md-3" method="post"
+                                                  action="<?= SERVERURL ?>eventos/pj_cadastro">
+                                                <input type="hidden" name="pj_cnpj" value="<?= $proponente->cnpj ?>">
+                                                <button type="submit" class="btn btn-sm btn-primary"><i
+                                                            class="fas fa-edit"></i> Editar
+                                                </button>
+                                            </form>
+                                            <a href="<?= SERVERURL ?>eventos/proponente">
+                                                <button class="btn btn-sm bg-purple"><i class="fas fa-retweet"></i>
+                                                    Trocar
+                                                    Proponente
+                                                </button>
                                             </a>
-                                            <a href="#">
-                                                <button class="btn btn-sm bg-purple"><i class="fas fa-retweet"></i> Trocar Proponente</button>
-                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
+                            <?php } else { ?>
+                                <tr>
+                                    <td colspan="5" style="">
+                                        <div class="row">
+                                            <a class="mx-auto btn btn-success btn-sm"
+                                               href="<?= SERVERURL ?>eventos/proponente">Adicionar proponente</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <?php
+                            }
+                            ?>
                             </tbody>
                             <tfoot>
-                                <tr>
-                                    <th>Razão social</th>
-                                    <th>CNPJ</th>
-                                    <th>CCM</th>
-                                    <th>E-mail</th>
-                                    <th>Ação</th>
-                                </tr>
+                            <tr>
+                                <th>Razão social</th>
+                                <th>CNPJ</th>
+                                <th>CCM</th>
+                                <th>E-mail</th>
+                                <th>Ação</th>
+                            </tr>
                             </tfoot>
                         </table>
                     </div>
