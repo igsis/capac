@@ -23,9 +23,9 @@ class ArquivoController extends ArquivoModel
         return $arquivos;
     }
 
-    public function listarArquivosEnviados($origem_id, $lista_documento_id) {
+    public function listarArquivosEnviadosComProd($origem_id) {
         $origem_id = MainModel::decryption($origem_id);
-        $sql = "SELECT * FROM arquivos WHERE `origem_id` = '$origem_id' AND lista_documento_id = '$lista_documento_id' AND publicado = '1'";
+        $sql = "SELECT * FROM arquivos WHERE `origem_id` = '$origem_id' AND lista_documento_id = '4' AND publicado = '1'";
         $arquivos = DbModel::consultaSimples($sql);
 
         return $arquivos;
@@ -63,8 +63,20 @@ class ArquivoController extends ArquivoModel
         return MainModel::sweetAlert($alerta);
     }
 
+    public function listarArquivosEnviados($origem_id, $lista_documentos_ids) {
+//        $origem_id = MainModel::decryption($origem_id);
+        $documentos = implode(", ", $lista_documentos_ids);
+        $sql = "SELECT * FROM arquivos WHERE `origem_id` = '$origem_id' AND lista_documento_id IN ($documentos) AND publicado = '1'";
+        $arquivos = DbModel::consultaSimples($sql);
+
+        return $arquivos;
+    }
+
     public function enviarArquivo($origem_id) {
 //        $origem_id = MainModel::decryption($origem_id);
+        foreach ($_FILES as $key => $arquivo){
+            $_FILES[$key]['lista_documento_id'] = $_POST[$key];
+        }
         $erros = ArquivoModel::enviaArquivos($_FILES, $origem_id,15, true);
         $erro = MainModel::in_array_r(true, $erros, true);
 
@@ -79,7 +91,7 @@ class ArquivoController extends ArquivoModel
                 'titulo' => 'Oops! Tivemos alguns Erros!',
                 'texto' => $lis,
                 'tipo' => 'error',
-                'location' => SERVERURL . 'eventos/arquivos_com_prod'
+                'location' => SERVERURL . 'eventos/anexos_proponente'
             ];
         } else {
             $alerta = [
@@ -103,7 +115,7 @@ class ArquivoController extends ArquivoModel
                 'titulo' => 'Arquivo Apagado!',
                 'texto' => 'Arquivo apagado com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL . 'eventos/arquivos_com_prod'
+                'location' => SERVERURL . 'eventos/anexos_proponente'
             ];
         } else {
             $alerta = [
@@ -115,5 +127,12 @@ class ArquivoController extends ArquivoModel
         }
 
         return MainModel::sweetAlert($alerta);
+    }
+
+    public function consultaArquivoEnviado($lista_documento_id, $origem_id)
+    {
+        $sql = "SELECT * FROM arquivos WHERE lista_documento_id = '$lista_documento_id' AND origem_id = '$origem_id' AND publicado = '1'";
+        $arquivo = DbModel::consultaSimples($sql)->rowCount();
+        return $arquivo > 0 ? true : false;
     }
 }

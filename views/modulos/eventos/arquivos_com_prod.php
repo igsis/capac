@@ -71,7 +71,7 @@ $lista_documento_id = $arquivosObj->recuperaIdListaDocumento(4)->fetch(PDO::FETC
                             </thead>
                             <tbody>
                             <?php
-                            $arquivosEnviados = $arquivosObj->listarArquivosEnviados($evento_id, $lista_documento_id)->fetchAll(PDO::FETCH_OBJ);
+                            $arquivosEnviados = $arquivosObj->listarArquivosEnviadosComProd($evento_id)->fetchAll(PDO::FETCH_OBJ);
                             if (count($arquivosEnviados) != 0) {
                                 foreach ($arquivosEnviados as $arquivo) {
                                     ?>
