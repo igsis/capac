@@ -18,11 +18,12 @@ class LiderController extends MainModel
     {
         $idEvento = MainModel::decryption($_SESSION['evento_id_c']);
         $atracao = DbModel::consultaSimples("
-            SELECT atr.id as atracao_id, atr.evento_id, atr.nome_atracao, pf.nome FROM atracoes AS atr
+            SELECT atr.id as atracao_id, atr.evento_id, atr.nome_atracao, pf.nome, lid.pessoa_fisica_id 
+            FROM atracoes AS atr
             LEFT JOIN lideres lid on atr.id = lid.atracao_id
             LEFT JOIN pessoa_fisicas AS pf ON lid.pessoa_fisica_id = pf.id
             WHERE atr.publicado = 1 AND atr.evento_id = $idEvento
-        ")->fetchAll(PDO::FETCH_ASSOC);
+        ")->fetchAll(PDO::FETCH_OBJ);
         return $atracao;
     }
 }
