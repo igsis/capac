@@ -81,6 +81,7 @@ $lista_documento_id = $arquivosObj->recuperaIdListaDocumento(4)->fetch(PDO::FETC
                                         <td>
                                             <form class="formulario-ajax" action="<?=SERVERURL?>ajax/arquivosAjax.php" method="POST" data-form="delete">
                                                 <input type="hidden" name="_method" value="removerArquivo">
+                                                <input type="hidden" name="pagina" value="arquivos_com_prod">
                                                 <input type="hidden" name="arquivo_id" value="<?=$arquivosObj->encryption($arquivo->id)?>">
                                                 <button type="submit" class="btn btn-sm btn-danger">Apagar</button>
                                                 <div class="resposta-ajax"></div>

@@ -11,7 +11,7 @@ if (isset($_POST['_method'])) {
     } elseif ($_POST['_method'] == "enviarArquivo") {
         echo $arquivoObj->enviarArquivo($_POST['origem_id']);
     } elseif ($_POST['_method'] == "removerArquivo") {
-        echo $arquivoObj->apagarArquivo($_POST['arquivo_id']);
+        echo $arquivoObj->apagarArquivo($_POST['arquivo_id'], $_POST['pagina']);
     }
 } else {
     session_start(['name' => 'cpc']);

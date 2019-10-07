@@ -64,7 +64,7 @@ class ArquivoController extends ArquivoModel
     }
 
     public function listarArquivosEnviados($origem_id, $lista_documentos_ids) {
-//        $origem_id = MainModel::decryption($origem_id);
+        $origem_id = MainModel::decryption($origem_id);
         $documentos = implode(", ", $lista_documentos_ids);
         $sql = "SELECT * FROM arquivos WHERE `origem_id` = '$origem_id' AND lista_documento_id IN ($documentos) AND publicado = '1'";
         $arquivos = DbModel::consultaSimples($sql);
@@ -73,7 +73,7 @@ class ArquivoController extends ArquivoModel
     }
 
     public function enviarArquivo($origem_id) {
-//        $origem_id = MainModel::decryption($origem_id);
+        $origem_id = MainModel::decryption($origem_id);
         foreach ($_FILES as $key => $arquivo){
             $_FILES[$key]['lista_documento_id'] = $_POST[$key];
         }
@@ -106,7 +106,7 @@ class ArquivoController extends ArquivoModel
         return MainModel::sweetAlert($alerta);
     }
 
-    public function apagarArquivo ($arquivo_id){
+    public function apagarArquivo ($arquivo_id, $pagina){
         $arquivo_id = MainModel::decryption($arquivo_id);
         $remover = DbModel::apaga('arquivos', $arquivo_id);
         if ($remover->rowCount() > 0) {
@@ -115,7 +115,7 @@ class ArquivoController extends ArquivoModel
                 'titulo' => 'Arquivo Apagado!',
                 'texto' => 'Arquivo apagado com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL . 'eventos/anexos_proponente'
+                'location' => SERVERURL . 'eventos/'.$pagina
             ];
         } else {
             $alerta = [
@@ -131,6 +131,7 @@ class ArquivoController extends ArquivoModel
 
     public function consultaArquivoEnviado($lista_documento_id, $origem_id)
     {
+        $origem_id = MainModel::decryption($origem_id);
         $sql = "SELECT * FROM arquivos WHERE lista_documento_id = '$lista_documento_id' AND origem_id = '$origem_id' AND publicado = '1'";
         $arquivo = DbModel::consultaSimples($sql)->rowCount();
         return $arquivo > 0 ? true : false;

@@ -1,9 +1,23 @@
 <?php
-$evento_id = $_SESSION['evento_id_c'];
 require_once "./controllers/ArquivoController.php";
+require_once "./controllers/PedidoController.php";
+
+$pedido_id = $_SESSION['pedido_id_c'];
+
+$pedidoObj = new PedidoController();
 $arquivosObj = new ArquivoController();
-$lista_documento_ids = $arquivosObj->recuperaIdListaDocumento(1)->fetchAll(PDO::FETCH_COLUMN);
-$proponente_id = 1;
+
+$proponente = $pedidoObj->recuperaProponente($pedido_id);
+
+if ($proponente->pessoa_tipo_id == 1) {
+    $tipo_documento_id = 1;
+    $proponente_id = $arquivosObj->encryption($proponente->pessoa_fisica_id);
+} else {
+    $tipo_documento_id = 2;
+    $proponente_id = $arquivosObj->encryption($proponente->pessoa_juridica_id);
+}
+
+$lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id)->fetchAll(PDO::FETCH_COLUMN);
 ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -65,6 +79,7 @@ $proponente_id = 1;
                         <table class="table table-striped">
                             <thead>
                             <tr>
+                                <th>Tipo do documento</th>
                                 <th>Nome do documento</th>
                                 <th style="width: 30%">Data de envio</th>
                                 <th style="width: 10%">Ação</th>
@@ -77,11 +92,13 @@ $proponente_id = 1;
                                 foreach ($arquivosEnviados as $arquivo) {
                                     ?>
                                     <tr>
+                                        <td></td>
                                         <td><a href="<?=SERVERURL."uploads/".$arquivo->arquivo?>" target="_blank"><?= $arquivo->arquivo ?></a></td>
                                         <td><?= $arquivosObj->dataParaBR($arquivo->data) ?></td>
                                         <td>
                                             <form class="formulario-ajax" action="<?=SERVERURL?>ajax/arquivosAjax.php" method="POST" data-form="delete">
                                                 <input type="hidden" name="_method" value="removerArquivo">
+                                                <input type="hidden" name="pagina" value="anexos_proponente">
                                                 <input type="hidden" name="arquivo_id" value="<?=$arquivosObj->encryption($arquivo->id)?>">
                                                 <button type="submit" class="btn btn-sm btn-danger">Apagar</button>
                                                 <div class="resposta-ajax"></div>
@@ -123,7 +140,7 @@ $proponente_id = 1;
                             <table class="table table-striped">
                                 <tbody>
                                     <?php
-                                    $arquivos = $arquivosObj->listarArquivos(1)->fetchAll(PDO::FETCH_OBJ);
+                                    $arquivos = $arquivosObj->listarArquivos($tipo_documento_id)->fetchAll(PDO::FETCH_OBJ);
                                     foreach ($arquivos as $arquivo) {
                                         if ($arquivosObj->consultaArquivoEnviado($arquivo->id, $proponente_id)) {
                                         ?>

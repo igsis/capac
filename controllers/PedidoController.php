@@ -143,4 +143,12 @@ class PedidoController extends PedidoModel
             return false;
         }
     }
+
+    public function recuperaProponente($pedido_id) {
+        $pedido_id = MainModel::decryption($pedido_id);
+        $sql = "SELECT pessoa_tipo_id, pessoa_juridica_id, pessoa_fisica_id FROM pedidos WHERE id = '$pedido_id'";
+        $pedido = DbModel::consultaSimples($sql)->fetchObject();
+
+        return $pedido;
+    }
 }
