@@ -8,7 +8,9 @@ if ($pedidoAjax) {
 class EventoController extends EventoModel
 {
     public function listaEvento($usuario_id){
-        $consultaEvento = DbModel::consultaSimples("SELECT * FROM eventos AS e INNER JOIN tipos_contratacoes tc on e.tipo_contratacao_id = tc.id WHERE e.publicado != 0 AND usuario_id = '$usuario_id'");
+        $consultaEvento = DbModel::consultaSimples("SELECT e.id, e.nome_evento, e.data_cadastro, tc.tipo_contratacao, e.publicado
+FROM eventos AS e INNER JOIN tipos_contratacoes tc on e.tipo_contratacao_id = tc.id 
+WHERE e.publicado != 0 AND usuario_id = '1'");
         $eventos = $consultaEvento->fetchAll(PDO::FETCH_OBJ);
         return $eventos;
     }
