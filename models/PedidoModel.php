@@ -45,7 +45,7 @@ class PedidoModel extends MainModel
         else{
             $idPedido = $consulta->fetch()['id'];
             $pedido = DbModel::update("pedidos",$dados,$idPedido);
-            if($pedido->rowCount()>0){
+            if($pedido->rowCount() >= 1 || DbModel::connection()->errorCode() == 0){
                 $_SESSION['pedido_id_c'] = MainModel::encryption($idPedido);
                 return true;
             } else{

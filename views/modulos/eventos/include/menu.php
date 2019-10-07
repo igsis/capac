@@ -33,7 +33,7 @@
     <?php
     if (isset($_SESSION['pedido_id_c'])) {
         ?>
-        <li class="nav-item has-treeview" id="itens-proponente">
+        <li class="nav-item has-treeview menu-open" id="itens-proponente">
             <a href="#" class="nav-link"><i class="far fa-circle nav-icon"></i>
                 <p>
                     Proponente
