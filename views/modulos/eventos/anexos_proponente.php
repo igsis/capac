@@ -2,7 +2,7 @@
 $evento_id = $_SESSION['evento_id_c'];
 require_once "./controllers/ArquivoController.php";
 $arquivosObj = new ArquivoController();
-$lista_documento_id = $arquivosObj->recuperaIdListaDocumento(4)->fetch(PDO::FETCH_COLUMN);
+$lista_documento_ids = $arquivosObj->recuperaIdListaDocumento(1)->fetchAll(PDO::FETCH_COLUMN);
 $proponente_id = 1;
 ?>
 <!-- Content Header (Page header) -->
@@ -72,7 +72,7 @@ $proponente_id = 1;
                             </thead>
                             <tbody>
                             <?php
-                            $arquivosEnviados = $arquivosObj->listarArquivosEnviados($evento_id, $lista_documento_id)->fetchAll(PDO::FETCH_OBJ);
+                            $arquivosEnviados = $arquivosObj->listarArquivosEnviados($proponente_id, $lista_documento_ids)->fetchAll(PDO::FETCH_OBJ);
                             if (count($arquivosEnviados) != 0) {
                                 foreach ($arquivosEnviados as $arquivo) {
                                     ?>
@@ -119,26 +119,35 @@ $proponente_id = 1;
                     <div class="card-body p-0">
                         <form class="formulario-ajax" method="POST" action="<?=SERVERURL?>ajax/arquivosAjax.php" data-form="save" enctype="multipart/form-data">
                             <input type="hidden" name="_method" value="enviarArquivo">
-                            <input type="hidden" name="origem_id" value="<?= $evento_id ?>">
+                            <input type="hidden" name="origem_id" value="<?= $proponente_id ?>">
                             <table class="table table-striped">
                                 <tbody>
-                                <?php
-                                $arquivos = $arquivosObj->listarArquivos(1)->fetchAll(PDO::FETCH_OBJ);
-                                foreach ($arquivos as $arquivo) {
-                                    $_FILES[$arquivo->sigla]['lista_documento_id'] = $arquivo->id;
-                                    ?>
-                                    <tr>
-                                        <td>
-                                            <label for=""><?=$arquivo->documento?></label>
-                                        </td>
-                                        <td>
-                                            <input type="hidden" name="lista_documento_id" value="<?=$arquivo->id?>">
-                                            <input class="text-center" type='file' name='<?=$arquivo->sigla?>'><br>
-                                        </td>
-                                    </tr>
                                     <?php
-                                }
-                                ?>
+                                    $arquivos = $arquivosObj->listarArquivos(1)->fetchAll(PDO::FETCH_OBJ);
+                                    foreach ($arquivos as $arquivo) {
+                                        if ($arquivosObj->consultaArquivoEnviado($arquivo->id, $proponente_id)) {
+                                        ?>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <div class="callout callout-success text-center">
+                                                        Arquivo <strong><?= $arquivo->documento ?></strong> já enviado!
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        <?php } else { ?>
+                                            <tr>
+                                                <td>
+                                                    <label for=""><?=$arquivo->documento?></label>
+                                                </td>
+                                                <td>
+                                                    <input type="hidden" name="<?=$arquivo->sigla?>" value="<?=$arquivo->id?>">
+                                                    <input class="text-center" type='file' name='<?=$arquivo->sigla?>'><br>
+                                                </td>
+                                            </tr>
+                                        <?php
+                                        }
+                                    }
+                                    ?>
                                 </tbody>
                             </table>
                             <input type="submit" class="btn btn-success btn-md btn-block" name="enviar" value='Enviar'>
