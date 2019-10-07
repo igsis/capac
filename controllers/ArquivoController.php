@@ -77,7 +77,7 @@ class ArquivoController extends ArquivoModel
         foreach ($_FILES as $key => $arquivo){
             $_FILES[$key]['lista_documento_id'] = $_POST[$key];
         }
-        $erros = ArquivoModel::enviaArquivos($_FILES, $origem_id,15, true);
+        $erros = ArquivoModel::enviaArquivos($_FILES, $origem_id,8, true);
         $erro = MainModel::in_array_r(true, $erros, true);
 
         if ($erro) {

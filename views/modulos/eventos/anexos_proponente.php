@@ -53,12 +53,9 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        Nesta página você envia os arquivos como o rider, mapas de cenas e luz, logos de parceiros, programação de filmes de mostras de cinema, entre outros arquivos destinados à comunicação e produção. Não envie cópias de documentos nesta página.<br/>
-                        Em caso de envio de fotografia, considerar as seguintes especificações técnicas:
                         <ul>
-                            <li><strong>Formato:</strong> horizontal</li>
-                            <li><strong>Resolução:</strong> mínimo de 300dpi</li>
-                            <li><strong>Tamanho Máximo:</strong> 15Mb</li>
+                            <li><strong>Formato Permitido:</strong> PDF</li>
+                            <li><strong>Tamanho Máximo:</strong> 8Mb</li>
                         </ul>
                     </div>
                     <!-- /.card-body -->
