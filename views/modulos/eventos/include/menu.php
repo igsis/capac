@@ -46,7 +46,7 @@
 
                         <div class="row">
                             <div class="col-3"><i class="ml-3 far fa-dot-circle nav-icon"></i></div>
-                            <div class="col-9">Proponentes Cadastrados</div>
+                            <div class="col-9">Proponente Cadastrado</div>
                         </div>
                     </a>
                 </li>
