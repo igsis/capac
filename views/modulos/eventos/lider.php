@@ -9,7 +9,7 @@ $evento_id = $_SESSION['evento_id_c'];
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-9">
-                <h1 class="m-0 text-dark">Eventos</h1>
+                <h1 class="m-0 text-dark">Líder do grupo ou artista solo</h1>
             </div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
@@ -32,39 +32,36 @@ $evento_id = $_SESSION['evento_id_c'];
                             <thead>
                             <tr>
                                 <th>Nome da Atração</th>
-                                <th>Líder</th>
-                                <th>Ação</th>
+                                <th>Líder do grupo ou artista solo</th>
+                                <th>Anexos</th>
                             </tr>
                             </thead>
-<!--                            <tbody>-->
+                            <tbody>
                             <?php foreach ($atracaoObj->listaAtracaoProponente() as $atracao): ?>
                                 <tr>
                                     <td><?=$atracao->nome_atracao?></td>
                                     <td>
-                                        <?php if (!$atracao->pessoa_fisica_id): ?>
-
-                                                <button id="btn-atracao" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modal-default" data-atracao="<?=$atracao->atracao_id?>"><i class="fas fa-plus"></i> Adicionar</button>
-
-                                        <?php else: ?>
+                                        <?php
+                                        if (!$atracao->pessoa_fisica_id){
+                                            $disabled = "disabled" ?>
+                                            <button id="btn-atracao" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-default" data-atracao="<?=$atracao->atracao_id?>"><i class="fas fa-plus"></i> Adicionar</button>
+                                        <?php
+                                        } else{
+                                            $disabled = ""?>
                                             <a href="<?=SERVERURL."eventos/lider_cadastro&key=".$atracaoObj->encryption($atracao->lider_id)?>">
                                                 <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> <?=$atracao->lider->nome?></button>
                                             </a>
-                                        <?php endif; ?>
+                                        <?php } ?>
                                     </td>
-                                    <td>
-                                        <a href="<?=SERVERURL."eventos/atracao_cadastro&key=".$atracaoObj->encryption($atracao->atracao_id)?>">
-                                            <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</button>
-                                        </a>
-                                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Apagar</button>
-                                    </td>
+                                    <td><button class="btn btn-sm btn-primary" <?= $disabled?>><i class="fas fa-archive"></i> Anexos</button></td>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <th>Nome da Atração</th>
-                                    <th>Líder</th>
-                                    <th>Ação</th>
+                                    <th>Líder do grupo ou artista solo</th>
+                                    <th>Anexos</th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -84,7 +81,7 @@ $evento_id = $_SESSION['evento_id_c'];
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Pessoa Física</h4>
+                <h4 class="modal-title">Líder do grupo ou artista solo</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -105,7 +102,7 @@ $evento_id = $_SESSION['evento_id_c'];
                                     <div class="row">
                                         <input type="hidden" name="atracao_id" id="atracao_id">
                                         <div class="input-group mb-3">
-                                            <input type="text" class="form-control" name="pf_cpf">
+                                            <input type="text" class="form-control" name="pf_cpf" maxlength="14" onkeypress="mask(this, '###.###.###-##')">
                                             <div class="input-group-append">
                                                 <button type="submit" class="btn btn-primary btn-flat"><i class="fas fa-search"></i></button>
                                             </div>
@@ -115,7 +112,20 @@ $evento_id = $_SESSION['evento_id_c'];
                             </div>
                         </div>
                         <div class="tab-pane fade" id="vert-tabs-passaporte" role="tabpanel" aria-labelledby="vert-tabs-passaporte-tab">
-                            Mauris tincidunt mi at erat gravida, eget tristique urna bibendum. Mauris pharetra purus ut ligula tempor, et vulputate metus facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas sollicitudin, nisi a luctus interdum, nisl ligula placerat mi, quis posuere purus ligula eu lectus. Donec nunc tellus, elementum sit amet ultricies at, posuere nec nunc. Nunc euismod pellentesque diam.
+                            <div class="modal-body">
+                                <label for="passaporte">Passaporte:</label>
+                                <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>eventos/lider_cadastro" role="form">
+                                    <div class="row">
+                                        <input type="hidden" name="atracao_id" id="atracao_id">
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" name="pf_passaporte" maxlength="10">
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-primary btn-flat"><i class="fas fa-search"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
