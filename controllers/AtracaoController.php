@@ -38,6 +38,7 @@ class AtracaoController extends AtracaoModel
             }
         }
         $dadosAtracao['evento_id'] = MainModel::decryption($_SESSION['evento_id_c']);
+        $dadosAtracao['valor_individual'] = MainModel::dinheiroDeBr($dadosAtracao['valor_individual']);
         /* /.limpeza */
 
         /* cadastro */
@@ -84,6 +85,9 @@ class AtracaoController extends AtracaoModel
         foreach ($post as $campo => $valor) {
             if ($campo != "acoes") {
                 $dadosAtracao[$campo] = MainModel::limparString($valor);
+                if ($campo == "valor_individual") {
+                    $dadosAtracao[$campo] = MainModel::dinheiroDeBr($dadosAtracao[$campo]);
+                }
                 unset($post[$campo]);
             }
         }

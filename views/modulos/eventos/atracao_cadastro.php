@@ -147,7 +147,8 @@ $atracao = $atracaoObj->recuperaAtracao($id);
                                         <label for="valor_individual">Valor *</label> <i>Preencher 0,00 quando não
                                             houver valor</i>
                                         <input type="text" id="valor_individual" name="valor_individual"
-                                               class="form-control" value="<?= $atracao->valor_individual ?? "" ?>"
+                                               class="form-control"
+                                               value="<?= isset($atracao->valor_individual) ? $atracaoObj->dinheiroParaBr($atracao->valor_individual) : "" ?>"
                                                required
                                                onKeyPress="return(moeda(this,'.',',',event))">
                                     </div>
@@ -204,59 +205,66 @@ $atracao = $atracaoObj->recuperaAtracao($id);
     <!-- /modal -->
 
 <?php
-
-$sectionJS = "
+$sectionJS = <<<'JQUERY'
 <script>
+    function desabilitaCheckboxes(acoes) {
+        if (acoes[8].checked) {
+            for (let x = 0; x < acoes.length; x++) {
+                if (x !== 8) {
+                    acoes[x].disabled = true;
+                    acoes[x].checked = false;
+                }
+            }
+        }
+    }
+
+    function reabilitaCheckBoxes(acoes) {
+        for (let x = 0; x < acoes.length; x++) {
+            acoes[x].disabled = false;
+        }
+    }
+
+    function validaAcoes() {
+        var acoes = $(".acoes");
+        var msg = $("#msgEsconde");
+        var checked = false;
+        var btnCadastra = $('#cadastra');
+
+        for (let x = 0; x < acoes.length; x++) {
+            if (acoes[x].checked) {
+                if (acoes[8].checked) {
+                    desabilitaCheckboxes(acoes);
+                } else {
+                    acoes[8].disabled = true;
+                }
+                checked = true;
+            }
+        }
+
+        if (checked) {
+            msg.hide();
+            btnCadastra.attr("disabled", false);
+            btnCadastra.removeAttr("data-toggle");
+            btnCadastra.removeAttr("data-placement");
+            btnCadastra.removeAttr("title");
+        } else {
+            reabilitaCheckBoxes(acoes);
+            msg.show();
+            btnCadastra.attr("disabled", true);
+            btnCadastra.attr("data-toggle", 'tooltip');
+            btnCadastra.attr("data-placement", 'left');
+            btnCadastra.attr("title", 'Selecione pelo menos uma Ação');
+
+        }
+    }
+
+    $('.acoes').on('change', validaAcoes);
 
     $(document).ready(function () {
+        validaAcoes();
         $('.nav-link').removeClass('active');
         $('#atracao_cadastro').addClass('active');
-    })
-    
-    function acoesValidacao() {
-        var msg = $('#msgEsconde')
-        msg.hide()
-        var ativo = false
-        var acoes = $('.acoes')
-        
-        for(let x = 0;x<acoes.length; x++){
-            if (acoes[x].checked){
-                if(acoes[8].checked){
-                    disableCheckBox()
-                }
-                ativo = true;
-                x = acoes.lenght;
-            }
-        }
-        if (!acoes[8].checked){
-            activeCheckBox()
-        }
-        if (!ativo){
-            msg.show()
-        }
-    }
-    
-    function activeCheckBox() {
-        let acoes = $('.acoes')
-        for (let i =0; i!=acoes.length;i++){
-            acoes[i].disabled = false;
-        }
-      
-    }
-    
-    function disableCheckBox(){
-        let acoes = $('.acoes')
-        for (let i =0; i!=acoes.length;i++){
-            if (i != 8){
-                acoes[i].checked = false;
-                acoes[i].disabled = true;
-            }
-        }
-    }
-    
-    $(document).ready(acoesValidacao);
-    
-    $('.acoes').on('change',acoesValidacao);
-</script>"
-
+    });
+</script>
+JQUERY;
 ?>
