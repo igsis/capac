@@ -135,7 +135,7 @@ class PedidoController extends PedidoModel
     {
         $idEvento = $_SESSION['evento_id_c'];
         $idEvento = MainModel::decryption($idEvento);
-        $consulta = DbModel::consultaSimples("SELECT id FROM pedidos WHERE origem_tipo_id = 2 AND origem_id = $idEvento AND publicado = 1")->fetch(PDO::FETCH_ASSOC);
+        $consulta = DbModel::consultaSimples("SELECT id FROM pedidos WHERE origem_tipo_id = 1 AND origem_id = $idEvento AND publicado = 1")->fetch(PDO::FETCH_ASSOC);
         $resultado = $consulta['id'];
         if ($resultado != null) {
             $_SESSION['pedido_id_c'] = MainModel::encryption($resultado);
