@@ -25,7 +25,7 @@ class ArquivoController extends ArquivoModel
 
     public function listarArquivosEnviadosComProd($origem_id) {
         $origem_id = MainModel::decryption($origem_id);
-        $sql = "SELECT * FROM arquivos WHERE `origem_id` = '$origem_id' AND lista_documento_id = '4' AND publicado = '1'";
+        $sql = "SELECT * FROM arquivos WHERE `origem_id` = '$origem_id' AND lista_documento_id = '1' AND publicado = '1'";
         $arquivos = DbModel::consultaSimples($sql);
 
         return $arquivos;

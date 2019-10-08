@@ -51,7 +51,7 @@ $atracaoObj = new AtracaoController();
                                         <?php if (!$atracao->produtor_id): ?>
                                             <form action="<?=SERVERURL."eventos/produtor_cadastro"?>" method="post">
                                                 <input type="hidden" name="atracao_id" value="<?=$atracaoObj->encryption($atracao->id)?>">
-                                                <button type="submit" class="btn btn-app"><i class="fas fa-plus"></i>Adicionar Produtor</button>
+                                                <button type="submit" class="btn btn-sm btn-success"><i class="fas fa-plus"></i>Adicionar Produtor</button>
                                             </form>
                                         <?php else: ?>
                                             <a href="<?=SERVERURL."eventos/produtor_cadastro&key=".$atracaoObj->encryption($atracao->produtor_id)?>">
