@@ -118,14 +118,15 @@ class PessoaFisicaController extends PessoaFisicaModel
                 }
             }
 
-            if (count($dadosLimpos['ni']) > 0) {
-                $nit_existe = DbModel::consultaSimples("SELECT * FROM nits WHERE pessoa_fisica_id = '$idDecryp'");
-                if ($nit_existe->rowCount()>0){
-                    DbModel::updateEspecial('nits', $dadosLimpos['ni'], "pessoa_fisica_id",$idDecryp);
-                }
-                else{
-                    $dadosLimpos['ni']['pessoa_fisica_id'] = $idDecryp;
-                    DbModel::insert('nits', $dadosLimpos['ni']);
+            if(isset($dadosLimpos['ni'])){
+                if (count($dadosLimpos['ni']) > 0) {
+                    $nit_existe = DbModel::consultaSimples("SELECT * FROM nits WHERE pessoa_fisica_id = '$idDecryp'");
+                    if ($nit_existe->rowCount() > 0) {
+                        DbModel::updateEspecial('nits', $dadosLimpos['ni'], "pessoa_fisica_id", $idDecryp);
+                    } else {
+                        $dadosLimpos['ni']['pessoa_fisica_id'] = $idDecryp;
+                        DbModel::insert('nits', $dadosLimpos['ni']);
+                    }
                 }
             }
 

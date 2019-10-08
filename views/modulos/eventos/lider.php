@@ -48,8 +48,8 @@ $evento_id = $_SESSION['evento_id_c'];
                                         <?php
                                         } else{
                                             $disabled = ""?>
-                                            <a href="<?=SERVERURL."eventos/lider_cadastro&key=".$atracaoObj->encryption($atracao->lider_id)?>">
-                                                <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> <?=$atracao->lider->nome?></button>
+                                            <a href="<?=SERVERURL."eventos/lider_cadastro&key=".$atracaoObj->encryption($atracao->atracao_id)?>">
+                                                <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> <?=$atracao->nome?></button>
                                             </a>
                                         <?php } ?>
                                     </td>

@@ -10,6 +10,9 @@ class PessoaFisicaModel extends MainModel
     protected function limparStringPF($dados) {
         unset($dados['_method']);
         unset($dados['pagina']);
+        if($dados['atracao_id']){
+            unset($dados['atracao_id']);
+        }
         /* executa limpeza nos campos */
 
         foreach ($dados as $campo => $post) {

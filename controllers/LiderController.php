@@ -1,17 +1,64 @@
 <?php
 if ($pedidoAjax) {
-    require_once "../models/MainModel.php";
+    require_once "../models/LiderModel.php";
+    require_once "../controllers/PessoaFisicaController.php";
 } else {
-    require_once "./models/MainModel.php";
+    require_once "./models/LiderModel.php";
+    require_once "./controllers/PessoaFisicaController.php";
 }
 
-class LiderController extends MainModel
+class LiderController extends LiderModel
 {
-    public function insereLider()
+    public function insereLider($pagina)
     {
-        PessoaFisicaController::inserePessoaFisica($_POST['pagina']);
-       //$insere = DbModel::insert("lideres")
+        $idPf = PessoaFisicaController::inserePessoaFisica($pagina, true);
+        $idAtracao = $_POST['atracao_id'];
+        $insere = LiderModel::insere($idAtracao,$idPf);
+        if ($insere){
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Líder',
+                'texto' => 'Cadastro realizado com sucesso!',
+                'tipo' => 'success',
+                'location' => SERVERURL . $pagina . '/lider'
+            ];
+        } else{
+            $alerta = [
+                'alerta' => 'simples',
+                'titulo' => 'Erro!',
+                'texto' => 'Erro ao salvar!',
+                'tipo' => 'error',
+                'location' => SERVERURL . $pagina . '/lider'
+            ];
+        }
+        return MainModel::sweetAlert($alerta);
+    }
 
+    public function editaLider($idPf, $pagina)
+    {
+        $idPf = MainModel::decryption($idPf);
+        session_start(['name' => 'cpc']);
+        PessoaFisicaController::editaPessoaFisica($idPf, $pagina, true);
+        $idAtracao = $_POST['atracao_id'];
+        $insere = LiderModel::insere($idAtracao,$idPf);
+        if ($insere){
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Líder',
+                'texto' => 'Cadastro atualizado com sucesso!',
+                'tipo' => 'success',
+                'location' => SERVERURL . $pagina . '/lider'
+            ];
+        } else{
+            $alerta = [
+                'alerta' => 'simples',
+                'titulo' => 'Erro!',
+                'texto' => 'Erro ao salvar!',
+                'tipo' => 'error',
+                'location' => SERVERURL . $pagina . '/lider'
+            ];
+        }
+        return MainModel::sweetAlert($alerta);
     }
 
     public function listaAtracaoProponente()
@@ -25,5 +72,12 @@ class LiderController extends MainModel
             WHERE atr.publicado = 1 AND atr.evento_id = $idEvento
         ")->fetchAll(PDO::FETCH_OBJ);
         return $atracao;
+    }
+
+    public function getLider($idAtracao,$idPf)
+    {
+        $idPedido = MainModel::decryption($_SESSION['pedido_id_c']);
+        $consulta = DbModel::consultaSimples("SELECT id FROM lideres WHERE pedido_id = '$idPedido' AND atracao_id = '$idAtracao' AND pessoa_fisica_id = '$idPf'")->fetch();
+        return $consulta;
     }
 }
