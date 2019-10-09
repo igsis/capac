@@ -13,7 +13,8 @@ class LiderController extends LiderModel
     {
         $idPf = PessoaFisicaController::inserePessoaFisica($pagina, true);
         $idAtracao = $_POST['atracao_id'];
-        $insere = LiderModel::insere($idAtracao,$idPf);
+        $idPedido = MainModel::decryption($_SESSION['pedido_id_c']);
+        $insere = LiderModel::insere($idPedido,$idAtracao,$idPf);
         if ($insere){
             $alerta = [
                 'alerta' => 'sucesso',
@@ -37,7 +38,7 @@ class LiderController extends LiderModel
     public function editaLider($idPf, $pagina)
     {
         $idPf = MainModel::decryption($idPf);
-        $idPedido = $_SESSION['pedido_id_c'];
+        $idPedido = MainModel::decryption($_SESSION['pedido_id_c']);
         PessoaFisicaController::editaPessoaFisica($idPf, $pagina, true);
         $idAtracao = $_POST['atracao_id'];
         $insere = LiderModel::insere($idPedido,$idAtracao,$idPf);
