@@ -28,7 +28,6 @@ class AtracaoController extends AtracaoModel
 
     public function insereAtracao($post){
         /* executa limpeza nos campos */
-        session_start(['name' => 'cpc']);
         $dadosAtracao = [];
         unset($post['_method']);
         foreach ($post as $campo => $valor) {
@@ -78,7 +77,6 @@ class AtracaoController extends AtracaoModel
 
     public function editaAtracao($post,$atracao_id){
         /* executa limpeza nos campos */
-        session_start(['name' => 'cpc']);
         $dadosAtracao = [];
         unset($post['_method']);
         unset($post['id']);

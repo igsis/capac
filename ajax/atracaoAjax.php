@@ -3,6 +3,7 @@ $pedidoAjax = true;
 require_once "../config/configGeral.php";
 
 if (isset($_POST['_method'])) {
+    session_start(['name' => 'cpc']);
     require_once "../controllers/AtracaoController.php";
     $atracaoObj = new AtracaoController();
 

@@ -23,7 +23,6 @@ WHERE e.publicado != 0 AND usuario_id = '1'");
 
     public function insereEvento($post){
         /* executa limpeza nos campos */
-        session_start(['name' => 'cpc']);
         $dadosEvento = [];
         unset($post['_method']);
         foreach ($post as $campo => $valor) {
@@ -93,7 +92,6 @@ WHERE e.publicado != 0 AND usuario_id = '1'");
 
     public function editaEvento($post,$evento_id){
         /* executa limpeza nos campos */
-        session_start(['name' => 'cpc']);
         $dadosEvento = [];
         unset($post['_method']);
         unset($post['id']);

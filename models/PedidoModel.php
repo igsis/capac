@@ -9,7 +9,6 @@ if ($pedidoAjax) {
 class PedidoModel extends MainModel
 {
     public function inserePedido($pessoa_tipo,$pessoa_id){
-        session_start(['name' => 'cpc']);
         if (isset($_SESSION['evento_id_c'])){
             $origem_tipo = 1;
             $origem_id = MainModel::decryption($_SESSION['evento_id_c']);

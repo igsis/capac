@@ -37,7 +37,6 @@ class LiderController extends LiderModel
     public function editaLider($idPf, $pagina)
     {
         $idPf = MainModel::decryption($idPf);
-        session_start(['name' => 'cpc']);
         $idPedido = $_SESSION['pedido_id_c'];
         PessoaFisicaController::editaPessoaFisica($idPf, $pagina, true);
         $idAtracao = $_POST['atracao_id'];
