@@ -1,7 +1,7 @@
 <?php
 require_once "./controllers/PedidoController.php";
 
-$pedidoObj = new PedidoController()
+$pedidoObj = new PedidoController();
 
 ?>
 
@@ -32,9 +32,8 @@ $pedidoObj = new PedidoController()
                         <table class="table table-bordered table-striped">
                             <thead>
                             <tr>
-                                <th>Razão social</th>
-                                <th>CNPJ</th>
-                                <th>CCM</th>
+                                <th>Nome</th>
+                                <th>Documento</th>
                                 <th>E-mail</th>
                                 <th>Ação</th>
                             </tr>
@@ -46,7 +45,6 @@ $pedidoObj = new PedidoController()
                             <tr>
                                 <td><?= $proponente->razao_social ?></td>
                                 <td><?= $proponente->cnpj ?></td>
-                                <td><?= $proponente->ccm ?></td>
                                 <td><?= $proponente->email ?></td>
                                 <td>
                                     <div class="row">

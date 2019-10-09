@@ -111,16 +111,18 @@ class PedidoController extends PedidoModel
     {
         $origem_id = MainModel::decryption($_SESSION['evento_id_c']);
         if ($origem_tipo == 2) {
-            $pedido = DbModel::consultaSimples("SELECT pj.id, pj.razao_social, pj.cnpj, pj.ccm, pj.email 
-                                                    FROM pessoa_juridicas AS pj JOIN pedidos AS p ON pj.id = p.pessoa_juridica_id 
-                                                    WHERE origem_tipo_id = $origem_tipo AND origem_id = $origem_id AND publicado = 1")
-                ->fetch(PDO::FETCH_OBJ);
-        }else {
-            $pedido = DbModel::consultaSimples("SELECT pf.nome, pf.cpf, pf.ccm, pf.email 
-                                                    FROM pessoa_fisicas AS pf JOIN pedidos AS p ON pf.id = p.pessoa_fisica_id 
-                                                    WHERE origem_tipo_id = $origem_tipo AND origem_id = $origem_id AND publicado = 1")
-                ->fetch(PDO::FETCH_OBJ);
+            $sql = "SELECT 
+                        pj.id,
+                        pj.razao_social AS 'nome', pj.cnpj, pj.ccm, pj.email 
+                    FROM pessoa_juridicas AS pj JOIN pedidos AS p ON pj.id = p.pessoa_juridica_id 
+                    WHERE origem_tipo_id = $origem_tipo AND origem_id = $origem_id AND publicado = 1";
+        } else {
+            $sql = "SELECT pf.nome, pf.cpf, pf.ccm, pf.email 
+                    FROM pessoa_fisicas AS pf JOIN pedidos AS p ON pf.id = p.pessoa_fisica_id 
+                    WHERE origem_tipo_id = $origem_tipo AND origem_id = $origem_id AND publicado = 1";
         }
+
+        $pedido = DbModel::consultaSimples($sql)->fetch(PDO::FETCH_OBJ);
 
         return $pedido;
     }
@@ -147,8 +149,8 @@ class PedidoController extends PedidoModel
     public function recuperaProponente($pedido_id) {
         $pedido_id = MainModel::decryption($pedido_id);
         $sql = "SELECT pessoa_tipo_id, pessoa_juridica_id, pessoa_fisica_id FROM pedidos WHERE id = '$pedido_id'";
-        $pedido = DbModel::consultaSimples($sql)->fetchObject();
+        $proponente = DbModel::consultaSimples($sql)->fetchObject();
 
-        return $pedido;
+        return $proponente;
     }
 }
