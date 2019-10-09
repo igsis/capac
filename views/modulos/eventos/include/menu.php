@@ -46,7 +46,7 @@
 
                         <div class="row">
                             <div class="col-3"><i class="ml-3 far fa-dot-circle nav-icon"></i></div>
-                            <div class="col-9">Proponente Cadastrado</div>
+                            <div class="col-9">Cadastro</div>
                         </div>
                     </a>
                 </li>
@@ -54,7 +54,7 @@
                     <a href="<?= SERVERURL ?>eventos/anexos_proponente" class="nav-link" id="anexos-proponente">
                         <div class="row">
                             <div class="col-3"><i class="ml-3 far fa-dot-circle nav-icon"></i></div>
-                            <div class="col-9">Anexos do Proponente</div>
+                            <div class="col-9">Anexos</div>
                         </div>
                     </a>
                 </li>
