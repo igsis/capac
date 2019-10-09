@@ -3,6 +3,7 @@ $pedidoAjax = true;
 require_once "../config/configGeral.php";
 
 if (isset($_POST['_method'])) {
+
     require_once "../controllers/ProdutorController.php";
     $insProdutor = new ProdutorController();
 
@@ -12,7 +13,5 @@ if (isset($_POST['_method'])) {
         echo $insProdutor->editaProdutor($_POST, $_POST['produtor_id']);
     }
 } else {
-    session_start(['name' => 'cpc']);
-    session_destroy();
-    echo '<script> window.location.href="'. SERVERURL .'" </script>';
+    include_once "../config/destroySession.php";
 }

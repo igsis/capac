@@ -12,7 +12,5 @@ if (isset($_POST['_method'])) {
         echo $insLider->editaLider($_POST['id'],$_POST['pagina']);
     }
 } else {
-    session_start(['name' => 'cpc']);
-    session_destroy();
-    echo '<script> window.location.href="'. SERVERURL .'" </script>';
+    include_once "../config/destroySession.php";
 }

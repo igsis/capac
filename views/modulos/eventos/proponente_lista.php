@@ -41,43 +41,32 @@ $pedidoObj = new PedidoController()
                             </thead>
                             <tbody>
                             <?php
-                            if (isset($proponente)) {
-                                $proponente = $pedidoObj->recuperaPedido(2)
-                                ?>
-                                <tr>
-                                    <td><?= $proponente->razao_social ?></td>
-                                    <td><?= $proponente->cnpj ?></td>
-                                    <td><?= $proponente->ccm ?></td>
-                                    <td><?= $proponente->email ?></td>
-                                    <td>
-                                        <div class="row">
-                                            <form class="mr-md-3" method="post"
-                                                  action="<?= SERVERURL ?>eventos/pj_cadastro">
-                                                <input type="hidden" name="pj_cnpj" value="<?= $proponente->cnpj ?>">
-                                                <button type="submit" class="btn btn-sm btn-primary"><i
-                                                            class="fas fa-edit"></i> Editar
-                                                </button>
-                                            </form>
-                                            <a href="<?= SERVERURL ?>eventos/proponente">
-                                                <button class="btn btn-sm bg-purple"><i class="fas fa-retweet"></i>
-                                                    Trocar
-                                                    Proponente
-                                                </button>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            <?php } else { ?>
-                                <tr>
-                                    <td colspan="5" style="">
-                                        <div class="row">
-                                            <a class="mx-auto btn btn-success btn-sm"
-                                               href="<?= SERVERURL ?>eventos/proponente">Adicionar proponente</a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <?php
-                            }
+                            $proponente = $pedidoObj->recuperaPedido(1)
+                            ?>
+                            <tr>
+                                <td><?= $proponente->razao_social ?></td>
+                                <td><?= $proponente->cnpj ?></td>
+                                <td><?= $proponente->ccm ?></td>
+                                <td><?= $proponente->email ?></td>
+                                <td>
+                                    <div class="row">
+                                        <form class="mr-md-3" method="post"
+                                              action="<?= SERVERURL ?>eventos/pj_cadastro">
+                                            <input type="hidden" name="pj_cnpj" value="<?= $proponente->cnpj ?>">
+                                            <button type="submit" class="btn btn-sm btn-primary"><i
+                                                        class="fas fa-edit"></i> Editar
+                                            </button>
+                                        </form>
+                                        <a href="<?= SERVERURL ?>eventos/proponente">
+                                            <button class="btn btn-sm bg-purple"><i class="fas fa-retweet"></i>
+                                                Trocar
+                                                Proponente
+                                            </button>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <?php
                             ?>
                             </tbody>
                             <tfoot>

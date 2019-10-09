@@ -14,7 +14,5 @@ if (isset($_POST['_method'])) {
         }
     }
 } else {
-    session_start(['name' => 'cpc']);
-    session_destroy();
-    echo '<script> window.location.href="'. SERVERURL .'" </script>';
+    include_once "../config/destroySession.php";
 }

@@ -18,7 +18,5 @@ if (isset($_POST['_method'])) {
         echo $insUsuario->trocaSenha($_POST, $_POST['id']);
     }
 } else {
-    session_start();
-    session_destroy();
-    echo '<script> window.location.href="'. SERVERURL .'" </script>';
+    include_once "../config/destroySession.php";
 }
