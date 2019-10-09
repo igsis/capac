@@ -48,9 +48,10 @@ $evento_id = $_SESSION['evento_id_c'];
                                         <?php
                                         } else{
                                             $disabled = ""?>
-                                            <a href="<?=SERVERURL."eventos/lider_cadastro&key=".$atracaoObj->encryption($atracao->atracao_id)?>">
+                                            <form class="form-horizontal" method="POST" action="<?=SERVERURL."eventos/lider_cadastro&id=".$atracaoObj->encryption($atracao->pessoa_fisica_id)?>" role="form">
+                                                <input type="hidden" name="atracao_id" value="<?= $atracao->atracao_id?>">
                                                 <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> <?=$atracao->nome?></button>
-                                            </a>
+                                            </form>
                                         <?php } ?>
                                     </td>
                                     <td><button class="btn btn-sm btn-primary" <?= $disabled?>><i class="fas fa-archive"></i> Anexos</button></td>

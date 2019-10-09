@@ -8,10 +8,7 @@ if ($pedidoAjax) {
 
 class LiderModel extends MainModel
 {
-    public function insere($idAtracao,$idPf){
-        session_start(['name' => 'cpc']);
-        $idPedido = MainModel::decryption($_SESSION['pedido_id_c']);
-
+    public function insere($idPedido,$idAtracao,$idPf){
         $dados = [
             'pedido_id' => $idPedido,
             'atracao_id' => $idAtracao,
@@ -22,7 +19,6 @@ class LiderModel extends MainModel
         if ($consulta ->rowCount()<1){
             DbModel::insert("lideres",$dados);
             if(DbModel::connection()->errorCode() == 0){
-                //$_SESSION['pedido_id_c'] = MainModel::encryption(DbModel::connection()->lastInsertId());
                 return true;
             } else{
                 return false;

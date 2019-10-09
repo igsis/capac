@@ -38,9 +38,10 @@ class LiderController extends LiderModel
     {
         $idPf = MainModel::decryption($idPf);
         session_start(['name' => 'cpc']);
+        $idPedido = $_SESSION['pedido_id_c'];
         PessoaFisicaController::editaPessoaFisica($idPf, $pagina, true);
         $idAtracao = $_POST['atracao_id'];
-        $insere = LiderModel::insere($idAtracao,$idPf);
+        $insere = LiderModel::insere($idPedido,$idAtracao,$idPf);
         if ($insere){
             $alerta = [
                 'alerta' => 'sucesso',
