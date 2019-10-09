@@ -22516,10 +22516,11 @@ html.maximized-card {
 .register-page {
   -ms-flex-align: center;
   align-items: center;
-  background: #e9ecef;
+  background-image: url("../img/sao-paulo.jpg");
+  /*background: #e9ecef;*/
   display: -ms-flexbox;
   display: flex;
-  height: 100vh;
+  height: 80vh;
   -ms-flex-pack: center;
   justify-content: center;
 }
