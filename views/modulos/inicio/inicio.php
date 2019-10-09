@@ -27,9 +27,8 @@ unset($_SESSION['modulo']);
                     <div class="card-header">
                         <h3 class="card-title">
                             <i class="fas fa-calendar-alt"></i>
-                            Evento
+                            Evento - Com cachê
                         </h3>
-                        <p>Com cachê</p>
                     </div>
                     <div class="bg-light col-md">
                         <p>Aqui são inseridas as informações sobre o seu evento com cachê, incluindo pessoa jurídica e/ou física.</p>
@@ -48,9 +47,8 @@ unset($_SESSION['modulo']);
                     <div class="card-header">
                         <h3 class="card-title">
                             <i class="fas fa-calendar-alt"></i>
-                            Evento
+                            Evento - Sem cachê
                         </h3>
-                        <p>Sem cachê</p>
                     </div>
                     <div class="bg-light col-md">
                         <p>Aqui são inseridas as informações sobre o seu evento sem cachê, incluindo pessoa jurídica e/ou física.</p>
@@ -69,9 +67,8 @@ unset($_SESSION['modulo']);
                     <div class="card-header">
                         <h3 class="card-title">
                             <i class="fas fa-calendar-alt"></i>
-                            Emenda
+                            Emenda Parlamentar
                         </h3>
-                        <p>Parlamentar</p>
                     </div>
                     <div class="bg-light col-md">
                         <p>Para evento com contratação através de emenda parlamentar, incluindo pessoa jurídica e/ou física.</p>
@@ -92,7 +89,6 @@ unset($_SESSION['modulo']);
                             <i class="fas fa-calendar-alt"></i>
                             Agendão
                         </h3>
-                        <p>Divulgação</p>
                     </div>
                     <div class="bg-light col-md">
                         <p>Área para inserção de eventos de unidades externas para divulgação através do site Agendão.</p>
@@ -114,9 +110,8 @@ unset($_SESSION['modulo']);
                     <div class="card-header">
                         <h3 class="card-title">
                             <i class="fas fa-file-alt"></i>
-                            Oficinas
+                            Oficinas - Edital nº 002/2018
                         </h3>
-                        <p>Edital nº 002/2018</p>
                     </div>
                     <div class="bg-light col-md">
                         <p>Oficineiros<br>SELECIONADOS NO EDITAL nº 002/2018 SMC/GAB</p>
@@ -135,9 +130,8 @@ unset($_SESSION['modulo']);
                     <div class="card-header">
                         <h3 class="card-title">
                             <i class="fas fa-file-alt"></i>
-                            Formação
+                            Formação - Edital
                         </h3>
-                        <p>Edital</p>
                     </div>
                     <div class="bg-light col-md">
                         <p>Artistas Orientadores e Educadores<br>SELECIONADOS NO EDITAL nº 002/2018 SMC/GAB</p>
@@ -158,7 +152,6 @@ unset($_SESSION['modulo']);
                             <i class="fas fa-file-alt"></i>
                             Jovem Monitor
                         </h3>
-                        <p>Edital</p>
                     </div>
                     <div class="bg-light col-md">
                         <p>Estudantes<br>SELECIONADOS NO EDITAL nº 002/2018 SMC/GAB</p>
