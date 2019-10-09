@@ -40,17 +40,19 @@ $pedidoObj = new PedidoController();
                             </thead>
                             <tbody>
                             <?php
-                            $proponente = $pedidoObj->recuperaPedido(1)
+                            $pedido = $pedidoObj->recuperaPedido(1)
                             ?>
                             <tr>
-                                <td><?= $proponente->razao_social ?></td>
-                                <td><?= $proponente->cnpj ?></td>
-                                <td><?= $proponente->email ?></td>
+                                <td><?= $pedido->proponente->nome ?></td>
+                                <td><?= $pedido->proponente->documento ?></td>
+                                <td><?= $pedido->proponente->email ?></td>
                                 <td>
                                     <div class="row">
                                         <form class="mr-md-3" method="post"
-                                              action="<?= SERVERURL ?>eventos/pj_cadastro">
-                                            <input type="hidden" name="pj_cnpj" value="<?= $proponente->cnpj ?>">
+                                              action="<?= SERVERURL ?>eventos/<?= $pedido->pessoa_tipo_id == 1 ? "pf_cadastro" : "pj_cadastro" ?>">
+                                            <input type="hidden"
+                                                   name="<?= $pedido->pessoa_tipo_id == 1 ? "pf_cpf" : "pj_cnpj" ?>"
+                                                   value="<?= $pedido->proponente->documento ?>">
                                             <button type="submit" class="btn btn-sm btn-primary"><i
                                                         class="fas fa-edit"></i> Editar
                                             </button>
@@ -69,9 +71,8 @@ $pedidoObj = new PedidoController();
                             </tbody>
                             <tfoot>
                             <tr>
-                                <th>Razão social</th>
-                                <th>CNPJ</th>
-                                <th>CCM</th>
+                                <th>Nome</th>
+                                <th>Documento</th>
                                 <th>E-mail</th>
                                 <th>Ação</th>
                             </tr>

@@ -110,19 +110,15 @@ class PedidoController extends PedidoModel
     public function recuperaPedido($origem_tipo)
     {
         $origem_id = MainModel::decryption($_SESSION['origem_id_c']);
-        if ($origem_tipo == 2) {
-            $sql = "SELECT 
-                        pj.id,
-                        pj.razao_social AS 'nome', pj.cnpj, pj.ccm, pj.email 
-                    FROM pessoa_juridicas AS pj JOIN pedidos AS p ON pj.id = p.pessoa_juridica_id 
-                    WHERE origem_tipo_id = $origem_tipo AND origem_id = $origem_id AND publicado = 1";
-        } else {
-            $sql = "SELECT pf.nome, pf.cpf, pf.ccm, pf.email 
-                    FROM pessoa_fisicas AS pf JOIN pedidos AS p ON pf.id = p.pessoa_fisica_id 
-                    WHERE origem_tipo_id = $origem_tipo AND origem_id = $origem_id AND publicado = 1";
-        }
+        $pedido = DbModel::consultaSimples(
+            "SELECT * FROM pedidos WHERE origem_tipo_id = '$origem_tipo' AND origem_id = '$origem_id'"
+        )->fetchObject();
 
-        $pedido = DbModel::consultaSimples($sql)->fetch(PDO::FETCH_OBJ);
+        if ($pedido->pessoa_tipo_id == 1) {
+            $pedido->proponente = PedidoModel::buscaProponente(1, $pedido->pessoa_fisica_id);
+        } else {
+            $pedido->proponente = PedidoModel::buscaProponente(2, $pedido->pessoa_juridica_id);
+        }
 
         return $pedido;
     }

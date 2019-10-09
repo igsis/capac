@@ -55,13 +55,13 @@ class MainModel extends DbModel
         return $novaData->format('d/m/Y');
     }
 
-    function dinheiroParaBr($valor)
+    public function dinheiroParaBr($valor)
     {
         $valor = number_format($valor, 2, ',', '.');
         return $valor;
     }
 
-    function dinheiroDeBr($valor)
+    public function dinheiroDeBr($valor)
     {
         $valor = str_ireplace(".","",$valor);
         $valor = str_ireplace(",",".",$valor);

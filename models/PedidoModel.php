@@ -52,4 +52,18 @@ class PedidoModel extends MainModel
             }
         }
     }
+
+    protected function buscaProponente($pessoa_tipo, $id) {
+        if ($pessoa_tipo == 1) {
+            $dadosProponente = DbModel::consultaSimples(
+                "SELECT id, nome, cpf AS 'documento', email FROM pessoa_fisicas WHERE id = '$id'"
+            )->fetchObject();
+        } else {
+            $dadosProponente = DbModel::consultaSimples(
+                "SELECT id, razao_social AS 'nome', cnpj AS 'documento', email FROM pessoa_juridicas WHERE id = '$id'"
+            )->fetchObject();
+        }
+
+        return $dadosProponente;
+    }
 }
