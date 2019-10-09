@@ -43,9 +43,11 @@ class PessoaFisicaController extends PessoaFisicaModel
                 }
             }
 
-            if (count($dadosLimpos['of'])>0){
-                $dadosLimpos['of']['pessoa_fisica_id'] = $id;
-                DbModel::insert('pf_oficinas', $dadosLimpos['of']);
+            if (isset($dadosLimpos['of'])){
+                if (count($dadosLimpos['of']) > 0) {
+                    $dadosLimpos['of']['pessoa_fisica_id'] = $id;
+                    DbModel::insert('pf_oficinas', $dadosLimpos['of']);
+                }
             }
 
             if($retornaId){
