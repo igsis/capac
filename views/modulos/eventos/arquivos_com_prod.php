@@ -1,5 +1,5 @@
 <?php
-$evento_id = $_SESSION['evento_id_c'];
+$evento_id = $_SESSION['origem_id_c'];
 require_once "./controllers/ArquivoController.php";
 $arquivosObj = new ArquivoController();
 $lista_documento_id = $arquivosObj->recuperaIdListaDocumento(4)->fetch(PDO::FETCH_COLUMN);

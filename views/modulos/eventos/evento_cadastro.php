@@ -2,13 +2,13 @@
     $tipoContratacao = $_SESSION['modulo_c'];
 
     if (isset($_GET['key'])) {
-        $_SESSION['evento_id_c'] = $id = $_GET['key'];
+        $_SESSION['origem_id_c'] = $id = $_GET['key'];
         require_once "./controllers/PedidoController.php";
         $pedidoObj = new PedidoController();
         $pedidoObj->startPedido();
 
-    } elseif (isset($_SESSION['evento_id_c'])) {
-        $id = $_SESSION['evento_id_c'];
+    } elseif (isset($_SESSION['origem_id_c'])) {
+        $id = $_SESSION['origem_id_c'];
     } else {
         $id = null;
     }

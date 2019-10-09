@@ -10,7 +10,7 @@
         <p>Eventos</p>
     </a>
 </li>
-<?php if (isset($_SESSION['evento_id_c'])): ?>
+<?php if (isset($_SESSION['origem_id_c'])): ?>
     <li class="nav-item">
         <a href="<?= SERVERURL ?>eventos/evento_cadastro" class="nav-link" id="evento_cc_cadastro">
             <i class="far fa-circle nav-icon"></i>

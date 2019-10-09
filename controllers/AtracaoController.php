@@ -36,7 +36,7 @@ class AtracaoController extends AtracaoModel
                 unset($post[$campo]);
             }
         }
-        $dadosAtracao['evento_id'] = MainModel::decryption($_SESSION['evento_id_c']);
+        $dadosAtracao['evento_id'] = MainModel::decryption($_SESSION['origem_id_c']);
         $dadosAtracao['valor_individual'] = MainModel::dinheiroDeBr($dadosAtracao['valor_individual']);
         /* /.limpeza */
 

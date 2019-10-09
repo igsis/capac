@@ -63,7 +63,7 @@ class LiderController extends LiderModel
 
     public function listaAtracaoProponente()
     {
-        $idEvento = MainModel::decryption($_SESSION['evento_id_c']);
+        $idEvento = MainModel::decryption($_SESSION['origem_id_c']);
         $atracao = DbModel::consultaSimples("
             SELECT atr.id as atracao_id, atr.evento_id, atr.nome_atracao, pf.nome, lid.pessoa_fisica_id 
             FROM atracoes AS atr

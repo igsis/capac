@@ -4,7 +4,7 @@ if (isset($_SESSION['atracao_id_c'])) {
     unset($_SESSION['atracao_id_c']);
 }
 
-$evento_id = $_SESSION['evento_id_c'];
+$evento_id = $_SESSION['origem_id_c'];
 
 $atracaoObj = new AtracaoController();
 ?>

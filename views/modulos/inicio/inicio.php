@@ -1,5 +1,5 @@
 <?php
-unset($_SESSION['evento_id_c']);
+unset($_SESSION['origem_id_c']);
 unset($_SESSION['pedido_id_c']);
 unset($_SESSION['modulo']);
 ?>

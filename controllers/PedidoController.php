@@ -109,7 +109,7 @@ class PedidoController extends PedidoModel
 
     public function recuperaPedido($origem_tipo)
     {
-        $origem_id = MainModel::decryption($_SESSION['evento_id_c']);
+        $origem_id = MainModel::decryption($_SESSION['origem_id_c']);
         if ($origem_tipo == 2) {
             $sql = "SELECT 
                         pj.id,
@@ -135,7 +135,7 @@ class PedidoController extends PedidoModel
 
     public function startPedido()
     {
-        $idEvento = $_SESSION['evento_id_c'];
+        $idEvento = $_SESSION['origem_id_c'];
         $idEvento = MainModel::decryption($idEvento);
         $consulta = DbModel::consultaSimples("SELECT id FROM pedidos WHERE origem_tipo_id = 1 AND origem_id = $idEvento AND publicado = 1")->fetch(PDO::FETCH_ASSOC);
         $resultado = $consulta['id'];
