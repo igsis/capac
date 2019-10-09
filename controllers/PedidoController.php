@@ -86,7 +86,7 @@ class PedidoController extends PedidoModel
     public function editaPedidoFisica($idPf, $pagina)
     {
         $pf = PessoaFisicaController::editaPessoaFisica($idPf, $pagina, true);
-        $pedido = PedidoModel::inserePedido(2, $pf);
+        $pedido = PedidoModel::inserePedido(1, $pf);
         if ($pedido) {
             $alerta = [
                 'alerta' => 'sucesso',
