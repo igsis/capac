@@ -40,7 +40,10 @@ $pedidoObj = new PedidoController();
                             </thead>
                             <tbody>
                             <?php
-                            $pedido = $pedidoObj->recuperaPedido(1)
+                            $pedido = $pedidoObj->recuperaPedido(1);
+                            $urlCadastro = $pedido->pessoa_tipo_id == 1 ? "pf_cadastro" : "pj_cadastro";
+                            $idEncrypt = $pedidoObj->encryption($pedido->proponente->id);
+                            $action = SERVERURL."eventos/".$urlCadastro."&id=".$idEncrypt;
                             ?>
                             <tr>
                                 <td><?= $pedido->proponente->nome ?></td>
@@ -48,13 +51,9 @@ $pedidoObj = new PedidoController();
                                 <td><?= $pedido->proponente->email ?></td>
                                 <td>
                                     <div class="row">
-                                        <form class="mr-md-3" method="post"
-                                              action="<?= SERVERURL ?>eventos/<?= $pedido->pessoa_tipo_id == 1 ? "pf_cadastro" : "pj_cadastro" ?>">
-                                            <input type="hidden"
-                                                   name="<?= $pedido->pessoa_tipo_id == 1 ? "pf_cpf" : "pj_cnpj" ?>"
-                                                   value="<?= $pedido->proponente->documento ?>">
-                                            <button type="submit" class="btn btn-sm btn-primary"><i
-                                                        class="fas fa-edit"></i> Editar
+                                        <form class="mr-md-3" method="post" action="<?= $action ?>">
+                                            <button type="submit" class="btn btn-sm btn-primary">
+                                                <i class="fas fa-edit"></i> Editar
                                             </button>
                                         </form>
                                         <a href="<?= SERVERURL ?>eventos/proponente">

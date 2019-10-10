@@ -50,9 +50,19 @@ class PedidoModel extends MainModel
 
     protected function buscaProponente($pessoa_tipo, $id) {
         if ($pessoa_tipo == 1) {
-            $dadosProponente = DbModel::consultaSimples(
-                "SELECT id, nome, cpf AS 'documento', email FROM pessoa_fisicas WHERE id = '$id'"
-            )->fetchObject();
+            $proponentePf = DbModel::consultaSimples(
+                "SELECT id, nome, cpf, passaporte, email FROM pessoa_fisicas WHERE id = '$id'"
+            )->fetch(PDO::FETCH_ASSOC);
+
+            $dadosProponente = new stdClass();
+
+            foreach ($proponentePf as $key => $proponente) {
+                if ($key == 'cpf' || $key == 'passaporte') {
+                    $dadosProponente->documento = $proponentePf['cpf'] ? $proponentePf['cpf'] : $proponentePf['passaporte'];
+                } else {
+                    $dadosProponente->$key = $proponente;
+                }
+            }
         } else {
             $dadosProponente = DbModel::consultaSimples(
                 "SELECT id, razao_social AS 'nome', cnpj AS 'documento', email FROM pessoa_juridicas WHERE id = '$id'"
