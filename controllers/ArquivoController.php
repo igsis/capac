@@ -66,7 +66,7 @@ class ArquivoController extends ArquivoModel
     public function listarArquivosEnviados($origem_id, $lista_documentos_ids) {
         $origem_id = MainModel::decryption($origem_id);
         $documentos = implode(", ", $lista_documentos_ids);
-        $sql = "SELECT * FROM arquivos WHERE `origem_id` = '$origem_id' AND lista_documento_id IN ($documentos) AND publicado = '1'";
+        $sql = "SELECT a.id, a.arquivo, a.data, ld.documento FROM arquivos AS a INNER JOIN lista_documentos AS ld on a.lista_documento_id = ld.id WHERE `origem_id` = '$origem_id' AND lista_documento_id IN ($documentos) AND a.publicado = '1'";
         $arquivos = DbModel::consultaSimples($sql);
 
         return $arquivos;

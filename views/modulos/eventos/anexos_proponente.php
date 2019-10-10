@@ -89,7 +89,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                                 foreach ($arquivosEnviados as $arquivo) {
                                     ?>
                                     <tr>
-                                        <td></td>
+                                        <td><?= $arquivo->documento ?></td>
                                         <td><a href="<?=SERVERURL."uploads/".$arquivo->arquivo?>" target="_blank"><?= $arquivo->arquivo ?></a></td>
                                         <td><?= $arquivosObj->dataParaBR($arquivo->data) ?></td>
                                         <td>
