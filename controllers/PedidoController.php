@@ -11,10 +11,10 @@ if ($pedidoAjax) {
 
 class PedidoController extends PedidoModel
 {
-    public function inserePedidoJuridica($pagina)
+    public function inserePedidoJuridica($pagina, $origem_tipo)
     {
         $idPj = PessoaJuridicaController::inserePessoaJuridica($pagina, true);
-        $pedido = PedidoModel::inserePedido(2, $idPj);
+        $pedido = PedidoModel::inserePedido($origem_tipo, 2, $idPj);
         if ($pedido) {
             $alerta = [
                 'alerta' => 'sucesso',
@@ -35,10 +35,10 @@ class PedidoController extends PedidoModel
         return MainModel::sweetAlert($alerta);
     }
 
-    public function editaPedidoJuridica($idPj, $pagina)
+    public function editaPedidoJuridica($idPj, $pagina, $origem_tipo)
     {
         $pj = PessoaJuridicaController::editaPessoaJuridica($idPj, $pagina, true);
-        $pedido = PedidoModel::inserePedido(2, $pj);
+        $pedido = PedidoModel::inserePedido($origem_tipo, 2, $pj);
         if ($pedido) {
             $alerta = [
                 'alerta' => 'sucesso',
@@ -59,10 +59,10 @@ class PedidoController extends PedidoModel
         return MainModel::sweetAlert($alerta);
     }
 
-    public function inserePedidoFisica($pagina)
+    public function inserePedidoFisica($pagina, $origem_tipo)
     {
         $idPf = PessoaFisicaController::inserePessoaFisica($pagina, true);
-        $pedido = PedidoModel::inserePedido(1, $idPf);
+        $pedido = PedidoModel::inserePedido($origem_tipo, 1, $idPf);
         if ($pedido) {
             $alerta = [
                 'alerta' => 'sucesso',
@@ -83,10 +83,10 @@ class PedidoController extends PedidoModel
         return MainModel::sweetAlert($alerta);
     }
 
-    public function editaPedidoFisica($idPf, $pagina)
+    public function editaPedidoFisica($idPf, $pagina, $origem_tipo)
     {
         $pf = PessoaFisicaController::editaPessoaFisica($idPf, $pagina, true);
-        $pedido = PedidoModel::inserePedido(1, $pf);
+        $pedido = PedidoModel::inserePedido($origem_tipo, 1, $pf);
         if ($pedido) {
             $alerta = [
                 'alerta' => 'sucesso',

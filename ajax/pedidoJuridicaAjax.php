@@ -8,9 +8,9 @@ if (isset($_POST['_method'])) {
     $insPedidoJuridica = new PedidoController();
 
     if ($_POST['_method'] == "cadastrar") {
-        echo $insPedidoJuridica->inserePedidoJuridica($_POST['pagina']);
+        echo $insPedidoJuridica->inserePedidoJuridica($_POST['pagina'], $_POST['origem_tipo']);
     } elseif ($_POST['_method'] == "editar") {
-        echo $insPedidoJuridica->editaPedidoJuridica($_POST['id'],$_POST['pagina']);
+        echo $insPedidoJuridica->editaPedidoJuridica($_POST['id'],$_POST['pagina'], $_POST['origem_tipo']);
     }
 } else {
     include_once "../config/destroySession.php";

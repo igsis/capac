@@ -48,6 +48,7 @@ if (isset($_POST['pj_cnpj'])){
                         <input type="hidden" name="_method" value="<?= ($id) ? "editar" : "cadastrar" ?>">
                         <input type="hidden" name="ultima_atualizacao" value="<?= date('Y-m-d H-i-s') ?>">
                         <input type="hidden" name="pagina" value="eventos">
+                        <input type="hidden" name="origem_tipo" value="1">
                         <?php if ($id): ?>
                             <input type="hidden" name="id" value="<?= $id ?>">
                         <?php endif; ?>

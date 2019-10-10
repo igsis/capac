@@ -8,15 +8,8 @@ if ($pedidoAjax) {
 
 class PedidoModel extends MainModel
 {
-    public function inserePedido($pessoa_tipo,$pessoa_id){
-        if (isset($_SESSION['origem_id_c'])){
-            $origem_tipo = 1;
-            $origem_id = MainModel::decryption($_SESSION['origem_id_c']);
-        }
-        if (isset($_SESSION['formacao_id_c'])){
-            $origem_tipo = 2;
-            $origem_id = MainModel::decryption($_SESSION['formacao_id_c']);
-        }
+    public function inserePedido($origem_tipo,$pessoa_tipo,$pessoa_id){
+        $origem_id = MainModel::decryption($_SESSION['origem_id_c']);
 
         $dados = [
             'origem_tipo_id' => $origem_tipo,
@@ -26,9 +19,11 @@ class PedidoModel extends MainModel
 
         if ($pessoa_tipo == 1){
             $dados['pessoa_fisica_id'] = $pessoa_id;
+            $dados['pessoa_juridica_id'] = null;
         }
         else{
             $dados['pessoa_juridica_id'] = $pessoa_id;
+            $dados['pessoa_fisica_id'] = null;
         }
 
         $consulta = DbModel::consultaSimples("SELECT id FROM pedidos WHERE origem_tipo_id = $origem_tipo AND origem_id = $origem_id AND publicado = 1");

@@ -8,9 +8,9 @@ if (isset($_POST['_method'])) {
     $insPedidoFisica = new PedidoController();
 
     if ($_POST['_method'] == "cadastrar") {
-        echo $insPedidoFisica->inserePedidoFisica($_POST['pagina']);
+        echo $insPedidoFisica->inserePedidoFisica($_POST['pagina'], $_POST['origem_tipo']);
     }elseif ($_POST['_method'] == "editar") {
-        echo $insPedidoFisica->editaPedidoFisica($_POST['id'],$_POST['pagina']);
+        echo $insPedidoFisica->editaPedidoFisica($_POST['id'],$_POST['pagina'], $_POST['origem_tipo']);
     }
 } else {
     include_once "../config/destroySession.php";
