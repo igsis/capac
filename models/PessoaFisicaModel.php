@@ -23,36 +23,38 @@ class PessoaFisicaModel extends MainModel
 
         foreach ($dados as $campo => $post) {
             $dig = explode("_",$campo)[0];
-            switch ($dig) {
-                case "pf":
-                    $campo = substr($campo, 3);
-                    $dadosLimpos['pf'][$campo] = MainModel::limparString($post);
-                    break;
-                case "bc":
-                    $campo = substr($campo, 3);
-                    $dadosLimpos['bc'][$campo] = MainModel::limparString($post);
-                    break;
-                case "en":
-                    $campo = substr($campo, 3);
-                    $dadosLimpos['en'][$campo] = MainModel::limparString($post);
-                    break;
-                case "te":
-                    if($dados[$campo] != ''){
-                        $dadosLimpos['telefones'][$campo]['telefone'] = MainModel::limparString($post);
-                    }
-                    break;
-                case "ni":
-                    $campo = substr($campo, 3);
-                    $dadosLimpos['ni'][$campo] = MainModel::limparString($post);
-                    break;
-                case "dr":
-                    $campo = substr($campo, 3);
-                    $dadosLimpos['dr'][$campo] = MainModel::limparString($post);
-                    break;
-                case "of":
-                    $campo = substr($campo, 3);
-                    $dadosLimpos['of'][$campo] = MainModel::limparString($post);
-                    break;
+            if (!empty($dados[$campo])) {
+                switch ($dig) {
+                    case "pf":
+                        $campo = substr($campo, 3);
+                        $dadosLimpos['pf'][$campo] = MainModel::limparString($post);
+                        break;
+                    case "bc":
+                        $campo = substr($campo, 3);
+                        $dadosLimpos['bc'][$campo] = MainModel::limparString($post);
+                        break;
+                    case "en":
+                        $campo = substr($campo, 3);
+                        $dadosLimpos['en'][$campo] = MainModel::limparString($post);
+                        break;
+                    case "te":
+                        if ($dados[$campo] != '') {
+                            $dadosLimpos['telefones'][$campo]['telefone'] = MainModel::limparString($post);
+                        }
+                        break;
+                    case "ni":
+                        $campo = substr($campo, 3);
+                        $dadosLimpos['ni'][$campo] = MainModel::limparString($post);
+                        break;
+                    case "dr":
+                        $campo = substr($campo, 3);
+                        $dadosLimpos['dr'][$campo] = MainModel::limparString($post);
+                        break;
+                    case "of":
+                        $campo = substr($campo, 3);
+                        $dadosLimpos['of'][$campo] = MainModel::limparString($post);
+                        break;
+                }
             }
         }
 

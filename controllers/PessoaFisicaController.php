@@ -16,24 +16,32 @@ class PessoaFisicaController extends PessoaFisicaModel
         if ($insere->rowCount()>0) {
             $id = DbModel::connection()->lastInsertId();
 
-            if (count($dadosLimpos['bc'])>0){
-                $dadosLimpos['bc']['pessoa_fisica_id'] = $id;
-                DbModel::insert('pf_bancos', $dadosLimpos['bc']);
+            if(isset($dadosLimpos['bc'])){
+                if (count($dadosLimpos['bc']) > 0) {
+                    $dadosLimpos['bc']['pessoa_fisica_id'] = $id;
+                    DbModel::insert('pf_bancos', $dadosLimpos['bc']);
+                }
             }
 
-            if (count($dadosLimpos['en'])>0){
-                $dadosLimpos['en']['pessoa_fisica_id'] = $id;
-                DbModel::insert('pf_enderecos', $dadosLimpos['en']);
+            if (isset($dadosLimpos['en'])) {
+                if (count($dadosLimpos['en']) > 0) {
+                    $dadosLimpos['en']['pessoa_fisica_id'] = $id;
+                    DbModel::insert('pf_enderecos', $dadosLimpos['en']);
+                }
             }
 
-            if (count($dadosLimpos['dr'])>0){
-                $dadosLimpos['dr']['pessoa_fisica_id'] = $id;
-                DbModel::insert('drts', $dadosLimpos['dr']);
+            if (isset($dadosLimpos['dr'])) {
+                if (count($dadosLimpos['dr']) > 0) {
+                    $dadosLimpos['dr']['pessoa_fisica_id'] = $id;
+                    DbModel::insert('drts', $dadosLimpos['dr']);
+                }
             }
 
-            if (count($dadosLimpos['ni'])>0){
-                $dadosLimpos['ni']['pessoa_fisica_id'] = $id;
-                DbModel::insert('nits', $dadosLimpos['ni']);
+            if (isset($dadosLimpos['ni'])) {
+                if (count($dadosLimpos['ni']) > 0) {
+                    $dadosLimpos['ni']['pessoa_fisica_id'] = $id;
+                    DbModel::insert('nits', $dadosLimpos['ni']);
+                }
             }
 
             if (count($dadosLimpos['telefones'])>0){
@@ -86,25 +94,27 @@ class PessoaFisicaController extends PessoaFisicaModel
         $edita = DbModel::update('pessoa_fisicas', $dadosLimpos['pf'], $idDecryp);
         if ($edita) {
 
-            if (count($dadosLimpos['bc']) > 0) {
-                $banco_existe = DbModel::consultaSimples("SELECT * FROM pf_bancos WHERE pessoa_fisica_id = '$idDecryp'");
-                if ($banco_existe->rowCount()>0){
-                    DbModel::updateEspecial('pf_bancos', $dadosLimpos['bc'], "pessoa_fisica_id",$idDecryp);
-                }
-                else{
-                    $dadosLimpos['bc']['pessoa_fisica_id'] = $idDecryp;
-                    DbModel::insert('pf_bancos', $dadosLimpos['bc']);
+            if (isset($dadosLimpos['bc'])) {
+                if (count($dadosLimpos['bc']) > 0) {
+                    $banco_existe = DbModel::consultaSimples("SELECT * FROM pf_bancos WHERE pessoa_fisica_id = '$idDecryp'");
+                    if ($banco_existe->rowCount() > 0) {
+                        DbModel::updateEspecial('pf_bancos', $dadosLimpos['bc'], "pessoa_fisica_id", $idDecryp);
+                    } else {
+                        $dadosLimpos['bc']['pessoa_fisica_id'] = $idDecryp;
+                        DbModel::insert('pf_bancos', $dadosLimpos['bc']);
+                    }
                 }
             }
 
-            if (count($dadosLimpos['en']) > 0) {
-                $endereco_existe = DbModel::consultaSimples("SELECT * FROM pf_enderecos WHERE pessoa_fisica_id = '$idDecryp'");
-                if ($endereco_existe->rowCount()>0){
-                    DbModel::updateEspecial('pf_enderecos', $dadosLimpos['en'], "pessoa_fisica_id",$idDecryp);
-                }
-                else{
-                    $dadosLimpos['en']['pessoa_fisica_id'] = $idDecryp;
-                    DbModel::insert('pf_enderecos', $dadosLimpos['en']);
+            if (isset($dadosLimpos['en'])) {
+                if (count($dadosLimpos['en']) > 0) {
+                    $endereco_existe = DbModel::consultaSimples("SELECT * FROM pf_enderecos WHERE pessoa_fisica_id = '$idDecryp'");
+                    if ($endereco_existe->rowCount() > 0) {
+                        DbModel::updateEspecial('pf_enderecos', $dadosLimpos['en'], "pessoa_fisica_id", $idDecryp);
+                    } else {
+                        $dadosLimpos['en']['pessoa_fisica_id'] = $idDecryp;
+                        DbModel::insert('pf_enderecos', $dadosLimpos['en']);
+                    }
                 }
             }
 
@@ -120,26 +130,29 @@ class PessoaFisicaController extends PessoaFisicaModel
                 }
             }
 
-            if(isset($dadosLimpos['ni'])){
-                if (count($dadosLimpos['ni']) > 0) {
-                    $nit_existe = DbModel::consultaSimples("SELECT * FROM nits WHERE pessoa_fisica_id = '$idDecryp'");
-                    if ($nit_existe->rowCount() > 0) {
-                        DbModel::updateEspecial('nits', $dadosLimpos['ni'], "pessoa_fisica_id", $idDecryp);
-                    } else {
-                        $dadosLimpos['ni']['pessoa_fisica_id'] = $idDecryp;
-                        DbModel::insert('nits', $dadosLimpos['ni']);
+            if (isset($dadosLimpos['ni'])) {
+                if (isset($dadosLimpos['ni'])) {
+                    if (count($dadosLimpos['ni']) > 0) {
+                        $nit_existe = DbModel::consultaSimples("SELECT * FROM nits WHERE pessoa_fisica_id = '$idDecryp'");
+                        if ($nit_existe->rowCount() > 0) {
+                            DbModel::updateEspecial('nits', $dadosLimpos['ni'], "pessoa_fisica_id", $idDecryp);
+                        } else {
+                            $dadosLimpos['ni']['pessoa_fisica_id'] = $idDecryp;
+                            DbModel::insert('nits', $dadosLimpos['ni']);
+                        }
                     }
                 }
             }
 
-            if (count($dadosLimpos['dr']) > 0) {
-                $drt_existe = DbModel::consultaSimples("SELECT * FROM drts WHERE pessoa_fisica_id = '$idDecryp'");
-                if ($drt_existe->rowCount()>0){
-                    DbModel::updateEspecial('drts', $dadosLimpos['dr'], "pessoa_fisica_id",$idDecryp);
-                }
-                else{
-                    $dadosLimpos['dr']['pessoa_fisica_id'] = $idDecryp;
-                    DbModel::insert('drts', $dadosLimpos['dr']);
+            if (isset($dadosLimpos['dr'])) {
+                if (count($dadosLimpos['dr']) > 0) {
+                    $drt_existe = DbModel::consultaSimples("SELECT * FROM drts WHERE pessoa_fisica_id = '$idDecryp'");
+                    if ($drt_existe->rowCount() > 0) {
+                        DbModel::updateEspecial('drts', $dadosLimpos['dr'], "pessoa_fisica_id", $idDecryp);
+                    } else {
+                        $dadosLimpos['dr']['pessoa_fisica_id'] = $idDecryp;
+                        DbModel::insert('drts', $dadosLimpos['dr']);
+                    }
                 }
             }
 
