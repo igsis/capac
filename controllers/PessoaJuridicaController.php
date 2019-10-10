@@ -18,9 +18,18 @@ class PessoaJuridicaController extends PessoaJuridicaModel
         if ($insere->rowCount()>0) {
             $id = DbModel::connection()->lastInsertId();
 
-            if (count($dadosLimpos['bc'])>0){
-                $dadosLimpos['bc']['pessoa_juridica_id'] = $id;
-                DbModel::insert('pj_bancos', $dadosLimpos['bc']);
+            if (isset($dadosLimpos['bc'])) {
+                if (count($dadosLimpos['bc']) > 0) {
+                    $dadosLimpos['bc']['pessoa_juridica_id'] = $id;
+                    DbModel::insert('pj_bancos', $dadosLimpos['bc']);
+                }
+            }
+
+            if (isset($dadosLimpos['of'])) {
+                if (count($dadosLimpos['of']) > 0) {
+                    $dadosLimpos['of']['pessoa_juridica_id'] = $id;
+                    DbModel::insert('pj_oficinas', $dadosLimpos['of']);
+                }
             }
 
             if (count($dadosLimpos['en'])>0){
