@@ -1,0 +1,18 @@
+EVENTO COM CACHÊ
+tbl: eventos
+nome_evento
+sinopse
+tbl: evento_publico
+----
+tbl: atracoes
+nome_atracao
+ficha_tecnica
+integrantes
+classificacao_indicativa_id
+release_comunicacao
+quantidade_apresentacao
+valor_individual
+produtor_id
+tbl: acao_atracao
+-----
+
