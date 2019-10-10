@@ -15,7 +15,7 @@ class LiderModel extends MainModel
             'pessoa_fisica_id' => $idPf
         ];
 
-        $consulta = DbModel::consultaSimples("SELECT id FROM lideres WHERE pedido_id = '$idPedido' AND atracao_id = '$idAtracao' AND pessoa_fisica_id = '$idPf'");
+        $consulta = DbModel::consultaSimples("SELECT id FROM lideres WHERE pedido_id = '$idPedido' AND atracao_id = '$idAtracao'");
         if ($consulta ->rowCount()<1){
             DbModel::insert("lideres",$dados);
             if(DbModel::connection()->errorCode() == 0){
@@ -26,7 +26,7 @@ class LiderModel extends MainModel
         }
         else{
             $idLider = $consulta->fetch()['id'];
-            DbModel::update("pedidos",$dados,$idLider);
+            DbModel::update("lideres",$dados,$idLider);
             if(DbModel::connection()->errorCode() == 0){
                 return true;
             } else{

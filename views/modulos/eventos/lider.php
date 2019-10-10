@@ -34,6 +34,7 @@ $evento_id = $_SESSION['origem_id_c'];
                                 <th>Nome da Atração</th>
                                 <th>Líder do grupo ou artista solo</th>
                                 <th>Anexos</th>
+                                <th>Ação</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -55,6 +56,7 @@ $evento_id = $_SESSION['origem_id_c'];
                                         <?php } ?>
                                     </td>
                                     <td><button class="btn btn-sm btn-primary" <?= $disabled?>><i class="fas fa-archive"></i> Anexos</button></td>
+                                    <td><button id="btn-atracao" class="btn btn-sm bg-purple" data-toggle="modal" data-target="#modal-default" data-atracao="<?=$atracao->atracao_id?>"><i class="fas fa-retweet"></i> Trocar líder</button></td>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>
@@ -63,6 +65,7 @@ $evento_id = $_SESSION['origem_id_c'];
                                     <th>Nome da Atração</th>
                                     <th>Líder do grupo ou artista solo</th>
                                     <th>Anexos</th>
+                                    <th>Ação</th>
                                 </tr>
                             </tfoot>
                         </table>
