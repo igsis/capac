@@ -38,4 +38,23 @@ class EventoModel extends MainModel
         }
         return $evento;
     }
+
+    protected function resumoEvento($idEvento)
+    {
+        $sql = DbModel::consultaSimples("SELECT * FROM eventos WHERE id = '$idEvento'")->fetch();
+        $nome_evento = $sql['nome_evento'] ? $sql['nome_evento'] : "Prencha o campo";
+    ?>
+        <div class="row">
+           <div class="col-md-12"><b>Nome do Evento:</b> <?= $nome_evento ?></div>
+        </div>
+        <div class="row">
+            <div class="col-md-3"><b>Espaço em que será realizado o evento é público?</b></div>
+            <div class="col-md-5"><b>É fomento/programa?</b></div>
+            <div class="col-md-4"><b>Público (Representatividade e Visibilidade Sócio-cultural):</b></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12"><b>Sinopse:</b></div>
+        </div>
+    <?php
+    }
 }

@@ -181,4 +181,10 @@ WHERE e.publicado != 0 AND usuario_id = '1'");
             <?php
         }
     }
+
+    public function dadosEvento($idEvento)
+    {
+
+        EventoModel::resumoEvento($idEvento);
+    }
 }
