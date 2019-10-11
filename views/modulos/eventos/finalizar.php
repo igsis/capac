@@ -26,6 +26,24 @@ $eventoObj = new EventoController();
                         <h5 class="m-0">Resumo dos Dados do Evento</h5>
                     </div>
                     <div class="card-body">
+
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-12"><b>Nome do Evento:</b> --><?//= $nome_evento ?><!--</div>-->
+<!--                        </div>-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-3"><b>Espaço em que será realizado o evento é público?</b> --><?php //if ($espaco_publico == 0) {echo "Sim";} else{ echo "Não"; }  ?><!--</div>-->
+<!--                            <div class="col-md-5"><b>É fomento/programa?</b></div>-->
+<!--                            <div class="col-md-4"><b>Público (Representatividade e Visibilidade Sócio-cultural):</b></div>-->
+<!--                        </div>-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-12"><b>Sinopse:</b></div>-->
+<!--                        </div>-->
+<!--                        $nome_evento = $sql['nome_evento'] ? $sql['nome_evento'] : "Prencha o campo";-->
+<!--                        $espaco_publico = $sql['espaco_publico'] ? $sql['espaco_publico'] : "Preencha";-->
+<!--                        $fomento = $sql['fomento'] ? $sql['fomento'] : "Preencha";-->
+<!--                        $fomento_nome = $sql['nome_fomento'];-->
+
+
                         <div class="row">
                             <div class="col-md-12 border"><b>Nome do Evento:</b> Nome do Evento</div>
                         </div>
