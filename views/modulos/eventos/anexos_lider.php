@@ -1,21 +1,15 @@
 <?php
 require_once "./controllers/ArquivoController.php";
-require_once "./controllers/PedidoController.php";
 
-$pedido_id = $_SESSION['pedido_id_c'];
-
-$pedidoObj = new PedidoController();
 $arquivosObj = new ArquivoController();
 
-$proponente = $pedidoObj->recuperaProponente($pedido_id);
+$explode = explode('/', $_GET['views']);
 
-if ($proponente->pessoa_tipo_id == 1) {
-    $tipo_documento_id = 1;
-    $proponente_id = $arquivosObj->encryption($proponente->pessoa_fisica_id);
-} else {
-    $tipo_documento_id = 2;
-    $proponente_id = $arquivosObj->encryption($proponente->pessoa_juridica_id);
-}
+
+$proponente_id = isset($_GET['id']) ? $_GET['id'] : null;
+$tipo_documento_id = 1;
+
+$pagina = "anexos_lider&id=".$proponente_id;
 
 $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id)->fetchAll(PDO::FETCH_COLUMN);
 ?>
@@ -24,14 +18,9 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Anexos do Proponente</h1>
+                <h1 class="m-0 text-dark">Anexos do Líder</h1>
             </div><!-- /.col -->
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Starter Page</li>
-                </ol>
-            </div><!-- /.col -->
+            <!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
 </div>
@@ -95,7 +84,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                                         <td>
                                             <form class="formulario-ajax" action="<?=SERVERURL?>ajax/arquivosAjax.php" method="POST" data-form="delete">
                                                 <input type="hidden" name="_method" value="removerArquivo">
-                                                <input type="hidden" name="pagina" value="anexos_proponente">
+                                                <input type="hidden" name="pagina" value="<?=$pagina?>">
                                                 <input type="hidden" name="arquivo_id" value="<?=$arquivosObj->encryption($arquivo->id)?>">
                                                 <button type="submit" class="btn btn-sm btn-danger">Apagar</button>
                                                 <div class="resposta-ajax"></div>
@@ -134,7 +123,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                         <form class="formulario-ajax" method="POST" action="<?=SERVERURL?>ajax/arquivosAjax.php" data-form="save" enctype="multipart/form-data">
                             <input type="hidden" name="_method" value="enviarArquivo">
                             <input type="hidden" name="origem_id" value="<?= $proponente_id ?>">
-                            <input type="hidden" name="pagina" value="anexos_proponente">
+                            <input type="hidden" name="pagina" value="<?= $pagina ?>">
                             <table class="table table-striped">
                                 <tbody>
                                     <?php
@@ -177,10 +166,11 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
+
 <script type="application/javascript">
     $(document).ready(function () {
         $('.nav-link').removeClass('active');
         $('#itens-proponente').addClass('menu-open');
-        $('#anexos-proponente').addClass('active');
-    })
+        $('#lider').addClass('active');
+    });
 </script>

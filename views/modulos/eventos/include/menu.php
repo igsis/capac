@@ -86,7 +86,7 @@
         if ($pedido->rowCount() > 0):
             ?>
             <li class="nav-item">
-                <a href="<?= SERVERURL ?>eventos/lider" class="nav-link" id="proponente">
+                <a href="<?= SERVERURL ?>eventos/lider" class="nav-link" id="lider">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Líder</p>
                 </a>

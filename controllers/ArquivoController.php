@@ -72,7 +72,8 @@ class ArquivoController extends ArquivoModel
         return $arquivos;
     }
 
-    public function enviarArquivo($origem_id) {
+    public function enviarArquivo($origem_id, $pagina) {
+        unset($_POST['pagina']);
         $origem_id = MainModel::decryption($origem_id);
         foreach ($_FILES as $key => $arquivo){
             $_FILES[$key]['lista_documento_id'] = $_POST[$key];
@@ -91,7 +92,7 @@ class ArquivoController extends ArquivoModel
                 'titulo' => 'Oops! Tivemos alguns Erros!',
                 'texto' => $lis,
                 'tipo' => 'error',
-                'location' => SERVERURL . 'eventos/anexos_proponente'
+                'location' => SERVERURL . 'eventos/'.$pagina
             ];
         } else {
             $alerta = [
@@ -99,7 +100,7 @@ class ArquivoController extends ArquivoModel
                 'titulo' => 'Arquivos Enviados!',
                 'texto' => 'Arquivos enviados com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL . 'eventos/anexos_proponente'
+                'location' => SERVERURL . 'eventos/'.$pagina
             ];
         }
 

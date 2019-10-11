@@ -55,7 +55,12 @@ $evento_id = $_SESSION['origem_id_c'];
                                             </form>
                                         <?php } ?>
                                     </td>
-                                    <td><button class="btn btn-sm btn-primary" <?= $disabled?>><i class="fas fa-archive"></i> Anexos</button></td>
+                                    <td>
+                                        <a class="btn btn-sm btn-primary"
+                                           href="<?=SERVERURL."eventos/anexos_lider&id=".$atracaoObj->encryption($atracao->pessoa_fisica_id)?>">
+                                            <i class="fas fa-archive"></i> Anexos
+                                        </a>
+                                    </td>
                                     <td><button id="btn-atracao" class="btn btn-sm bg-purple" data-toggle="modal" data-target="#modal-default" data-atracao="<?=$atracao->atracao_id?>"><i class="fas fa-retweet"></i> Trocar líder</button></td>
                                 </tr>
                             <?php endforeach; ?>
