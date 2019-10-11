@@ -1,6 +1,7 @@
 <?php
 require_once "./controllers/EventoController.php";
 $eventoObj = new EventoController();
+$evento = EventoModel::eventoCompleto($_SESSION['origem_id_c'])->fetchObject();
 ?>
 
 <!-- Content Header (Page header) -->
