@@ -47,7 +47,8 @@ class ViewsModel
             'lider',
             'proponente_lista',
             'anexos_proponente',
-            'anexos_lider'
+            'anexos_lider',
+            'finalizar'
         ];
         if (self::verificaModulo($modulo)) {
             if (in_array($view, $whitelist)) {
