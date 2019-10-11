@@ -51,4 +51,24 @@ class EventoModel extends MainModel
             WHERE ev.id = '$idEvento'");
         return $sql;
     }
+
+    protected function validaEvento($idEvento)
+    {
+        $erros['bol'] = false;
+        $evento = DbModel::getInfo('eventos', $idEvento)->fetch(PDO::FETCH_ASSOC);
+
+        foreach ($evento as $coluna => $valor) {
+            if ($valor == "") {
+                $erros['evento']['bol'] = true;
+                $erros['evento']['motivo'] = "Campo ".$coluna." não preechido";
+            }
+        }
+
+        if ($evento['fomento'] == 1) {
+            $fomento = DbModel::consultaSimples("SELECT * FROM evento_fomento WHERE evento_id = '$idEvento'");
+
+        }
+
+        return $erros;
+    }
 }
