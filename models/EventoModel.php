@@ -49,5 +49,6 @@ class EventoModel extends MainModel
                 INNER JOIN evento_publico ep on ev.id = ep.evento_id
                 INNER JOIN publicos p on ep.publico_id = p.id
             WHERE ev.id = '$idEvento'");
+        return $sql;
     }
 }
