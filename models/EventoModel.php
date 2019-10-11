@@ -39,22 +39,15 @@ class EventoModel extends MainModel
         return $evento;
     }
 
-    protected function resumoEvento($idEvento)
+    public function eventoCompleto($idEvento)
     {
-        $sql = DbModel::consultaSimples("SELECT * FROM eventos WHERE id = '$idEvento'")->fetch();
-        $nome_evento = $sql['nome_evento'] ? $sql['nome_evento'] : "Prencha o campo";
-    ?>
-        <div class="row">
-           <div class="col-md-12"><b>Nome do Evento:</b> <?= $nome_evento ?></div>
-        </div>
-        <div class="row">
-            <div class="col-md-3"><b>Espaço em que será realizado o evento é público?</b></div>
-            <div class="col-md-5"><b>É fomento/programa?</b></div>
-            <div class="col-md-4"><b>Público (Representatividade e Visibilidade Sócio-cultural):</b></div>
-        </div>
-        <div class="row">
-            <div class="col-md-12"><b>Sinopse:</b></div>
-        </div>
-    <?php
+        $sql = DbModel::consultaSimples("
+            SELECT ev.id,  ev.espaco_publico, ev.fomento, fo.fomento AS nome_fomento, ep.*, ev.sinopse
+            FROM eventos as ev 
+                LEFT JOIN evento_fomento AS ef ON ev.id = ef.evento_id 
+                LEFT JOIN fomentos fo on ef.fomento_id = fo.id 
+                INNER JOIN evento_publico ep on ev.id = ep.evento_id
+                INNER JOIN publicos p on ep.publico_id = p.id
+            WHERE ev.id = '$idEvento'");
     }
 }
