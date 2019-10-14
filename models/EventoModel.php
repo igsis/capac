@@ -9,14 +9,14 @@ class EventoModel extends MainModel
 {
     protected function recuperaEventoFomento($id) {
         $pdo = DbModel::connection();
-        $sql = "SELECT ef.fomento_id FROM evento_fomento AS ef
+        $sql = "SELECT ef.fomento_id, f.fomento FROM evento_fomento AS ef
                 INNER JOIN fomentos AS f on ef.fomento_id = f.id
                 WHERE ef.evento_id = :eventoId";
         $statement = $pdo->prepare($sql);
         $statement->bindParam(':eventoId', $id);
         $statement->execute();
         $fomento = $statement->fetch();
-        return $fomento['fomento_id'];
+        return $fomento;
     }
 
     protected function recuperaEventoPublico($id) {
@@ -33,7 +33,8 @@ class EventoModel extends MainModel
     protected function getEvento($id) {
         $evento = DbModel::getInfo('eventos', $id)->fetchObject();
         if ($evento) {
-            $evento->fomento_id = $this->recuperaEventoFomento($id);
+            $evento->fomento_id = $this->recuperaEventoFomento($id)['fomento_id'];
+            $evento->fomento = $this->recuperaEventoFomento($id)['fomento'];
             $evento->publicos = (object) $this->recuperaEventoPublico($id);
         }
         return $evento;
@@ -53,7 +54,10 @@ class EventoModel extends MainModel
 
         if ($evento['fomento'] == 1) {
             $fomento = DbModel::consultaSimples("SELECT * FROM evento_fomento WHERE evento_id = '$idEvento'");
-
+            if ($fomento->rowCount() == 0) {
+                $erros['fomento']['bol'] = true;
+                $erros['fomento']['motivo'] = "O evento será fomentado, porém nenhum fomento foi selecionado";
+            }
         }
 
         return $erros;
