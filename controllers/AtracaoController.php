@@ -20,6 +20,12 @@ class AtracaoController extends AtracaoModel
         return $atracoes;
     }
 
+    public function getAtracaoId($evento_id) {
+        $evento_id = MainModel::decryption($evento_id);
+        $atracao_id = DbModel::consultaSimples("SELECT id FROM atracoes WHERE evento_id = '$evento_id'")->fetch()['id'];
+        return MainModel::encryption($atracao_id);
+    }
+
     public function recuperaAtracao($id) {
         $id = MainModel::decryption($id);
         $atracao = AtracaoModel::getAtracao($id);

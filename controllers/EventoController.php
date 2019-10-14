@@ -182,6 +182,26 @@ WHERE e.publicado != 0 AND usuario_id = '1'");
         }
     }
 
+    public function validacaoEvento($evento_id) {
+        $evento_id = MainModel::decryption($evento_id);
+        $lis = [];
+        $erros = EventoModel::validaEvento($evento_id);
+
+        if ($erros) {
+            $erro = MainModel::in_array_r(true, $erros, true);
+            if ($erro) {
+                foreach ($erros as $erro) {
+                    if ($erro['bol']) {
+                        $lis[] = "<li>" . $erro['motivo'] . "</li>";
+                    }
+                }
+            }
+            return $lis;
+        } else {
+            return false;
+        }
+    }
+
     public function listaPublicoEvento($id)
     {
         $publico = DbModel::getInfo("publicos",$id)->fetch();
