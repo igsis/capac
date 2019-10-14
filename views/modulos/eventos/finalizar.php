@@ -1,7 +1,18 @@
 <?php
 require_once "./controllers/EventoController.php";
 $eventoObj = new EventoController();
-$evento = EventoModel::eventoCompleto($_SESSION['origem_id_c'])->fetchObject();
+$evento = $eventoObj->recuperaEvento($_SESSION['origem_id_c']);
+
+require_once "./controllers/AtracaoController.php";
+$idAtracao = MainModel::encryption(DbModel::consultaSimples("SELECT id FROM atracoes WHERE evento_id = '$evento->id'"));
+$atracaoObj = new AtracaoController();
+$atracao = $atracaoObj->recuperaAtracao($idAtracao);
+
+//$nome_evento = $sql['nome_evento'] ? $sql['nome_evento'] : "Prencha o campo";
+//$espaco_publico = $sql['espaco_publico'] ? $sql['espaco_publico'] : "Preencha";
+//$fomento = $sql['fomento'] ? $sql['fomento'] : "Preencha";
+//$fomento_nome = $sql['nome_fomento'];
+
 ?>
 
 <!-- Content Header (Page header) -->
@@ -24,76 +35,61 @@ $evento = EventoModel::eventoCompleto($_SESSION['origem_id_c'])->fetchObject();
             <div class="col-12">
                 <div class="card card-primary card-outline">
                     <div class="card-header">
-                        <h5 class="m-0">Resumo dos Dados do Evento</h5>
+                        <h5 class="m-0">Dados do Evento</h5>
                     </div>
                     <div class="card-body">
 
-<!--                        <div class="row">-->
-<!--                            <div class="col-md-12"><b>Nome do Evento:</b> --><?//= $nome_evento ?><!--</div>-->
-<!--                        </div>-->
-<!--                        <div class="row">-->
-<!--                            <div class="col-md-3"><b>Espaço em que será realizado o evento é público?</b> --><?php //if ($espaco_publico == 0) {echo "Sim";} else{ echo "Não"; }  ?><!--</div>-->
-<!--                            <div class="col-md-5"><b>É fomento/programa?</b></div>-->
-<!--                            <div class="col-md-4"><b>Público (Representatividade e Visibilidade Sócio-cultural):</b></div>-->
-<!--                        </div>-->
-<!--                        <div class="row">-->
-<!--                            <div class="col-md-12"><b>Sinopse:</b></div>-->
-<!--                        </div>-->
-<!--                        $nome_evento = $sql['nome_evento'] ? $sql['nome_evento'] : "Prencha o campo";-->
-<!--                        $espaco_publico = $sql['espaco_publico'] ? $sql['espaco_publico'] : "Preencha";-->
-<!--                        $fomento = $sql['fomento'] ? $sql['fomento'] : "Preencha";-->
-<!--                        $fomento_nome = $sql['nome_fomento'];-->
+                        <div class="row">
+                            <div class="col-md-12"><b>Nome do evento:</b> <?= $evento->nome_evento ?></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6"><b>Espaço em que será realizado o evento é público?</b> <?php if ($evento->espaco_publico == 0): echo "Sim"; else: echo "Não"; endif;  ?></div>
+                            <div class="col-md-6"><b>É fomento/programa?</b> <?= $evento->fomento ?></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><b>Público (Representatividade e Visibilidade Sócio-cultural):</b> </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><b>Sinopse:</b> <?= $evento->sinopse ?></div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-md-12"><b>Nome da atração:</b> </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><b>Ações (Expressões Artístico-culturais):</b> </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><b>Ficha técnica completa:</b> </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><b>Integrantes:</b> </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><b>Classificação indicativa:</b> </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><b>Release:</b> </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><b>Links:</b> </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6"><b>Quantidade de Apresentação:</b> </div>
+                            <div class="col-md-6"><b>Valor:</b> </div>
+                        </div>
+
+                        <hr>
 
 
-                        <div class="row">
-                            <div class="col-md-12 border"><b>Nome do Evento:</b> Nome do Evento</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 border"><b>Espaço em que será realizado o evento é público?</b></div>
-                            <div class="col-md-3 border"><b>Espaço em que será realizado o evento é público?</b></div>
-                            <div class="col-md-5 border"><b>É fomento/programa?</b></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-5 border"><b>Público (Representatividade e Visibilidade Sócio-cultural):</b></div>
-                            <div class="col-md-7 border">Publico 1; Publico 2; Publico 3</b></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 border"><b>Sinopse:</b></div>
-                        </div>
                     </div>
                 </div>
             </div>
             <!-- /.col-md-6 -->
         </div>
         <!-- /.row -->
-        <div class="row">
-            <!-- /.col-md-6 -->
-            <div class="col-12">
-                <div class="card card-primary card-outline">
-                    <div class="card-header">
-                        <h5 class="m-0">Resumo dos Dados do Proponente</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-12 border"><b>Nome do Evento:</b> Nome do Evento</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 border"><b>Espaço em que será realizado o evento é público?</b></div>
-                            <div class="col-md-3 border"><b>Espaço em que será realizado o evento é público?</b></div>
-                            <div class="col-md-5 border"><b>É fomento/programa?</b></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-5 border"><b>Público (Representatividade e Visibilidade Sócio-cultural):</b></div>
-                            <div class="col-md-7 border">Publico 1; Publico 2; Publico 3</b></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 border"><b>Sinopse:</b></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /.col-md-6 -->
-        </div>
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
