@@ -155,24 +155,4 @@ class AtracaoController extends AtracaoModel
         }
     }
 
-    public function validacaoAtracao($evento_id) {
-        $evento_id = MainModel::decryption($evento_id);
-        $lis = [];
-        $erros = AtracaoModel::validaAtracao($evento_id);
-
-        if ($erros) {
-            $erro = MainModel::in_array_r(true, $erros, true);
-            if ($erro) {
-                foreach ($erros as $erro) {
-                    if ($erro['bol']) {
-                        $lis[] = "<li>" . $erro['motivo'] . "</li>";
-                    }
-                }
-            }
-            return $lis;
-        } else {
-            return false;
-        }
-    }
-
 }

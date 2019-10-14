@@ -10,8 +10,7 @@ $idAtracao = $atracaoObj->getAtracaoId($_SESSION['origem_id_c']);
 $atracao = $atracaoObj->recuperaAtracao($idAtracao);
 
 $erro = "<span style=\"color: red; \"><b>Preenchimento obrigatório</b></span>";
-//$erros = $eventoObj->validacaoEvento($_SESSION['origem_id_c']);
-$erros = $atracaoObj->validacaoAtracao($_SESSION['origem_id_c']);
+$erros = $eventoObj->validacaoEvento($_SESSION['origem_id_c']);
 
 //$nome_evento = $sql['nome_evento'] ? $sql['nome_evento'] : "Prencha o campo";
 //$espaco_publico = $sql['espaco_publico'] ? $sql['espaco_publico'] : "Preencha";
