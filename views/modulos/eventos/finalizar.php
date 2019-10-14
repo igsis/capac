@@ -8,6 +8,10 @@ require_once "./controllers/AtracaoController.php";
 $atracaoObj = new AtracaoController();
 $idAtracao = $atracaoObj->getAtracaoId($idEvento);
 
+require_once "./controllers/PedidoController.php";
+$pedidoObj = new PedidoController();
+$pedido = $pedidoObj->recuperaPedido(1);
+
 $erro = "<span style=\"color: red; \"><b>Preenchimento obrigatório</b></span>";
 $erros = $eventoObj->validacaoEvento($idEvento);
 ?>
@@ -84,9 +88,8 @@ $erros = $eventoObj->validacaoEvento($idEvento);
                         </div>
 
                         <hr>
-
+                        <!-- ************** Atrações ************** -->
                         <?php
-
                         foreach ($atracaoObj->listaAtracoes($idEvento) as $atracao): ?>
                             <div class="row">
                                 <div class="col-md-12"><b>Nome da atração:</b> <?= $atracao->nome_atracao ?></div>
@@ -131,6 +134,16 @@ $erros = $eventoObj->validacaoEvento($idEvento);
                             <hr>
                         <?php endforeach; ?>
 
+                        <!-- ************** Proponente ************** -->
+                        <?php
+                        $urlCadastro = $pedido->pessoa_tipo_id == 1 ? "pf_cadastro" : "pj_cadastro";
+                        $idEncrypt = $pedidoObj->encryption($pedido->proponente->id);
+                        ?>
+                        <div class="row">
+                            <div class="col-md-5"><b>Proponente:</b> <?= $pedido->proponente->nome ?></div>
+                            <div class="col-md-3"><b>Documento:</b> <?= $pedido->proponente->documento ?></div>
+                            <div class="col-md-4"><b>E-mail:</b> <?= $pedido->proponente->email ?></div>
+                        </div>
 
 
                     </div>
