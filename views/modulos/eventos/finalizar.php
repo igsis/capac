@@ -1,18 +1,13 @@
 <?php
 require_once "./controllers/EventoController.php";
 $eventoObj = new EventoController();
-$evento = $eventoObj->recuperaEvento($_SESSION['origem_id_c']);
+$idEvento = $_SESSION['origem_id_c'];
+$evento = $eventoObj->recuperaEvento($idEvento);
 
 require_once "./controllers/AtracaoController.php";
-$idAtracao = MainModel::encryption(DbModel::consultaSimples("SELECT id FROM atracoes WHERE evento_id = '$evento->id'"));
 $atracaoObj = new AtracaoController();
-$atracao = $atracaoObj->recuperaAtracao($idAtracao);
 
-//$nome_evento = $sql['nome_evento'] ? $sql['nome_evento'] : "Prencha o campo";
-//$espaco_publico = $sql['espaco_publico'] ? $sql['espaco_publico'] : "Preencha";
-//$fomento = $sql['fomento'] ? $sql['fomento'] : "Preencha";
-//$fomento_nome = $sql['nome_fomento'];
-
+$erro = "<span style=\"color: red; \"><b>Preenchimento obrigatório</b></span>";
 ?>
 
 <!-- Content Header (Page header) -->
@@ -44,10 +39,25 @@ $atracao = $atracaoObj->recuperaAtracao($idAtracao);
                         </div>
                         <div class="row">
                             <div class="col-md-6"><b>Espaço em que será realizado o evento é público?</b> <?php if ($evento->espaco_publico == 0): echo "Sim"; else: echo "Não"; endif;  ?></div>
-                            <div class="col-md-6"><b>É fomento/programa?</b> <?= $evento->fomento ?></div>
+                            <div class="col-md-6"><b>É fomento/programa?</b>
+                                <?php
+                                if($evento->fomento == 0){
+                                    echo "Não";
+                                } else{
+                                    echo "Sim: ".$evento->fomento_nome;
+                                }
+                                ?>
+                            </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12"><b>Público (Representatividade e Visibilidade Sócio-cultural):</b> </div>
+                            <div class="col-md-12"><b>Público (Representatividade e Visibilidade Sócio-cultural):</b>
+                                <?php
+                                foreach ($evento->publicos as $publico) {
+                                    $sql = EventoController::listaPublicoEvento($publico);
+                                    echo $sql['publico']."; ";
+                                }
+                                ?>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12"><b>Sinopse:</b> <?= $evento->sinopse ?></div>
@@ -55,33 +65,41 @@ $atracao = $atracaoObj->recuperaAtracao($idAtracao);
 
                         <hr>
 
-                        <div class="row">
-                            <div class="col-md-12"><b>Nome da atração:</b> </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12"><b>Ações (Expressões Artístico-culturais):</b> </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12"><b>Ficha técnica completa:</b> </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12"><b>Integrantes:</b> </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12"><b>Classificação indicativa:</b> </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12"><b>Release:</b> </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12"><b>Links:</b> </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6"><b>Quantidade de Apresentação:</b> </div>
-                            <div class="col-md-6"><b>Valor:</b> </div>
-                        </div>
+                        <?php foreach ($atracaoObj->listaAtracoes($idEvento) as $atracao): ?>
+                            <div class="row">
+                                <div class="col-md-12"><b>Nome da atração:</b> <?= $atracao->nome_atracao ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12"><b>Ações (Expressões Artístico-culturais):</b> </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12"><b>Ficha técnica completa:</b> <?= $atracao->ficha_tecnica ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12"><b>Integrantes:</b> <?= $atracao->integrantes ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12"><b>Classificação indicativa:</b> </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12"><b>Release:</b>  <?= $atracao->release_comunicacao ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12"><b>Links:</b>  <?= $atracao->links ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6"><b>Quantidade de Apresentação:</b>  <?= $atracao->quantidade_apresentacao ?></div>
+                                <div class="col-md-6"><b>Valor:</b> R$ <?= MainModel::dinheiroParaBr($atracao->valor_individual) ?></div>
+                            </div>
 
-                        <hr>
+                            <div class="row">
+                                <div class="col-md-4"><b>Produtor:</b>  <?= $atracao->produtor->nome ?? $erro ?></div>
+                                <div class="col-md-4"><b>Telefone:</b>  <?= $atracao->produtor->telefone1 ?? $erro ?> / <?= $atracao->produtor->telefone2 ?? NULL ?></div>
+                                <div class="col-md-4"><b>E-mail:</b>  <?= $atracao->produtor->email ?? $erro ?></div>
+                            </div>
+                            <hr>
+                        <?php endforeach; ?>
+
 
 
                     </div>
