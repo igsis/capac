@@ -6,11 +6,10 @@ $evento = $eventoObj->recuperaEvento($idEvento);
 
 require_once "./controllers/AtracaoController.php";
 $atracaoObj = new AtracaoController();
-$idAtracao = $atracaoObj->getAtracaoId($_SESSION['origem_id_c']);
-$atracao = $atracaoObj->recuperaAtracao($idAtracao);
+$idAtracao = $atracaoObj->getAtracaoId($idEvento);
 
 $erro = "<span style=\"color: red; \"><b>Preenchimento obrigatório</b></span>";
-$erros = $eventoObj->validacaoEvento($_SESSION['origem_id_c']);
+$erros = $eventoObj->validacaoEvento($idEvento);
 
 //$nome_evento = $sql['nome_evento'] ? $sql['nome_evento'] : "Prencha o campo";
 //$espaco_publico = $sql['espaco_publico'] ? $sql['espaco_publico'] : "Preencha";
@@ -106,7 +105,7 @@ $erros = $eventoObj->validacaoEvento($_SESSION['origem_id_c']);
                                 <div class="col-md-12"><b>Integrantes:</b> <?= $atracao->integrantes ?></div>
                             </div>
                             <div class="row">
-                                <div class="col-md-12"><b>Classificação indicativa:</b> </div>
+                                <div class="col-md-12"><b>Classificação indicativa:</b> <?= $atracao->classificacao_indicativa ?></div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12"><b>Release:</b>  <?= $atracao->release_comunicacao ?></div>
