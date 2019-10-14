@@ -45,11 +45,11 @@ class EventoModel extends MainModel
         $evento = DbModel::getInfo('eventos', $evento_id)->fetch(PDO::FETCH_ASSOC);
 
         foreach ($evento as $coluna => $valor) {
-            if ($valor == "") {
-                $erros['evento']['bol'] = true;
-                $erros['evento']['motivo'] = "Campo ".$coluna." não preechido";
-            }
+        if ($valor == "") {
+            $erros[$coluna]['bol'] = true;
+            $erros[$coluna]['motivo'] = "Campo ".$coluna." não preechido";
         }
+    }
 
         if ($evento['fomento'] == 1) {
             $fomento = DbModel::consultaSimples("SELECT * FROM evento_fomento WHERE evento_id = '$evento_id'");
