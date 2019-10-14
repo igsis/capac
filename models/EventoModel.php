@@ -39,19 +39,6 @@ class EventoModel extends MainModel
         return $evento;
     }
 
-    public function eventoCompleto($idEvento)
-    {
-        $sql = DbModel::consultaSimples("
-            SELECT ev.id,  ev.espaco_publico, ev.fomento, fo.fomento AS nome_fomento, ep.*, ev.sinopse
-            FROM eventos as ev 
-                LEFT JOIN evento_fomento AS ef ON ev.id = ef.evento_id 
-                LEFT JOIN fomentos fo on ef.fomento_id = fo.id 
-                INNER JOIN evento_publico ep on ev.id = ep.evento_id
-                INNER JOIN publicos p on ep.publico_id = p.id
-            WHERE ev.id = '$idEvento'");
-        return $sql;
-    }
-
     protected function validaEvento($idEvento)
     {
         $erros['bol'] = false;
