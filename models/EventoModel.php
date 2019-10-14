@@ -34,7 +34,7 @@ class EventoModel extends MainModel
         $evento = DbModel::getInfo('eventos', $id)->fetchObject();
         if ($evento) {
             $evento->fomento_id = $this->recuperaEventoFomento($id)['fomento_id'];
-            $evento->fomento = $this->recuperaEventoFomento($id)['fomento'];
+            $evento->fomento_nome = $this->recuperaEventoFomento($id)['fomento'];
             $evento->publicos = (object) $this->recuperaEventoPublico($id);
         }
         return $evento;
