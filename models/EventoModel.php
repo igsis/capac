@@ -40,10 +40,9 @@ class EventoModel extends MainModel
         return $evento;
     }
 
-    protected function validaEvento($idEvento)
+    protected function validaEvento($evento_id)
     {
-        $erros['bol'] = false;
-        $evento = DbModel::getInfo('eventos', $idEvento)->fetch(PDO::FETCH_ASSOC);
+        $evento = DbModel::getInfo('eventos', $evento_id)->fetch(PDO::FETCH_ASSOC);
 
         foreach ($evento as $coluna => $valor) {
             if ($valor == "") {
@@ -53,13 +52,23 @@ class EventoModel extends MainModel
         }
 
         if ($evento['fomento'] == 1) {
-            $fomento = DbModel::consultaSimples("SELECT * FROM evento_fomento WHERE evento_id = '$idEvento'");
+            $fomento = DbModel::consultaSimples("SELECT * FROM evento_fomento WHERE evento_id = '$evento_id'");
             if ($fomento->rowCount() == 0) {
                 $erros['fomento']['bol'] = true;
                 $erros['fomento']['motivo'] = "O evento será fomentado, porém nenhum fomento foi selecionado";
             }
         }
 
-        return $erros;
+        $publicos = DbModel::consultaSimples("SELECT * FROM evento_publico WHERE evento_id = '$evento_id'");
+        if ($publicos->rowCount() == 0) {
+            $erros['publicos']['bol'] = true;
+            $erros['publicos']['motivo'] = "Nenhuma Representatividade e Visibilidade Sócio-cultural selecionada para este evento";
+        }
+
+        if (isset($erros)){
+            return $erros;
+        } else {
+            return false;
+        }
     }
 }

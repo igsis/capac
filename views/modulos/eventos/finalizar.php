@@ -6,8 +6,17 @@ $evento = $eventoObj->recuperaEvento($idEvento);
 
 require_once "./controllers/AtracaoController.php";
 $atracaoObj = new AtracaoController();
+$idAtracao = $atracaoObj->getAtracaoId($_SESSION['origem_id_c']);
+$atracao = $atracaoObj->recuperaAtracao($idAtracao);
 
 $erro = "<span style=\"color: red; \"><b>Preenchimento obrigatório</b></span>";
+$erros = $eventoObj->validacaoEvento($_SESSION['origem_id_c']);
+
+//$nome_evento = $sql['nome_evento'] ? $sql['nome_evento'] : "Prencha o campo";
+//$espaco_publico = $sql['espaco_publico'] ? $sql['espaco_publico'] : "Preencha";
+//$fomento = $sql['fomento'] ? $sql['fomento'] : "Preencha";
+//$fomento_nome = $sql['nome_fomento'];
+
 ?>
 
 <!-- Content Header (Page header) -->
@@ -18,6 +27,24 @@ $erro = "<span style=\"color: red; \"><b>Preenchimento obrigatório</b></span>";
                 <h1 class="m-0 text-dark">Finalizar o Envio</h1>
             </div><!-- /.col -->
         </div><!-- /.row -->
+        <?php if ($erros): ?>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card bg-danger">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>Seu Evento Possui Alguns Erros!</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <?php foreach ($erros as $erro){
+                            echo $erro;
+                        }
+                        ?>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content-header -->
