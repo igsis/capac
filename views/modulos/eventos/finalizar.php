@@ -13,7 +13,14 @@ $pedidoObj = new PedidoController();
 $pedido = $pedidoObj->recuperaPedido(1);
 
 $erro = "<span style=\"color: red; \"><b>Preenchimento obrigatório</b></span>";
-$erros = $eventoObj->validacaoEvento($idEvento);
+//$erros = $eventoObj->validacaoEvento($_SESSION['origem_id_c']);
+$erros = $atracaoObj->validacaoAtracao($_SESSION['origem_id_c']);
+
+//$nome_evento = $sql['nome_evento'] ? $sql['nome_evento'] : "Prencha o campo";
+//$espaco_publico = $sql['espaco_publico'] ? $sql['espaco_publico'] : "Preencha";
+//$fomento = $sql['fomento'] ? $sql['fomento'] : "Preencha";
+//$fomento_nome = $sql['nome_fomento'];
+
 ?>
 
 <!-- Content Header (Page header) -->

@@ -182,6 +182,8 @@ WHERE e.publicado != 0 AND usuario_id = '1'");
         }
     }
 
+//    TODO: Resetar a função de validação
+
     public function validacaoEvento($evento_id) {
         $evento_id = MainModel::decryption($evento_id);
         $lis = [];
