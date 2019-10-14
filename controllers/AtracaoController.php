@@ -11,7 +11,7 @@ class AtracaoController extends AtracaoModel
 {
     public function listaAtracoes($evento_id){
         $evento_id = MainModel::decryption($evento_id);
-        $consultaEvento = DbModel::consultaSimples("SELECT * FROM atracoes AS a WHERE a.publicado = 1 AND a.evento_id = '$evento_id'");
+        $consultaEvento = DbModel::consultaSimples("SELECT * FROM atracoes AS a LEFT JOIN classificacao_indicativas ci on a.classificacao_indicativa_id = ci.id WHERE a.publicado = 1 AND a.evento_id = '$evento_id'");
         $atracoes = $consultaEvento->fetchAll(PDO::FETCH_OBJ);
         foreach ($atracoes as $key => $atracao) {
             $produtor_id = MainModel::encryption($atracao->produtor_id);
