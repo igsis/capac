@@ -10,12 +10,6 @@ $idAtracao = $atracaoObj->getAtracaoId($idEvento);
 
 $erro = "<span style=\"color: red; \"><b>Preenchimento obrigatório</b></span>";
 $erros = $eventoObj->validacaoEvento($idEvento);
-
-//$nome_evento = $sql['nome_evento'] ? $sql['nome_evento'] : "Prencha o campo";
-//$espaco_publico = $sql['espaco_publico'] ? $sql['espaco_publico'] : "Preencha";
-//$fomento = $sql['fomento'] ? $sql['fomento'] : "Preencha";
-//$fomento_nome = $sql['nome_fomento'];
-
 ?>
 
 <!-- Content Header (Page header) -->
@@ -91,12 +85,20 @@ $erros = $eventoObj->validacaoEvento($idEvento);
 
                         <hr>
 
-                        <?php foreach ($atracaoObj->listaAtracoes($idEvento) as $atracao): ?>
+                        <?php
+
+                        foreach ($atracaoObj->listaAtracoes($idEvento) as $atracao): ?>
                             <div class="row">
                                 <div class="col-md-12"><b>Nome da atração:</b> <?= $atracao->nome_atracao ?></div>
                             </div>
                             <div class="row">
-                                <div class="col-md-12"><b>Ações (Expressões Artístico-culturais):</b> </div>
+                                <div class="col-md-12"><b>Ações (Expressões Artístico-culturais):</b>
+                                    <?php
+                                    foreach ($atracao->acoes as $acao){
+                                        echo $acao->acao."; ";
+                                    }
+                                    ?>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12"><b>Ficha técnica completa:</b> <?= $atracao->ficha_tecnica ?></div>
@@ -119,9 +121,12 @@ $erros = $eventoObj->validacaoEvento($idEvento);
                             </div>
 
                             <div class="row">
-                                <div class="col-md-4"><b>Produtor:</b>  <?= $atracao->produtor->nome ?? $erro ?></div>
-                                <div class="col-md-4"><b>Telefone:</b>  <?= $atracao->produtor->telefone1 ?? $erro ?> / <?= $atracao->produtor->telefone2 ?? NULL ?></div>
+                                <div class="col-md-5"><b>Produtor:</b>  <?= $atracao->produtor->nome ?? $erro ?></div>
+                                <div class="col-md-3"><b>Telefone:</b>  <?= $atracao->produtor->telefone1 ?? $erro ?> / <?= $atracao->produtor->telefone2 ?? NULL ?></div>
                                 <div class="col-md-4"><b>E-mail:</b>  <?= $atracao->produtor->email ?? $erro ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4"><b>Observação:</b>  <?= $atracao->produtor->observacao ?? NULL ?></div>
                             </div>
                             <hr>
                         <?php endforeach; ?>

@@ -9,13 +9,13 @@ class AtracaoModel extends MainModel
 {
     protected function recuperaAtracaoAcao($id) {
         $pdo = DbModel::connection();
-        $sql = "SELECT aa.acao_id FROM acao_atracao AS aa
+        $sql = "SELECT aa.acao_id, a.acao FROM acao_atracao AS aa
                 INNER JOIN acoes AS a on aa.acao_id = a.id
                 WHERE aa.atracao_id = :atracao_id";
         $statement = $pdo->prepare($sql);
         $statement->bindParam(':atracao_id', $id);
         $statement->execute();
-        return $statement->fetchAll(PDO::FETCH_COLUMN);
+        return $statement->fetchAll(PDO::FETCH_OBJ);
     }
 
     protected function getAtracao($id) {
