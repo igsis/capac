@@ -6,17 +6,14 @@ $evento = $eventoObj->recuperaEvento($idEvento);
 
 require_once "./controllers/AtracaoController.php";
 $atracaoObj = new AtracaoController();
-$idAtracao = $atracaoObj->getAtracaoId($_SESSION['origem_id_c']);
-$atracao = $atracaoObj->recuperaAtracao($idAtracao);
+$idAtracao = $atracaoObj->getAtracaoId($idEvento);
+
+require_once "./controllers/PedidoController.php";
+$pedidoObj = new PedidoController();
+$pedido = $pedidoObj->recuperaPedido(1);
 
 $erro = "<span style=\"color: red; \"><b>Preenchimento obrigatório</b></span>";
-$erros = $eventoObj->validacaoEvento($_SESSION['origem_id_c']);
-
-//$nome_evento = $sql['nome_evento'] ? $sql['nome_evento'] : "Prencha o campo";
-//$espaco_publico = $sql['espaco_publico'] ? $sql['espaco_publico'] : "Preencha";
-//$fomento = $sql['fomento'] ? $sql['fomento'] : "Preencha";
-//$fomento_nome = $sql['nome_fomento'];
-
+$erros = $eventoObj->validacaoEvento($idEvento);
 ?>
 
 <!-- Content Header (Page header) -->
@@ -91,13 +88,20 @@ $erros = $eventoObj->validacaoEvento($_SESSION['origem_id_c']);
                         </div>
 
                         <hr>
-
-                        <?php foreach ($atracaoObj->listaAtracoes($idEvento) as $atracao): ?>
+                        <!-- ************** Atrações ************** -->
+                        <?php
+                        foreach ($atracaoObj->listaAtracoes($idEvento) as $atracao): ?>
                             <div class="row">
                                 <div class="col-md-12"><b>Nome da atração:</b> <?= $atracao->nome_atracao ?></div>
                             </div>
                             <div class="row">
-                                <div class="col-md-12"><b>Ações (Expressões Artístico-culturais):</b> </div>
+                                <div class="col-md-12"><b>Ações (Expressões Artístico-culturais):</b>
+                                    <?php
+                                    foreach ($atracao->acoes as $acao){
+                                        echo $acao->acao."; ";
+                                    }
+                                    ?>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12"><b>Ficha técnica completa:</b> <?= $atracao->ficha_tecnica ?></div>
@@ -106,7 +110,7 @@ $erros = $eventoObj->validacaoEvento($_SESSION['origem_id_c']);
                                 <div class="col-md-12"><b>Integrantes:</b> <?= $atracao->integrantes ?></div>
                             </div>
                             <div class="row">
-                                <div class="col-md-12"><b>Classificação indicativa:</b> </div>
+                                <div class="col-md-12"><b>Classificação indicativa:</b> <?= $atracao->classificacao_indicativa ?></div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12"><b>Release:</b>  <?= $atracao->release_comunicacao ?></div>
@@ -120,13 +124,26 @@ $erros = $eventoObj->validacaoEvento($_SESSION['origem_id_c']);
                             </div>
 
                             <div class="row">
-                                <div class="col-md-4"><b>Produtor:</b>  <?= $atracao->produtor->nome ?? $erro ?></div>
-                                <div class="col-md-4"><b>Telefone:</b>  <?= $atracao->produtor->telefone1 ?? $erro ?> / <?= $atracao->produtor->telefone2 ?? NULL ?></div>
+                                <div class="col-md-5"><b>Produtor:</b>  <?= $atracao->produtor->nome ?? $erro ?></div>
+                                <div class="col-md-3"><b>Telefone:</b>  <?= $atracao->produtor->telefone1 ?? $erro ?> / <?= $atracao->produtor->telefone2 ?? NULL ?></div>
                                 <div class="col-md-4"><b>E-mail:</b>  <?= $atracao->produtor->email ?? $erro ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4"><b>Observação:</b>  <?= $atracao->produtor->observacao ?? NULL ?></div>
                             </div>
                             <hr>
                         <?php endforeach; ?>
 
+                        <!-- ************** Proponente ************** -->
+                        <?php
+                        $urlCadastro = $pedido->pessoa_tipo_id == 1 ? "pf_cadastro" : "pj_cadastro";
+                        $idEncrypt = $pedidoObj->encryption($pedido->proponente->id);
+                        ?>
+                        <div class="row">
+                            <div class="col-md-5"><b>Proponente:</b> <?= $pedido->proponente->nome ?></div>
+                            <div class="col-md-3"><b>Documento:</b> <?= $pedido->proponente->documento ?></div>
+                            <div class="col-md-4"><b>E-mail:</b> <?= $pedido->proponente->email ?></div>
+                        </div>
 
 
                     </div>
