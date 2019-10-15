@@ -189,7 +189,7 @@ WHERE e.publicado != 0 AND usuario_id = '1'");
     public function validaEvento($evento_id) {
         $evento_id = MainModel::decryption($evento_id);
         $erros['Evento'] = EventoModel::validaEventoModel($evento_id);
-        $erros['Atracao'] = AtracaoController::validaAtracao($evento_id);
+//        $erros['Atracao'] = (new AtracaoController)->validaAtracao($evento_id);
 
         $erro = MainModel::in_array_r(true, $erros, true);
         if ($erro) {

@@ -26,7 +26,7 @@ class AtracaoModel extends MainModel
         return $atracao;
     }
 
-    protected function validaProdutor($produtor_id) {
+    protected function validaProdutor($produtor_id, $nomeAtracao) {
         $naoObrigatorios = [
             'telefone2',
             'observacao'
@@ -38,7 +38,7 @@ class AtracaoModel extends MainModel
             if (!in_array($coluna, $naoObrigatorios)) {
                 if ($valor == "") {
                     $erros[$coluna]['bol'] = true;
-                    $erros[$coluna]['motivo'] = true;
+                    $erros[$coluna]['motivo'] = "Campo " . $coluna . " do produtor da atração ".$nomeAtracao." não preechido";
                 }
             }
         }
@@ -58,19 +58,20 @@ class AtracaoModel extends MainModel
         $atracoes = DbModel::consultaSimples("SELECT * FROM atracoes WHERE evento_id = '$evento_id'")->fetchAll(PDO::FETCH_OBJ);
 
         foreach ($atracoes as $atracao) {
+            $nomeAtracao = $atracao->nome_atracao;
             foreach ($atracao as $coluna => $valor) {
                 if (!in_array($coluna, $naoObrigatorios)) {
                     if ($valor == "") {
-                        $erros[$coluna]['bol'] = true;
-                        $erros[$coluna]['motivo'] = "Campo " . $coluna . " não preechido";
+                        $erros[$nomeAtracao][$coluna]['bol'] = true;
+                        $erros[$nomeAtracao][$coluna]['motivo'] = "Campo " . $coluna . " não preechido";
                     }
                 }
             }
 
             if ($atracao->produtor_id != null) {
-                $produtor = AtracaoModel::validaProdutor($atracao->produtor_id);
+                $produtor = AtracaoModel::validaProdutor($atracao->produtor_id, $nomeAtracao);
                 if ($produtor) {
-                    array_push($erros, $produtor);
+                    $erros[$nomeAtracao] = $produtor;
                 }
             }
 
