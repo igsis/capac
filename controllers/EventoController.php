@@ -188,14 +188,12 @@ WHERE e.publicado != 0 AND usuario_id = '1'");
         $evento_id = MainModel::decryption($evento_id);
         $erros['Evento'] = EventoModel::validaEvento($evento_id);
 
-        if ($erros) {
-            $erro = MainModel::in_array_r(true, $erros, true);
-            if ($erro) {
-                foreach ($erros as $key => $erro) {
-                    foreach ($erro as $item) {
-                        if ($item['bol']){
-                            $validacao[$key][] = $item['motivo'];
-                        }
+        $erro = MainModel::in_array_r(true, $erros, true);
+        if ($erro) {
+            foreach ($erros as $key => $erro) {
+                foreach ($erro as $item) {
+                    if ($item['bol']) {
+                        $validacao[$key][] = $item['motivo'];
                     }
                 }
             }
