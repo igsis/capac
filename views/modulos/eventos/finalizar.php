@@ -12,6 +12,7 @@ require_once "./controllers/PedidoController.php";
 $pedidoObj = new PedidoController();
 $pedido = $pedidoObj->recuperaPedido(1);
 
+
 $erro = "<span style=\"color: red; \"><b>Preenchimento obrigatório</b></span>";
 $validacoes = $eventoObj->validacaoEvento($_SESSION['origem_id_c']);
 ?>
@@ -88,9 +89,11 @@ $validacoes = $eventoObj->validacaoEvento($_SESSION['origem_id_c']);
                         <div class="row">
                             <div class="col-md-12"><b>Sinopse:</b> <?= $evento->sinopse ?></div>
                         </div>
-
-                        <hr>
+                        <br>
                         <!-- ************** Atrações ************** -->
+                        <hr>
+                        <h5><b>Atração</b></h5>
+                        <hr/>
                         <?php
                         foreach ($atracaoObj->listaAtracoes($idEvento) as $atracao): ?>
                             <div class="row">
@@ -133,21 +136,75 @@ $validacoes = $eventoObj->validacaoEvento($_SESSION['origem_id_c']);
                             <div class="row">
                                 <div class="col-md-4"><b>Observação:</b>  <?= $atracao->produtor->observacao ?? NULL ?></div>
                             </div>
-                            <hr>
+                            <br>
                         <?php endforeach; ?>
 
                         <!-- ************** Proponente ************** -->
                         <?php
-                        $urlCadastro = $pedido->pessoa_tipo_id == 1 ? "pf_cadastro" : "pj_cadastro";
                         $idEncrypt = $pedidoObj->encryption($pedido->proponente->id);
+                        if ($pedido->pessoa_tipo_id == 1) {
+                            require_once "./controllers/PessoaFisicaController.php";
+                            $pfObj = new PessoaFisicaController();
+                            $pf = $pfObj->recuperaPessoaFisica($idEncrypt);
+                        } else {
+                            require_once "./controllers/PessoaJuridicaController.php";
+                            $pjObj = new PessoaJuridicaController();
+                            $pj = $pjObj->recuperaPessoaJuridica($idEncrypt);
+                            ?>
+                            <!-- ************** Pessoa Juíridica ************** -->
+                            <hr>
+                            <h5><b>Proponente</b></h5>
+                            <hr/>
+                            <div class="row">
+                                <div class="col-md-7"><b>Razão Social:</b> <?= $pj['razao_social'] ?></div>
+                                <div class="col-md-3"><b>CNPJ:</b> <?= $pj['cnpj'] ?></div>
+                                <div class="col-md-2"><b>CCM:</b> <?= $pj['ccm'] ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6"><b>E-mail:</b> <?= $pj['email'] ?></div>
+                                <div class="col-md-6"><b>Telefones:</b> <?= $pj['telefones']['tel_0'] ?? "" ?>
+                                    | <?= $pj['telefones']['tel_1'] ?? "" ?> | <?= $pj['telefones']['tel_2'] ?? "" ?>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <b>Endereço:</b> <?= $pj['logradouro'] . ", " . $pj['numero'] . " " . $pj['complemento'] . " " . $pj['bairro'] . " - " . $pj['cidade'] . "-" . $pj['uf'] . " CEP: " . $pj['cep'] ?>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4"><b>Banco:</b> <?= $pj['banco'] ?></div>
+                                <div class="col-md-4"><b>Agência:</b> <?= $pj['agencia'] ?></div>
+                                <div class="col-md-4"><b>Conta:</b> <?= $pj['conta'] ?></div>
+                            </div>
+                            <!-- ************** Representante Legal 1 ************** -->
+                            <?php
+                            require_once "./controllers/RepresentanteController.php";
+                            $repObj = new RepresentanteController();
+                            $idRep1 = $repObj->encryption($pj['representante_legal1_id']);
+                            $rep1 = $repObj->recuperaRepresentante($idRep1)->fetch();
+                            ?>
+                            <br/>
+                            <h5><b>Representante Legal</b></h5>
+                            <div class="row">
+                                <div class="col-md-7"><b>Nome:</b> <?= $rep1['nome'] ?></div>
+                                <div class="col-md-3"><b>RG:</b> <?= $rep1['rg'] ?></div>
+                                <div class="col-md-2"><b>CFP:</b> <?= $rep1['cpf'] ?></div>
+                            </div>
+                            <!-- ************** Representante Legal 2 ************** -->
+                            <?php
+                            if(!empty($pj['representante_legal2_id'])){
+                                $idRep2 = $repObj->encryption($pj['representante_legal2_id']);
+                                $rep2 = $repObj->recuperaRepresentante($idRep2)->fetch();
+                            ?>
+                                <div class="row">
+                                    <div class="col-md-7"><b>Nome:</b> <?= $rep2['nome'] ?></div>
+                                    <div class="col-md-3"><b>RG:</b> <?= $rep2['rg'] ?></div>
+                                    <div class="col-md-2"><b>CFP:</b> <?= $rep2['cpf'] ?></div>
+                                </div>
+                        <?php
+                            }
+                        }
                         ?>
-                        <div class="row">
-                            <div class="col-md-5"><b>Proponente:</b> <?= $pedido->proponente->nome ?></div>
-                            <div class="col-md-3"><b>Documento:</b> <?= $pedido->proponente->documento ?></div>
-                            <div class="col-md-4"><b>E-mail:</b> <?= $pedido->proponente->email ?></div>
-                        </div>
-
-
                     </div>
                 </div>
             </div>
