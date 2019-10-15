@@ -203,6 +203,8 @@ class PessoaFisicaController extends PessoaFisicaModel
             LEFT JOIN pf_oficinas po on pf.id = po.pessoa_fisica_id
             LEFT JOIN drts d on pf.id = d.pessoa_fisica_id
             LEFT JOIN nits n on pf.id = n.pessoa_fisica_id
+            LEFT JOIN nacionalidades n2 on pf.nacionalidade_id = n2.id
+            LEFT JOIN bancos b on pb.banco_id = b.id
             WHERE pf.id = '$id'");
 
         $pf = $pf->fetch(PDO::FETCH_ASSOC);
