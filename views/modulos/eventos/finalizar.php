@@ -140,21 +140,70 @@ $validacoes = $eventoObj->validaEvento($_SESSION['origem_id_c']);
                         <?php endforeach; ?>
 
                         <!-- ************** Proponente ************** -->
+                        <hr>
+                        <h5><b>Proponente</b></h5>
+                        <hr/>
                         <?php
                         $idEncrypt = $pedidoObj->encryption($pedido->proponente->id);
                         if ($pedido->pessoa_tipo_id == 1) {
+                            /* ************** Pessoa Física ************** */
                             require_once "./controllers/PessoaFisicaController.php";
                             $pfObj = new PessoaFisicaController();
                             $pf = $pfObj->recuperaPessoaFisica($idEncrypt);
+                            ?>
+                            <div class="row">
+                                <div class="col-md-6"><b> Nome:</b> <?= $pf['nome'] ?></div>
+                                <div class="col-md-6"><b>Nome Artístico:</b> <?= $pf['nome_artistico'] ?></div>
+                            </div>
+                            <div class="row">
+                                <?php
+                                if(!empty($pf['cpf'])){
+                                ?>
+                                    <div class="col-md-2"><b>RG:</b> <?= $pf['rg'] ?></div>
+                                    <div class="col-md-2"><b>CPF:</b> <?= $pf['cpf'] ?></div>
+                                    <div class="col-md-2"><b>CCM:</b> <?= $pf['ccm'] ?></div>
+                                <?php
+                                }
+                                else{
+                                ?>
+                                    <div class="col-md-6"><b>Passaporte:</b> <?= $pf['passaporte'] ?></div>
+                                <?php
+                                }
+                                ?>
+                                <div class="col-md-3"><b>Data de Nascimento:</b> <?= date("d/m/Y", strtotime($pf['data_nascimento'])) ?></div>
+                                <div class="col-md-3"><b>Naconalidade:</b> <?= $pf['nacionalidade'] ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4"><b>E-mail:</b> <?= $pf['email'] ?></div>
+                                <div class="col-md-6"><b>Telefones:</b> <?= $pf['telefones']['tel_0'] ?? "" ?>
+                                    | <?= $pf['telefones']['tel_1'] ?? "" ?> | <?= $pf['telefones']['tel_2'] ?? "" ?>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6"><b>NIT:</b> <?= $pf['nit'] ?></div>
+                                <div class="col-md-6"><b>DRT:</b> <?= $pf['drt'] ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <b>Endereço:</b> <?= $pf['logradouro'] . ", " . $pf['numero'] . " " . $pf['complemento'] . " " . $pf['bairro'] . " - " . $pf['cidade'] . "-" . $pf['uf'] . " CEP: " . $pf['cep'] ?>
+                                </div>
+                            </div>
+                            <?php
+                            if ($_SESSION['modulo_c']!=2){
+                            ?>
+                                <div class="row">
+                                    <div class="col-md-4"><b>Banco:</b> <?= $pf['banco'] ?></div>
+                                    <div class="col-md-4"><b>Agência:</b> <?= $pf['agencia'] ?></div>
+                                    <div class="col-md-4"><b>Conta:</b> <?= $pf['conta'] ?></div>
+                                </div>
+                            <?php
+                            }
                         } else {
+                            /* ************** Pessoa Juíridica ************** */
                             require_once "./controllers/PessoaJuridicaController.php";
                             $pjObj = new PessoaJuridicaController();
                             $pj = $pjObj->recuperaPessoaJuridica($idEncrypt);
                             ?>
-                            <!-- ************** Pessoa Juíridica ************** -->
-                            <hr>
-                            <h5><b>Proponente</b></h5>
-                            <hr/>
                             <div class="row">
                                 <div class="col-md-7"><b>Razão Social:</b> <?= $pj['razao_social'] ?></div>
                                 <div class="col-md-3"><b>CNPJ:</b> <?= $pj['cnpj'] ?></div>
@@ -199,7 +248,7 @@ $validacoes = $eventoObj->validaEvento($_SESSION['origem_id_c']);
                                 <div class="row">
                                     <div class="col-md-7"><b>Nome:</b> <?= $rep2['nome'] ?></div>
                                     <div class="col-md-3"><b>RG:</b> <?= $rep2['rg'] ?></div>
-                                    <div class="col-md-2"><b>CFP:</b> <?= $rep2['cpf'] ?></div>
+                                    <div class="col-md-2"><b>CPF:</b> <?= $rep2['cpf'] ?></div>
                                 </div>
                         <?php
                             }
