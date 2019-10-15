@@ -150,6 +150,7 @@ $validacoes = $eventoObj->validaEvento($_SESSION['origem_id_c']);
                             require_once "./controllers/PessoaFisicaController.php";
                             $pfObj = new PessoaFisicaController();
                             $pf = $pfObj->recuperaPessoaFisica($idEncrypt);
+                            $cenica = $pfObj->verificaCenica($idEvento);
                             ?>
                             <div class="row">
                                 <div class="col-md-6"><b> Nome:</b> <?= $pf['nome'] ?></div>
@@ -181,7 +182,10 @@ $validacoes = $eventoObj->validaEvento($_SESSION['origem_id_c']);
                             </div>
                             <div class="row">
                                 <div class="col-md-6"><b>NIT:</b> <?= $pf['nit'] ?></div>
-                                <div class="col-md-6"><b>DRT:</b> <?= $pf['drt'] ?></div>
+                                <?php if($cenica > 0): ?>
+                                    <div class="col-md-6"><b>DRT:</b> <?= $pf['drt'] ?></div>
+                                <?php endif ?>
+
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
