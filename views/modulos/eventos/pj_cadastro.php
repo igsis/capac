@@ -51,6 +51,8 @@ if (isset($_POST['pj_cnpj'])){
                         <input type="hidden" name="origem_tipo" value="1">
                         <?php if ($id): ?>
                             <input type="hidden" name="id" value="<?= $id ?>">
+                            <button type="hidden" class="btn swalDefaultWarning">
+                            </button>
                         <?php endif; ?>
                         <div class="card-body">
                             <div class="row">
@@ -264,7 +266,7 @@ if (isset($_POST['pj_cnpj'])){
                     <div class="row">
                         <div class="form-group col-md-12">
                             <label for="cpf">CPF:</label>
-                            <input type="text" class="form-control" id="cpf" name="cpf" maxlength="14" required>
+                            <input type="text" class="form-control" id="cpf" name="cpf" onkeypress="mask(this, '###.###.###-##')" maxlength="14" required>
                         </div>
                     </div>
                 </div>
@@ -333,3 +335,20 @@ if (isset($_POST['pj_cnpj'])){
 </script>
 
 <script src="../views/dist/js/cep_api.js"></script>
+
+<script type="text/javascript">
+    $(function() {
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000
+        });
+        $('.swalDefaultWarning').show(function() {
+            Toast.fire({
+                type: 'warning',
+                title: 'Pressione o botão Gravar para confirmar os dados'
+            })
+        });
+    });
+</script>
