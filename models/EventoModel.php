@@ -40,7 +40,7 @@ class EventoModel extends MainModel
         return $evento;
     }
 
-    protected function validaEvento($evento_id)
+    protected function validaEventoModel($evento_id)
     {
         $evento = DbModel::getInfo('eventos', $evento_id)->fetch(PDO::FETCH_ASSOC);
 

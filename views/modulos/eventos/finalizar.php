@@ -14,7 +14,7 @@ $pedido = $pedidoObj->recuperaPedido(1);
 
 
 $erro = "<span style=\"color: red; \"><b>Preenchimento obrigatório</b></span>";
-$validacoes = $eventoObj->validacaoEvento($_SESSION['origem_id_c']);
+$validacoes = $eventoObj->validaEvento($_SESSION['origem_id_c']);
 ?>
 
 <!-- Content Header (Page header) -->

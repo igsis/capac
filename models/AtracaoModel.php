@@ -50,7 +50,7 @@ class AtracaoModel extends MainModel
         }
     }
 
-    protected function validaAtracao($evento_id) {
+    protected function validaAtracaoModel($evento_id) {
         $naoObrigatorios = [
             'links'
         ];
@@ -68,13 +68,18 @@ class AtracaoModel extends MainModel
             }
 
             if ($atracao->produtor_id != null) {
-                $produtor = $this->validaProdutor($atracao->produtor_id);
+                $produtor = AtracaoModel::validaProdutor($atracao->produtor_id);
                 if ($produtor) {
                     array_push($erros, $produtor);
                 }
             }
 
+        }
 
+        if (isset($erros)){
+            return $erros;
+        } else {
+            return false;
         }
     }
 }

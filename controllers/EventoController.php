@@ -1,8 +1,10 @@
 <?php
 if ($pedidoAjax) {
     require_once "../models/EventoModel.php";
+    require_once "../controllers/AtracaoController.php";
 } else {
     require_once "./models/EventoModel.php";
+    require_once "./controllers/AtracaoController.php";
 }
 
 class EventoController extends EventoModel
@@ -184,16 +186,19 @@ WHERE e.publicado != 0 AND usuario_id = '1'");
 
 //    TODO: Resetar a função de validação
 
-    public function validacaoEvento($evento_id) {
+    public function validaEvento($evento_id) {
         $evento_id = MainModel::decryption($evento_id);
-        $erros['Evento'] = EventoModel::validaEvento($evento_id);
+        $erros['Evento'] = EventoModel::validaEventoModel($evento_id);
+        $erros['Atracao'] = AtracaoController::validaAtracao($evento_id);
 
         $erro = MainModel::in_array_r(true, $erros, true);
         if ($erro) {
             foreach ($erros as $key => $erro) {
-                foreach ($erro as $item) {
-                    if ($item['bol']) {
-                        $validacao[$key][] = $item['motivo'];
+                if ($erro != false) {
+                    foreach ($erro as $item) {
+                        if ($item['bol']) {
+                            $validacao[$key][] = $item['motivo'];
+                        }
                     }
                 }
             }
