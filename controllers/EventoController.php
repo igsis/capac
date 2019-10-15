@@ -186,19 +186,20 @@ WHERE e.publicado != 0 AND usuario_id = '1'");
 
     public function validacaoEvento($evento_id) {
         $evento_id = MainModel::decryption($evento_id);
-        $lis = [];
-        $erros = EventoModel::validaEvento($evento_id);
+        $erros['Evento'] = EventoModel::validaEvento($evento_id);
 
         if ($erros) {
             $erro = MainModel::in_array_r(true, $erros, true);
             if ($erro) {
-                foreach ($erros as $erro) {
-                    if ($erro['bol']) {
-                        $lis[] = "<li>" . $erro['motivo'] . "</li>";
+                foreach ($erros as $key => $erro) {
+                    foreach ($erro as $item) {
+                        if ($item['bol']){
+                            $validacao[$key][] = $item['motivo'];
+                        }
                     }
                 }
             }
-            return $lis;
+            return $validacao;
         } else {
             return false;
         }
