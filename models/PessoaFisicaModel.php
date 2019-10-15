@@ -60,4 +60,14 @@ class PessoaFisicaModel extends MainModel
 
         return $dadosLimpos;
     }
+
+    protected function validaPfModel($pessoa_fisica_id) {
+        $pf = DbModel::consultaSimples("SELECT * FROM pessoa_fisicas WHERE id = '$pessoa_fisica_id'");
+
+        foreach ($pf as $coluna => $valor) {
+            if ($valor == "") {
+                $erros[$coluna]['bol'] = true;
+                $erros[$coluna]['motivo'] = "Campo ".$coluna." não preechido";
+            }
+    }
 }
