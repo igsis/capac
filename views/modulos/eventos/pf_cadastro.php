@@ -5,6 +5,7 @@ $insPessoaFisica = new PessoaFisicaController();
 
 if ($id) {
     $pf = $insPessoaFisica->recuperaPessoaFisica($id);
+    $cenica = $insPessoaFisica->verificaCenica($_SESSION['origem_id_c']);
     if ($pf['cpf'] != "") {
         $documento = $pf['cpf'];
     } else {
@@ -19,6 +20,7 @@ if (isset($_POST['pf_cpf'])){
         $id = MainModel::encryption($pf['id']);
         $pf = $insPessoaFisica->recuperaPessoaFisica($id);
         $documento = $pf['cpf'];
+        $cenica = $insPessoaFisica->verificaCenica($_SESSION['idEvento']);
     }
 }
 if (isset($_POST['pf_passaporte'])){
@@ -28,6 +30,7 @@ if (isset($_POST['pf_passaporte'])){
         $id = MainModel::encryption($pf['id']);
         $pf = $insPessoaFisica->recuperaPessoaFisica($id);
         $documento = $pf['passaporte'];
+        $cenica = $insPessoaFisica->verificaCenica($_SESSION['idEvento']);
     }
 }
 ?>
@@ -180,8 +183,10 @@ if (isset($_POST['pf_passaporte'])){
                                     <input type="text" id="nit" name="ni_nit" class="form-control" maxlength="45" placeholder="Digite o NIT" value="<?= $pf['nit'] ?>">
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="drt">DRT: </label>
-                                    <input type="text" id="drt" name="dr_drt" class="form-control" maxlength="45" placeholder="Digite o DRT em caso de artes cênicas" value="<?= $pf['drt'] ?>">
+                                    <?php if ($cenica > 0): ?>
+                                        <label for="drt">DRT: </label>
+                                        <input type="text" id="drt" name="dr_drt" class="form-control" maxlength="45" placeholder="Digite o DRT em caso de artes cênicas" value="<?= $pf['drt'] ?>">
+                                    <?php endif; ?>
                                 </div>
                             </div>
                             <?php
