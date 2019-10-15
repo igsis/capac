@@ -189,7 +189,7 @@ $validacoes = $eventoObj->validaEvento($_SESSION['origem_id_c']);
                                 </div>
                             </div>
                             <?php
-                            if ($_SESSION['modulo_c']==1){
+                            if ($_SESSION['modulo_c']!=2){
                             ?>
                                 <div class="row">
                                     <div class="col-md-4"><b>Banco:</b> <?= $pf['banco'] ?></div>

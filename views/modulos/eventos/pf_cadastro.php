@@ -184,30 +184,42 @@ if (isset($_POST['pf_passaporte'])){
                                     <input type="text" id="drt" name="dr_drt" class="form-control" maxlength="45" placeholder="Digite o DRT em caso de artes cênicas" value="<?= $pf['drt'] ?>">
                                 </div>
                             </div>
-                            <hr/>
-                            <div class="alert alert-warning alert-dismissible">
-                                <h5><i class="icon fas fa-exclamation-triangle"></i> Atenção!</h5>
-                                Realizamos pagamentos de valores acima de R$ 5.000,00 <b>* SOMENTE COM CONTA CORRENTE NO BANCO DO BRASIL *</b>. Não são aceitas: conta fácil, poupança e conjunta.
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label for="banco">Banco:</label>
-                                    <select required id="banco" name="bc_banco_id" class="form-control">
-                                        <option value="">Selecione um banco...</option>
-                                        <?php
-                                        $insPessoaFisica->geraOpcao("bancos",$pf['banco_id']);
-                                        ?>
-                                    </select>
+                            <?php
+                            if ($_SESSION['modulo_c']!=2) {
+                            ?>
+                                <hr/>
+                                <div class="alert alert-warning alert-dismissible">
+                                    <h5><i class="icon fas fa-exclamation-triangle"></i> Atenção!</h5>
+                                    Realizamos pagamentos de valores acima de R$ 5.000,00 <b>* SOMENTE COM CONTA
+                                        CORRENTE NO BANCO DO BRASIL *</b>. Não são aceitas: conta fácil, poupança e
+                                    conjunta.
                                 </div>
-                                <div class="form-group col-md-4">
-                                    <label for="agencia">Agência: *</label>
-                                    <input type="text" id="agencia" name="bc_agencia" class="form-control"  placeholder="Digite a Agência" maxlength="12" value="<?= $pf['agencia'] ?>" required>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label for="banco">Banco:</label>
+                                        <select required id="banco" name="bc_banco_id" class="form-control">
+                                            <option value="">Selecione um banco...</option>
+                                            <?php
+                                            $insPessoaFisica->geraOpcao("bancos", $pf['banco_id']);
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="agencia">Agência: *</label>
+                                        <input type="text" id="agencia" name="bc_agencia" class="form-control"
+                                               placeholder="Digite a Agência" maxlength="12"
+                                               value="<?= $pf['agencia'] ?>" required>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="conta">Conta: *</label>
+                                        <input type="text" id="conta" name="bc_conta" class="form-control"
+                                               placeholder="Digite a Conta" maxlength="12" value="<?= $pf['conta'] ?>"
+                                               required>
+                                    </div>
                                 </div>
-                                <div class="form-group col-md-4">
-                                    <label for="conta">Conta: *</label>
-                                    <input type="text" id="conta" name="bc_conta" class="form-control" placeholder="Digite a Conta" maxlength="12" value="<?= $pf['conta'] ?>" required>
-                                </div>
-                            </div>
+                            <?php
+                            }
+                            ?>
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">
