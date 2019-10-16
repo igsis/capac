@@ -213,7 +213,6 @@ class PessoaFisicaController extends PessoaFisicaModel
         foreach ($telefones as $key => $telefone) {
             $pf['telefones']['tel_'.$key] = $telefone['telefone'];
         }
-
         return $pf;
     }
 

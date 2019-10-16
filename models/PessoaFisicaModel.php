@@ -83,6 +83,63 @@ class PessoaFisicaModel extends MainModel
         }
     }
 
+    protected function validaPfEndereco($pessoa_fisica_id) {
+        $pf = DbModel::consultaSimples("SELECT * FROM pf_enderecos WHERE pessoa_fisica_id = '$pessoa_fisica_id'");
+        $naoObrigatorios = ['complemento'];
+        if ($pf->rowCount() == 0) {
+            $erros['enderecos']['bol'] = true;
+            $erros['enderecos']['motivo'] = "Proponente não possui endereço cadastrado";
+
+            return $erros;
+        } else {
+            foreach ($pf->fetchObject() as $coluna => $valor) {
+                if (!in_array($coluna, $naoObrigatorios)) {
+                    if ($valor == "") {
+                        $erros[$coluna]['bol'] = true;
+                        $erros[$coluna]['motivo'] = "Campo " . $coluna . " não preechido";
+                    }
+                }
+            }
+        }
+        if (isset($erros)){
+            return $erros;
+        } else {
+            return false;
+        }
+    }
+
+    protected function validaPfTelefone($pessoa_fisica_id) {
+        $pf = DbModel::consultaSimples("SELECT * FROM pf_telefones WHERE pessoa_fisica_id = '$pessoa_fisica_id'");
+        if ($pf->rowCount() == 0) {
+            $erros['telefones']['bol'] = true;
+            $erros['telefones']['motivo'] = "Proponente não possui telefone cadastrado";
+
+            return $erros;
+        } else {
+            foreach ($pf->fetchAll(PDO::FETCH_OBJ) as $coluna => $valor) {
+                if ($valor == "") {
+                    $erros[$coluna]['bol'] = true;
+                    $erros[$coluna]['motivo'] = "Campo " . $coluna . " não preechido";
+                }
+            }
+        }
+        if (isset($erros)){
+            return $erros;
+        } else {
+            return false;
+        }
+    }
+    {
+
+    }
+
+    /**
+     * @param int $pessoa_fisica_id
+     * @param int $validacaoTipo
+     * <p>1 - Proponente<br>
+     * 2 - Líder</p>
+     * @return array|bool
+     */
     protected function validaPfModel($pessoa_fisica_id, $validacaoTipo) {
         $pf = DbModel::consultaSimples("SELECT * FROM pessoa_fisicas WHERE id = '$pessoa_fisica_id'")->fetchObject();
 
@@ -96,6 +153,7 @@ class PessoaFisicaModel extends MainModel
                 ];
 
                 $validaBanco = $this->validaPfBanco($pessoa_fisica_id);
+                $validaEndereco = $this->validaPfEndereco($pessoa_fisica_id);
                 break;
         }
         $naoObrigatorios = [
@@ -118,6 +176,9 @@ class PessoaFisicaModel extends MainModel
         if ($validacaoTipo == 1) {
             if ($validaBanco) {
                 $erros = array_merge($erros, $validaBanco);
+            }
+            if ($validaEndereco) {
+                $erros = array_merge($erros, $validaEndereco);
             }
         }
 
