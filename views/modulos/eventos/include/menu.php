@@ -93,6 +93,12 @@
             </li>
         <?php endif; ?>
         <li class="nav-item">
+            <a href="<?= SERVERURL ?>eventos/demais_anexos" class="nav-link" id="demais_anexos">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Demais Anexos</p>
+            </a>
+        </li>
+        <li class="nav-item">
             <a href="<?= SERVERURL ?>eventos/finalizar" class="nav-link" id="finalizar">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Finalizar</p>
