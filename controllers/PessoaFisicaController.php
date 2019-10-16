@@ -226,4 +226,9 @@ class PessoaFisicaController extends PessoaFisicaModel
         $consulta_pf_pass = DbModel::consultaSimples("SELECT id, passaporte FROM pessoa_fisicas WHERE passaporte = '$passaporte'");
         return $consulta_pf_pass;
     }
+
+    public function validaPf($pessoa_fisica_id, $validacaoTipo){
+        $pf = PessoaFisicaModel::validaPfModel($pessoa_fisica_id, $validacaoTipo);
+        return $pf;
+    }
 }

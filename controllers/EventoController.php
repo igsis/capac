@@ -1,10 +1,12 @@
 <?php
 if ($pedidoAjax) {
     require_once "../models/EventoModel.php";
-    require_once "../controllers/AtracaoController.php";
+    require_once "../controllers/PessoaFisicaController.php";
+    require_once "../controllers/PessoaJuridicaController.php";
 } else {
     require_once "./models/EventoModel.php";
-    require_once "./controllers/AtracaoController.php";
+    require_once "./controllers/PessoaFisicaController.php";
+    require_once "./controllers/PessoaJuridicaController.php";
 }
 
 class EventoController extends EventoModel
@@ -191,6 +193,14 @@ WHERE e.publicado != 0 AND usuario_id = '1'");
         $erros['Evento'] = EventoModel::validaEventoModel($evento_id);
 
         $pedido = DbModel::consultaSimples("SELECT * FROM pedidos WHERE origem_id = '$evento_id' AND origem_tipo_id = '1'");
+        if ($pedido->rowCount() > 0) {
+                $pedido = $pedido->fetchObject();
+            if ($pedido->pessoa_tipo_id == 1) {
+                $erros['Proponente'] = (new PessoaFisicaController)->validaPf($pedido->pessoa_fisica_id, 1);
+            } else {
+                $erros['Proponente'] = "";
+            }
+        }
 
         $erro = MainModel::in_array_r(true, $erros, true);
         if ($erro) {
