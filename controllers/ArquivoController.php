@@ -17,7 +17,7 @@ class ArquivoController extends ArquivoModel
     }
 
     public function listarArquivos($tipo_documento_id) {
-        $sql = "SELECT * FROM lista_documentos WHERE tipo_documento_id = '$tipo_documento_id'";
+        $sql = "SELECT * FROM lista_documentos WHERE tipo_documento_id = '$tipo_documento_id' AND publicado = '1'";
         $arquivos = DbModel::consultaSimples($sql);
 
         return $arquivos;

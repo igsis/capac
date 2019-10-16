@@ -1,15 +1,9 @@
 <?php
 require_once "./controllers/ArquivoController.php";
-
 $arquivosObj = new ArquivoController();
 
-$explode = explode('/', $_GET['views']);
-
-
-$proponente_id = isset($_GET['id']) ? $_GET['id'] : null;
-$tipo_documento_id = 1;
-
-$pagina = "anexos_lider&id=".$proponente_id;
+$pedido_id = $_SESSION['pedido_id_c'];
+$tipo_documento_id = 3;
 
 $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id)->fetchAll(PDO::FETCH_COLUMN);
 ?>
@@ -18,9 +12,8 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Anexos do Líder</h1>
+                <h1 class="m-0 text-dark">Demais Anexos</h1>
             </div><!-- /.col -->
-            <!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
 </div>
@@ -44,6 +37,8 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                             <li><strong>Formato Permitido:</strong> PDF</li>
                             <li><strong>Tamanho Máximo:</strong> 6Mb</li>
                             <li>Clique nos arquivos após efetuar o upload e confira a exibição do documento!</li>
+                            <li>Apenas <b>01</b> arquivo por campo de upload.</li>
+                            <li>Utilize o site <a href="https://www.ilovepdf.com/pt" target="_blank">I LOVE PDF</a> para juntar os documentos em um único arquivo.</li>
                         </ul>
                     </div>
                 </div>
@@ -71,7 +66,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                             </thead>
                             <tbody>
                             <?php
-                            $arquivosEnviados = $arquivosObj->listarArquivosEnviados($proponente_id, $lista_documento_ids)->fetchAll(PDO::FETCH_OBJ);
+                            $arquivosEnviados = $arquivosObj->listarArquivosEnviados($pedido_id, $lista_documento_ids)->fetchAll(PDO::FETCH_OBJ);
                             if (count($arquivosEnviados) != 0) {
                                 foreach ($arquivosEnviados as $arquivo) {
                                     ?>
@@ -82,7 +77,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                                         <td>
                                             <form class="formulario-ajax" action="<?=SERVERURL?>ajax/arquivosAjax.php" method="POST" data-form="delete">
                                                 <input type="hidden" name="_method" value="removerArquivo">
-                                                <input type="hidden" name="pagina" value="<?=$pagina?>">
+                                                <input type="hidden" name="pagina" value="anexos_proponente">
                                                 <input type="hidden" name="arquivo_id" value="<?=$arquivosObj->encryption($arquivo->id)?>">
                                                 <button type="submit" class="btn btn-sm btn-danger">Apagar</button>
                                                 <div class="resposta-ajax"></div>
@@ -120,36 +115,36 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                     <div class="card-body p-0">
                         <form class="formulario-ajax" method="POST" action="<?=SERVERURL?>ajax/arquivosAjax.php" data-form="save" enctype="multipart/form-data">
                             <input type="hidden" name="_method" value="enviarArquivo">
-                            <input type="hidden" name="origem_id" value="<?= $proponente_id ?>">
-                            <input type="hidden" name="pagina" value="<?= $pagina ?>">
+                            <input type="hidden" name="origem_id" value="<?= $pedido_id ?>">
+                            <input type="hidden" name="pagina" value="demais_anexos">
                             <table class="table table-striped">
                                 <tbody>
-                                    <?php
-                                    $arquivos = $arquivosObj->listarArquivos($tipo_documento_id)->fetchAll(PDO::FETCH_OBJ);
-                                    foreach ($arquivos as $arquivo) {
-                                        if ($arquivosObj->consultaArquivoEnviado($arquivo->id, $proponente_id)) {
+                                <?php
+                                $arquivos = $arquivosObj->listarArquivos($tipo_documento_id)->fetchAll(PDO::FETCH_OBJ);
+                                foreach ($arquivos as $arquivo) {
+                                    if ($arquivosObj->consultaArquivoEnviado($arquivo->id, $pedido_id)) {
                                         ?>
-                                            <tr>
-                                                <td colspan="2">
-                                                    <div class="callout callout-success text-center">
-                                                        Arquivo <strong><?= $arquivo->documento ?></strong> já enviado!
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        <?php } else { ?>
-                                            <tr>
-                                                <td>
-                                                    <label for=""><?=$arquivo->documento?></label>
-                                                </td>
-                                                <td>
-                                                    <input type="hidden" name="<?=$arquivo->sigla?>" value="<?=$arquivo->id?>">
-                                                    <input class="text-center" type='file' name='<?=$arquivo->sigla?>'><br>
-                                                </td>
-                                            </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <div class="callout callout-success text-center">
+                                                    Arquivo <strong><?= $arquivo->documento ?></strong> já enviado!
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php } else { ?>
+                                        <tr>
+                                            <td>
+                                                <label for=""><?=$arquivo->documento?></label>
+                                            </td>
+                                            <td>
+                                                <input type="hidden" name="<?=$arquivo->sigla?>" value="<?=$arquivo->id?>">
+                                                <input class="text-center" type='file' name='<?=$arquivo->sigla?>'><br>
+                                            </td>
+                                        </tr>
                                         <?php
-                                        }
                                     }
-                                    ?>
+                                }
+                                ?>
                                 </tbody>
                             </table>
                             <input type="submit" class="btn btn-success btn-md btn-block" name="enviar" value='Enviar'>
@@ -164,11 +159,9 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
-
 <script type="application/javascript">
     $(document).ready(function () {
         $('.nav-link').removeClass('active');
-        $('#itens-proponente').addClass('menu-open');
-        $('#lider').addClass('active');
-    });
+        $('#demais_anexos').addClass('active');
+    })
 </script>
