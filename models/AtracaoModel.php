@@ -38,7 +38,7 @@ class AtracaoModel extends MainModel
             if (!in_array($coluna, $naoObrigatorios)) {
                 if ($valor == "") {
                     $erros[$coluna]['bol'] = true;
-                    $erros[$coluna]['motivo'] = "Campo " . $coluna . " do produtor da atração ".$nomeAtracao." não preechido";
+                    $erros[$coluna]['motivo'] = "Campo " . $coluna . " do produtor não preechido";
                 }
             }
         }
@@ -71,8 +71,20 @@ class AtracaoModel extends MainModel
             if ($atracao->produtor_id != null) {
                 $produtor = AtracaoModel::validaProdutor($atracao->produtor_id, $nomeAtracao);
                 if ($produtor) {
-                    $erros[$nomeAtracao] = $produtor;
+                    $erros[$nomeAtracao]['produtor'] = $produtor;
                 }
+            }
+
+            $lider = DbModel::consultaSimples("SELECT * FROM lideres WHERE atracao_id = '$atracao->id'");
+            if ($lider->rowCount() == 0) {
+                $erros[$nomeAtracao]['lider']['bol'] = true;
+                $erros[$nomeAtracao]['lider']['motivo'] = 'Atração não possui líder cadastrado';
+            }
+
+            $acoes = DbModel::consultaSimples("SELECT * FROM acao_atracao WHERE atracao_id = '$atracao->id'");
+            if ($acoes->rowCount() == 0) {
+                $erros[$nomeAtracao]['acoes']['bol'] = true;
+                $erros[$nomeAtracao]['acoes']['motivo'] = "Nenhuma Ação (Expressão Artístico-cultural) selecionada para esta atração";
             }
 
         }

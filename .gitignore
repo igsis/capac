@@ -1,3 +1,5 @@
 /.idea
 /uploadsdocs/*
 /uploads/*
+!/uploads/.gitkeep
+

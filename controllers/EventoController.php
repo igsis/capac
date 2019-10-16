@@ -189,7 +189,8 @@ WHERE e.publicado != 0 AND usuario_id = '1'");
     public function validaEvento($evento_id) {
         $evento_id = MainModel::decryption($evento_id);
         $erros['Evento'] = EventoModel::validaEventoModel($evento_id);
-//        $erros['Atracao'] = (new AtracaoController)->validaAtracao($evento_id);
+
+        $pedido = DbModel::consultaSimples("SELECT * FROM pedidos WHERE origem_id = '$evento_id' AND origem_tipo_id = '1'");
 
         $erro = MainModel::in_array_r(true, $erros, true);
         if ($erro) {
