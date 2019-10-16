@@ -28,12 +28,10 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                     <div class="card-header">
                         <h3 class="card-title">Atenção!</h3>
                         <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-widget="collapse"><i class="fas fa-minus"></i>
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
                             </button>
                         </div>
-                        <!-- /.card-tools -->
                     </div>
-                    <!-- /.card-header -->
                     <div class="card-body">
                         <ul>
                             <li><strong>Formato Permitido:</strong> PDF</li>
@@ -43,7 +41,6 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                             <li>Utilize o site <a href="https://www.ilovepdf.com/pt" target="_blank">I LOVE PDF</a> para juntar os documentos em um único arquivo.</li>
                         </ul>
                     </div>
-                    <!-- /.card-body -->
                 </div>
                 <!-- /.card -->
             </div>
@@ -67,7 +64,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                                 <th style="width: 10%">Ação</th>
                             </tr>
                             </thead>
-<!--                            <tbody>-->
+                            <tbody>
                             <?php
                             $arquivosEnviados = $arquivosObj->listarArquivosEnviados($pedido_id, $lista_documento_ids)->fetchAll(PDO::FETCH_OBJ);
                             if (count($arquivosEnviados) != 0) {
@@ -121,7 +118,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                             <input type="hidden" name="origem_id" value="<?= $pedido_id ?>">
                             <input type="hidden" name="pagina" value="demais_anexos">
                             <table class="table table-striped">
-<!--                                <tbody>-->
+                                <tbody>
                                 <?php
                                 $arquivos = $arquivosObj->listarArquivos($tipo_documento_id)->fetchAll(PDO::FETCH_OBJ);
                                 foreach ($arquivos as $arquivo) {
