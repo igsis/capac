@@ -51,7 +51,7 @@ if (isset($_POST['pj_cnpj'])){
                         <input type="hidden" name="origem_tipo" value="1">
                         <?php if ($id): ?>
                             <input type="hidden" name="id" value="<?= $id ?>">
-                            <button type="hidden" class="btn swalDefaultWarning">
+                            <button class="btn swalDefaultWarning">
                             </button>
                         <?php endif; ?>
                         <div class="card-body">
