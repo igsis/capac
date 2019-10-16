@@ -62,7 +62,7 @@ class LiderController extends LiderModel
         return MainModel::sweetAlert($alerta);
     }
 
-    public function listaAtracaoProponente()
+    public function listaAtracaoLider()
     {
         $idEvento = MainModel::decryption($_SESSION['origem_id_c']);
         $atracao = DbModel::consultaSimples("
@@ -75,10 +75,22 @@ class LiderController extends LiderModel
         return $atracao;
     }
 
-    public function getLider($idAtracao,$idPf)
+    public function getLider($idAtracao)
     {
         $idPedido = MainModel::decryption($_SESSION['pedido_id_c']);
-        $consulta = DbModel::consultaSimples("SELECT id FROM lideres WHERE pedido_id = '$idPedido' AND atracao_id = '$idAtracao' AND pessoa_fisica_id = '$idPf'")->fetch();
-        return $consulta;
+        $pf = DbModel::consultaSimples("
+            SELECT l.atracao_id, l.pessoa_fisica_id, pf.nome, pf.nome_artistico, pf.rg, pf.cpf, pf.passaporte, pf.email,d.drt
+            FROM lideres AS l
+            INNER JOIN pessoa_fisicas pf on l.pessoa_fisica_id = pf.id
+            LEFT JOIN drts d on pf.id = d.pessoa_fisica_id
+            WHERE atracao_id = '$idAtracao'");
+        $pf = $pf->fetch(PDO::FETCH_ASSOC);
+        $idPf = $pf['pessoa_fisica_id'];
+        $telefones = DbModel::consultaSimples("SELECT * FROM pf_telefones WHERE pessoa_fisica_id = '$idPf'")->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($telefones as $key => $telefone) {
+            $pf['telefones']['tel_'.$key] = $telefone['telefone'];
+        }
+        return $pf;
     }
 }

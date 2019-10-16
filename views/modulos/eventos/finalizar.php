@@ -7,6 +7,7 @@ $evento = $eventoObj->recuperaEvento($idEvento);
 require_once "./controllers/AtracaoController.php";
 $atracaoObj = new AtracaoController();
 $idAtracao = $atracaoObj->getAtracaoId($idEvento);
+$cenica = $atracaoObj->verificaCenica($idEvento);
 
 require_once "./controllers/PedidoController.php";
 $pedidoObj = new PedidoController();
@@ -137,6 +138,31 @@ $validacoes = $eventoObj->validaEvento($_SESSION['origem_id_c']);
                                 <div class="col-md-4"><b>Observação:</b>  <?= $atracao->produtor->observacao ?? NULL ?></div>
                             </div>
                             <br>
+                            <h5><b>Líder do grupo ou artista solo</b></h5>
+                            <?php
+                            require_once "./controllers/LiderController.php";
+                            $liderObj = new LiderController();
+                            $lider = $liderObj->getLider($atracao->id);
+                            ?>
+                            <div class="row">
+                                <div class="col-md-6"><b> Nome:</b> <?= $lider['nome'] ?></div>
+                                <div class="col-md-6"><b>Nome Artístico:</b> <?= $lider['nome_artistico'] ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2"><b>RG:</b> <?= $lider['rg'] ?></div>
+                                <div class="col-md-2"><b>CPF:</b> <?= $lider['cpf'] ?></div>
+                                <div class="col-md-4"><b>E-mail:</b> <?= $lider['email'] ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6"><b>Telefones:</b> <?= $lider['telefones']['tel_0'] ?? "" ?>
+                                    | <?= $lider['telefones']['tel_1'] ?? "" ?> | <?= $lider['telefones']['tel_2'] ?? "" ?>
+                                </div>
+                                <?php if($cenica > 0): ?>
+                                    <div class="col-md-6"><b>DRT:</b> <?= $lider['drt'] ?? $erro ?></div>
+                                <?php endif ?>
+                            </div>
+                            <br>
+                            <br>
                         <?php endforeach; ?>
 
                         <!-- ************** Proponente ************** -->
@@ -150,7 +176,6 @@ $validacoes = $eventoObj->validaEvento($_SESSION['origem_id_c']);
                             require_once "./controllers/PessoaFisicaController.php";
                             $pfObj = new PessoaFisicaController();
                             $pf = $pfObj->recuperaPessoaFisica($idEncrypt);
-                            $cenica = $pfObj->verificaCenica($idEvento);
                             ?>
                             <div class="row">
                                 <div class="col-md-6"><b> Nome:</b> <?= $pf['nome'] ?></div>

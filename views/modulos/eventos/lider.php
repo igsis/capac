@@ -38,7 +38,7 @@ $evento_id = $_SESSION['origem_id_c'];
                             </tr>
                             </thead>
                             <tbody>
-                            <?php foreach ($atracaoObj->listaAtracaoProponente() as $atracao): ?>
+                            <?php foreach ($atracaoObj->listaAtracaoLider() as $atracao): ?>
                                 <tr>
                                     <td><?=$atracao->nome_atracao?></td>
                                     <td>
