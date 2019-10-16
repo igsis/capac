@@ -15,7 +15,8 @@ $pedido = $pedidoObj->recuperaPedido(1);
 
 
 $erro = "<span style=\"color: red; \"><b>Preenchimento obrigatório</b></span>";
-$validacoes = $eventoObj->validaEvento($_SESSION['origem_id_c']);
+$validacoesEvento = $eventoObj->validaEvento($_SESSION['origem_id_c']);
+$validacoesAtracoes = $atracaoObj->validaAtracao($_SESSION['origem_id_c']);
 ?>
 
 <!-- Content Header (Page header) -->
@@ -26,13 +27,31 @@ $validacoes = $eventoObj->validaEvento($_SESSION['origem_id_c']);
                 <h1 class="m-0 text-dark">Finalizar o Envio</h1>
             </div><!-- /.col -->
         </div><!-- /.row -->
-        <?php if ($validacoes): ?>
+        <?php if ($validacoesEvento || $validacoesAtracoes): ?>
             <div class="row">
-                <?php foreach ($validacoes as $titulo => $erros): ?>
+                <?php if ($validacoesEvento): ?>
+                    <?php foreach ($validacoesEvento as $titulo => $erros): ?>
                     <div class="col-md-4">
                         <div class="card bg-danger">
                             <div class="card-header">
-                                <h3 class="card-title"><strong>Erros em <?=$titulo?>!</strong></h3>
+                                <h3 class="card-title"><i class="fa fa-exclamation mr-3"></i><strong>Erros em <?=$titulo?></strong></h3>
+                            </div>
+                            <div class="card-body">
+                                <?php foreach ($erros as $erro): ?>
+                                    <li><?= $erro ?></li>
+                                <?php endforeach; ?>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+                <?php if ($validacoesAtracoes): ?>
+                    <?php foreach ($validacoesAtracoes as $titulo => $erros): ?>
+                    <div class="col-md-4">
+                        <div class="card bg-danger">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fa fa-exclamation mr-3"></i>Erros na atração: <strong><?=$titulo?></strong></h3>
                             </div>
                             <div class="card-body">
                                 <?php foreach ($erros as $erro): ?>
@@ -42,7 +61,8 @@ $validacoes = $eventoObj->validaEvento($_SESSION['origem_id_c']);
                             <!-- /.card-body -->
                         </div>
                     </div>
-                <?php endforeach; ?>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
         <?php endif; ?>
     </div>
