@@ -2,9 +2,12 @@
 $id = isset($_GET['id']) ? $_GET['id'] : null;
 require_once "./controllers/PessoaFisicaController.php";
 $insPessoaFisica = new PessoaFisicaController();
+require_once "./controllers/AtracaoController.php";
+$insAtracao = new AtracaoController();
 
 if ($id) {
     $pf = $insPessoaFisica->recuperaPessoaFisica($id);
+    $cenica = $insAtracao->verificaCenica($_SESSION['origem_id_c']);
     if ($pf['cpf'] != "") {
         $documento = $pf['cpf'];
     } else {
@@ -20,6 +23,7 @@ if (isset($_POST['pf_cpf'])){
         $pf = $insPessoaFisica->recuperaPessoaFisica($id);
         $documento = $pf['cpf'];
     }
+    $cenica = $insAtracao->verificaCenica($_SESSION['origem_id_c']);
 }
 if (isset($_POST['pf_passaporte'])){
     $documento = $_POST['pf_passaporte'];
@@ -29,6 +33,7 @@ if (isset($_POST['pf_passaporte'])){
         $pf = $insPessoaFisica->recuperaPessoaFisica($id);
         $documento = $pf['passaporte'];
     }
+    $cenica = $insAtracao->verificaCenica($_SESSION['origem_id_c']);
 }
 ?>
 
@@ -119,8 +124,10 @@ if (isset($_POST['pf_passaporte'])){
                                     <input type="text" id="telefone2" name="te_telefone_3" onkeyup="mascara( this, mtel );"  class="form-control telefone" placeholder="Digite o telefone" maxlength="15" value="<?= $pf['telefones']['tel_2'] ?? "" ?>">
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="drt">DRT: </label>
-                                    <input type="text" id="drt" name="dr_drt" class="form-control" maxlength="45" placeholder="Digite o DRT em caso de artes cênicas" value="<?= $pf['drt'] ?>">
+                                    <?php if ($cenica > 0): ?>
+                                        <label for="drt">DRT: </label>
+                                        <input type="text" id="drt" name="dr_drt" class="form-control" maxlength="45" placeholder="Digite o DRT em caso de artes cênicas" value="<?= $pf['drt'] ?>">
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>

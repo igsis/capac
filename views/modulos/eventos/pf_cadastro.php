@@ -2,10 +2,12 @@
 $id = isset($_GET['id']) ? $_GET['id'] : null;
 require_once "./controllers/PessoaFisicaController.php";
 $insPessoaFisica = new PessoaFisicaController();
+require_once "./controllers/AtracaoController.php";
+$insAtracao = new AtracaoController();
 
 if ($id) {
     $pf = $insPessoaFisica->recuperaPessoaFisica($id);
-    $cenica = $insPessoaFisica->verificaCenica($_SESSION['origem_id_c']);
+    $cenica = $insAtracao->verificaCenica($_SESSION['origem_id_c']);
     if ($pf['cpf'] != "") {
         $documento = $pf['cpf'];
     } else {
@@ -20,7 +22,7 @@ if (isset($_POST['pf_cpf'])){
         $id = MainModel::encryption($pf['id']);
         $pf = $insPessoaFisica->recuperaPessoaFisica($id);
         $documento = $pf['cpf'];
-        $cenica = $insPessoaFisica->verificaCenica($_SESSION['idEvento']);
+        $cenica = $insAtracao->verificaCenica($_SESSION['idEvento']);
     }
 }
 if (isset($_POST['pf_passaporte'])){
@@ -30,7 +32,7 @@ if (isset($_POST['pf_passaporte'])){
         $id = MainModel::encryption($pf['id']);
         $pf = $insPessoaFisica->recuperaPessoaFisica($id);
         $documento = $pf['passaporte'];
-        $cenica = $insPessoaFisica->verificaCenica($_SESSION['idEvento']);
+        $cenica = $insAtracao->verificaCenica($_SESSION['idEvento']);
     }
 }
 ?>
