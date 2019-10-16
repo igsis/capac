@@ -48,6 +48,7 @@ class ViewsModel
             'proponente_lista',
             'anexos_proponente',
             'anexos_lider',
+            'demais_anexos',
             'finalizar'
         ];
         if (self::verificaModulo($modulo)) {
