@@ -61,14 +61,70 @@ class PessoaFisicaModel extends MainModel
         return $dadosLimpos;
     }
 
-    protected function validaPfModel($pessoa_fisica_id) {
-        $pf = DbModel::consultaSimples("SELECT * FROM pessoa_fisicas WHERE id = '$pessoa_fisica_id'");
+    protected function validaPfBanco($pessoa_fisica_id) {
+        $pf = DbModel::consultaSimples("SELECT * FROM pf_bancos WHERE pessoa_fisica_id = '$pessoa_fisica_id'");
+        if ($pf->rowCount() == 0) {
+            $erros['bancos']['bol'] = true;
+            $erros['bancos']['motivo'] = "Proponente não possui conta bancária cadastrada";
+
+            return $erros;
+        } else {
+            foreach ($pf->fetchObject() as $coluna => $valor) {
+                if ($valor == "") {
+                    $erros[$coluna]['bol'] = true;
+                    $erros[$coluna]['motivo'] = "Campo " . $coluna . " não preechido";
+                }
+            }
+        }
+        if (isset($erros)){
+            return $erros;
+        } else {
+            return false;
+        }
+    }
+
+    protected function validaPfModel($pessoa_fisica_id, $validacaoTipo) {
+        $pf = DbModel::consultaSimples("SELECT * FROM pessoa_fisicas WHERE id = '$pessoa_fisica_id'")->fetchObject();
+
+        switch ($validacaoTipo) {
+            case 1:
+                $naoObrigatorios = [
+                    'nome_artistico',
+                    'ccm',
+                    'cpf',
+                    'passaporte',
+                ];
+
+                $validaBanco = $this->validaPfBanco($pessoa_fisica_id);
+                break;
+        }
+        $naoObrigatorios = [
+            'nome_artistico',
+            'ccm',
+            'cpf',
+            'passaporte',
+        ];
+
 
         foreach ($pf as $coluna => $valor) {
-            if ($valor == "") {
-                $erros[$coluna]['bol'] = true;
-                $erros[$coluna]['motivo'] = "Campo " . $coluna . " não preechido";
+            if (!in_array($coluna, $naoObrigatorios)) {
+                if ($valor == "") {
+                    $erros[$coluna]['bol'] = true;
+                    $erros[$coluna]['motivo'] = "Campo " . $coluna . " não preechido";
+                }
             }
+        }
+
+        if ($validacaoTipo == 1) {
+            if ($validaBanco) {
+                $erros = array_merge($erros, $validaBanco);
+            }
+        }
+
+        if (isset($erros)){
+            return $erros;
+        } else {
+            return false;
         }
     }
 }
