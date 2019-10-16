@@ -67,7 +67,8 @@ class PessoaFisicaModel extends MainModel
         foreach ($pf as $coluna => $valor) {
             if ($valor == "") {
                 $erros[$coluna]['bol'] = true;
-                $erros[$coluna]['motivo'] = "Campo ".$coluna." não preechido";
+                $erros[$coluna]['motivo'] = "Campo " . $coluna . " não preechido";
             }
+        }
     }
 }
