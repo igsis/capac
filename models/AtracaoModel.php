@@ -75,10 +75,13 @@ class AtracaoModel extends MainModel
                 }
             }
 
-            $lider = DbModel::consultaSimples("SELECT * FROM lideres WHERE atracao_id = '$atracao->id'");
-            if ($lider->rowCount() == 0) {
-                $erros[$nomeAtracao]['lider']['bol'] = true;
-                $erros[$nomeAtracao]['lider']['motivo'] = 'Atração não possui líder cadastrado';
+            $pedido = DbModel::consultaSimples("SELECT pessoa_tipo_id FROM pedidos WHERE origem_tipo_id = '1' AND origem_id = '$evento_id'");
+            if ($pedido->rowCount() > 0 && $pedido->fetch()['pessoa_tipo_id'] == 2) {
+                $lider = DbModel::consultaSimples("SELECT * FROM lideres WHERE atracao_id = '$atracao->id'");
+                if ($lider->rowCount() == 0) {
+                    $erros[$nomeAtracao]['lider']['bol'] = true;
+                    $erros[$nomeAtracao]['lider']['motivo'] = 'Atração não possui líder cadastrado';
+                }
             }
 
             $acoes = DbModel::consultaSimples("SELECT * FROM acao_atracao WHERE atracao_id = '$atracao->id'");
