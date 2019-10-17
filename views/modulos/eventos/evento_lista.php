@@ -57,10 +57,10 @@ $eventoObj = new EventoController();
                                     <td><?=$eventoObj->dataHora($evento->data_cadastro)?></td>
                                     <td><?=$evento->publicado == 1 ? "Não" : "Sim"?></td>
                                     <td>
-                                        <?php if ($evento->publicado == 1): ?>
-                                            <a href="<?=SERVERURL."eventos/evento_cadastro&key=".$eventoObj->encryption($evento->id)?>">
+                                        <a href="<?=SERVERURL."eventos/evento_cadastro&key=".$eventoObj->encryption($evento->id)?>">
                                                 <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</button>
                                             </a>
+                                        <?php if ($evento->publicado == 1): ?>
                                             <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Apagar</button>
                                         <?php endif; ?>
                                     </td>
