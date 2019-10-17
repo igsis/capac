@@ -55,6 +55,11 @@ class MainModel extends DbModel
         return $novaData->format('d/m/Y');
     }
 
+    public function dataHora($data) {
+        $novaData = new DateTime($data);
+        return $novaData->format('d/m/Y H:m:s');
+    }
+
     public function dinheiroParaBr($valor)
     {
         $valor = number_format($valor, 2, ',', '.');
