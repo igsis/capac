@@ -9,8 +9,8 @@ require_once "../config/configAPP.php";
 
 require_once "../controllers/PessoaFisicaController.php";
 $pfObj = new PessoaFisicaController();
-//$id = $_GET['id'];
-$pf = $pfObj->recuperaPessoaFisica(1);
+$id = $_GET['id'];
+$pf = $pfObj->recuperaPessoaFisica($id);
 
 class PDF extends FPDF
 {
@@ -19,58 +19,15 @@ class PDF extends FPDF
     {
         // Logo
         $this->Image(SERVERURL.'pdf/img/facc_pf.jpg', 15, 10, 180);
-
         // Line break
         $this->Ln(20);
     }
-
 }
-
-//CONSULTA 
-
-/*
-$ano = date('Y');
-
-$pf = recuperaDados("pessoa_fisicas", "id", $id_Pf);
-
-$drts = recuperaDados("drts", "pessoa_fisica_id", $id_Pf);
-$nits = recuperaDados("nits", "pessoa_fisica_id", $id_Pf);
-$end = recuperaDados("pf_enderecos", "pessoa_fisica_id", $id_Pf);
-$bancos = recuperaDados("pf_bancos", "pessoa_fisica_id", $id_Pf);
-
-$sql_telefones = "SELECT * FROM pf_telefones WHERE pessoa_fisica_id = '$id_Pf' LIMIT 0,1";
-$query = mysqli_query($con, $sql_telefones);
-$telefones = mysqli_fetch_array($query);
-
-//endereco
-$rua = $end["logradouro"];
-$bairro = $end["bairro"];
-$cidade = $end["cidade"];
-$estado = $end["uf"];
-$num = $end['numero'];
-$complemento = $end["complemento"];
-$cep = $end['cep'];
-
-//pessoa fisica
-$Nome = $pf["nome"];
-$RG = $pf["rg"];
-$CPF = $pf["cpf"];
-$CCM = $pf["ccm"];
-$Telefone01 = $telefones["telefone"];
-$agencia = $bancos["agencia"];
-$conta = $bancos["conta"];
-$codbanco = $bancos["banco_id"];
-$cbo = $bancos["cbo"] ?? NULL;
-$nit = $nits["nit"];
-$DataNascimento = exibirDataBr($pf["data_nascimento"]);
-*/
-$nome = $pf['nome'];
 
 // GERANDO O PDF:
 $pdf = new PDF('P', 'mm', 'A4'); //CRIA UM NOVO ARQUIVO PDF NO TAMANHO A4
 $pdf->AliasNbPages();
 $pdf->AddPage();
-
 
 $x = 20;
 $l = 7; //DEFINE A ALTURA DA LINHA
@@ -83,52 +40,46 @@ $pdf->Cell(10, $l, utf8_decode('X'), 0, 0, 'L');
 
 $pdf->SetXY($x, 40);
 $pdf->SetFont('Arial', '', 10);
-$pdf->Cell(53, $l, utf8_decode($nome), 0, 0, 'L');
-/*
+$pdf->Cell(53, $l, utf8_decode($pf['cpf']), 0, 0, 'L');
+
 $pdf->SetXY(155, 40);
 $pdf->SetFont('Arial', '', 10);
-$pdf->Cell(53, $l, utf8_decode($CCM), 0, 0, 'L');
+$pdf->Cell(53, $l, utf8_decode($pf['ccm']), 0, 0, 'L');
 
 $pdf->SetXY($x, 55);
 $pdf->SetFont('Arial', '', 10);
-$pdf->Cell(160, $l, utf8_decode($Nome), 0, 0, 'L');
+$pdf->Cell(160, $l, utf8_decode($pf['nome']), 0, 0, 'L');
 
 $pdf->SetXY($x, 68);
 $pdf->SetFont('Arial', '', 10);
-
-if ($complemento != null) {
-    $pdf->Cell(160, $l, utf8_decode("$rua" . ", " . "$num" . " - " . "$complemento"), 0, 0, 'L');
+if ($pf['complemento'] != NULL) {
+    $pdf->Cell(160, $l, utf8_decode($pf['logradouro'].", ".$pf['numero']." ".$pf['complemento']), 0, 0, 'L');
 } else {
-    $pdf->Cell(160, $l, utf8_decode("$rua" . ", " . "$num"), 0, 0, 'L');
+    $pdf->Cell(160, $l, utf8_decode($pf['logradouro'].", ".$pf['numero']), 0, 0, 'L');
 }
-
 
 $pdf->SetXY($x, 82);
 $pdf->SetFont('Arial', '', 9);
-$pdf->Cell(68, $l, utf8_decode($bairro), 0, 0, 'L');
-$pdf->Cell(88, $l, utf8_decode($cidade), 0, 0, 'L');
-$pdf->Cell(5, $l, utf8_decode($estado), 0, 0, 'L');
+$pdf->Cell(68, $l, utf8_decode($pf['bairro']), 0, 0, 'L');
+$pdf->Cell(88, $l, utf8_decode($pf['cidade']), 0, 0, 'L');
+$pdf->Cell(5, $l, utf8_decode($pf['uf']), 0, 0, 'L');
 
 $pdf->SetXY($x, 96);
 $pdf->SetFont('Arial', '', 10);
-$pdf->Cell(33, $l, utf8_decode($cep), 0, 0, 'L');
-$pdf->Cell(57, $l, utf8_decode($Telefone01), 0, 0, 'L');
-$pdf->Cell(15, $l, utf8_decode($codbanco), 0, 0, 'L');
-$pdf->Cell(35, $l, utf8_decode($agencia), 0, 0, 'L');
-$pdf->Cell(37, $l, utf8_decode($conta), 0, 0, 'L');
+$pdf->Cell(33, $l, utf8_decode($pf['cep']), 0, 0, 'L');
+$pdf->Cell(57, $l, utf8_decode($pf['telefones']['tel_0']), 0, 0, 'L');
+$pdf->Cell(15, $l, utf8_decode($pf['codigo']), 0, 0, 'L');
+$pdf->Cell(35, $l, utf8_decode($pf['agencia']), 0, 0, 'L');
+$pdf->Cell(37, $l, utf8_decode($pf['conta']), 0, 0, 'L');
 
 $pdf->SetXY($x, 107);
 $pdf->SetFont('Arial', '', 10);
-$pdf->Cell(87, $l, utf8_decode($nit), 0, 0, 'L');
-$pdf->Cell(52, $l, utf8_decode($DataNascimento), 0, 0, 'L');
-$pdf->Cell(33, $l, utf8_decode($cbo), 0, 0, 'L');
+$pdf->Cell(87, $l, utf8_decode($pf['nit']), 0, 0, 'L');
+$pdf->Cell(52, $l, utf8_decode(MainModel::dataParaBR($pf['data_nascimento'])), 0, 0, 'L');
 
 $pdf->SetXY($x, 122);
 $pdf->SetFont('Arial', '', 9);
-$pdf->Cell(87, $l, utf8_decode($Nome), 0, 0, 'L');
-$pdf->Cell(50, $l, utf8_decode($RG), 0, 0, 'L');
-*/
+$pdf->Cell(87, $l, utf8_decode($pf['nome']), 0, 0, 'L');
+$pdf->Cell(50, $l, utf8_decode($pf['rg']), 0, 0, 'L');
+
 $pdf->Output();
-
-
-?>
