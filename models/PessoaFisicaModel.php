@@ -182,6 +182,11 @@ class PessoaFisicaModel extends MainModel
             }
         }
 
+        if ($validaTelefone) {
+            if (!isset($erros)) { $erros = []; }
+            $erros = array_merge($erros, $validaTelefone);
+        }
+
         if (isset($erros)){
             return $erros;
         } else {
