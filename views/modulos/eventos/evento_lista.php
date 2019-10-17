@@ -42,8 +42,8 @@ $eventoObj = new EventoController();
                                 <tr>
                                     <th>Código CAPAC</th>
                                     <th>Nome do Evento</th>
-                                    <th>Data cadastro</th>
                                     <th>Tipo do Evento</th>
+                                    <th>Data cadastro/envio</th>
                                     <th>Enviado</th>
                                     <th>Ação</th>
                                 </tr>
@@ -53,8 +53,8 @@ $eventoObj = new EventoController();
                                 <tr>
                                     <td><?=$evento->publicado == 2 ? $evento->id : "Envie para obter o código"?></td>
                                     <td><?=$evento->nome_evento?></td>
-                                    <td><?=$eventoObj->dataParaBR($evento->data_cadastro)?></td>
                                     <td><?=$evento->tipo_contratacao?></td>
+                                    <td><?=$eventoObj->dataHora($evento->data_cadastro)?></td>
                                     <td><?=$evento->publicado == 1 ? "Não" : "Sim"?></td>
                                     <td>
                                         <?php if ($evento->publicado == 1): ?>
@@ -71,8 +71,8 @@ $eventoObj = new EventoController();
                                 <tr>
                                     <th>Código CAPAC</th>
                                     <th>Nome do Evento</th>
-                                    <th>Data cadastro</th>
                                     <th>Tipo do Evento</th>
+                                    <th>Data cadastro/envio</th>
                                     <th>Enviado</th>
                                     <th>Ação</th>
                                 </tr>
