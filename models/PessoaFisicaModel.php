@@ -85,7 +85,9 @@ class PessoaFisicaModel extends MainModel
 
     protected function validaPfEndereco($pessoa_fisica_id) {
         $pf = DbModel::consultaSimples("SELECT * FROM pf_enderecos WHERE pessoa_fisica_id = '$pessoa_fisica_id'");
-        $naoObrigatorios = ['complemento'];
+        $naoObrigatorios = [
+            'complemento'
+        ];
         if ($pf->rowCount() == 0) {
             $erros['enderecos']['bol'] = true;
             $erros['enderecos']['motivo'] = "Proponente não possui endereço cadastrado";
@@ -151,14 +153,13 @@ class PessoaFisicaModel extends MainModel
 
                 $validaBanco = $this->validaPfBanco($pessoa_fisica_id);
                 $validaEndereco = $this->validaPfEndereco($pessoa_fisica_id);
+                $validaTelefone = $this->validaPfTelefone($pessoa_fisica_id);
+                break;
+
+            default:
+                $naoObrigatorios = [];
                 break;
         }
-        $naoObrigatorios = [
-            'nome_artistico',
-            'ccm',
-            'cpf',
-            'passaporte',
-        ];
 
 
         foreach ($pf as $coluna => $valor) {
@@ -172,9 +173,11 @@ class PessoaFisicaModel extends MainModel
 
         if ($validacaoTipo == 1) {
             if ($validaBanco) {
+                if (!isset($erros)) { $erros = []; }
                 $erros = array_merge($erros, $validaBanco);
             }
             if ($validaEndereco) {
+                if (!isset($erros)) { $erros = []; }
                 $erros = array_merge($erros, $validaEndereco);
             }
         }
