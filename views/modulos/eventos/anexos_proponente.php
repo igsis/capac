@@ -85,7 +85,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                                 <li><a href="https://www.sifge.caixa.gov.br/Cidadao/Crf/FgeCfSCriteriosPesquisa.asp" target="_blank">CRF do FGTS</a></li>
                                 <li><a href="http://www.receita.fazenda.gov.br/Aplicacoes/ATSPO/Certidao/CNDConjuntaSegVia/NICertidaoSegVia.asp?Tipo=1" target="_blank">CND Federal - Certidão de Débitos Relativos a Créditos Tributários Federais e à Dívida Ativa da União</a></li>
                                 <li><a href="http://www.receita.fazenda.gov.br/Aplicacoes/ATSPO/Certidao/certaut/CndConjunta/ConfirmaAutenticCndSolicitacao.asp?ORIGEM=PJ" target="_blank">Autenticidade de CND ­ Certidão de Débitos Relativos a Créditos Tributários Federais e à Dívida Ativa da União (CND)</a></li>
-                                <li><a href="<?= SERVERURL ?>pdf/facc_pj.php" target="_blank">FACC - Ficha de Atualização de Cadastro de Credores</a></li>
+                                <li><a href="<?= SERVERURL ?>pdf/facc_pj.php?id=<?= $proponente_id?>" target="_blank">FACC - Ficha de Atualização de Cadastro de Credores</a></li>
                                 <?php
                             }
                             ?>
