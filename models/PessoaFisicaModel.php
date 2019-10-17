@@ -140,7 +140,7 @@ class PessoaFisicaModel extends MainModel
      * @return array|bool
      */
     protected function validaPfModel($pessoa_fisica_id, $validacaoTipo) {
-        $pf = DbModel::consultaSimples("SELECT * FROM pessoa_fisicas WHERE id = '$pessoa_fisica_id'")->fetchObject();
+        $pf = DbModel::getInfo("pessoa_fisicas",$pessoa_fisica_id)->fetchObject();
 
         switch ($validacaoTipo) {
             case 1:

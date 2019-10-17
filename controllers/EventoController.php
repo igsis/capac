@@ -174,6 +174,7 @@ class EventoController extends EventoModel
                 'location' => SERVERURL
             ];
         }
+        return MainModel::sweetAlert($alerta);
     }
 
     public function exibeDescricaoPublico() {
@@ -188,8 +189,6 @@ class EventoController extends EventoModel
         }
     }
 
-//    TODO: Resetar a função de validação
-
     public function validaEvento($evento_id) {
         $evento_id = MainModel::decryption($evento_id);
         $erros['Evento'] = EventoModel::validaEventoModel($evento_id);
@@ -200,7 +199,7 @@ class EventoController extends EventoModel
             if ($pedido->pessoa_tipo_id == 1) {
                 $erros['Proponente'] = (new PessoaFisicaController)->validaPf($pedido->pessoa_fisica_id, 1);
             } else {
-                $erros['Proponente'] = "";
+                $erros['Proponente'] = (new PessoaJuridicaController)->validaPj($pedido->pessoa_juridica_id);
             }
         }
 

@@ -165,4 +165,9 @@ class PessoaJuridicaController extends PessoaJuridicaModel
         $consulta_cnpj = DbModel::consultaSimples("SELECT id, cnpj FROM pessoa_juridicas WHERE cnpj = '$cnpj'");
         return $consulta_cnpj;
     }
+
+    public function validaPj($pessoa_juridica_id) {
+        $pj = PessoaJuridicaModel::validaPjModel($pessoa_juridica_id);
+        return $pj;
+    }
 }
