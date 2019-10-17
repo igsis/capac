@@ -304,6 +304,23 @@ $validacoesAtracoes = $atracaoObj->validaAtracao($_SESSION['origem_id_c']);
                         }
                         ?>
                     </div>
+                    <div class="card-footer">
+                        <?php
+                        if (!empty($erros)){
+                            $disabled = "";
+                        }
+                        else{
+                            $disabled = "disabled";
+                        }
+                        ?>
+                        <form class="form-horizontal formulario-ajax" method="POST" action="<?=SERVERURL?>ajax/eventoAjax.php" role="form" data-form="update">
+                            <input type="hidden" name="_method" value="envioEvento">
+                            <input type="hidden" name="id" value="<?=$idEvento?>">
+                            <button type="submit" <?= $disabled ?> class="btn btn-success btn-block float-right" id="cadastra">Enviar</button>
+                            <div class="resposta-ajax"></div>
+                        </form>
+                    </div>
+
                 </div>
             </div>
             <!-- /.col-md-6 -->

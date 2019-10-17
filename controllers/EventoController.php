@@ -12,9 +12,11 @@ if ($pedidoAjax) {
 class EventoController extends EventoModel
 {
     public function listaEvento($usuario_id){
-        $consultaEvento = DbModel::consultaSimples("SELECT e.id, e.nome_evento, e.data_cadastro, tc.tipo_contratacao, e.publicado
-FROM eventos AS e INNER JOIN tipos_contratacoes tc on e.tipo_contratacao_id = tc.id 
-WHERE e.publicado != 0 AND usuario_id = '1'");
+        $consultaEvento = DbModel::consultaSimples("
+            SELECT e.id, e.nome_evento, e.data_cadastro, tc.tipo_contratacao, e.publicado
+            FROM eventos AS e 
+                INNER JOIN tipos_contratacoes tc on e.tipo_contratacao_id = tc.id 
+            WHERE e.publicado != 0 AND usuario_id = '$usuario_id'");
         $eventos = $consultaEvento->fetchAll(PDO::FETCH_OBJ);
         return $eventos;
     }
@@ -223,5 +225,33 @@ WHERE e.publicado != 0 AND usuario_id = '1'");
     {
         $publico = DbModel::getInfo("publicos",$id)->fetch();
         return $publico;
+    }
+
+    public function envioEvento($id)
+    {
+        $id = MainModel::decryption($id);
+        $dados = [
+            'publicado' => 2,
+            'data_cadastro' => date('Y-m-d H-i-s')
+        ];
+        $edita = DbModel::update("eventos",$dados,$id);
+        if ($edita->rowCount() >= 1 || DbModel::connection()->errorCode() == 0) {
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Evento enviado com sucesso!',
+                'texto' => 'Seu código do CAPAC é: '. $id,
+                'tipo' => 'success',
+                'location' => SERVERURL . 'eventos/evento_lista'
+            ];
+        }
+        else{
+            $alerta = [
+                'alerta' => 'simples',
+                'titulo' => 'Oops! Algo deu Errado!',
+                'texto' => 'Falha ao salvar os dados no servidor, tente novamente mais tarde',
+                'tipo' => 'error',
+            ];
+        }
+        return MainModel::sweetAlert($alerta);
     }
 }

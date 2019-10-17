@@ -129,10 +129,7 @@ class PessoaFisicaModel extends MainModel
             return false;
         }
     }
-    {
-
-    }
-
+    
     /**
      * @param int $pessoa_fisica_id
      * @param int $validacaoTipo

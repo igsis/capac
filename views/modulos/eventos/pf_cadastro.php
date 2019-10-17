@@ -22,7 +22,7 @@ if (isset($_POST['pf_cpf'])){
         $id = MainModel::encryption($pf['id']);
         $pf = $insPessoaFisica->recuperaPessoaFisica($id);
         $documento = $pf['cpf'];
-        $cenica = $insAtracao->verificaCenica($_SESSION['idEvento']);
+        $cenica = $insAtracao->verificaCenica($_SESSION['origem_id_c']);
     }
 }
 if (isset($_POST['pf_passaporte'])){
@@ -32,7 +32,7 @@ if (isset($_POST['pf_passaporte'])){
         $id = MainModel::encryption($pf['id']);
         $pf = $insPessoaFisica->recuperaPessoaFisica($id);
         $documento = $pf['passaporte'];
-        $cenica = $insAtracao->verificaCenica($_SESSION['idEvento']);
+        $cenica = $insAtracao->verificaCenica($_SESSION['origem_id_c']);
     }
 }
 ?>

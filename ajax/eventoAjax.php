@@ -11,6 +11,8 @@ if (isset($_POST['_method'])) {
         echo $insEvento->insereEvento($_POST);
     } elseif ($_POST['_method'] == "editarEvento") {
         echo $insEvento->editaEvento($_POST, $_POST['id']);
+    } elseif ($_POST['_method'] == "envioEvento"){
+        echo $insEvento->envioEvento($_POST['id']);
     }
 } else {
     include_once "../config/destroySession.php";
