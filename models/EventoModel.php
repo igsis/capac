@@ -1,11 +1,11 @@
 <?php
 if ($pedidoAjax) {
-    require_once "../models/MainModel.php";
+    require_once "../models/ValidacaoModel.php";
 } else {
-    require_once "./models/MainModel.php";
+    require_once "./models/ValidacaoModel.php";
 }
 
-class EventoModel extends MainModel
+class EventoModel extends ValidacaoModel
 {
     protected function recuperaEventoFomento($id) {
         $pdo = DbModel::connection();
@@ -44,12 +44,7 @@ class EventoModel extends MainModel
     {
         $evento = DbModel::getInfo('eventos', $evento_id)->fetch(PDO::FETCH_ASSOC);
 
-        foreach ($evento as $coluna => $valor) {
-        if ($valor == "") {
-            $erros[$coluna]['bol'] = true;
-            $erros[$coluna]['motivo'] = "Campo ".$coluna." não preechido";
-        }
-    }
+        $erros = ValidacaoModel::retornaMensagem($evento);
 
         if ($evento['fomento'] == 1) {
             $fomento = DbModel::consultaSimples("SELECT * FROM evento_fomento WHERE evento_id = '$evento_id'");
@@ -63,6 +58,12 @@ class EventoModel extends MainModel
         if ($publicos->rowCount() == 0) {
             $erros['publicos']['bol'] = true;
             $erros['publicos']['motivo'] = "Nenhuma Representatividade e Visibilidade Sócio-cultural selecionada para este evento";
+        }
+
+        $atracoes = DbModel::consultaSimples("SELECT * FROM atracoes WHERE evento_id = '$evento_id'");
+        if ($atracoes->rowCount() == 0) {
+            $erros['atracoes']['bol'] = true;
+            $erros['atracoes']['motivo'] = "Nenhuma atraçao cadastrada para este evento";
         }
 
         if (isset($erros)){

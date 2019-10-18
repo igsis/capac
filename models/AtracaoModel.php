@@ -1,11 +1,11 @@
 <?php
 if ($pedidoAjax) {
-    require_once "../models/MainModel.php";
+    require_once "../models/ValidacaoModel.php";
 } else {
-    require_once "./models/MainModel.php";
+    require_once "./models/ValidacaoModel.php";
 }
 
-class AtracaoModel extends MainModel
+class AtracaoModel extends ValidacaoModel
 {
     protected function recuperaAtracaoAcao($id) {
         $pdo = DbModel::connection();

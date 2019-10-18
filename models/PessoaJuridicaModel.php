@@ -1,11 +1,11 @@
 <?php
 if ($pedidoAjax) {
-    require_once "../models/MainModel.php";
+    require_once "../models/ValidacaoModel.php";
 } else {
-    require_once "./models/MainModel.php";
+    require_once "./models/ValidacaoModel.php";
 }
 
-class PessoaJuridicaModel extends MainModel
+class PessoaJuridicaModel extends ValidacaoModel
 {
     protected function limparStringPJ($dados) {
         unset($dados['_method']);
@@ -44,113 +44,18 @@ class PessoaJuridicaModel extends MainModel
         return $dadosLimpos;
     }
 
-    protected function validaPjBanco($pessoa_juridica_id) {
-        $pf = DbModel::consultaSimples("SELECT * FROM pj_bancos WHERE pessoa_juridica_id = '$pessoa_juridica_id'");
-        if ($pf->rowCount() == 0) {
-            $erros['bancos']['bol'] = true;
-            $erros['bancos']['motivo'] = "Proponente não possui conta bancária cadastrada";
-
-            return $erros;
-        } else {
-            foreach ($pf->fetchObject() as $coluna => $valor) {
-                if ($valor == "") {
-                    $erros[$coluna]['bol'] = true;
-                    $erros[$coluna]['motivo'] = "Campo " . $coluna . " não preechido";
-                }
-            }
-        }
-        if (isset($erros)){
-            return $erros;
-        } else {
-            return false;
-        }
-    }
-
-    protected function validaPjEndereco($pessoa_juridica_id) {
-        $pf = DbModel::consultaSimples("SELECT * FROM pj_enderecos WHERE pessoa_juridica_id = '$pessoa_juridica_id'");
-        $naoObrigatorios = [
-            'complemento'
-        ];
-        if ($pf->rowCount() == 0) {
-            $erros['enderecos']['bol'] = true;
-            $erros['enderecos']['motivo'] = "Proponente não possui endereço cadastrado";
-
-            return $erros;
-        } else {
-            foreach ($pf->fetchObject() as $coluna => $valor) {
-                if (!in_array($coluna, $naoObrigatorios)) {
-                    if ($valor == "") {
-                        $erros[$coluna]['bol'] = true;
-                        $erros[$coluna]['motivo'] = "Campo " . $coluna . " não preechido";
-                    }
-                }
-            }
-        }
-        if (isset($erros)){
-            return $erros;
-        } else {
-            return false;
-        }
-    }
-
-    protected function validaPjTelefone($pessoa_juridica_id) {
-        $pf = DbModel::consultaSimples("SELECT * FROM pj_telefones WHERE pessoa_juridica_id = '$pessoa_juridica_id'");
-        if ($pf->rowCount() == 0) {
-            $erros['telefones']['bol'] = true;
-            $erros['telefones']['motivo'] = "Proponente não possui telefone cadastrado";
-
-            return $erros;
-        } else {
-            foreach ($pf->fetchAll(PDO::FETCH_OBJ) as $coluna => $valor) {
-                if ($valor == "") {
-                    $erros[$coluna]['bol'] = true;
-                    $erros[$coluna]['motivo'] = "Campo " . $coluna . " não preechido";
-                }
-            }
-        }
-        if (isset($erros)){
-            return $erros;
-        } else {
-            return false;
-        }
-    }
-
-    protected function validaRepresentante($id)
-    {
-        $representante = DbModel::getInfo('representante_legais', $id)->fetchObject();
-
-        foreach ($representante as $coluna => $valor) {
-            if ($valor == "") {
-                $erros[$coluna]['bol'] = true;
-                $erros[$coluna]['motivo'] = "Campo " . $coluna . " não preechido";
-            }
-        }
-
-        if (isset($erros)){
-            return $erros;
-        } else {
-            return false;
-        }
-    }
-
     protected function validaPjModel($pessoa_juridica_id) {
         $pj = DbModel::getInfo('pessoa_juridicas', $pessoa_juridica_id)->fetchObject();
         $naoObrigatorios = [
-            'ccm'
+            'ccm',
+            'representante_legal2_id'
         ];
 
-        foreach ($pj as $coluna => $valor) {
-            if (!in_array($coluna, $naoObrigatorios)) {
-                if ($valor == "") {
-                    $erros[$coluna]['bol'] = true;
-                    $erros[$coluna]['motivo'] = "Campo " . $coluna . " não preechido";
-                }
-            }
-        }
+        $erros = ValidacaoModel::retornaMensagem($pj, $naoObrigatorios);
 
-        $validaBanco = $this->validaPjBanco($pessoa_juridica_id);
-        $validaEndereco = $this->validaPjEndereco($pessoa_juridica_id);
-        $validaTelefone = $this->validaPjTelefone($pessoa_juridica_id);
+        $validaBanco = ValidacaoModel::validaBanco(2, $pessoa_juridica_id);
+        $validaEndereco = ValidacaoModel::validaEndereco(2, $pessoa_juridica_id);
+        $validaTelefone = ValidacaoModel::validaTelefone(2, $pessoa_juridica_id);
 
         if ($validaBanco) {
             if (!isset($erros)) { $erros = []; }
