@@ -168,10 +168,17 @@ class EventoController extends EventoModel
         if ($apaga){
             $alerta = [
                 'alerta' => 'sucesso',
-                'titulo' => 'Oficina',
-                'texto' => 'Oficina apagada com sucesso!',
+                'titulo' => 'Evento',
+                'texto' => 'Evento apagado com sucesso!',
                 'tipo' => 'danger',
-                'location' => SERVERURL
+                'location' => SERVERURL.'eventos/evento_lista'
+            ];
+        }else {
+            $alerta = [
+                'alerta' => 'simples',
+                'titulo' => 'Oops! Algo deu Errado!',
+                'texto' => 'Falha ao salvar os dados no servidor, tente novamente mais tarde',
+                'tipo' => 'error',
             ];
         }
         return MainModel::sweetAlert($alerta);

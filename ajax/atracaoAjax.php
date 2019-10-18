@@ -11,6 +11,8 @@ if (isset($_POST['_method'])) {
         echo $atracaoObj->insereAtracao($_POST);
     } elseif ($_POST['_method'] == "editarAtracao") {
         echo $atracaoObj->editaAtracao($_POST, $_POST['id']);
+    } elseif ($_POST['_method'] == "apagaAtracao") {
+        echo $atracaoObj->apagaAtracao($_POST['id']);
     }
 } else {
     include_once "../config/destroySession.php";

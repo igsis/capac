@@ -210,6 +210,16 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
+<?php
+$alerta = [
+    'alerta' => 'sucesso',
+    'titulo' => 'FACC',
+    'texto' => 'A FACC - Ficha de Atualização de Cadastro de Credores é um documento necessário para recebimento do cachê. Após inserir seus dados pessoais e os dados bancários, clique no botão para gerar a FACC. A FACC deve ser impressa, datada e assinada nos campos indicados no documento. Logo após, deve-se digitaliza-la e então anexa-la ao sistema através do campo abaixo.',
+    'tipo' => 'success',
+    'location' => SERVERURL.'pdf/facc_pf.php?id='.$proponente_id
+];
+?>
+
 <script type="application/javascript">
     $(document).ready(function () {
         $('.nav-link').removeClass('active');
