@@ -7,7 +7,6 @@ $insAtracao = new AtracaoController();
 
 if ($id) {
     $pf = $insPessoaFisica->recuperaPessoaFisica($id);
-    $cenica = $insAtracao->verificaCenica($_SESSION['origem_id_c']);
     if ($pf['cpf'] != "") {
         $documento = $pf['cpf'];
     } else {
@@ -22,7 +21,6 @@ if (isset($_POST['pf_cpf'])){
         $id = MainModel::encryption($pf['id']);
         $pf = $insPessoaFisica->recuperaPessoaFisica($id);
         $documento = $pf['cpf'];
-        $cenica = $insAtracao->verificaCenica($_SESSION['origem_id_c']);
     }
 }
 if (isset($_POST['pf_passaporte'])){
@@ -32,9 +30,10 @@ if (isset($_POST['pf_passaporte'])){
         $id = MainModel::encryption($pf['id']);
         $pf = $insPessoaFisica->recuperaPessoaFisica($id);
         $documento = $pf['passaporte'];
-        $cenica = $insAtracao->verificaCenica($_SESSION['origem_id_c']);
     }
 }
+
+$cenica = $insAtracao->verificaCenica($_SESSION['origem_id_c']);
 ?>
 
 <!-- Content Header (Page header) -->
