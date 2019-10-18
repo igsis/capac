@@ -260,4 +260,10 @@ class EventoController extends EventoModel
         }
         return MainModel::sweetAlert($alerta);
     }
+
+    public function descriptografia($id)
+    {
+        $id = MainModel::decryption($id);
+        return $id;
+    }
 }
