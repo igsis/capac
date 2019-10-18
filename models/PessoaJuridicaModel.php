@@ -47,17 +47,11 @@ class PessoaJuridicaModel extends ValidacaoModel
     protected function validaPjModel($pessoa_juridica_id) {
         $pj = DbModel::getInfo('pessoa_juridicas', $pessoa_juridica_id)->fetchObject();
         $naoObrigatorios = [
-            'ccm'
+            'ccm',
+            'representante_legal2_id'
         ];
 
-        foreach ($pj as $coluna => $valor) {
-            if (!in_array($coluna, $naoObrigatorios)) {
-                if ($valor == "") {
-                    $erros[$coluna]['bol'] = true;
-                    $erros[$coluna]['motivo'] = "Campo " . $coluna . " não preechido";
-                }
-            }
-        }
+        $erros = ValidacaoModel::retornaMensagem($pj, $naoObrigatorios);
 
         $validaBanco = ValidacaoModel::validaBanco(2, $pessoa_juridica_id);
         $validaEndereco = ValidacaoModel::validaEndereco(2, $pessoa_juridica_id);

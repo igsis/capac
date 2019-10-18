@@ -93,6 +93,7 @@ class ValidacaoModel extends MainModel
         $mensagens = [
             'nome_evento' => "Nome do evento não preenchido",
             'sinopse' => "Sinopse do evento não preenchida",
+            'representante_legal1_id' => "Empresa não possui Representante Legal cadastrado"
         ];
 
         if ($camposNaoObrigatorios) {
