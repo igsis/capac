@@ -12,9 +12,11 @@ $proponente = $pedidoObj->recuperaProponente($pedido_id);
 if ($proponente->pessoa_tipo_id == 1) {
     $tipo_documento_id = 1;
     $proponente_id = $arquivosObj->encryption($proponente->pessoa_fisica_id);
+    $url = SERVERURL."pdf/facc_pf.php?id=".$proponente_id;
 } else {
     $tipo_documento_id = 2;
     $proponente_id = $arquivosObj->encryption($proponente->pessoa_juridica_id);
+    $url = SERVERURL."pdf/facc_pj.php?id=".$proponente_id;
 }
 
 $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id)->fetchAll(PDO::FETCH_COLUMN);
@@ -76,7 +78,6 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                                 <li><a href="" target="_blank">Declaração CCM (caso não possua)</a></li>
                                 <li><a href="http://www.tst.jus.br/certidao" target="_blank">CNDT - Certidão Negativa de Débitos de Tributos Trabalhistas</a></li>
                                 <li><a href="http://servicos.receita.fazenda.gov.br/Servicos/certidao/CNDConjuntaInter/InformaNICertidao.asp?tipo=2" target="_blank">CND Federal - Certidão de Débitos Relativos a Créditos Tributários Federais e à Dívida Ativa da União</a></li>
-                                <li><a href="<?= SERVERURL ?>pdf/facc_pf.php?id=<?= $proponente_id?>" target="_blank">FACC - Ficha de Atualização de Cadastro de Credores</a></li>
                                 <?php
                             }else {
                                 ?>
@@ -85,13 +86,13 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                                 <li><a href="https://www.sifge.caixa.gov.br/Cidadao/Crf/FgeCfSCriteriosPesquisa.asp" target="_blank">CRF do FGTS</a></li>
                                 <li><a href="http://www.receita.fazenda.gov.br/Aplicacoes/ATSPO/Certidao/CNDConjuntaSegVia/NICertidaoSegVia.asp?Tipo=1" target="_blank">CND Federal - Certidão de Débitos Relativos a Créditos Tributários Federais e à Dívida Ativa da União</a></li>
                                 <li><a href="http://www.receita.fazenda.gov.br/Aplicacoes/ATSPO/Certidao/certaut/CndConjunta/ConfirmaAutenticCndSolicitacao.asp?ORIGEM=PJ" target="_blank">Autenticidade de CND ­ Certidão de Débitos Relativos a Créditos Tributários Federais e à Dívida Ativa da União (CND)</a></li>
-                                <li><a href="#" onclick="alerta();">FACC - Ficha de Atualização de Cadastro de Credores</a></li>
                                 <?php
                             }
                             ?>
                             <li><a href="https://duc.prefeitura.sp.gov.br/certidoes/forms_anonimo/frmConsultaEmissaoCertificado.aspx" target="_blank">CTM - Certidão Negativa de Débitos Tributários Mobiliários Municipais de São Paulo</a></li>
                             <li><a href="http://www3.prefeitura.sp.gov.br/cadin/Pesq_Deb.aspx" target="_blank">CADIN Municipal</a></li>
                             <li><a href="https://ccm.prefeitura.sp.gov.br/login/contribuinte?tipo=F" target="_blank">FDC CCM - Ficha de Dados Cadastrais de Contribuintes Mobiliários</a></li>
+                            <li><a href="#" onclick="alerta();">FACC - Ficha de Atualização de Cadastro de Credores</a></li>
                         </ul>
                     </div>
                     <!-- /.card-body -->
@@ -215,15 +216,15 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
 <script>
     function alerta(){
             Swal.fire({
-                title: 'FACC',
-                text: 'A FACC - Ficha de Atualização de Cadastro de Credores é um documento necessário para recebimento do cachê. Após inserir seus dados pessoais e os dados bancários, clique no botão para gerar a FACC.      A FACC deve ser impressa, datada e assinada nos campos indicados no documento. Logo após, deve-se digitaliza-la e então anexa-la ao sistema através do campo abaixo.',
+                title: 'FACC - Ficha de Atualização de Cadastro de Credores',
+                html: 'A FACC é um documento necessário para recebimento do cachê. Após inserir seus dados pessoais e os dados bancários, clique no botão para gerar a FACC. <br><span style="color:red">Deve ser impressa, datada e assinada nos campos indicados no documento</span>.<br>Logo após, deve-se digitaliza-la e então anexa-la ao sistema através do campo abaixo.',
                 type: 'warning',
                 allowOutsideClick: false,
                 allowEscapeKey: false,
                 showCancelButton: false,
                 confirmButtonText: 'Confirmar'
             }).then(function() {
-                window.open('<?=SERVERURL?>pdf/facc_pj.php?id=<?=$proponente_id?>', '_blank');
+                window.open('<?=$url?>', '_blank');
             });
         }
 </script>
