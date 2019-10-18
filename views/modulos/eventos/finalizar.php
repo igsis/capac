@@ -28,7 +28,7 @@ $validacoesAtracoes = $atracaoObj->validaAtracao($_SESSION['origem_id_c']);
             </div><!-- /.col -->
         </div><!-- /.row -->
         <?php if ($validacoesEvento || $validacoesAtracoes): ?>
-            <div class="row">
+            <div class="row erro-validacao">
                 <?php if ($validacoesEvento): ?>
                     <?php foreach ($validacoesEvento as $titulo => $erros): ?>
                     <div class="col-md-4">
@@ -158,31 +158,35 @@ $validacoesAtracoes = $atracaoObj->validaAtracao($_SESSION['origem_id_c']);
                                 <div class="col-md-4"><b>Observação:</b>  <?= $atracao->produtor->observacao ?? NULL ?></div>
                             </div>
                             <br>
-                            <h5><b>Líder do grupo ou artista solo</b></h5>
-                            <?php
-                            require_once "./controllers/LiderController.php";
-                            $liderObj = new LiderController();
-                            $lider = $liderObj->getLider($atracao->id);
-                            ?>
-                            <div class="row">
-                                <div class="col-md-6"><b> Nome:</b> <?= $lider['nome'] ?></div>
-                                <div class="col-md-6"><b>Nome Artístico:</b> <?= $lider['nome_artistico'] ?></div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-2"><b>RG:</b> <?= $lider['rg'] ?></div>
-                                <div class="col-md-2"><b>CPF:</b> <?= $lider['cpf'] ?></div>
-                                <div class="col-md-4"><b>E-mail:</b> <?= $lider['email'] ?></div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6"><b>Telefones:</b> <?= $lider['telefones']['tel_0'] ?? "" ?>
-                                    | <?= $lider['telefones']['tel_1'] ?? "" ?> | <?= $lider['telefones']['tel_2'] ?? "" ?>
+
+                            <?php if ($pedido->pessoa_tipo_id == 2): ?>
+                                <h5><b>Líder do grupo ou artista solo</b></h5>
+                                <?php
+                                require_once "./controllers/LiderController.php";
+                                $liderObj = new LiderController();
+                                $lider = $liderObj->getLider($atracao->id);
+                                ?>
+                                <div class="row">
+                                    <div class="col-md-6"><b> Nome:</b> <?= $lider['nome'] ?></div>
+                                    <div class="col-md-6"><b>Nome Artístico:</b> <?= $lider['nome_artistico'] ?></div>
                                 </div>
-                                <?php if($cenica > 0): ?>
-                                    <div class="col-md-6"><b>DRT:</b> <?= $lider['drt'] ?? $erro ?></div>
-                                <?php endif ?>
-                            </div>
-                            <br>
-                            <br>
+                                <div class="row">
+                                    <div class="col-md-2"><b>RG:</b> <?= $lider['rg'] ?></div>
+                                    <div class="col-md-2"><b>CPF:</b> <?= $lider['cpf'] ?></div>
+                                    <div class="col-md-4"><b>E-mail:</b> <?= $lider['email'] ?></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <b>Telefones:</b>
+                                        <?= isset($lider['telefones']) ? implode(" | ", $lider['telefones']) : "" ?>
+                                    </div>
+                                    <?php if($cenica > 0): ?>
+                                        <div class="col-md-6"><b>DRT:</b> <?= $lider['drt'] ?? $erro ?></div>
+                                    <?php endif ?>
+                                </div>
+                                <br>
+                                <br>
+                            <?php endif; ?>
                         <?php endforeach; ?>
 
                         <!-- ************** Proponente ************** -->
@@ -221,8 +225,9 @@ $validacoesAtracoes = $atracaoObj->validaAtracao($_SESSION['origem_id_c']);
                             </div>
                             <div class="row">
                                 <div class="col-md-4"><b>E-mail:</b> <?= $pf['email'] ?></div>
-                                <div class="col-md-6"><b>Telefones:</b> <?= $pf['telefones']['tel_0'] ?? "" ?>
-                                    | <?= $pf['telefones']['tel_1'] ?? "" ?> | <?= $pf['telefones']['tel_2'] ?? "" ?>
+                                <div class="col-md-6">
+                                    <b>Telefones:</b>
+                                    <?= isset($pf['telefones']) ? implode(" | ", $pf['telefones']) : "" ?>
                                 </div>
                             </div>
                             <div class="row">
@@ -335,5 +340,11 @@ $validacoesAtracoes = $atracaoObj->validaAtracao($_SESSION['origem_id_c']);
         $('.nav-link').removeClass('active');
         $('#itens-proponente').addClass('menu-open');
         $('#finalizar').addClass('active');
+
+        if ($('.erro-validacao').length) {
+            $('#cadastra').attr('disabled', true);
+        } else {
+            $('#cadastra').attr('disabled', false);
+        }
     });
 </script>
