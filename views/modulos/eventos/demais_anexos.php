@@ -77,7 +77,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                                         <td>
                                             <form class="formulario-ajax" action="<?=SERVERURL?>ajax/arquivosAjax.php" method="POST" data-form="delete">
                                                 <input type="hidden" name="_method" value="removerArquivo">
-                                                <input type="hidden" name="pagina" value="anexos_proponente">
+                                                <input type="hidden" name="pagina" value="demais_anexos">
                                                 <input type="hidden" name="arquivo_id" value="<?=$arquivosObj->encryption($arquivo->id)?>">
                                                 <button type="submit" class="btn btn-sm btn-danger">Apagar</button>
                                                 <div class="resposta-ajax"></div>
