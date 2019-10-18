@@ -59,14 +59,8 @@ class AtracaoModel extends ValidacaoModel
 
         foreach ($atracoes as $atracao) {
             $nomeAtracao = $atracao->nome_atracao;
-            foreach ($atracao as $coluna => $valor) {
-                if (!in_array($coluna, $naoObrigatorios)) {
-                    if ($valor == "") {
-                        $erros[$nomeAtracao][$coluna]['bol'] = true;
-                        $erros[$nomeAtracao][$coluna]['motivo'] = "Campo " . $coluna . " não preechido";
-                    }
-                }
-            }
+
+            $erros[$nomeAtracao] = ValidacaoModel::retornaMensagem($atracao, $naoObrigatorios);
 
             if ($atracao->produtor_id != null) {
                 $produtor = AtracaoModel::validaProdutor($atracao->produtor_id, $nomeAtracao);

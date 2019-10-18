@@ -89,11 +89,17 @@ class ValidacaoModel extends MainModel
         }
     }
 
+    /**
+     * @param array $dados
+     * @param bool|array $camposNaoObrigatorios
+     * @return bool|array
+     */
     protected function retornaMensagem($dados, $camposNaoObrigatorios = false){
         $mensagens = [
             'nome_evento' => "Nome do evento não preenchido",
             'sinopse' => "Sinopse do evento não preenchida",
-            'representante_legal1_id' => "Empresa não possui Representante Legal cadastrado"
+            'representante_legal1_id' => "Empresa não possui Representante Legal cadastrado",
+            'produtor_id' => "Atração não possui Produtor cadastrado"
         ];
 
         if ($camposNaoObrigatorios) {
