@@ -57,12 +57,21 @@ $eventoObj = new EventoController();
                                     <td><?=$eventoObj->dataHora($evento->data_cadastro)?></td>
                                     <td><?=$evento->publicado == 1 ? "Não" : "Sim"?></td>
                                     <td>
-                                        <a href="<?=SERVERURL."eventos/evento_cadastro&key=".$eventoObj->encryption($evento->id)?>">
-                                                <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</button>
-                                            </a>
-                                        <?php if ($evento->publicado == 1): ?>
-                                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Apagar</button>
-                                        <?php endif; ?>
+                                        <div class="row">
+                                            <div class="col">
+                                                <a href="<?=SERVERURL."eventos/evento_cadastro&key=".$eventoObj->encryption($evento->id)?>" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</a>
+                                            </div>
+                                            <div class="col">
+                                                <?php if ($evento->publicado == 1): ?>
+                                                <form class="form-horizontal formulario-ajax" method="POST" action="<?=SERVERURL?>ajax/eventoAjax.php" role="form" data-form="update">
+                                                    <input type="hidden" name="_method" value="apagaEvento">
+                                                    <input type="hidden" name="id" value="<?=$evento->id?>">
+                                                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Apagar</button>
+                                                    <div class="resposta-ajax"></div>
+                                                </form>
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>
