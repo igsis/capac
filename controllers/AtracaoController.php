@@ -133,16 +133,24 @@ class AtracaoController extends AtracaoModel
     }
 
     public function apagaAtracao($id){
-//        $apaga = DbModel::delete("eventos", $id);
-//        if ($apaga) {
-//            $alerta = [
-//                'alerta' => 'sucesso',
-//                'titulo' => 'Oficina',
-//                'texto' => 'Oficina apagada com sucesso!',
-//                'tipo' => 'danger',
-//                'location' => SERVERURL
-//            ];
-//        }
+        $apaga = DbModel::apaga("atracoes", $id);
+        if ($apaga){
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Atração',
+                'texto' => 'Atração apagada com sucesso!',
+                'tipo' => 'success',
+                'location' => SERVERURL.'eventos/atracao_lista'
+            ];
+        }else {
+            $alerta = [
+                'alerta' => 'simples',
+                'titulo' => 'Oops! Algo deu Errado!',
+                'texto' => 'Falha ao salvar os dados no servidor, tente novamente mais tarde',
+                'tipo' => 'error',
+            ];
+        }
+        return MainModel::sweetAlert($alerta);
     }
 
     public function exibeDescricaoAcao() {

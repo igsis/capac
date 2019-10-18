@@ -61,10 +61,19 @@ $atracaoObj = new AtracaoController();
 
                                     </td>
                                     <td>
-                                        <a href="<?=SERVERURL."eventos/atracao_cadastro&key=".$atracaoObj->encryption($atracao->id)?>">
-                                            <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</button>
-                                        </a>
-                                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Apagar</button>
+                                        <div class="row">
+                                            <div class="col">
+                                                <a href="<?=SERVERURL."eventos/atracao_cadastro&key=".$atracaoObj->encryption($atracao->id)?>" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</a>
+                                            </div>
+                                            <div class="col">
+                                                <form class="form-horizontal formulario-ajax" method="POST" action="<?=SERVERURL?>ajax/atracaoAjax.php" role="form" data-form="update">
+                                                    <input type="hidden" name="_method" value="apagaAtracao">
+                                                    <input type="hidden" name="id" value="<?=$atracao->id?>">
+                                                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Apagar</button>
+                                                    <div class="resposta-ajax"></div>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>
