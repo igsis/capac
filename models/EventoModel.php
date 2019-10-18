@@ -1,11 +1,11 @@
 <?php
 if ($pedidoAjax) {
-    require_once "../models/MainModel.php";
+    require_once "../models/ValidacaoModel.php";
 } else {
-    require_once "./models/MainModel.php";
+    require_once "./models/ValidacaoModel.php";
 }
 
-class EventoModel extends MainModel
+class EventoModel extends ValidacaoModel
 {
     protected function recuperaEventoFomento($id) {
         $pdo = DbModel::connection();
@@ -44,12 +44,7 @@ class EventoModel extends MainModel
     {
         $evento = DbModel::getInfo('eventos', $evento_id)->fetch(PDO::FETCH_ASSOC);
 
-        foreach ($evento as $coluna => $valor) {
-        if ($valor == "") {
-            $erros[$coluna]['bol'] = true;
-            $erros[$coluna]['motivo'] = "Campo ".$coluna." não preechido";
-        }
-    }
+        $erros = ValidacaoModel::retornaMensagem($evento);
 
         if ($evento['fomento'] == 1) {
             $fomento = DbModel::consultaSimples("SELECT * FROM evento_fomento WHERE evento_id = '$evento_id'");
