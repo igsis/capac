@@ -169,28 +169,30 @@ class AtracaoController extends AtracaoModel
         $evento_id = MainModel::decryption($evento_id);
         $atracoes = AtracaoModel::validaAtracaoModel($evento_id);
 
-        $existeErro = MainModel::in_array_r(true, $atracoes, true);
-        if ($existeErro) {
-            foreach ($atracoes as $key => $erro) {
-                if ($erro != false) {
-                    foreach ($erro as $campo => $item) {
-                        if ($campo == 'produtor') {
-                            foreach ($item as $dado) {
-                                if ($dado['bol']) {
-                                    $validacao[$key][] = $dado['motivo'];
+        if ($atracoes) {
+            $existeErro = MainModel::in_array_r(true, $atracoes, true);
+            if ($existeErro) {
+                foreach ($atracoes as $key => $erro) {
+                    if ($erro != false) {
+                        foreach ($erro as $campo => $item) {
+                            if ($campo == 'produtor') {
+                                foreach ($item as $dado) {
+                                    if ($dado['bol']) {
+                                        $validacao[$key][] = $dado['motivo'];
+                                    }
                                 }
-                            }
-                        } else {
-                            if ($item['bol']) {
-                                $validacao[$key][] = $item['motivo'];
+                            } else {
+                                if ($item['bol']) {
+                                    $validacao[$key][] = $item['motivo'];
+                                }
                             }
                         }
                     }
                 }
+                return $validacao;
+            } else {
+                return false;
             }
-            return $validacao;
-        } else {
-            return false;
         }
     }
 
