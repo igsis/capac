@@ -145,6 +145,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                             <input type="submit" class="btn btn-success btn-md btn-block" name="enviar" value='Enviar'>
 
                             <div class="resposta-ajax"></div>
+                        </form>
                     </div>
                 </div>
                 <!-- /.card -->
