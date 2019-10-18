@@ -85,7 +85,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                                 <li><a href="https://www.sifge.caixa.gov.br/Cidadao/Crf/FgeCfSCriteriosPesquisa.asp" target="_blank">CRF do FGTS</a></li>
                                 <li><a href="http://www.receita.fazenda.gov.br/Aplicacoes/ATSPO/Certidao/CNDConjuntaSegVia/NICertidaoSegVia.asp?Tipo=1" target="_blank">CND Federal - Certidão de Débitos Relativos a Créditos Tributários Federais e à Dívida Ativa da União</a></li>
                                 <li><a href="http://www.receita.fazenda.gov.br/Aplicacoes/ATSPO/Certidao/certaut/CndConjunta/ConfirmaAutenticCndSolicitacao.asp?ORIGEM=PJ" target="_blank">Autenticidade de CND ­ Certidão de Débitos Relativos a Créditos Tributários Federais e à Dívida Ativa da União (CND)</a></li>
-                                <li><a href="<?= SERVERURL ?>pdf/facc_pj.php?id=<?= $proponente_id?>" target="_blank">FACC - Ficha de Atualização de Cadastro de Credores</a></li>
+                                <li><a href="#" onclick="alerta();">FACC - Ficha de Atualização de Cadastro de Credores</a></li>
                                 <?php
                             }
                             ?>
@@ -210,15 +210,22 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
-<?php
-$alerta = [
-    'alerta' => 'sucesso',
-    'titulo' => 'FACC',
-    'texto' => 'A FACC - Ficha de Atualização de Cadastro de Credores é um documento necessário para recebimento do cachê. Após inserir seus dados pessoais e os dados bancários, clique no botão para gerar a FACC. A FACC deve ser impressa, datada e assinada nos campos indicados no documento. Logo após, deve-se digitaliza-la e então anexa-la ao sistema através do campo abaixo.',
-    'tipo' => 'success',
-    'location' => SERVERURL.'pdf/facc_pf.php?id='.$proponente_id
-];
-?>
+
+<script>
+    function alerta(){
+            Swal.fire({
+                title: 'FACC',
+                text: 'A FACC - Ficha de Atualização de Cadastro de Credores é um documento necessário para recebimento do cachê. Após inserir seus dados pessoais e os dados bancários, clique no botão para gerar a FACC.      A FACC deve ser impressa, datada e assinada nos campos indicados no documento. Logo após, deve-se digitaliza-la e então anexa-la ao sistema através do campo abaixo.',
+                type: 'warning',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showCancelButton: false,
+                confirmButtonText: 'Confirmar'
+            }).then(function() {
+                window.open('<?=SERVERURL?>pdf/facc_pj.php?id=<?=$proponente_id?>', '_blank');
+            });
+        }
+</script>
 
 <script type="application/javascript">
     $(document).ready(function () {
