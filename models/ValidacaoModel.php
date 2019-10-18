@@ -89,6 +89,11 @@ class ValidacaoModel extends MainModel
         }
     }
 
+    /**
+     * @param array $dados
+     * @param bool|array $camposNaoObrigatorios
+     * @return bool|array
+     */
     protected function retornaMensagem($dados, $camposNaoObrigatorios = false){
         $mensagens = [
             'nome_evento' => "Nome do evento não preenchido",
