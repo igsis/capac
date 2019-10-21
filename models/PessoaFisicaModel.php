@@ -107,25 +107,31 @@ class PessoaFisicaModel extends ValidacaoModel
 
         if ($validacaoTipo == 1) {
             if ($validaBanco) {
-                if (!isset($erros)) { $erros = []; }
+                if (!isset($erros) || $erros == false) { $erros = []; }
                 $erros = array_merge($erros, $validaBanco);
             }
             if ($validaEndereco) {
-                if (!isset($erros)) { $erros = []; }
+                if (!isset($erros) || $erros == false) { $erros = []; }
                 $erros = array_merge($erros, $validaEndereco);
             }
         }
 
         if ($validaTelefone) {
-            if (!isset($erros)) { $erros = []; }
+            if (!isset($erros) || $erros == false) { $erros = []; }
             $erros = array_merge($erros, $validaTelefone);
         }
 
         if (MainModel::verificaCenica(MainModel::encryption($evento_id))) {
-            if (!isset($erros)) { $erros = []; }
+            if (!isset($erros) || $erros == false) { $erros = []; }
             $erros['drt']['bol'] = true;
             $erros['drt']['motivo'] = 'Proponente não possui DRT cadastrado';
         };
+
+        $validaArquivos = ValidacaoModel::validaArquivos(1, $pessoa_fisica_id);
+        if ($validaArquivos) {
+            if (!isset($erros) || $erros == false) { $erros = []; }
+            $erros = array_merge($erros, $validaArquivos);
+        }
 
         if (isset($erros)){
             return $erros;

@@ -76,25 +76,6 @@ class ValidacaoModel extends MainModel
         }
     }
 
-    protected function validaDrt($id){
-        $proponente = DbModel::consultaSimples("SELECT * FROM drts WHERE pessoa_fisica_id = '$id'");
-
-        if ($proponente->rowCount() == 0) {
-            $erros['telefones']['bol'] = true;
-            $erros['telefones']['motivo'] = "Proponente não DRT cadastrado";
-
-            return $erros;
-        } else {
-            $proponente = $proponente->fetchObject();
-            $erros = ValidacaoModel::retornaMensagem($proponente);
-        }
-        if (isset($erros)){
-            return $erros;
-        } else {
-            return false;
-        }
-    }
-
     protected function validaRepresentante($id)
     {
         $representante = DbModel::getInfo('representante_legais', $id)->fetchObject();
@@ -138,6 +119,27 @@ class ValidacaoModel extends MainModel
                 }
             }
 
+        }
+
+        if (isset($erros)){
+            return $erros;
+        } else {
+            return false;
+        }
+    }
+
+    protected function validaArquivos($tipoDocumento, $origem_id){
+        $sql = "SELECT ld.id, ld.documento, a.arquivo
+                FROM lista_documentos AS ld
+                LEFT JOIN (SELECT * FROM arquivos WHERE publicado = 1 AND origem_id = '$origem_id') AS a on ld.id = a.lista_documento_id
+                WHERE ld.tipo_documento_id = '$tipoDocumento'";
+        $arquivos = DbModel::consultaSimples($sql)->fetchAll(PDO::FETCH_OBJ);
+
+        foreach ($arquivos as $arquivo) {
+            if ($arquivo->arquivo == null) {
+                $erros[$arquivo->documento]['bol'] = true;
+                $erros[$arquivo->documento]['motivo'] = $arquivo->documento." não enviado";
+            }
         }
 
         if (isset($erros)){

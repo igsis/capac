@@ -175,10 +175,10 @@ class AtracaoController extends AtracaoModel
                 foreach ($atracoes as $key => $erro) {
                     if ($erro != false) {
                         foreach ($erro as $campo => $item) {
-                            if ($campo == 'produtor') {
+                            if ($campo == 'produtor' || $campo == 'lider') {
                                 foreach ($item as $dado) {
                                     if ($dado['bol']) {
-                                        $validacao[$key][] = $dado['motivo'];
+                                        $validacao[$key][] = $campo.": ".$dado['motivo'];
                                     }
                                 }
                             } else {

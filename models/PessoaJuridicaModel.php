@@ -58,35 +58,40 @@ class PessoaJuridicaModel extends ValidacaoModel
         $validaTelefone = ValidacaoModel::validaTelefone(2, $pessoa_juridica_id);
 
         if ($validaBanco) {
-            if (!isset($erros)) { $erros = []; }
+            if (!isset($erros) || $erros == false) { $erros = []; }
             $erros = array_merge($erros, $validaBanco);
         }
         if ($validaEndereco) {
-            if (!isset($erros)) { $erros = []; }
+            if (!isset($erros) || $erros == false) { $erros = []; }
             $erros = array_merge($erros, $validaEndereco);
         }
         if ($validaTelefone) {
-            if (!isset($erros)) { $erros = []; }
+            if (!isset($erros) || $erros == false) { $erros = []; }
             $erros = array_merge($erros, $validaTelefone);
         }
 
 
         if ($pj->representante_legal1_id != null){
-            $representanteLegal1 = $this->validaRepresentante($pj->representante_legal1_id);
+            $representanteLegal1 = ValidacaoModel::validaRepresentante($pj->representante_legal1_id);
             if ($representanteLegal1) {
-                if (!isset($erros)) { $erros = []; }
+                if (!isset($erros) || $erros == false) { $erros = []; }
                 $erros = array_merge($erros, $representanteLegal1);
             }
         }
 
         if ($pj->representante_legal2_id != null){
-            $representanteLegal2 = $this->validaRepresentante($pj->representante_legal2_id);
+            $representanteLegal2 = ValidacaoModel::validaRepresentante($pj->representante_legal2_id);
             if ($representanteLegal2) {
-                if (!isset($erros)) { $erros = []; }
+                if (!isset($erros) || $erros == false) { $erros = []; }
                 $erros = array_merge($erros, $representanteLegal2);
             }
         }
 
+        $validaArquivos = ValidacaoModel::validaArquivos(2, $pessoa_juridica_id);
+        if ($validaArquivos) {
+            if (!isset($erros) || $erros == false) { $erros = []; }
+            $erros = array_merge($erros, $validaArquivos);
+        }
 
         if (isset($erros)){
             return $erros;
