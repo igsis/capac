@@ -68,7 +68,7 @@ class PessoaFisicaModel extends ValidacaoModel
      * 2 - Líder</p>
      * @return array|bool
      */
-    protected function validaPfModel($pessoa_fisica_id, $validacaoTipo) {
+    protected function validaPfModel($pessoa_fisica_id, $validacaoTipo, $evento_id) {
         $pf = DbModel::getInfo("pessoa_fisicas",$pessoa_fisica_id)->fetchObject();
 
         switch ($validacaoTipo) {
@@ -82,26 +82,26 @@ class PessoaFisicaModel extends ValidacaoModel
 
                 $validaBanco = ValidacaoModel::validaBanco(1, $pessoa_fisica_id);
                 $validaEndereco = ValidacaoModel::validaEndereco(1, $pessoa_fisica_id);
-                $validaTelefone = ValidacaoModel::validaTelefone(1, $pessoa_fisica_id);
                 break;
 
             case 2:
                 $naoObrigatorios = [
                     'nome_artistico',
-                    'ccm',
-                    'cpf',
                     'passaporte',
+                    'ccm',
+                    'data_nascimento',
+                    'nacionalidade_id',
                 ];
-
-                $validaBanco = ValidacaoModel::validaBanco(1, $pessoa_fisica_id);
-                $validaEndereco = ValidacaoModel::validaEndereco(1, $pessoa_fisica_id);
-                $validaTelefone = ValidacaoModel::validaTelefone(1, $pessoa_fisica_id);
-                break;
                 break;
             default:
                 $naoObrigatorios = [];
                 break;
         }
+
+        $validaTelefone = ValidacaoModel::validaTelefone(1, $pessoa_fisica_id);
+
+        if ($pf->passaporte != null) { array_push($naoObrigatorios, 'rg'); }
+
 
         $erros = ValidacaoModel::retornaMensagem($pf, $naoObrigatorios);
 
@@ -120,6 +120,12 @@ class PessoaFisicaModel extends ValidacaoModel
             if (!isset($erros)) { $erros = []; }
             $erros = array_merge($erros, $validaTelefone);
         }
+
+        if (MainModel::verificaCenica(MainModel::encryption($evento_id))) {
+            if (!isset($erros)) { $erros = []; }
+            $erros['drt']['bol'] = true;
+            $erros['drt']['motivo'] = 'Proponente não possui DRT cadastrado';
+        };
 
         if (isset($erros)){
             return $erros;

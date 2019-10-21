@@ -226,8 +226,8 @@ class PessoaFisicaController extends PessoaFisicaModel
         return $consulta_pf_pass;
     }
 
-    public function validaPf($pessoa_fisica_id, $validacaoTipo){
-        $pf = PessoaFisicaModel::validaPfModel($pessoa_fisica_id, $validacaoTipo);
+    public function validaPf($pessoa_fisica_id, $validacaoTipo, $evento_id = null){
+        $pf = PessoaFisicaModel::validaPfModel($pessoa_fisica_id, $validacaoTipo, $evento_id);
         return $pf;
     }
 }

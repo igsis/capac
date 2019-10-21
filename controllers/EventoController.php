@@ -204,7 +204,7 @@ class EventoController extends EventoModel
         if ($pedido->rowCount() > 0) {
                 $pedido = $pedido->fetchObject();
             if ($pedido->pessoa_tipo_id == 1) {
-                $erros['Proponente'] = (new PessoaFisicaController)->validaPf($pedido->pessoa_fisica_id, 1);
+                $erros['Proponente'] = (new PessoaFisicaController)->validaPf($pedido->pessoa_fisica_id, 1, $evento_id);
             } else {
                 $erros['Proponente'] = (new PessoaJuridicaController)->validaPj($pedido->pessoa_juridica_id);
             }

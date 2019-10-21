@@ -347,7 +347,7 @@ if (isset($_POST['pj_cnpj'])){
         $('.swalDefaultWarning').show(function() {
             Toast.fire({
                 type: 'warning',
-                title: 'Pressione o botão Gravar para confirmar os dados'
+                title: 'Em caso de alteração, pressione o botão Gravar para confirmar os dados'
             })
         });
     });

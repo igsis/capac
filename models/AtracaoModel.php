@@ -1,8 +1,10 @@
 <?php
 if ($pedidoAjax) {
     require_once "../models/ValidacaoModel.php";
+    require_once "../controllers/PessoaFisicaController.php";
 } else {
     require_once "./models/ValidacaoModel.php";
+    require_once "./controllers/PessoaFisicaController.php";
 }
 
 class AtracaoModel extends ValidacaoModel
@@ -74,7 +76,10 @@ class AtracaoModel extends ValidacaoModel
                 $lider = DbModel::consultaSimples("SELECT * FROM lideres WHERE atracao_id = '$atracao->id'");
                 if ($lider->rowCount() == 0) {
                     $erros[$nomeAtracao]['lider']['bol'] = true;
-                    $erros[$nomeAtracao]['lider']['motivo'] = 'Atração não possui líder cadastrado';
+                    $erros[$nomeAtracao]['lider']['motivo'] = 'Atração não possui Líder cadastrado';
+                } else {
+                    $lider = $lider->fetchObject();
+                    $erros[$nomeAtracao]['lider'] = (new PessoaFisicaController)->validaPf($lider->pessoa_fisica_id, 2);
                 }
             }
 

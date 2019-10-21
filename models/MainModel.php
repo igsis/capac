@@ -390,4 +390,18 @@ class MainModel extends DbModel
         $newstring = preg_replace("/[^a-zA-Z0-9_.]/", "", strtr($string, "áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ ", "aaaaeeiooouucAAAAEEIOOOUUC_"));
         return $newstring;
     }
+
+    public function verificaCenica($idEvento)
+    {
+        $idEvento = MainModel::decryption($idEvento);
+        $acoes = DbModel::consultaSimples("SELECT aa.acao_id FROM atracoes AS at INNER JOIN acao_atracao aa on at.id = aa.atracao_id WHERE at.publicado = 1 AND at.evento_id = '$idEvento'")->fetchAll(PDO::FETCH_ASSOC);
+        $i = false;
+        foreach ($acoes as $acao){
+            if ($acao['acao_id'] == 2 || $acao['acao_id'] == 3 || $acao['acao_id'] == 11){
+                $i = true;
+            }
+        }
+        return $i;
+    }
+
 }
