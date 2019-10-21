@@ -76,6 +76,25 @@ class ValidacaoModel extends MainModel
         }
     }
 
+    protected function validaDrt($id){
+        $proponente = DbModel::consultaSimples("SELECT * FROM drts WHERE pessoa_fisica_id = '$id'");
+
+        if ($proponente->rowCount() == 0) {
+            $erros['telefones']['bol'] = true;
+            $erros['telefones']['motivo'] = "Proponente não DRT cadastrado";
+
+            return $erros;
+        } else {
+            $proponente = $proponente->fetchObject();
+            $erros = ValidacaoModel::retornaMensagem($proponente);
+        }
+        if (isset($erros)){
+            return $erros;
+        } else {
+            return false;
+        }
+    }
+
     protected function validaRepresentante($id)
     {
         $representante = DbModel::getInfo('representante_legais', $id)->fetchObject();

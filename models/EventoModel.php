@@ -63,7 +63,7 @@ class EventoModel extends ValidacaoModel
         $atracoes = DbModel::consultaSimples("SELECT * FROM atracoes WHERE evento_id = '$evento_id'");
         if ($atracoes->rowCount() == 0) {
             $erros['atracoes']['bol'] = true;
-            $erros['atracoes']['motivo'] = "Nenhuma atraçao cadastrada para este evento";
+            $erros['atracoes']['motivo'] = "Nenhuma atração cadastrada para este evento";
         }
 
         if (isset($erros)){
