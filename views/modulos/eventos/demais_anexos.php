@@ -1,9 +1,18 @@
 <?php
 require_once "./controllers/ArquivoController.php";
+require_once "./controllers/PedidoController.php";
 $arquivosObj = new ArquivoController();
 
 $pedido_id = $_SESSION['pedido_id_c'];
 $tipo_documento_id = 3;
+
+$pedidoObj = new PedidoController();
+$proponente = $pedidoObj->recuperaProponente($pedido_id);
+if ($proponente->pessoa_tipo_id == 1) {
+    $url = SERVERURL."pdf/facc_pf.php?id=".$proponente_id;
+} else {
+    $url = SERVERURL."pdf/declaracao_exclusividade_grupo_pj.php?id=".$_SESSION['origem_id_c'];
+}
 
 $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id)->fetchAll(PDO::FETCH_COLUMN);
 ?>
@@ -23,7 +32,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="offset-md-1 col-md-10">
+            <div class="col-md-3">
                 <div class="card card-warning">
                     <div class="card-header">
                         <h3 class="card-title">Atenção!</h3>
@@ -37,13 +46,42 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                             <li><strong>Formato Permitido:</strong> PDF</li>
                             <li><strong>Tamanho Máximo:</strong> 6Mb</li>
                             <li>Clique nos arquivos após efetuar o upload e confira a exibição do documento!</li>
-                            <li>Apenas <b>01</b> arquivo por campo de upload.</li>
-                            <li>Utilize o site <a href="https://www.ilovepdf.com/pt" target="_blank">I LOVE PDF</a> para juntar os documentos em um único arquivo.</li>
-                            <a href="<?=SERVERURL."pdf/declaracao_exclusividade_grupo_pj.php?id=".$_SESSION['origem_id_c'] ?>" target="_blank">Exclusividade TESTE</a>
                         </ul>
                     </div>
                 </div>
                 <!-- /.card -->
+            </div>
+            <div class="col-md-9">
+                <div class="card card-outline card-info">
+                    <div class="card-header">
+                        <h3 class="card-title">Gerar documentos</h3>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                        <!-- /.card-tools -->
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <p>Para gerar alguns dos arquivos online, utilize os links abaixo:</p>
+                        <ul>
+                            <?php
+                            if ($proponente->pessoa_tipo_id == 1) {
+                                ?>
+                                <li><a href="#" onclick="alerta();">FACC - Ficha de Atualização de Cadastro de Credores</a></li>
+                                <?php
+                            }else {
+                                ?>
+                                <li><a href="#" onclick="alerta();">Declaração de Exclusividade - Artista Solo</a></li>
+                                <li><a href="#" onclick="alerta();">Declaração de Exclusividade - Grupo</a></li>
+                                <?php
+                            }
+                            ?>
+                        </ul>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
             </div>
         </div>
         <div class="row">
@@ -160,6 +198,25 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
+
+<script>
+    function alerta(){
+        Swal.fire({
+            title: 'Declaração de Exclusividade',
+            html: 'A Declaração de Exclusividade é um documento necessário para sua contratação, quando se tratar de um grupo de artistas.<br><span style="color:red">Deve ser impressa, datada e assinada nos campos indicados no documento</span>.<br>Logo após, deve-se digitaliza-la e então anexa-la ao sistema através do campo abaixo.<br>' +
+                    '<div class="row"> '+
+                '<div class="col-md-5"> <a href="#" class="ml-md-3 btn btn-primary btn-block" target="_blank">Grupo</a></div>' +
+                '<div class="col-md-5"><a href="#" class="btn btn-primary btn-block ml-md-5" target="_blank">Artista Solo</a></div></div>',
+            type: 'warning',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonText: 'Fechar'
+        });
+    }
+</script>
+
 <script type="application/javascript">
     $(document).ready(function () {
         $('.nav-link').removeClass('active');
