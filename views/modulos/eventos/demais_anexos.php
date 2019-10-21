@@ -39,7 +39,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                             <li>Clique nos arquivos após efetuar o upload e confira a exibição do documento!</li>
                             <li>Apenas <b>01</b> arquivo por campo de upload.</li>
                             <li>Utilize o site <a href="https://www.ilovepdf.com/pt" target="_blank">I LOVE PDF</a> para juntar os documentos em um único arquivo.</li>
-                            <a href="<?=SERVERURL."pdf/facc_pj.php?id=".$_SESSION['origem_id_c'] ?>" target="_blank">Exclusividade TESTE</a>
+                            <a href="<?=SERVERURL."pdf/declaracao_exclusividade_grupo_pj.php?id=".$_SESSION['origem_id_c'] ?>" target="_blank">Exclusividade TESTE</a>
                         </ul>
                     </div>
                 </div>

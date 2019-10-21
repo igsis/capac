@@ -7,23 +7,6 @@ require_once "../views/plugins/fpdf/fpdf.php";
 $pedidoAjax = true;
 require_once "../config/configAPP.php";
 
-// CONSULTA
-require_once "../controllers/PedidoController.php";
-$eventoObj = new EventoController();
-
-$idEvento = $eventoObj->descriptografia($_SESSION['origem_id_c']);
-$evento = $eventoObj->consultaSimples("
-    SELECT pf.nome AS lider_nome, pf.rg AS lider_rg, pf.cpf AS lider_cpf, pj.razao_social, rl.nome AS rep_nome, rl.rg AS rep_rg, rl.cpf AS rep_cpf, a.integrantes
-    FROM eventos AS eve
-        INNER JOIN pedidos AS ped ON eve.id = ped.origem_id
-        INNER JOIN atracoes a on eve.id = a.evento_id
-        INNER JOIN pessoa_juridicas pj on ped.pessoa_juridica_id = pj.id
-        INNER JOIN representante_legais rl on pj.representante_legal1_id = rl.id
-        INNER JOIN lideres l on a.id = l.atracao_id
-        INNER JOIN pessoa_fisicas pf on l.pessoa_fisica_id = pf.id
-    WHERE ped.origem_tipo_id = 1 AND ped.publicado = 1 AND eve.id = '$idEvento';
-")->fetchAll(PDO::FETCH_OBJ);
-
 
 class PDF extends FPDF
 {
@@ -63,6 +46,25 @@ class PDF extends FPDF
     }
 }
 
+// CONSULTA
+require_once "../controllers/EventoController.php";
+$eventoObj = new EventoController();
+session_start(['name' => 'cpc']);
+$idEvento = $eventoObj->descriptografia($_SESSION['origem_id_c']);
+$evento = $eventoObj->consultaSimples("
+    SELECT pf.nome AS lider_nome, pf.rg AS lider_rg, pf.cpf AS lider_cpf, pj.razao_social, rl.nome AS rep_nome, rl.rg AS rep_rg, rl.cpf AS rep_cpf, a.integrantes
+    FROM eventos AS eve
+        INNER JOIN pedidos AS ped ON eve.id = ped.origem_id
+        INNER JOIN atracoes a on eve.id = a.evento_id
+        INNER JOIN pessoa_juridicas pj on ped.pessoa_juridica_id = pj.id
+        INNER JOIN representante_legais rl on pj.representante_legal1_id = rl.id
+        INNER JOIN lideres l on a.id = l.atracao_id
+        INNER JOIN pessoa_fisicas pf on l.pessoa_fisica_id = pf.id
+    WHERE ped.origem_tipo_id = 1 AND ped.publicado = 1 AND eve.id = '$idEvento';
+")->fetchAll(PDO::FETCH_ASSOC);
+
+$teste = $evento['razao_social'];
+
 // GERANDO O PDF:
 $pdf = new PDF('P', 'mm', 'A4'); //CRIA UM NOVO ARQUIVO PDF NO TAMANHO A4
 $pdf->AliasNbPages();
@@ -81,8 +83,11 @@ $pdf->Cell(180, 5, utf8_decode("DECLARAÇÃO DE EXCLUSIVIDADE"), 0, 1, 'C');
 $pdf->Ln();
 
 $pdf->SetX($x);
+
+var_dump($evento);
+
 $pdf->SetFont('Arial', '', $f);
-$pdf->MultiCell(180, $l, utf8_decode("Eu, " . "$evento->lider_nome" . ", RG " . "$evento->lider_rg" . ", CPF " . "$evento->lider_cpf" . ", sob penas da lei, declaro que sou líder do grupo " . "grupo" . " e que o mesmo é representado exclusivamente pela empresa " . "pjRazaoSocial" . ". Estou ciente de que o pagamento dos valores decorrentes dos serviços do grupo é de responsabilidade da nossa representante, não nos cabendo pleitear à Prefeitura quaisquer valores eventualmente não repassados."));
+$pdf->MultiCell(180, $l, utf8_decode("Eu, " . $teste . ", RG " . $evento->lider_rg . ", CPF " . "$evento->lider_cpf" . ", sob penas da lei, declaro que sou líder do grupo " . "grupo" . " e que o mesmo é representado exclusivamente pela empresa " . "pjRazaoSocial" . ". Estou ciente de que o pagamento dos valores decorrentes dos serviços do grupo é de responsabilidade da nossa representante, não nos cabendo pleitear à Prefeitura quaisquer valores eventualmente não repassados."));
 
 $pdf->SetX($x);
 $pdf->SetFont('Arial', '', $f);
