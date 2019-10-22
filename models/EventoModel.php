@@ -66,6 +66,12 @@ class EventoModel extends ValidacaoModel
             $erros['atracoes']['motivo'] = "Nenhuma atração cadastrada para este evento";
         }
 
+        $validaArquivos = ValidacaoModel::validaArquivos(3, $evento_id);
+        if ($validaArquivos) {
+            if (!isset($erros) || $erros == false) { $erros = []; }
+            $erros = array_merge($erros, $validaArquivos);
+        }
+
         if (isset($erros)){
             return $erros;
         } else {

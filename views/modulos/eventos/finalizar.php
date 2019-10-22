@@ -101,7 +101,7 @@ $validacoesAtracoes = $atracaoObj->validaAtracao($_SESSION['origem_id_c']);
                             <div class="col-md-12"><b>Público (Representatividade e Visibilidade Sócio-cultural):</b>
                                 <?php
                                 foreach ($evento->publicos as $publico) {
-                                    $sql = EventoController::listaPublicoEvento($publico);
+                                    $sql = $eventoObj->listaPublicoEvento($publico);
                                     echo $sql['publico']."; ";
                                 }
                                 ?>
@@ -113,7 +113,7 @@ $validacoesAtracoes = $atracaoObj->validaAtracao($_SESSION['origem_id_c']);
                         <br>
                         <!-- ************** Atrações ************** -->
                         <hr>
-                        <h5><b>Atração</b></h5>
+                        <h5><b>Atrações</b></h5>
                         <hr/>
                         <?php
                         foreach ($atracaoObj->listaAtracoes($idEvento) as $atracao): ?>
@@ -146,7 +146,7 @@ $validacoesAtracoes = $atracaoObj->validaAtracao($_SESSION['origem_id_c']);
                             </div>
                             <div class="row">
                                 <div class="col-md-6"><b>Quantidade de Apresentação:</b>  <?= $atracao->quantidade_apresentacao ?></div>
-                                <div class="col-md-6"><b>Valor:</b> R$ <?= MainModel::dinheiroParaBr($atracao->valor_individual) ?></div>
+                                <div class="col-md-6"><b>Valor:</b> R$ <?= $eventoObj->dinheiroParaBr($atracao->valor_individual) ?></div>
                             </div>
 
                             <div class="row">
@@ -265,8 +265,7 @@ $validacoesAtracoes = $atracaoObj->validaAtracao($_SESSION['origem_id_c']);
                             </div>
                             <div class="row">
                                 <div class="col-md-6"><b>E-mail:</b> <?= $pj['email'] ?></div>
-                                <div class="col-md-6"><b>Telefones:</b> <?= $pj['telefones']['tel_0'] ?? "" ?>
-                                    | <?= $pj['telefones']['tel_1'] ?? "" ?> | <?= $pj['telefones']['tel_2'] ?? "" ?>
+                                <div class="col-md-6"><b>Telefones:</b> <?= implode(" | ", $pj['telefones']); ?>
                                 </div>
                             </div>
                             <div class="row">
@@ -310,18 +309,10 @@ $validacoesAtracoes = $atracaoObj->validaAtracao($_SESSION['origem_id_c']);
                         ?>
                     </div>
                     <div class="card-footer">
-                        <?php
-                        if (!empty($erros)){
-                            $disabled = "";
-                        }
-                        else{
-                            $disabled = "disabled";
-                        }
-                        ?>
                         <form class="form-horizontal formulario-ajax" method="POST" action="<?=SERVERURL?>ajax/eventoAjax.php" role="form" data-form="update">
                             <input type="hidden" name="_method" value="envioEvento">
                             <input type="hidden" name="id" value="<?=$idEvento?>">
-                            <button type="submit" <?= $disabled ?> class="btn btn-success btn-block float-right" id="cadastra">Enviar</button>
+                            <button type="submit" class="btn btn-success btn-block float-right" id="cadastra">Enviar</button>
                             <div class="resposta-ajax"></div>
                         </form>
                     </div>
