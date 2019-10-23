@@ -1,12 +1,25 @@
 <?php
 require_once "./controllers/ArquivoController.php";
+require_once "./controllers/PedidoController.php";
 $arquivosObj = new ArquivoController();
 
 $pedido_id = $_SESSION['pedido_id_c'];
 $tipo_documento_id = 3;
 
+$pedidoObj = new PedidoController();
+$proponente = $pedidoObj->recuperaProponente($pedido_id);
+if ($proponente->pessoa_tipo_id == 1) {
+    $url_pf = SERVERURL."pdf/declaracao_exclusividade_pf.php?id=".$_SESSION['origem_id_c'];
+    $botoes="<div class=\"offset-3 col-md-6\"><a href=\"$url_pf\" class=\"btn btn-primary btn-block\" target=\"_blank\">Modelo Único - Grupo</a></div>";
+} else {
+    $url_pj_g = SERVERURL."pdf/declaracao_exclusividade_grupo_pj.php?id=".$_SESSION['origem_id_c'];
+    $url_pj_s = SERVERURL."pdf/declaracao_exclusividade_1pessoa_pj.php?id=".$_SESSION['origem_id_c'];
+    $botoes="<div class=\"offset-1 col-md-5\"><a href=\"$url_pj_g\" class=\"btn btn-primary btn-block\" target=\"_blank\">Grupo</a></div><div class=\"col-md-5\"><a href=\"$url_pj_s\" class=\"ml-md-2 btn btn-primary btn-block\" target=\"_blank\">Artista Solo</a></div>";
+}
+
 $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id)->fetchAll(PDO::FETCH_COLUMN);
 ?>
+
 <!-- Content Header (Page header) -->
 <div class="content-header">
     <div class="container-fluid">
@@ -23,7 +36,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="offset-md-1 col-md-10">
+            <div class="col-md-6">
                 <div class="card card-warning">
                     <div class="card-header">
                         <h3 class="card-title">Atenção!</h3>
@@ -37,17 +50,87 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                             <li><strong>Formato Permitido:</strong> PDF</li>
                             <li><strong>Tamanho Máximo:</strong> 6Mb</li>
                             <li>Clique nos arquivos após efetuar o upload e confira a exibição do documento!</li>
-                            <li>Apenas <b>01</b> arquivo por campo de upload.</li>
-                            <li>Utilize o site <a href="https://www.ilovepdf.com/pt" target="_blank">I LOVE PDF</a> para juntar os documentos em um único arquivo.</li>
-                            <a href="<?=SERVERURL."pdf/declaracao_exclusividade_grupo_pj.php?id=".$_SESSION['origem_id_c'] ?>" target="_blank">Exclusividade TESTE</a>
                         </ul>
                     </div>
                 </div>
                 <!-- /.card -->
             </div>
+            <div class="col-md-6">
+                <div class="card card-outline card-info">
+                    <div class="card-header">
+                        <h3 class="card-title">Gerar documentos</h3>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                        <!-- /.card-tools -->
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <p>Para gerar alguns dos arquivos online, utilize os links abaixo:</p>
+                        <ul>
+                            <li><a href="#" onclick="alerta();">Declaração de Exclusividade</a></li>
+                        </ul>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
+                <!-- Horizontal Form -->
+                <div class="card card-info">
+                    <div class="card-header">
+                        <h3 class="card-title">Lista de Arquivos</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- table start -->
+                    <div class="card-body p-0">
+                        <form class="formulario-ajax" method="POST" action="<?=SERVERURL?>ajax/arquivosAjax.php" data-form="save" enctype="multipart/form-data">
+                            <input type="hidden" name="_method" value="enviarArquivo">
+                            <input type="hidden" name="origem_id" value="<?= $pedido_id ?>">
+                            <input type="hidden" name="pagina" value="demais_anexos">
+                            <table class="table table-striped">
+                                <tbody>
+                                <?php
+                                $arquivos = $arquivosObj->listarArquivos($tipo_documento_id)->fetchAll(PDO::FETCH_OBJ);
+                                foreach ($arquivos as $arquivo) {
+                                    if ($arquivosObj->consultaArquivoEnviado($arquivo->id, $pedido_id)) {
+                                        ?>
+                                        <tr>
+                                            <td colspan="2">
+                                                <div class="callout callout-success text-center">
+                                                    Arquivo <strong><?= $arquivo->documento ?></strong> já enviado!
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php } else { ?>
+                                        <tr>
+                                            <td>
+                                                <label for=""><?=$arquivo->documento?></label>
+                                            </td>
+                                            <td>
+                                                <input type="hidden" name="<?=$arquivo->sigla?>" value="<?=$arquivo->id?>">
+                                                <input class="text-center" type='file' name='<?=$arquivo->sigla?>'><br>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                    }
+                                }
+                                ?>
+                                </tbody>
+                            </table>
+                            <input type="submit" class="btn btn-success btn-md btn-block" name="enviar" value='Enviar'>
+
+                            <div class="resposta-ajax"></div>
+                        </form>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-6">
                 <!-- Horizontal Form -->
                 <div class="card card-info">
                     <div class="card-header">
@@ -98,60 +181,6 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                             </tbody>
                         </table>
                     </div>
-
-                </div>
-                <!-- /.card -->
-            </div>
-        </div>
-        <!-- /.row -->
-        <div class="row">
-            <div class="col-md-12">
-                <!-- Horizontal Form -->
-                <div class="card card-info">
-                    <div class="card-header">
-                        <h3 class="card-title">Lista de Arquivos</h3>
-                    </div>
-                    <!-- /.card-header -->
-                    <!-- table start -->
-                    <div class="card-body p-0">
-                        <form class="formulario-ajax" method="POST" action="<?=SERVERURL?>ajax/arquivosAjax.php" data-form="save" enctype="multipart/form-data">
-                            <input type="hidden" name="_method" value="enviarArquivo">
-                            <input type="hidden" name="origem_id" value="<?= $pedido_id ?>">
-                            <input type="hidden" name="pagina" value="demais_anexos">
-                            <table class="table table-striped">
-                                <tbody>
-                                <?php
-                                $arquivos = $arquivosObj->listarArquivos($tipo_documento_id)->fetchAll(PDO::FETCH_OBJ);
-                                foreach ($arquivos as $arquivo) {
-                                    if ($arquivosObj->consultaArquivoEnviado($arquivo->id, $pedido_id)) {
-                                        ?>
-                                        <tr>
-                                            <td colspan="2">
-                                                <div class="callout callout-success text-center">
-                                                    Arquivo <strong><?= $arquivo->documento ?></strong> já enviado!
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    <?php } else { ?>
-                                        <tr>
-                                            <td>
-                                                <label for=""><?=$arquivo->documento?></label>
-                                            </td>
-                                            <td>
-                                                <input type="hidden" name="<?=$arquivo->sigla?>" value="<?=$arquivo->id?>">
-                                                <input class="text-center" type='file' name='<?=$arquivo->sigla?>'><br>
-                                            </td>
-                                        </tr>
-                                        <?php
-                                    }
-                                }
-                                ?>
-                                </tbody>
-                            </table>
-                            <input type="submit" class="btn btn-success btn-md btn-block" name="enviar" value='Enviar'>
-
-                            <div class="resposta-ajax"></div>
-                    </div>
                 </div>
                 <!-- /.card -->
             </div>
@@ -160,6 +189,24 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
+
+<script>
+    function alerta(){
+        Swal.fire({
+            title: 'Declaração de Exclusividade',
+            html: 'A Declaração de Exclusividade é um documento necessário para sua contratação, quando se tratar de um grupo de artistas.<br>Escolha entre um dos modelos abaixo e clique no botão para gerar a Declaração de Exclusividade.<br>' +
+                '<div class="row"><?= $botoes ?></div>'+
+                '<span style="color:red">Deve ser impressa, datada e assinada nos campos indicados no documento</span>.<br>Logo após, deve-se digitaliza-la e então anexa-la ao sistema através da lista de arquivos.<br>',
+            type: 'warning',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonText: 'Fechar'
+        });
+    }
+</script>
+
 <script type="application/javascript">
     $(document).ready(function () {
         $('.nav-link').removeClass('active');

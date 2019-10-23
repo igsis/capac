@@ -51,9 +51,8 @@ foreach ($eventos as $evento){
     $pdf->Ln();
 
     $pdf->SetX($x);
-
     $pdf->SetFont('Arial', '', $f);
-    $pdf->MultiCell(180, $l, utf8_decode("Eu, " . $evento['lider_nome'] . ", RG " . $evento['lider_rg'] . ", CPF " . $evento['lider_cpf'] . ", sob penas da lei, declaro que sou líder do grupo " . "grupo" . " e que o mesmo é representado exclusivamente pela empresa " . $evento['razao_social'] . ". Estou ciente de que o pagamento dos valores decorrentes dos serviços do grupo é de responsabilidade da nossa representante, não nos cabendo pleitear à Prefeitura quaisquer valores eventualmente não repassados."));
+    $pdf->MultiCell(180, $l, utf8_decode("Eu, " . $evento['lider_nome'] . ", RG " . $evento['lider_rg'] . ", CPF " . $evento['lider_cpf'] . ", sob penas da lei, declaro que sou líder da atração " . $evento['nome_atracao'] . " e que o mesmo é representado exclusivamente pela empresa " . $evento['razao_social'] . ". Estou ciente de que o pagamento dos valores decorrentes dos serviços do grupo é de responsabilidade da nossa representante, não nos cabendo pleitear à Prefeitura quaisquer valores eventualmente não repassados."));
 
     $pdf->SetX($x);
     $pdf->SetFont('Arial', '', $f);
