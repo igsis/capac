@@ -49,7 +49,7 @@ $eventoObj = new EventoController();
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($eventoObj->listaEvento($_SESSION['usuario_id_c']) as $evento): ?>
+                                <?php foreach ($eventoObj->listaEvento($_SESSION['usuario_id_c'], $_SESSION['modulo_c']) as $evento): ?>
                                 <tr>
                                     <td><?=$evento->publicado == 2 ? $evento->id : "Envie para obter o código"?></td>
                                     <td><?=$evento->nome_evento?></td>

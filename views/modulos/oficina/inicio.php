@@ -1,3 +1,8 @@
+<?php
+if (isset($_GET['modulo'])) {
+    $_SESSION['modulo_c'] = $_GET['modulo'];
+}
+?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
     <div class="container-fluid">

@@ -3,15 +3,21 @@ $pedidoAjax = true;
 require_once "../config/configGeral.php";
 
 if (isset($_POST['_method'])) {
+    session_start(['name' => 'cpc']);
     require_once "../controllers/OficinaController.php";
     $insOficina = new OficinaController();
 
-    if (isset($_POST['modalidade_id']) && (isset($_POST['data_inicio']))) {
-        if ($_POST['_method'] == "cadastrar") {
+    switch ($_POST['_method']) {
+        case "cadastrarOficina":
             echo $insOficina->insereOficina($_POST);
-        } elseif ($_POST['_method'] == "editar") {
-            echo $insOficina->editaOficina($_POST, $_POST['id']);
-        }
+            break;
+        case "editarOficina";
+            echo $insOficina->editaOficina($_POST, $_POST['evento_id'], $_POST['atracao_id']);
+            break;
+        case "apagaOficina":
+            echo $insOficina->apagaOficina($_POST['id']);
+            break;
+
     }
 } else {
     include_once "../config/destroySession.php";
