@@ -113,6 +113,10 @@ class OficinaController extends OficinaModel
         return MainModel::sweetAlert($alerta);
     }
 
+    public function insereComplementos($dados) {
+        unset($dados['_method']);
+    }
+
     public function exibeDescricaoPublico()
     {
         return (new EventoController)->exibeDescricaoPublico();

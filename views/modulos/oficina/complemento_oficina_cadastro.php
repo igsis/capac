@@ -1,9 +1,10 @@
 <?php
-$id = isset($_GET['id']) ? $_GET['id'] : null;
+$atracao_id = $_SESSION['atracao_id'];
+
 //$atracao_id = $_POST['atracao_id'];
 require_once "./controllers/OficinaController.php";
-$insOficina = new OficinaController();
-$oficina = $insOficina->recuperaOficina($id)->fetch();
+$oficinaObj = new OficinaController();
+//$oficina = $insOficina->recuperaOficina($id)->fetch();
 ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -47,11 +48,11 @@ $oficina = $insOficina->recuperaOficina($id)->fetch();
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label for="data_inicio">Data inicial:</label><br/>
-                                <input type="date" id="data_inicio" name="data_inicio" class="form-control" value="<?= $oficina['data_inicio'] ?>">
+                                <input type="date" id="data_inicio" name="data_inicio" class="form-control" value="">
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label for="data_fim">Data final:</label><br/>
-                                    <input type="date" id="data_fim" name="data_fim" class="form-control" value="<?= $oficina['data_fim'] ?>">
+                                    <input type="date" id="data_fim" name="data_fim" class="form-control" value="">
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label for="execucao_dia1_id">Dia execução 1:</label><br/>
