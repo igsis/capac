@@ -246,7 +246,7 @@ class MainModel extends DbModel
                     <script>
                         Swal.fire({
                           title: '{$dados['titulo']}',
-                          text: '{$dados['texto']}',
+                          html: '{$dados['texto']}',
                           type: '{$dados['tipo']}',
                           allowOutsideClick: false,
                             allowEscapeKey: false,
