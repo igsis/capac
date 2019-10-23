@@ -1,7 +1,14 @@
 <?php
 require_once "./controllers/EventoController.php";
+if (isset($_SESSION['origem_id_c'])) {
+    unset($_SESSION['origem_id_c']);
+    unset($_SESSION['atracao_id_c']);
+}
+if(isset($_SESSION['pedido_id_c'])){
+    unset($_SESSION['pedido_id_c']);
+}
 
-$oficinas = new EventoController();
+$oficinaObj = new EventoController();
 ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -41,13 +48,29 @@ $oficinas = new EventoController();
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($oficinas -> listaEvento("1") as $oficina): ?>
+                                <?php foreach ($oficinaObj->listaEvento($_SESSION['usuario_id_c'], $_SESSION['modulo_c']) as $oficina): ?>
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td><button class="btn">Abrir</button> </td>
+                                    <td><?=$oficina->publicado == 2 ? $oficina->id : "Envie para obter o código"?></td>
+                                    <td><?=$oficina->nome_evento?></td>
+                                    <td><?=$oficinaObj->dataHora($oficina->data_cadastro)?></td>
+                                    <td><?=$oficina->publicado == 1 ? "Não" : "Sim"?></td>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col">
+                                                <a href="<?=SERVERURL."oficina/evento_cadastro&key=".$oficinaObj->encryption($oficina->id)?>" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</a>
+                                            </div>
+                                            <div class="col">
+                                                <?php if ($oficina->publicado == 1): ?>
+                                                    <form class="form-horizontal formulario-ajax" method="POST" action="<?=SERVERURL?>ajax/oficinaAjax.php" role="form" data-form="update">
+                                                        <input type="hidden" name="_method" value="apagaOficina">
+                                                        <input type="hidden" name="id" value="<?=$oficina->id?>">
+                                                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Apagar</button>
+                                                        <div class="resposta-ajax"></div>
+                                                    </form>
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <?php endforeach; ?>
                             </tbody>

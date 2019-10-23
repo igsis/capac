@@ -10,51 +10,53 @@
         <p>Oficinas</p>
     </a>
 </li>
-<li class="nav-item">
-    <a href="<?= SERVERURL ?>oficina/evento_cadastro" class="nav-link">
-        <i class="far fa-circle nav-icon"></i>
-        <p>Informações iniciais</p>
-    </a>
-</li>
-<li class="nav-item">
-    <a href="<?= SERVERURL ?>oficina/complemento_oficina_cadastro" class="nav-link">
-        <i class="far fa-circle nav-icon"></i>
-        <p>Dados complementares</p>
-    </a>
-</li>
-<li class="nav-item">
-    <a href="<?= SERVERURL ?>oficina/produtor_cadastro" class="nav-link">
-        <i class="far fa-circle nav-icon"></i>
-        <p>Produtor</p>
-    </a>
-</li>
-<li class="nav-item">
-    <a href="<?= SERVERURL ?>oficina/arquivos_com_prod" class="nav-link">
-        <i class="far fa-circle nav-icon"></i>
-        <p>Comunicação/Produção</p>
-    </a>
-</li>
-<li class="nav-item">
-    <a href="<?= SERVERURL ?>oficina/proponente" class="nav-link">
-        <i class="far fa-circle nav-icon"></i>
-        <p>Proponente</p>
-    </a>
-</li>
-<li class="nav-item">
-    <a href="<?= SERVERURL ?>oficina/pf_cadastro" class="nav-link">
-        <i class="far fa-circle nav-icon"></i>
-        <p>PF</p>
-    </a>
-</li>
-<li class="nav-item">
-    <a href="<?= SERVERURL ?>oficina/pj_cadastro" class="nav-link">
-        <i class="far fa-circle nav-icon"></i>
-        <p>PJ</p>
-    </a>
-</li>
-<li class="nav-item">
-    <a href="<?= SERVERURL ?>oficina/representante_cadastro" class="nav-link">
-        <i class="far fa-circle nav-icon"></i>
-        <p>Representante Legal</p>
-    </a>
-</li>
+<?php //if (isset($_SESSION['origem_id_c'])): ?>
+    <li class="nav-item">
+        <a href="<?= SERVERURL ?>oficina/evento_cadastro" class="nav-link">
+            <i class="far fa-circle nav-icon"></i>
+            <p>Informações iniciais</p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="<?= SERVERURL ?>oficina/complemento_oficina_cadastro" class="nav-link">
+            <i class="far fa-circle nav-icon"></i>
+            <p>Dados complementares</p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="<?= SERVERURL ?>oficina/produtor_cadastro" class="nav-link">
+            <i class="far fa-circle nav-icon"></i>
+            <p>Produtor</p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="<?= SERVERURL ?>oficina/arquivos_com_prod" class="nav-link">
+            <i class="far fa-circle nav-icon"></i>
+            <p>Comunicação/Produção</p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="<?= SERVERURL ?>oficina/proponente" class="nav-link">
+            <i class="far fa-circle nav-icon"></i>
+            <p>Proponente</p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="<?= SERVERURL ?>oficina/pf_cadastro" class="nav-link">
+            <i class="far fa-circle nav-icon"></i>
+            <p>PF</p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="<?= SERVERURL ?>oficina/pj_cadastro" class="nav-link">
+            <i class="far fa-circle nav-icon"></i>
+            <p>PJ</p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="<?= SERVERURL ?>oficina/representante_cadastro" class="nav-link">
+            <i class="far fa-circle nav-icon"></i>
+            <p>Representante Legal</p>
+        </a>
+    </li>
+<?php //endif; ?>

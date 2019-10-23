@@ -7,14 +7,19 @@ if (isset($_POST['_method'])) {
     require_once "../controllers/EventoController.php";
     $insEvento = new EventoController();
 
-    if ($_POST['_method'] == "cadastrarEvento") {
-        echo $insEvento->insereEvento($_POST);
-    } elseif ($_POST['_method'] == "editarEvento") {
-        echo $insEvento->editaEvento($_POST, $_POST['id']);
-    } elseif ($_POST['_method'] == "envioEvento"){
-        echo $insEvento->envioEvento($_POST['id']);
-    } elseif ($_POST['_method'] == "apagaEvento") {
-        echo $insEvento->apagaEvento($_POST['id']);
+    switch ($_POST['_method']) {
+        case "cadastrarEvento":
+            echo $insEvento->insereEvento($_POST);
+            break;
+        case "editarEvento":
+            echo $insEvento->editaEvento($_POST, $_POST['id']);
+            break;
+        case "envioEvento":
+            echo $insEvento->envioEvento($_POST['id']);
+            break;
+        case "apagaEvento":
+            echo $insEvento->apagaEvento($_POST['id']);
+            break;
     }
 } else {
     include_once "../config/destroySession.php";

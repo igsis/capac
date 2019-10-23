@@ -11,12 +11,12 @@ if ($pedidoAjax) {
 
 class EventoController extends EventoModel
 {
-    public function listaEvento($usuario_id){
+    public function listaEvento($usuario_id, $tipoContratacao){
         $consultaEvento = DbModel::consultaSimples("
             SELECT e.id, e.nome_evento, e.data_cadastro, tc.tipo_contratacao, e.publicado
             FROM eventos AS e 
                 INNER JOIN tipos_contratacoes tc on e.tipo_contratacao_id = tc.id 
-            WHERE e.publicado != 0 AND usuario_id = '$usuario_id'");
+            WHERE e.publicado != 0 AND usuario_id = '$usuario_id' AND e.tipo_contratacao_id = '$tipoContratacao'");
         $eventos = $consultaEvento->fetchAll(PDO::FETCH_OBJ);
         return $eventos;
     }
@@ -27,7 +27,7 @@ class EventoController extends EventoModel
         return $evento;
     }
 
-    public function insereEvento($post){
+    public function insereEvento($post, $oficina = false){
         /* executa limpeza nos campos */
         $dadosEvento = [];
         unset($post['_method']);
@@ -52,6 +52,9 @@ class EventoController extends EventoModel
                 if ($dadosEvento['fomento'] == 1) {
                     $atualizaRelacionamentoFomento = MainModel::atualizaRelacionamento('evento_fomento', 'evento_id', $evento_id, 'fomento_id', $post['fomento_id']);
                     if ($atualizaRelacionamentoFomento) {
+                        if ($oficina) {
+                            return $evento_id;
+                        }
                         $alerta = [
                             'alerta' => 'sucesso',
                             'titulo' => 'Evento Cadastrado!',
@@ -68,6 +71,9 @@ class EventoController extends EventoModel
                         ];
                     }
                 } else {
+                    if ($oficina) {
+                        return $evento_id;
+                    }
                     $alerta = [
                         'alerta' => 'sucesso',
                         'titulo' => 'Evento Cadastrado!',
@@ -96,7 +102,7 @@ class EventoController extends EventoModel
         return MainModel::sweetAlert($alerta);
     }
 
-    public function editaEvento($post,$evento_id){
+    public function editaEvento($post,$evento_id, $oficina = false){
         /* executa limpeza nos campos */
         $dadosEvento = [];
         unset($post['_method']);
