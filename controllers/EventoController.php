@@ -245,7 +245,7 @@ class EventoController extends EventoModel
             $alerta = [
                 'alerta' => 'sucesso',
                 'titulo' => 'Evento enviado com sucesso!',
-                'texto' => 'Seu código do CAPAC é: '. $id,
+                'texto' => 'Seu código do CAPAC é: '.$id.'<br><div class="row"><div class="offset-3 col-md-6"><a href="'.SERVERURL.'pdf/resumo_evento.php" class="btn btn-primary btn-block" target="_blank">Imprimir comprovante</a></div></div>',
                 'tipo' => 'success',
                 'location' => SERVERURL . 'eventos/evento_lista'
             ];
