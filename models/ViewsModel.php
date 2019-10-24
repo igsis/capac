@@ -12,6 +12,7 @@ class ViewsModel
             "oficina",
             "pessoaFisica",
             "pessoaJurídica",
+            "agendao",
         ];
 
         if (in_array($mod, $modulos)) {
