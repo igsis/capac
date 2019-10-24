@@ -160,10 +160,10 @@ class PessoaFisicaController extends PessoaFisicaModel
                 if (count($dadosLimpos['of']) > 0) {
                     $oficina_existe = DbModel::consultaSimples("SELECT * FROM pf_oficinas WHERE pessoa_fisica_id = '$idDecryp'");
                     if ($oficina_existe->rowCount() > 0) {
-                        DbModel::updateEspecial('ofts', $dadosLimpos['of'], "pessoa_fisica_id", $idDecryp);
+                        DbModel::updateEspecial('pf_oficinas', $dadosLimpos['of'], "pessoa_fisica_id", $idDecryp);
                     } else {
                         $dadosLimpos['of']['pessoa_fisica_id'] = $idDecryp;
-                        DbModel::insert('ofts', $dadosLimpos['of']);
+                        DbModel::insert('pf_oficinas', $dadosLimpos['of']);
                     }
                 }
             }

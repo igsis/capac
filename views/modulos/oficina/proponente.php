@@ -5,12 +5,6 @@
             <div class="col-sm-6">
                 <h1 class="m-0 text-dark">Proponente</h1>
             </div><!-- /.col -->
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Starter Page</li>
-                </ol>
-            </div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
 </div>
@@ -28,12 +22,14 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal" method="POST" action="#" role="form">
+                    <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>oficina/pf_cadastro"
+                          role="form">
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-12">
                                     <label for="cpf">CPF:</label>
-                                    <input type="text" class="form-control" id="cpf" name="cpf" maxlength="14" required>
+                                    <input type="text" class="form-control" id="cpf" name="pf_cpf" maxlength="14"
+                                           required onkeypress="mask(this, '###.###.###-##')">
                                 </div>
                             </div>
 
@@ -51,16 +47,18 @@
                 <!-- Horizontal Form -->
                 <div class="card card-info">
                     <div class="card-header">
-                        <h3 class="card-title">Pessoa Jurídica (apenas MEI)</h3>
+                        <h3 class="card-title">Pessoa Jurídica <strong>(apenas MEI)</strong></h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal" method="POST" action="#" role="form">
+                    <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>oficina/pj_cadastro"
+                          role="form">
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-12">
                                     <label for="cnpj">CNPJ:</label>
-                                    <input type="text" class="form-control" id="cnpj" name="cnpj" maxlength="17" required>
+                                    <input type="text" onkeypress="mask(this,'##.###.###/####-##')" class="form-control" id="cnpj" name="pj_cnpj" maxlength="18"
+                                           required>
                                 </div>
                             </div>
 
@@ -71,46 +69,6 @@
                         </div>
                         <!-- /.card-footer -->
                     </form>
-                </div>
-                <!-- /.card -->
-            </div>
-        </div>
-        <!-- /.row -->
-        <div class="row">
-            <div class="col-md-12">
-                <!-- Horizontal Form -->
-                <div class="card card-info">
-                    <div class="card-header">
-                        <h3 class="card-title">Proponente</h3>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <table id="lista_oficina" class="table table-bordered table-striped">
-                            <thead>
-                            <tr>
-                                <th>Proponente</th>
-                                <th>Documento</th>
-                                <th>Ação</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>Other browsers</td>
-                                <td>All others</td>
-                                <td>U</td>
-                            </tr>
-                            </tbody>
-                            <tfoot>
-                            <tr>
-                                <th>Proponente</th>
-                                <th>Documento</th>
-                                <th>Ação</th>
-                            </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                    <!-- /.card-body -->
-
                 </div>
                 <!-- /.card -->
             </div>
