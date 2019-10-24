@@ -15,6 +15,13 @@ class OficinaController extends OficinaModel
         return $oficina;
     }
 
+    public function recuperaComplementosOficina($atracao_id)
+    {
+        $atracao_id = MainModel::decryption($atracao_id);
+        $complemento = DbModel::consultaSimples("SELECT * FROM oficinas WHERE atracao_id = '$atracao_id'")->fetchObject();
+        return $complemento;
+    }
+
     public function insereOficina($dados){
         $dadosOficina = OficinaModel::limparStringOficina($dados);
         $evento_id = $dadosOficina['at']['evento_id'] = (new EventoController)->insereEvento($dadosOficina['ev'], true);
@@ -49,7 +56,6 @@ class OficinaController extends OficinaModel
         return MainModel::sweetAlert($alerta);
     }
 
-    /* edita */
     public function editaOficina($dados, $evento_id, $atracao_id){
         unset($dados['evento_id']);
         unset($dados['atracao_id']);
@@ -113,8 +119,81 @@ class OficinaController extends OficinaModel
         return MainModel::sweetAlert($alerta);
     }
 
-    public function exibeDescricaoPublico()
-    {
+    public function insereComplementosOficina($dados) {
+        unset($dados['_method']);
+
+        foreach ($dados as $campo => $valor) {
+            if ($campo != "dataInicioFim") {
+                $dadosComplemento[$campo] = MainModel::limparString($valor);
+                unset($dados[$campo]);
+            }
+        }
+
+        $datas = explode(" - ", $dados['dataInicioFim']);
+        $dadosComplemento['data_inicio'] = MainModel::dataParaSQL($datas[0]);
+        $dadosComplemento['data_fim'] = MainModel::dataParaSQL($datas[1]);
+
+        $dadosComplemento['atracao_id'] = MainModel::decryption($_SESSION['atracao_id_c']);
+
+        $complemento = DbModel::insert('oficinas', $dadosComplemento);
+        if ($complemento->rowCount() > 0) {
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Dados Complementares Cadastrados!',
+                'texto' => 'Dados cadastrados com sucesso!',
+                'tipo' => 'success',
+                'location' => SERVERURL . 'oficina/complemento_oficina_cadastro'
+            ];
+        } else {
+            $alerta = [
+                'alerta' => 'simples',
+                'titulo' => 'Oops! Algo deu Errado!',
+                'texto' => 'Falha ao salvar os dados no servidor, tente novamente mais tarde',
+                'tipo' => 'error',
+            ];
+        }
+
+        return MainModel::sweetAlert($alerta);
+    }
+
+    public function editaComplementosOficina($dados, $id) {
+        $id = MainModel::decryption($id);
+        unset($dados['_method']);
+        unset($dados['id']);
+
+        foreach ($dados as $campo => $valor) {
+            if ($campo != "dataInicioFim") {
+                $dadosComplemento[$campo] = MainModel::limparString($valor);
+                unset($dados[$campo]);
+            }
+        }
+
+        $datas = explode(" - ", $dados['dataInicioFim']);
+        $dadosComplemento['data_inicio'] = MainModel::dataParaSQL($datas[0]);
+        $dadosComplemento['data_fim'] = MainModel::dataParaSQL($datas[1]);
+
+        $editaComplemento = DbModel::update('oficinas', $dadosComplemento, $id);
+        if (DbModel::connection()->errorCode() == 0) {
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Dados Complementares Atualizados!',
+                'texto' => 'Dados atualizados com sucesso!',
+                'tipo' => 'success',
+                'location' => SERVERURL . 'oficina/complemento_oficina_cadastro'
+            ];
+        } else {
+            $alerta = [
+                'alerta' => 'simples',
+                'titulo' => 'Oops! Algo deu Errado!',
+                'texto' => 'Falha ao salvar os dados no servidor, tente novamente mais tarde',
+                'tipo' => 'error',
+            ];
+        }
+
+        return MainModel::sweetAlert($alerta);
+    }
+
+    public function exibeDescricaoPublico() {
         return (new EventoController)->exibeDescricaoPublico();
     }
 }

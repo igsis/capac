@@ -10,7 +10,7 @@
         <p>Oficinas</p>
     </a>
 </li>
-<?php //if (isset($_SESSION['origem_id_c'])): ?>
+<?php if (isset($_SESSION['origem_id_c'])): ?>
     <li class="nav-item">
         <a href="<?= SERVERURL ?>oficina/evento_cadastro" class="nav-link">
             <i class="far fa-circle nav-icon"></i>
@@ -21,12 +21,6 @@
         <a href="<?= SERVERURL ?>oficina/complemento_oficina_cadastro" class="nav-link">
             <i class="far fa-circle nav-icon"></i>
             <p>Dados complementares</p>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a href="<?= SERVERURL ?>oficina/produtor_cadastro" class="nav-link">
-            <i class="far fa-circle nav-icon"></i>
-            <p>Produtor</p>
         </a>
     </li>
     <li class="nav-item">
@@ -59,4 +53,4 @@
             <p>Representante Legal</p>
         </a>
     </li>
-<?php //endif; ?>
+<?php endif; ?>

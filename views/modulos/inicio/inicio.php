@@ -94,7 +94,7 @@ unset($_SESSION['modulo']);
                         <p>Área para inserção de eventos de unidades externas para divulgação através do site Agendão.</p>
                     </div>
                     <div align="center">
-                        <a href="#" class="small-box-footer">
+                        <a href="<?= SERVERURL ?>agendao/inicio&modulo=4" class="small-box-footer">
                             Acesse <i class="fas fa-arrow-circle-right"></i>
                         </a>
                     </div>

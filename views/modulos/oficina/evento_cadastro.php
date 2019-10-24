@@ -17,6 +17,7 @@ require_once "./controllers/OficinaController.php";
 $oficinaObj = new OficinaController();
 $oficina = $oficinaObj->recuperaOficina($id);
 if ($oficina) {
+    $_SESSION['atracao_id_c'] = $oficinaObj->encryption($oficina->atracao_id);
     $tipoContratacao = $oficina->tipo_contratacao_id;
 }
 

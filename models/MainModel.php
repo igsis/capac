@@ -60,6 +60,12 @@ class MainModel extends DbModel
         return $novaData->format('d/m/Y H:m:s');
     }
 
+    public function dataParaSQL($data) {
+        $data = DateTime::createFromFormat('d/m/Y', $data);
+        $novadata = $data->format('Y-m-d');
+        return $novadata;
+    }
+
     public function dinheiroParaBr($valor)
     {
         $valor = number_format($valor, 2, ',', '.');
@@ -154,9 +160,10 @@ class MainModel extends DbModel
      * @param bool $publicado [opcional]
      * <p><strong>FALSE</strong> por padrão. Quando <strong>TRUE</strong>, busca valores onde a coluna <i>publicado</i> seja 1</p>
      */
-    public function geraOpcao($tabela, $selected = "", $publicado = false) {
+    public function geraOpcao($tabela, $selected = "", $publicado = false, $orderPorId = false) {
         $publicado = $publicado ? 'WHERE publicado = 1' : '';
-        $sql = "SELECT * FROM $tabela $publicado ORDER BY 2";
+        $order = $orderPorId ? 1 : 2;
+        $sql = "SELECT * FROM $tabela $publicado ORDER BY $order";
         $consulta = DbModel::consultaSimples($sql);
         if ($consulta->rowCount() >= 1) {
             foreach ($consulta->fetchAll() as $option) {
