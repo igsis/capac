@@ -31,7 +31,7 @@ class ArquivoController extends ArquivoModel
         return $arquivos;
     }
 
-    public function enviarArquivoComProd($origem_id) {
+    public function enviarArquivoComProd($origem_id, $modulo) {
         $origem_id = MainModel::decryption($origem_id);
         $arquivos = ArquivoModel::separaArquivosComProd();
         $erros = ArquivoModel::enviaArquivos($arquivos, $origem_id, 15);
@@ -48,7 +48,7 @@ class ArquivoController extends ArquivoModel
                 'titulo' => 'Oops! Tivemos alguns Erros!',
                 'texto' => $lis,
                 'tipo' => 'error',
-                'location' => SERVERURL . 'eventos/arquivos_com_prod'
+                'location' => SERVERURL.$modulo.'/arquivos_com_prod'
             ];
         } else {
             $alerta = [
@@ -56,7 +56,7 @@ class ArquivoController extends ArquivoModel
                 'titulo' => 'Arquivos Enviados!',
                 'texto' => 'Arquivos enviados com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL . 'eventos/arquivos_com_prod'
+                'location' => SERVERURL.$modulo.'/arquivos_com_prod'
             ];
         }
 
@@ -116,7 +116,7 @@ class ArquivoController extends ArquivoModel
                 'titulo' => 'Arquivo Apagado!',
                 'texto' => 'Arquivo apagado com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL . 'eventos/'.$pagina
+                'location' => SERVERURL . $pagina
             ];
         } else {
             $alerta = [
