@@ -7,7 +7,7 @@ if (isset($_POST['_method'])) {
     $arquivoObj = new ArquivoController();
 
     if ($_POST['_method'] == "enviarArquivoComProd") {
-        echo $arquivoObj->enviarArquivoComProd($_POST['origem_id']);
+        echo $arquivoObj->enviarArquivoComProd($_POST['origem_id'], $_POST['modulo']);
     } elseif ($_POST['_method'] == "enviarArquivo") {
         echo $arquivoObj->enviarArquivo($_POST['origem_id'], $_POST['pagina']);
     } elseif ($_POST['_method'] == "removerArquivo") {
