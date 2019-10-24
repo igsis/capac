@@ -23,6 +23,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="<?= SERVERURL ?>views/dist/css/custom.min.css">
     <!-- DataTables -->
     <link rel="stylesheet" href="<?= SERVERURL ?>views/plugins/datatables/dataTables.bootstrap4.css">
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="<?= SERVERURL ?>views/plugins/daterangepicker/daterangepicker.css">
     <!-- Sweet Alert 2 -->
     <script src="<?= SERVERURL ?>views/plugins/sweetalert2/sweetalert2.min.js"></script>
     <link rel="stylesheet" href="<?= SERVERURL ?>views/plugins/sweetalert2/sweetalert2.css">
@@ -92,6 +94,7 @@ else:
 <?php if(isset($sectionJS))
         echo $sectionJS;
 ?>
+<script src="<?= SERVERURL ?>views/plugins/moment/moment.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="<?= SERVERURL ?>views/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
@@ -101,6 +104,8 @@ else:
 <!-- DataTables -->
 <script src="<?= SERVERURL ?>views/plugins/datatables/jquery.dataTables.js"></script>
 <script src="<?= SERVERURL ?>views/plugins/datatables/dataTables.bootstrap4.js"></script>
+<!-- date-range-picker -->
+<script src="<?= SERVERURL ?>views/plugins/daterangepicker/daterangepicker.js"></script>
 
 </body>
 </html>

@@ -17,7 +17,12 @@ if (isset($_POST['_method'])) {
         case "apagaOficina":
             echo $insOficina->apagaOficina($_POST['id']);
             break;
-
+        case "cadastraComplemento":
+            echo $insOficina->insereComplementosOficina($_POST);
+            break;
+        case "editaComplemento":
+            echo $insOficina->editaComplementosOficina($_POST, $_POST['id']);
+            break;
     }
 } else {
     include_once "../config/destroySession.php";
