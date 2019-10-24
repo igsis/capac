@@ -92,7 +92,7 @@ class ArquivoController extends ArquivoModel
                 'titulo' => 'Oops! Tivemos alguns Erros!',
                 'texto' => $lis,
                 'tipo' => 'error',
-                'location' => SERVERURL . 'eventos/'.$pagina
+                'location' => SERVERURL . $pagina
             ];
         } else {
             $alerta = [
@@ -100,7 +100,7 @@ class ArquivoController extends ArquivoModel
                 'titulo' => 'Arquivos Enviados!',
                 'texto' => 'Arquivos enviados com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL . 'eventos/'.$pagina
+                'location' => SERVERURL . $pagina
             ];
         }
 
