@@ -202,9 +202,10 @@ class EventoController extends EventoModel
         }
     }
 
-    public function validaEvento($evento_id) {
+    public function validaEvento($evento_id, $pedido_id) {
         $evento_id = MainModel::decryption($evento_id);
-        $erros['Evento'] = EventoModel::validaEventoModel($evento_id);
+        $pedido_id = MainModel::decryption($pedido_id);
+        $erros['Evento'] = EventoModel::validaEventoModel($evento_id, $pedido_id);
 
         $pedido = DbModel::consultaSimples("SELECT * FROM pedidos WHERE origem_id = '$evento_id' AND origem_tipo_id = '1'");
         if ($pedido->rowCount() > 0) {

@@ -16,7 +16,7 @@ $pedido = $pedidoObj->recuperaPedido(1);
 
 $erro = "<span style=\"color: red; \"><b>Preenchimento obrigatório</b></span>";
 $validacoesEvento = $eventoObj->validaEvento($_SESSION['origem_id_c'], $_SESSION['pedido_id_c']);
-$validacoesAtracoes = $atracaoObj->validaAtracao($_SESSION['origem_id_c']);
+//$validacoesAtracoes = $atracaoObj->validaAtracao($_SESSION['origem_id_c']);
 ?>
 
 <!-- Content Header (Page header) -->
@@ -24,10 +24,10 @@ $validacoesAtracoes = $atracaoObj->validaAtracao($_SESSION['origem_id_c']);
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Finalizar o Envio</h1>
+                <h1 class="m-0 text-dark">Finalizar Oficina</h1>
             </div><!-- /.col -->
         </div><!-- /.row -->
-        <?php if ($validacoesEvento || $validacoesAtracoes): ?>
+        <?php if ($validacoesEvento): ?>
             <div class="row erro-validacao">
                 <?php if ($validacoesEvento): ?>
                     <?php foreach ($validacoesEvento as $titulo => $erros): ?>
@@ -39,23 +39,6 @@ $validacoesAtracoes = $atracaoObj->validaAtracao($_SESSION['origem_id_c']);
                             <div class="card-body">
                                 <?php foreach ($erros as $erro): ?>
                                     <li><?= $erro ?></li>
-                                <?php endforeach; ?>
-                            </div>
-                            <!-- /.card-body -->
-                        </div>
-                    </div>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-                <?php if ($validacoesAtracoes): ?>
-                    <?php foreach ($validacoesAtracoes as $titulo => $erros): ?>
-                    <div class="col-md-4">
-                        <div class="card bg-danger">
-                            <div class="card-header">
-                                <h3 class="card-title"><i class="fa fa-exclamation mr-3"></i>Erros na atração: <strong><?=$titulo?></strong></h3>
-                            </div>
-                            <div class="card-body">
-                                <?php foreach ($erros as $erro): ?>
-                                    <li><?=$erro?></li>
                                 <?php endforeach; ?>
                             </div>
                             <!-- /.card-body -->
@@ -78,12 +61,12 @@ $validacoesAtracoes = $atracaoObj->validaAtracao($_SESSION['origem_id_c']);
             <div class="col-12">
                 <div class="card card-primary card-outline">
                     <div class="card-header">
-                        <h5 class="m-0">Dados do Evento</h5>
+                        <h5 class="m-0">Dados da Oficina</h5>
                     </div>
                     <div class="card-body">
 
                         <div class="row">
-                            <div class="col-md-12"><b>Nome do evento:</b> <?= $evento->nome_evento ?></div>
+                            <div class="col-md-12"><b>Nome do oficina:</b> <?= $evento->nome_evento ?></div>
                         </div>
                         <div class="row">
                             <div class="col-md-6"><b>Espaço em que será realizado o evento é público?</b> <?php if ($evento->espaco_publico == 0): echo "Sim"; else: echo "Não"; endif;  ?></div>
@@ -110,25 +93,8 @@ $validacoesAtracoes = $atracaoObj->validaAtracao($_SESSION['origem_id_c']);
                         <div class="row">
                             <div class="col-md-12"><b>Sinopse:</b> <?= $evento->sinopse ?></div>
                         </div>
-                        <br>
-                        <!-- ************** Atrações ************** -->
-                        <hr>
-                        <h5><b>Atrações</b></h5>
-                        <hr/>
                         <?php
                         foreach ($atracaoObj->listaAtracoes($idEvento) as $atracao): ?>
-                            <div class="row">
-                                <div class="col-md-12"><b>Nome da atração:</b> <?= $atracao->nome_atracao ?></div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12"><b>Ações (Expressões Artístico-culturais):</b>
-                                    <?php
-                                    foreach ($atracao->acoes as $acao){
-                                        echo $acao->acao."; ";
-                                    }
-                                    ?>
-                                </div>
-                            </div>
                             <div class="row">
                                 <div class="col-md-12"><b>Ficha técnica completa:</b> <?= $atracao->ficha_tecnica ?></div>
                             </div>
@@ -139,25 +105,11 @@ $validacoesAtracoes = $atracaoObj->validaAtracao($_SESSION['origem_id_c']);
                                 <div class="col-md-12"><b>Classificação indicativa:</b> <?= $atracao->classificacao_indicativa ?></div>
                             </div>
                             <div class="row">
-                                <div class="col-md-12"><b>Release:</b>  <?= $atracao->release_comunicacao ?></div>
-                            </div>
-                            <div class="row">
                                 <div class="col-md-12"><b>Links:</b>  <?= $atracao->links ?></div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6"><b>Quantidade de Apresentação:</b>  <?= $atracao->quantidade_apresentacao ?></div>
                                 <div class="col-md-6"><b>Valor:</b> R$ <?= $eventoObj->dinheiroParaBr($atracao->valor_individual) ?></div>
                             </div>
-
-                            <div class="row">
-                                <div class="col-md-5"><b>Produtor:</b>  <?= $atracao->produtor->nome ?? $erro ?></div>
-                                <div class="col-md-3"><b>Telefone:</b>  <?= $atracao->produtor->telefone1 ?? $erro ?> / <?= $atracao->produtor->telefone2 ?? NULL ?></div>
-                                <div class="col-md-4"><b>E-mail:</b>  <?= $atracao->produtor->email ?? $erro ?></div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4"><b>Observação:</b>  <?= $atracao->produtor->observacao ?? NULL ?></div>
-                            </div>
-                            <br>
 
                             <?php if ($pedido->pessoa_tipo_id == 2): ?>
                                 <h5><b>Líder do grupo ou artista solo</b></h5>
@@ -184,14 +136,12 @@ $validacoesAtracoes = $atracaoObj->validaAtracao($_SESSION['origem_id_c']);
                                         <div class="col-md-6"><b>DRT:</b> <?= $lider['drt'] ?? $erro ?></div>
                                     <?php endif ?>
                                 </div>
-                                <br>
-                                <br>
                             <?php endif; ?>
                         <?php endforeach; ?>
 
                         <!-- ************** Proponente ************** -->
                         <hr>
-                        <h5><b>Proponente</b></h5>
+                        <h5><b>Oficineiro</b></h5>
                         <hr/>
                         <?php
                         $idEncrypt = $pedidoObj->encryption($pedido->proponente->id);
