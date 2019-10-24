@@ -44,10 +44,17 @@ $complementos = $oficinaObj->recuperaComplementosOficina($atracao_id);
                                         <?php $oficinaObj->geraOpcao('modalidades', $complementos->modalidade_id ?? "", true) ?>
                                     </select>
                                 </div>
+                                
                                 <div class="form-group col-md-4">
                                     <label for="data_inicio">Data inicial - Data Final: *</label><br/>
-                                    <input type="text" id="dateRange" name="dataInicioFim" class="form-control"
-                                           value="<?=$oficinaObj->dataParaBR($complementos->data_inicio)." - ".$oficinaObj->dataParaBR($complementos->data_fim)?>">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="far fa-calendar-alt"></i>
+                                        </span>
+                                        </div>
+                                        <input type="text" id="dateRange" name="dataInicioFim" class="form-control"
+                                               value="<?= $oficinaObj->dataParaBR($complementos->data_inicio) . " - " . $oficinaObj->dataParaBR($complementos->data_fim) ?>"></div>
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label for="execucao_dia1_id">Dia execução 1: *</label><br/>
