@@ -7,7 +7,7 @@
 <li class="nav-item">
     <a href="<?= SERVERURL ?>eventos/evento_lista" class="nav-link" id="evento_lista">
         <i class="far fa-circle nav-icon"></i>
-        <p>Eventos</p>
+        <p>Cadastro</p>
     </a>
 </li>
 <?php if (isset($_SESSION['origem_id_c'])): ?>
