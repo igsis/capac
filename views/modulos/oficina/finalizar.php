@@ -19,6 +19,7 @@ $cenica = $atracaoObj->verificaCenica($idEvento);
 $erro = "<span style=\"color: red; \"><b>Preenchimento obrigatório</b></span>";
 $validacoesEvento = $eventoObj->validaEvento($_SESSION['origem_id_c'], $_SESSION['pedido_id_c']);
 //$validacoesAtracoes = $atracaoObj->validaAtracao($_SESSION['origem_id_c']);
+$modulo = explode("/", $_GET['views'])[0];
 ?>
 
 <!-- Content Header (Page header) -->
@@ -263,6 +264,7 @@ $validacoesEvento = $eventoObj->validaEvento($_SESSION['origem_id_c'], $_SESSION
                     <div class="card-footer">
                         <form class="form-horizontal formulario-ajax" method="POST" action="<?=SERVERURL?>ajax/eventoAjax.php" role="form" data-form="update">
                             <input type="hidden" name="_method" value="envioEvento">
+                            <input type="hidden" name="modulo" value="<?=$modulo?>">
                             <input type="hidden" name="id" value="<?=$idEvento?>">
                             <button type="submit" class="btn btn-success btn-block float-right" id="cadastra">Enviar</button>
                             <div class="resposta-ajax"></div>

@@ -93,4 +93,18 @@ class LiderController extends LiderModel
         }
         return $pf;
     }
+
+    public function recuperaLider($pedido_id, $atracao_id) {
+        $pedido_id = MainModel::decryption($pedido_id);
+        $atracao_id = MainModel::decryption($atracao_id);
+        $lider = DbModel::consultaSimples("SELECT l.pessoa_fisica_id AS 'id', pf.nome, pf.email, pf.cpf, pf.rg FROM lideres AS l INNER JOIN pessoa_fisicas pf on l.pessoa_fisica_id = pf.id WHERE l.pedido_id = '$pedido_id' AND l.atracao_id = '$atracao_id'")->fetchObject();
+
+        $telefones = DbModel::consultaSimples("SELECT telefone FROM pf_telefones WHERE pessoa_fisica_id = '$lider->id'")->fetchAll(PDO::FETCH_COLUMN);
+        foreach ($telefones as $key => $telefone) {
+            $index = "telefone".($key+1);
+            $lider->$index = $telefone;
+        }
+
+        return $lider;
+    }
 }

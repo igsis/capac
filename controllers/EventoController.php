@@ -240,7 +240,7 @@ class EventoController extends EventoModel
         return $publico;
     }
 
-    public function envioEvento($id)
+    public function envioEvento($id, $modulo)
     {
         $id = MainModel::decryption($id);
         $dados = [
@@ -254,7 +254,7 @@ class EventoController extends EventoModel
                 'titulo' => 'Evento enviado com sucesso!',
                 'texto' => 'Seu código do CAPAC é: '.$id.'<br><div class="row"><div class="offset-3 col-md-6"><a href="'.SERVERURL.'pdf/resumo_evento.php" class="btn btn-primary btn-block" target="_blank">Imprimir comprovante</a></div></div>',
                 'tipo' => 'success',
-                'location' => SERVERURL . 'eventos/evento_lista'
+                'location' => SERVERURL . $modulo.'/evento_lista'
             ];
         }
         else{

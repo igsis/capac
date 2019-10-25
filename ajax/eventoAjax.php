@@ -15,7 +15,7 @@ if (isset($_POST['_method'])) {
             echo $insEvento->editaEvento($_POST, $_POST['id']);
             break;
         case "envioEvento":
-            echo $insEvento->envioEvento($_POST['id']);
+            echo $insEvento->envioEvento($_POST['id'], $_POST['modulo']);
             break;
         case "apagaEvento":
             echo $insEvento->apagaEvento($_POST['id']);

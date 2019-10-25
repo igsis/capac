@@ -71,7 +71,7 @@
             <li class="nav-item">
                 <a href="<?= SERVERURL ?>oficina/lider" class="nav-link" id="lider">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Líder</p>
+                    <p>Representante Legal</p>
                 </a>
             </li>
         <?php endif; ?>

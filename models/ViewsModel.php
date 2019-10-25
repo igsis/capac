@@ -50,7 +50,8 @@ class ViewsModel
             'anexos_proponente',
             'anexos_lider',
             'demais_anexos',
-            'finalizar'
+            'finalizar',
+            'representante'
         ];
         if (self::verificaModulo($modulo)) {
             if (in_array($view, $whitelist)) {

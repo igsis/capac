@@ -156,4 +156,28 @@ class RepresentanteController extends MainModel
         $consulta_pf_cpf = DbModel::consultaSimples("SELECT id, cpf FROM representante_legais WHERE cpf = '$cpf'");
         return $consulta_pf_cpf;
     }
+
+    public function insereRepresentanteOficina($dados, $idPj) {
+        foreach ($dados as $campo => $post) {
+            $dados[$campo] = MainModel::limparString($post);
+        }
+
+        $consulta = DbModel::consultaSimples("SELECT * FROM representante_legais WHERE cpf = '{$dados['cpf']}'");
+        if ($consulta->rowCount() > 0) {
+            $representante_id = $consulta->fetchObject()->id;
+            $dadosPj = [
+                'representante_legal1_id' => $representante_id
+            ];
+            $update = DbModel::update('pessoa_juridicas', $dadosPj, $idPj);
+        } else {
+            $insert = DbModel::insert('representante_legais', $dados);
+            if ($insert->rowCount() > 0) {
+                $representante_id = DbModel::connection()->lastInsertId();
+                $dadosPj = [
+                    'representante_legal1_id' => $representante_id
+                ];
+                $update = DbModel::update('pessoa_juridicas', $dadosPj, $idPj);
+            }
+        }
+    }
 }
