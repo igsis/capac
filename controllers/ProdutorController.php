@@ -7,15 +7,15 @@ if ($pedidoAjax) {
 
 class ProdutorController extends MainModel
 {
-    public function insereProdutor($post, $tabelaReferencia, $idAtracaoReferencia){
+    public function insereProdutor($post, $atracao_id, $modulo, $oficina = false){
         /* executa limpeza nos campos */
-        $idAtracaoReferencia = MainModel::decryption($idAtracaoReferencia);
+        $atracao_id = MainModel::decryption($atracao_id);
         unset($post['_method']);
-        unset($post['tabela_referencia']);
-        unset($post['atracao_referencia_id']);
+        unset($post['modulo']);
+        unset($post['atracao_id']);
         $dados = [];
         foreach ($post as $campo => $valor) {
-            if ($campo != "pagina") {
+            if ($campo != "modulo") {
                 $dados[$campo] = MainModel::limparString($valor);
             }
         }
@@ -26,14 +26,17 @@ class ProdutorController extends MainModel
         if ($insere->rowCount() >= 1) {
             $produtor_id = DbModel::connection()->lastInsertId();
             $dadosUpdate = ["produtor_id" => $produtor_id];
-            $atracao = DbModel::update($tabelaReferencia, $dadosUpdate, $idAtracaoReferencia);
+            $atracao = DbModel::update('atracoes', $dadosUpdate, $atracao_id);
             if ($atracao->rowCount() >= 1) {
+                if ($oficina) {
+                    return true;
+                }
                 $alerta = [
                     'alerta' => 'sucesso',
                     'titulo' => 'Produtor Cadastrado!',
                     'texto' => 'Produtor cadastrado com sucesso!',
                     'tipo' => 'success',
-                    'location' => SERVERURL . $post['pagina'].'/produtor_cadastro&key=' . MainModel::encryption($produtor_id)
+                    'location' => SERVERURL . $modulo.'/produtor_cadastro&key=' . MainModel::encryption($produtor_id)
                 ];
             } else {
                 $alerta = [
@@ -44,6 +47,9 @@ class ProdutorController extends MainModel
                 ];
             }
         } else {
+            if ($oficina) {
+                return false;
+            }
             $alerta = [
                 'alerta' => 'simples',
                 'titulo' => 'Oops! Algo deu Errado!',

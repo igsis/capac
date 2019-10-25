@@ -63,6 +63,11 @@ class PedidoModel extends MainModel
                     $dadosProponente->$key = $proponente;
                 }
             }
+            $telefones = DbModel::consultaSimples("SELECT telefone FROM pf_telefones WHERE pessoa_fisica_id = '1'")->fetchAll(PDO::FETCH_COLUMN);
+            foreach ($telefones as $key => $telefone) {
+                $index = "telefone".($key+1);
+                $dadosProponente->$index = $telefone;
+            }
         } else {
             $dadosProponente = DbModel::consultaSimples(
                 "SELECT id, razao_social AS 'nome', cnpj AS 'documento', email FROM pessoa_juridicas WHERE id = '$id'"

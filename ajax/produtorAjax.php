@@ -8,7 +8,7 @@ if (isset($_POST['_method'])) {
     $insProdutor = new ProdutorController();
 
     if ($_POST['_method'] == "cadastrarProdutor") {
-        echo $insProdutor->insereProdutor($_POST, $_POST['tabela_referencia'], $_POST['atracao_referencia_id']);
+        echo $insProdutor->insereProdutor($_POST, $_POST['atracao_id'], $_POST['modulo']);
     } elseif ($_POST['_method'] == "editarProdutor") {
         echo $insProdutor->editaProdutor($_POST, $_POST['produtor_id']);
     }

@@ -4,14 +4,16 @@ $eventoObj = new EventoController();
 $idEvento = $_SESSION['origem_id_c'];
 $evento = $eventoObj->recuperaEvento($idEvento);
 
+require_once "./controllers/PedidoController.php";
+$pedidoObj = new PedidoController();
+$pedido = $pedidoObj->recuperaPedido(1, true);
+
 require_once "./controllers/AtracaoController.php";
 $atracaoObj = new AtracaoController();
 $idAtracao = $atracaoObj->getAtracaoId($idEvento);
 $cenica = $atracaoObj->verificaCenica($idEvento);
 
-require_once "./controllers/PedidoController.php";
-$pedidoObj = new PedidoController();
-$pedido = $pedidoObj->recuperaPedido(1);
+
 
 
 $erro = "<span style=\"color: red; \"><b>Preenchimento obrigatório</b></span>";
