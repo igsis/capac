@@ -22,7 +22,7 @@ if (isset($_GET['modulo'])) {
             <div class="col-md-12">
                 <!-- Horizontal Form -->
                 <p class="card-text">
-                    Inicia-se aqui um processo passo-a-passo para o preenchimento dos dados do evento conforme descrito abaixo. Antes de começar, tenha disponível estas informações para que o cadastro possa ser concluído.
+                    Inicia-se aqui um processo passo-a-passo para o preenchimento dos dados do candidato às vagas dos Editais dos Programas da Supervisão de Formação. Antes de começar, tenha disponível estas informações para que o cadastro possa ser concluído.
                 </p>
                 <div class="card card-info card-outline">
                     <div class="card-header">
@@ -34,15 +34,15 @@ if (isset($_GET['modulo'])) {
                     <div class="card-body">
                         <p class="text-info"><b>Informações iniciais</b></p>
                         <ul>
-                            <li>Nome do Evento</li>
-                            <li>Espaço em que será realizado o evento é público? (sim ou não)</li>
-                            <li>É fomento/programa? (se sim, indicar qual)</li>
-                            <li>Público (Representatividade e Visibilidade Sócio-cultural)</li>
-                            <li>Sinopse</li>
-                            <li>Ficha técnica completa</li>
-                            <li>Integrantes</li>
-                            <li>Classificação indicativa</li>
-                            <li>Links</li>
+                            <li>Nome</li>
+                            <li>Nome artístico</li>
+                            <li>Tipo do documento</li>
+                            <li>Nº do documento</li>
+                            <li>CPF</li>
+                            <li>CCM</li>
+                            <li>Telefones</li>
+                            <li>E-mail</li>
+                            <li>Data de nascimento</li>
                         </ul>
                         <br>
 
