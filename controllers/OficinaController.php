@@ -24,6 +24,7 @@ class OficinaController extends OficinaModel
 
     public function insereOficina($dados){
         $dadosOficina = OficinaModel::limparStringOficina($dados);
+        $dadosOficina['at']['oficina'] = 1;
         $evento_id = $dadosOficina['at']['evento_id'] = (new EventoController)->insereEvento($dadosOficina['ev'], true);
         $atracaoOficina = DbModel::insert('atracoes', $dadosOficina['at']);
 
@@ -63,6 +64,7 @@ class OficinaController extends OficinaModel
         $atracao_id = MainModel::decryption($atracao_id);
 
         $dadosOficina = OficinaModel::limparStringOficina($dados);
+        $dadosOficina['at']['oficina'] = 1;
 
         $editaEvento = (new EventoController)->editaEvento($dadosOficina['ev'], $evento_id);
 
