@@ -7,7 +7,7 @@ if (isset($_POST['_method'])) {
     $insPessoaFisica = new PessoaFisicaController();
 
     if ($_POST['_method'] == "cadastrar") {
-        echo $insPessoaFisica->inserePessoaFisica();
+        echo $insPessoaFisica->inserePessoaFisica($_POST['pagina']);
     } elseif ($_POST['_method'] == "editar") {
         echo $insPessoaFisica->editaPessoaFisica($_POST['id'], $_POST['pagina']);
     }
