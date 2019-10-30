@@ -56,7 +56,7 @@
                     <!-- /.card-header -->
                     <!-- form start -->
                     <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>eventos/pf_cadastro"
-                          role="form" id="formulario">
+                          role="form" id="formularioPf">
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-12">
@@ -114,35 +114,3 @@
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
-
-<script>
-    $('#formulario').submit(function (event) {
-        var strCpf = document.querySelector('#cpf').value
-
-        if (strCpf != '') {
-            strCpf = strCpf.replace(/[^0-9]/g, '');
-
-            var validado = testaCpf(strCpf);
-
-            if (!validado) {
-                event.preventDefault()
-                $('#dialogError').show();
-            }
-        }
-    })
-
-    $('#formularioPj').submit(function (event) {
-        var strCnpj = document.querySelector('#cnpj').value
-
-        if(strCnpj != ''){
-            strCnpj = strCnpj.replace(/[^0-9]/g, '')
-
-            var validado = testaCnpj(strCnpj);
-
-            if(!validado){
-                event.preventDefault()
-                $('#dialogErrorCnpj').show()
-            }
-        }
-    })
-</script>

@@ -31,7 +31,7 @@ if (isset($_SESSION['pedido_id_c'])) {
                     <!-- /.card-header -->
                     <!-- form start -->
                     <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>formacao/pf_cadastro"
-                          role="form" id="formulario">
+                          role="form" id="formularioPf">
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-12">
@@ -59,19 +59,3 @@ if (isset($_SESSION['pedido_id_c'])) {
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
-<script>
-    $('#formulario').submit(function (event) {
-        var strCpf = document.querySelector('#cpf').value
-
-        if (strCpf != '') {
-            strCpf = strCpf.replace(/[^0-9]/g, '');
-
-            var validado = testaCpf(strCpf);
-
-            if (!validado) {
-                event.preventDefault()
-                $('#dialogError').show();
-            }
-        }
-    })
-</script>

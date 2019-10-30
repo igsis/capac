@@ -194,6 +194,21 @@ function testaCpf(cpf) {
     return true;
 }
 
+$('#formularioPf').submit(function (event) {
+    var strCpf = document.querySelector('#cpf').value
+
+    if (strCpf != '') {
+        strCpf = strCpf.replace(/[^0-9]/g, '');
+
+        var validado = testaCpf(strCpf);
+
+        if (!validado) {
+            event.preventDefault()
+            $('#dialogError').show();
+        }
+    }
+})
+
 // Validação de CNPJ
 function testaCnpj(cnpj) {
     if (cnpj.length !== 14)
@@ -244,3 +259,18 @@ function testaCnpj(cnpj) {
 
     return true;
 }
+
+$('#formularioPj').submit(function (event) {
+    var strCnpj = document.querySelector('#cnpj').value
+
+    if(strCnpj != ''){
+        strCnpj = strCnpj.replace(/[^0-9]/g, '')
+
+        var validado = testaCnpj(strCnpj);
+
+        if(!validado){
+            event.preventDefault()
+            $('#dialogErrorCnpj').show()
+        }
+    }
+})
