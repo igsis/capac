@@ -2,7 +2,7 @@
 if (isset($_SESSION['origem_id_c'])) {
     unset($_SESSION['origem_id_c']);
 }
-if(isset($_SESSION['pedido_id_c'])){
+if (isset($_SESSION['pedido_id_c'])) {
     unset($_SESSION['pedido_id_c']);
 }
 ?>
@@ -31,13 +31,16 @@ if(isset($_SESSION['pedido_id_c'])){
                     <!-- /.card-header -->
                     <!-- form start -->
                     <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>formacao/pf_cadastro"
-                          role="form">
+                          role="form" id="formulario">
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-12">
-                                    <label for="cpf">CPF:</label>
+                                    <label for="cpf">CPF: *</label>
                                     <input type="text" class="form-control" id="cpf" name="pf_cpf" maxlength="14"
-                                           required onkeypress="mask(this, '###.###.###-##')">
+                                           required onkeypress="mask(this, '999.999.999-99')" minlength="14">
+                                    <br>
+                                    <span style="display: none;" id="dialogError" class="alert alert-danger"
+                                          role="alert">CPF inválido</span>
                                 </div>
                             </div>
 
@@ -56,3 +59,19 @@ if(isset($_SESSION['pedido_id_c'])){
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
+<script>
+    $('#formulario').submit(function (event) {
+        var strCpf = document.querySelector('#cpf').value
+
+        if (strCpf != '') {
+            strCpf = strCpf.replace(/[^0-9]/g, '');
+
+            var validado = testaCpf(strCpf);
+
+            if (!validado) {
+                event.preventDefault()
+                $('#dialogError').show();
+            }
+        }
+    })
+</script>
