@@ -1,23 +1,9 @@
 <?php
 require_once "./controllers/ArquivoController.php";
-require_once "./controllers/PedidoController.php";
-
-$pedido_id = $_SESSION['pedido_id_c'];
-
-$pedidoObj = new PedidoController();
 $arquivosObj = new ArquivoController();
 
-$proponente = $pedidoObj->recuperaProponente($pedido_id);
-
-if ($proponente->pessoa_tipo_id == 1) {
-    $tipo_documento_id = 1;
-    $proponente_id = $arquivosObj->encryption($proponente->pessoa_fisica_id);
-    $url = SERVERURL."pdf/facc_pf.php?id=".$proponente_id;
-} else {
-    $tipo_documento_id = 2;
-    $proponente_id = $arquivosObj->encryption($proponente->pessoa_juridica_id);
-    $url = SERVERURL."pdf/facc_pj.php?id=".$proponente_id;
-}
+$tipo_documento_id = 1;
+$proponente_id = $_SESSION['origem_id_c'];
 
 $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id)->fetchAll(PDO::FETCH_COLUMN);
 ?>
@@ -26,7 +12,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Anexos do Proponente</h1>
+                <h1 class="m-0 text-dark">Anexos dos documentos</h1>
             </div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
@@ -37,7 +23,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-3">
+            <div class="offset-3 col-md-6">
                 <div class="card card-warning">
                     <div class="card-header">
                         <h3 class="card-title">Atenção!</h3>
@@ -56,48 +42,6 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                 </div>
                 <!-- /.card -->
             </div>
-            <div class="col-md-9">
-                <div class="card card-outline card-info">
-                    <div class="card-header">
-                        <h3 class="card-title">Gerar documentos</h3>
-
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                            </button>
-                        </div>
-                        <!-- /.card-tools -->
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <p>Para gerar alguns dos arquivos online, utilize os links abaixo:</p>
-                        <ul>
-                            <?php
-                            if ($proponente->pessoa_tipo_id == 1) {
-                                ?>
-                                <li><a href="" target="_blank">Cartão CPF</a></li>
-                                <li><a href="" target="_blank">Declaração CCM (caso não possua)</a></li>
-                                <li><a href="http://www.tst.jus.br/certidao" target="_blank">CNDT - Certidão Negativa de Débitos de Tributos Trabalhistas</a></li>
-                                <li><a href="http://servicos.receita.fazenda.gov.br/Servicos/certidao/CNDConjuntaInter/InformaNICertidao.asp?tipo=2" target="_blank">CND Federal - Certidão de Débitos Relativos a Créditos Tributários Federais e à Dívida Ativa da União</a></li>
-                                <?php
-                            }else {
-                                ?>
-                                <li><a href="http://www.receita.fazenda.gov.br/pessoajuridica/cnpj/cnpjreva/cnpjreva_solicitacao.asp" target="_blank">Cartão CNPJ</li>
-                                <li><a href="https://cpom.prefeitura.sp.gov.br/prestador/SituacaoCadastral" target="_blank">CPOM - Cadastro de Empresas Fora do Município</a></li>
-                                <li><a href="https://www.sifge.caixa.gov.br/Cidadao/Crf/FgeCfSCriteriosPesquisa.asp" target="_blank">CRF do FGTS</a></li>
-                                <li><a href="http://www.receita.fazenda.gov.br/Aplicacoes/ATSPO/Certidao/CNDConjuntaSegVia/NICertidaoSegVia.asp?Tipo=1" target="_blank">CND Federal - Certidão de Débitos Relativos a Créditos Tributários Federais e à Dívida Ativa da União</a></li>
-                                <li><a href="http://www.receita.fazenda.gov.br/Aplicacoes/ATSPO/Certidao/certaut/CndConjunta/ConfirmaAutenticCndSolicitacao.asp?ORIGEM=PJ" target="_blank">Autenticidade de CND ­ Certidão de Débitos Relativos a Créditos Tributários Federais e à Dívida Ativa da União (CND)</a></li>
-                                <?php
-                            }
-                            ?>
-                            <li><a href="https://duc.prefeitura.sp.gov.br/certidoes/forms_anonimo/frmConsultaEmissaoCertificado.aspx" target="_blank">CTM - Certidão Negativa de Débitos Tributários Mobiliários Municipais de São Paulo</a></li>
-                            <li><a href="http://www3.prefeitura.sp.gov.br/cadin/Pesq_Deb.aspx" target="_blank">CADIN Municipal</a></li>
-                            <li><a href="https://ccm.prefeitura.sp.gov.br/login/contribuinte?tipo=F" target="_blank">FDC CCM - Ficha de Dados Cadastrais de Contribuintes Mobiliários</a></li>
-                            <li><a href="#" onclick="alerta();">FACC - Ficha de Atualização de Cadastro de Credores</a></li>
-                        </ul>
-                    </div>
-                    <!-- /.card-body -->
-                </div>
-            </div>
         </div>
         <div class="row">
             <div class="col-md-6">
@@ -112,7 +56,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                         <form class="formulario-ajax" method="POST" action="<?=SERVERURL?>ajax/arquivosAjax.php" data-form="save" enctype="multipart/form-data">
                             <input type="hidden" name="_method" value="enviarArquivo">
                             <input type="hidden" name="origem_id" value="<?= $proponente_id ?>">
-                            <input type="hidden" name="pagina" value="<?=$_GET['views']?>">
+                            <input type="hidden" name="pagina" value="jovemMonitor/anexos_proponente">
                             <table class="table table-striped">
                                 <tbody>
                                 <?php
