@@ -40,7 +40,7 @@ class EventoModel extends ValidacaoModel
         return $evento;
     }
 
-    protected function validaEventoModel($evento_id)
+    protected function validaEventoModel($evento_id, $pedido_id)
     {
         $evento = DbModel::getInfo('eventos', $evento_id)->fetch(PDO::FETCH_ASSOC);
 
@@ -66,7 +66,7 @@ class EventoModel extends ValidacaoModel
             $erros['atracoes']['motivo'] = "Nenhuma atração cadastrada para este evento";
         }
 
-        $validaArquivos = ValidacaoModel::validaArquivos(3, $evento_id);
+        $validaArquivos = ValidacaoModel::validaArquivos(3, $pedido_id);
         if ($validaArquivos) {
             if (!isset($erros) || $erros == false) { $erros = []; }
             $erros = array_merge($erros, $validaArquivos);

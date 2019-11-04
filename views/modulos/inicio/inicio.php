@@ -137,7 +137,7 @@ unset($_SESSION['modulo']);
                         <p>Artistas Orientadores e Educadores<br>SELECIONADOS NO EDITAL nº 002/2018 SMC/GAB</p>
                     </div>
                     <div align="center">
-                        <a href="#" class="small-box-footer">
+                        <a href="<?=SERVERURL?>formacao&modulo=6" class="small-box-footer">
                             Acesse <i class="fas fa-arrow-circle-right"></i>
                         </a>
                     </div>
@@ -157,7 +157,7 @@ unset($_SESSION['modulo']);
                         <p>Estudantes<br>SELECIONADOS NO EDITAL nº 002/2018 SMC/GAB</p>
                     </div>
                     <div align="center">
-                        <a href="#" class="small-box-footer">
+                        <a href="<?=SERVERURL?>jovemMonitor&modulo=7" class="small-box-footer">
                             Acesse <i class="fas fa-arrow-circle-right"></i>
                         </a>
                     </div>

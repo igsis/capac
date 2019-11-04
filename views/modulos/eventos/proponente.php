@@ -23,13 +23,17 @@
                     <!-- /.card-header -->
                     <!-- form start -->
                     <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>eventos/pj_cadastro"
-                          role="form">
+                          role="form" id="formularioPj">
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-12">
                                     <label for="cnpj">CNPJ:</label>
-                                    <input type="text" onkeypress="mask(this,'##.###.###/####-##')" class="form-control" id="cnpj" name="pj_cnpj" maxlength="18"
+                                    <input type="text" onkeypress="mask(this,'##.###.###/####-##')" class="form-control"
+                                           id="cnpj" name="pj_cnpj" maxlength="18"
                                            required>
+                                    <br>
+                                    <span style="display: none;" id="dialogErrorCnpj" class="alert alert-danger"
+                                          role="alert">CNPJ inválido</span>
                                 </div>
                             </div>
 
@@ -52,13 +56,16 @@
                     <!-- /.card-header -->
                     <!-- form start -->
                     <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>eventos/pf_cadastro"
-                          role="form">
+                          role="form" id="formularioPf">
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-12">
                                     <label for="cpf">CPF:</label>
                                     <input type="text" class="form-control" id="cpf" name="pf_cpf" maxlength="14"
-                                           required onkeypress="mask(this, '###.###.###-##')">
+                                           required onkeypress="mask(this, '999.999.999-99')" minlength="14">
+                                    <br>
+                                    <span style="display: none;" id="dialogError" class="alert alert-danger"
+                                          role="alert">CPF inválido</span>
                                 </div>
                             </div>
 
@@ -88,6 +95,7 @@
                                     <label for="passaporte">Passaporte:</label>
                                     <input type="text" class="form-control" id="passaporte" name="pf_passaporte"
                                            maxlength="14" required>
+                                    <br>
                                 </div>
                             </div>
 

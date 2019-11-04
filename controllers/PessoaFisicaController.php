@@ -58,6 +58,11 @@ class PessoaFisicaController extends PessoaFisicaModel
                 }
             }
 
+            session_start(['name' => 'cpc']);
+            if ($_SESSION['modulo_c'] == 7){ //jovem monitor
+                $_SESSION['origem_id_c'] = $id;
+            }
+
             if($retornaId){
                 return $id;
             } else{
@@ -166,6 +171,11 @@ class PessoaFisicaController extends PessoaFisicaModel
                         DbModel::insert('pf_oficinas', $dadosLimpos['of']);
                     }
                 }
+            }
+
+            session_start(['name' => 'cpc']);
+            if ($_SESSION['modulo_c'] == 7){ //jovem monitor
+                $_SESSION['origem_id_c'] = $id;
             }
 
             if($retornaId){

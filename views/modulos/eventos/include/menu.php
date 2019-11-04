@@ -63,7 +63,6 @@
         <?php
     } else {
         ?>
-
         <li class="nav-item">
             <a href="<?= SERVERURL ?>eventos/proponente" class="nav-link" id="proponente">
                 <i class="far fa-circle nav-icon"></i>

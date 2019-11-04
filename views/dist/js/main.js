@@ -1,12 +1,12 @@
 // Example starter JavaScript for disabling form submissions if there are invalid fields
-(function() {
+(function () {
     'use strict';
-    window.addEventListener('load', function() {
+    window.addEventListener('load', function () {
         // Fetch all the forms we want to apply custom Bootstrap validation styles to
         var forms = document.getElementsByClassName('needs-validation');
         // Loop over them and prevent submission
-        var validation = Array.prototype.filter.call(forms, function(form) {
-            form.addEventListener('submit', function(event) {
+        var validation = Array.prototype.filter.call(forms, function (form) {
+            form.addEventListener('submit', function (event) {
                 if (form.checkValidity() === false) {
                     event.preventDefault();
                     event.stopPropagation();
@@ -17,29 +17,29 @@
     }, false);
 })();
 
-$('.formulario-ajax').submit(function(e){
+$('.formulario-ajax').submit(function (e) {
     e.preventDefault();
 
-    var form=$(this);
+    var form = $(this);
 
-    var tipo=form.attr('data-form');
-    var action=form.attr('action');
-    var method=form.attr('method');
-    var resposta=form.children('.resposta-ajax');
+    var tipo = form.attr('data-form');
+    var action = form.attr('action');
+    var method = form.attr('method');
+    var resposta = form.children('.resposta-ajax');
 
-    var msgError="<script>Swal.fire('Ocorreu um erro insesperado','Por favor recarregue a pagina','error');</script>";
+    var msgError = "<script>Swal.fire('Ocorreu um erro insesperado','Por favor recarregue a pagina','error');</script>";
     var formdata = new FormData(this);
 
 
     var textoAlerta;
-    if(tipo==="save"){
-        textoAlerta="Os dados enviados serão salvos no sistema";
-    }else if(tipo==="delete"){
-        textoAlerta="Os dados serão eliminados do sistema";
-    }else if(tipo==="update"){
-        textoAlerta="Os dados serão atualizados no sistema";
-    }else{
-        textoAlerta="Deseja realmente realizar a operação";
+    if (tipo === "save") {
+        textoAlerta = "Os dados enviados serão salvos no sistema";
+    } else if (tipo === "delete") {
+        textoAlerta = "Os dados serão eliminados do sistema";
+    } else if (tipo === "update") {
+        textoAlerta = "Os dados serão atualizados no sistema";
+    } else {
+        textoAlerta = "Deseja realmente realizar a operação";
     }
 
 
@@ -95,10 +95,10 @@ $(function () {
 });
 
 /* /telefone */
-function mascara(o,f){
-    v_obj=o
-    v_fun=f
-    setTimeout("execmascara()",1)
+function mascara(o, f) {
+    v_obj = o
+    v_fun = f
+    setTimeout("execmascara()", 1)
 }
 
 // Mascara Dinheiro
@@ -139,15 +139,17 @@ function moeda(a, e, r, t) {
     return !1
 }
 
-function execmascara(){
-    v_obj.value=v_fun(v_obj.value)
+function execmascara() {
+    v_obj.value = v_fun(v_obj.value)
 }
-function mtel(v){
-    v=v.replace(/\D/g,"");             //Remove tudo o que não é dígito
-    v=v.replace(/^(\d{2})(\d)/g,"($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
-    v=v.replace(/(\d)(\d{4})$/,"$1-$2");    //Coloca hífen entre o quarto e o quinto dígitos
+
+function mtel(v) {
+    v = v.replace(/\D/g, "");             //Remove tudo o que não é dígito
+    v = v.replace(/^(\d{2})(\d)/g, "($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
+    v = v.replace(/(\d)(\d{4})$/, "$1-$2");    //Coloca hífen entre o quarto e o quinto dígitos
     return v;
 }
+
 /* /.telefone */
 
 function mask(t, mask) {
@@ -158,3 +160,117 @@ function mask(t, mask) {
         t.value += texto.substring(0, 1);
     }
 }
+
+//Validação de cpf
+function testaCpf(cpf) {
+    var soma;
+    var resto;
+    var strCPF = cpf;
+    soma = 0;
+
+    if (strCPF === "11111111111" ||
+        strCPF === "22222222222" ||
+        strCPF === "33333333333" ||
+        strCPF === "44444444444" ||
+        strCPF === "55555555555" ||
+        strCPF === "66666666666" ||
+        strCPF === "77777777777" ||
+        strCPF === "88888888888" ||
+        strCPF === "99999999999")
+        return false;
+
+    for (i = 1; i <= 9; i++) soma = soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
+    resto = (soma * 10) % 11;
+
+    if ((resto == 10) || (resto == 11)) resto = 0;
+    if (resto != parseInt(strCPF.substring(9, 10))) return false;
+
+    soma = 0;
+    for (i = 1; i <= 10; i++) soma = soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
+    resto = (soma * 10) % 11;
+
+    if ((resto == 10) || (resto == 11)) resto = 0;
+    if (resto != parseInt(strCPF.substring(10, 11))) return false;
+    return true;
+}
+
+$('#formularioPf').submit(function (event) {
+    var strCpf = document.querySelector('#cpf').value
+
+    if (strCpf != '') {
+        strCpf = strCpf.replace(/[^0-9]/g, '');
+
+        var validado = testaCpf(strCpf);
+
+        if (!validado) {
+            event.preventDefault()
+            $('#dialogError').show();
+        }
+    }
+})
+
+// Validação de CNPJ
+function testaCnpj(cnpj) {
+    if (cnpj.length !== 14)
+        return false;
+
+    // Elimina CNPJs invalidos conhecidos
+    if (cnpj == "11111111111111" ||
+        cnpj == "22222222222222" ||
+        cnpj == "33333333333333" ||
+        cnpj == "44444444444444" ||
+        cnpj == "55555555555555" ||
+        cnpj == "66666666666666" ||
+        cnpj == "77777777777777" ||
+        cnpj == "88888888888888" ||
+        cnpj == "99999999999999")
+        return false;
+
+    // Valida DVs
+    tamanho = cnpj.length - 2
+    numeros = cnpj.substring(0,tamanho);
+    digitos = cnpj.substring(tamanho);
+    soma = 0;
+    pos = tamanho - 7;
+    for (i = tamanho; i >= 1; i--) {
+        soma += numeros.charAt(tamanho - i) * pos--;
+        if (pos < 2)
+            pos = 9;
+    }
+
+    resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+    if (resultado != digitos.charAt(0))
+        return false;
+
+    tamanho = tamanho + 1;
+    numeros = cnpj.substring(0,tamanho);
+    soma = 0;
+    pos = tamanho - 7;
+
+    for (i = tamanho; i >= 1; i--) {
+        soma += numeros.charAt(tamanho - i) * pos--;
+        if (pos < 2)
+            pos = 9;
+    }
+
+    resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+    if (resultado != digitos.charAt(1))
+        return false;
+
+    return true;
+}
+
+$('#formularioPj').submit(function (event) {
+    var strCnpj = document.querySelector('#cnpj').value
+
+    if(strCnpj != ''){
+        strCnpj = strCnpj.replace(/[^0-9]/g, '')
+
+        var validado = testaCnpj(strCnpj);
+
+        if(!validado){
+            event.preventDefault()
+            $('#dialogErrorCnpj').show()
+        }
+    }
+})

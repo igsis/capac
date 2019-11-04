@@ -1,9 +1,13 @@
 <?php
-/* Váriavel $id vem do arquivo "produtor_cadastro" dentro do módulo acessado */
+if (isset($_SESSION['atracao_id_c'])) {
+    $atracao_id = $_SESSION['atracao_id_c'];
+} elseif (isset($_POST['atracao_id'])) {
+    $atracao_id = $_SESSION['atracao_id_c'] = $_POST['atracao_id'];
+} else {
+    $atracao_id = null;
+}
 
 $id = $_GET['key'] ?? null;
-
-$pagina = explode("/", $_GET['views'])[0];
 
 require_once "./controllers/ProdutorController.php";
 $insProdutor = new ProdutorController();
@@ -35,9 +39,8 @@ $produtor = $insProdutor->recuperaProdutor($id)->fetchObject();
                     <!-- form start -->
                     <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/produtorAjax.php" role="form" data-form="<?= ($produtor) ? "update" : "save" ?>">
                         <input type="hidden" name="_method" value="<?= ($produtor) ? "editarProdutor" : "cadastrarProdutor" ?>">
-                        <input type="hidden" name="tabela_referencia" value="<?=$dados['tabela_referencia']?>" <?=$produtor ? "disabled" : ""?>>
-                        <input type="hidden" name="atracao_referencia_id" value="<?=$dados['atracao_referencia_id']?>" <?=$produtor ? "disabled" : ""?>>
-                        <input type="hidden" name="pagina" value="<?=$pagina?>">
+                        <input type="hidden" name="atracao_id" value="<?=$atracao_id?>" <?=$produtor ? "disabled" : ""?>>
+                        <input type="hidden" name="modulo" value="<?=$modulo?>">
                         <?php if ($produtor): ?>
                             <input type="hidden" name="produtor_id" value="<?= $produtor->id ?>">
                         <?php endif; ?>

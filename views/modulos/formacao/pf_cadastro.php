@@ -2,16 +2,10 @@
 $id = isset($_GET['id']) ? $_GET['id'] : null;
 require_once "./controllers/PessoaFisicaController.php";
 $insPessoaFisica = new PessoaFisicaController();
-require_once "./controllers/AtracaoController.php";
-$insAtracao = new AtracaoController();
 
 if ($id) {
     $pf = $insPessoaFisica->recuperaPessoaFisica($id);
-    if ($pf['cpf'] != "") {
-        $documento = $pf['cpf'];
-    } else {
-        $documento = $pf['passaporte'];
-    }
+    $documento = $pf['cpf'];
 }
 
 if (isset($_POST['pf_cpf'])){
@@ -23,37 +17,33 @@ if (isset($_POST['pf_cpf'])){
         $documento = $pf['cpf'];
     }
 }
-if (isset($_POST['pf_passaporte'])){
-    $documento = $_POST['pf_passaporte'];
-    $pf = $insPessoaFisica->getPassaporte($documento)->fetch();
-    if ($pf['passaporte'] != ''){
-        $id = MainModel::encryption($pf['id']);
-        $pf = $insPessoaFisica->recuperaPessoaFisica($id);
-        $documento = $pf['passaporte'];
-    }
-}
 
-$cenica = $insAtracao->verificaCenica($_SESSION['origem_id_c']);
 ?>
 
+<!-- Content Header (Page header) -->
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
                 <h1 class="m-0 text-dark">Cadastro de pessoa física</h1>
-            </div>
-        </div>
-    </div>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
 </div>
+<!-- /.content-header -->
 
+<!-- Main content -->
 <div class="content">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
+                <!-- Horizontal Form -->
                 <div class="card card-info">
                     <div class="card-header">
                         <h3 class="card-title">Dados</h3>
                     </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
                     <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/pedidoFisicaAjax.php" role="form" data-form="<?= ($id) ? "update" : "save" ?>">
                         <input type="hidden" name="_method" value="<?= ($id) ? "editar" : "cadastrar" ?>">
                         <input type="hidden" name="pagina" value="eventos">
@@ -178,10 +168,8 @@ $cenica = $insAtracao->verificaCenica($_SESSION['origem_id_c']);
                                     <input type="text" id="nit" name="ni_nit" class="form-control" maxlength="45" placeholder="Digite o NIT" value="<?= $pf['nit'] ?>">
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <?php if ($cenica > 0): ?>
-                                        <label for="drt">DRT: </label>
-                                        <input type="text" id="drt" name="dr_drt" class="form-control" maxlength="45" placeholder="Digite o DRT em caso de artes cênicas" value="<?= $pf['drt'] ?>">
-                                    <?php endif; ?>
+                                    <label for="drt">DRT: </label>
+                                    <input type="text" id="drt" name="dr_drt" class="form-control" maxlength="45" placeholder="Digite o DRT em caso de artes cênicas" value="<?= $pf['drt'] ?>">
                                 </div>
                             </div>
                             <?php
@@ -190,9 +178,7 @@ $cenica = $insAtracao->verificaCenica($_SESSION['origem_id_c']);
                                 <hr/>
                                 <div class="alert alert-warning alert-dismissible">
                                     <h5><i class="icon fas fa-exclamation-triangle"></i> Atenção!</h5>
-                                    Realizamos pagamentos de valores acima de R$ 5.000,00 <b>* SOMENTE COM CONTA
-                                        CORRENTE NO BANCO DO BRASIL *</b>. Não são aceitas: conta fácil, poupança e
-                                    conjunta.
+                                    Realizamos pagamentos de valores acima de R$ 5.000,00 <b>* SOMENTE COM CONTA CORRENTE NO BANCO DO BRASIL *</b>. Não são aceitas: conta fácil, poupança e conjunta.
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-4">
@@ -206,29 +192,32 @@ $cenica = $insAtracao->verificaCenica($_SESSION['origem_id_c']);
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label for="agencia">Agência: *</label>
-                                        <input type="text" id="agencia" name="bc_agencia" class="form-control"
-                                               placeholder="Digite a Agência" maxlength="12"
-                                               value="<?= $pf['agencia'] ?>" required>
+                                        <input type="text" id="agencia" name="bc_agencia" class="form-control" placeholder="Digite a Agência" maxlength="12" value="<?= $pf['agencia'] ?>" required>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label for="conta">Conta: *</label>
-                                        <input type="text" id="conta" name="bc_conta" class="form-control"
-                                               placeholder="Digite a Conta" maxlength="12" value="<?= $pf['conta'] ?>"
-                                               required>
+                                        <input type="text" id="conta" name="bc_conta" class="form-control" placeholder="Digite a Conta" maxlength="12" value="<?= $pf['conta'] ?>" required>
                                     </div>
                                 </div>
                             <?php
                             }
                             ?>
                         </div>
+                        <!-- /.card-body -->
                         <div class="card-footer">
                             <button type="submit" class="btn btn-info float-right">Gravar</button>
                         </div>
+                        <!-- /.card-footer -->
                         <div class="resposta-ajax"></div>
                     </form>
                 </div>
+                <!-- /.card -->
             </div>
         </div>
-    </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
 </div>
+<!-- /.content -->
+
+
 <script src="../views/dist/js/cep_api.js"></script>

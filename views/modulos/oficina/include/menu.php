@@ -31,6 +31,12 @@
     </li>
     <?php
     if (isset($_SESSION['pedido_id_c'])) {
+        require_once "./controllers/PedidoController.php";
+        $pedidoObj = new PedidoController();
+
+        $idPedido = $pedidoObj->getPedido($_SESSION['pedido_id_c']);
+
+        $pedido = $pedidoObj->consultaSimples("SELECT * FROM pedidos WHERE id = $idPedido AND pessoa_juridica_id IS NOT NULL");
         ?>
         <li class="nav-item has-treeview menu-open" id="itens-proponente">
             <a href="#" class="nav-link"><i class="far fa-circle nav-icon"></i>
@@ -58,6 +64,28 @@
                     </a>
                 </li>
             </ul>
+        </li>
+        <?php
+        if ($pedido->rowCount() > 0):
+            ?>
+            <li class="nav-item">
+                <a href="<?= SERVERURL ?>oficina/lider" class="nav-link" id="lider">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Representante Legal</p>
+                </a>
+            </li>
+        <?php endif; ?>
+        <li class="nav-item">
+            <a href="<?= SERVERURL ?>oficina/demais_anexos" class="nav-link" id="demais_anexos">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Demais Anexos</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="<?= SERVERURL ?>oficina/finalizar" class="nav-link" id="finalizar">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Finalizar</p>
+            </a>
         </li>
         <?php
     } else {
