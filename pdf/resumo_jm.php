@@ -8,17 +8,14 @@ $pedidoAjax = true;
 require_once "../config/configAPP.php";
 
 // CONSULTA
+require_once "../controllers/JovemMonitorController.php";
+$jmObj = new JovemMonitorController();
+$jm = $jmObj->recuperaJovemMonitor($_GET['idJm'])->fetch();
+$idPf = MainModel::encryption($jm['pessoa_fisica_id']);
+
 require_once "../controllers/PessoaFisicaController.php";
 $pfObj = new PessoaFisicaController();
-
-session_start(['name' => 'cpc']);
-//$idPf = $_SESSION['origem_id_c'];
-$idPf = 1;
-
-$pf = $pfObj->recuperaPessoaFisica($idPf)->fetchAll(PDO::FETCH_ASSOC);
-
-require_once "../controllers/EventoController.php";
-$eventoObj = new EventoController();
+$pf = $pfObj->recuperaPessoaFisica($idPf);
 
 
 class PDF extends FPDF
@@ -30,87 +27,88 @@ class PDF extends FPDF
 $pdf = new PDF('P', 'mm', 'A4'); //CRIA UM NOVO ARQUIVO PDF NO TAMANHO A4
 $pdf->AliasNbPages();
 
-    $pdf->AddPage();
+$pdf->AddPage();
 
-    $x = 20;
-    $l = 6; //DEFINE A ALTURA DA LINHA
-    $f = 9; //tamanho da fonte
+$x = 20;
+$l = 7; //DEFINE A ALTURA DA LINHA
+$f = 12; //tamanho da fonte
 
-    $pdf->SetXY($x, 15);// SetXY - DEFINE O X (largura) E O Y (altura) NA PÁGINA
+$pdf->SetXY($x, 25);// SetXY - DEFINE O X (largura) E O Y (altura) NA PÁGINA
 
-    $pdf->SetX($x);
-    $pdf->SetFont('Arial', 'B', 14);
-    $pdf->Cell(180, 5, utf8_decode("CADASTRO DE JOVEM MONITOR"), 0, 1, 'C');
+$pdf->SetX($x);
+$pdf->SetFont('Arial', 'B', 14);
+$pdf->Cell(170, $l, utf8_decode("CADASTRO DE JOVEM MONITOR"), 0, 1, 'C');
 
-    $pdf->Ln();
+$pdf->Ln(10);
 
-    $pdf->SetX($x);
-    $pdf->SetFont('Arial', '', $f);
-    $pdf->MultiCell(180, $l, utf8_decode("Eu, " . $evento['lider_nome'] . ", RG " . $evento['lider_rg'] . ", CPF " . $evento['lider_cpf'] . ", sob penas da lei, declaro que sou líder da atração " . $evento['nome_atracao'] . " que possui os integrantes abaixo listados, e que o mesmo é representado exclusivamente por mim."));
+$pdf->SetX($x);
+$pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(140, $l, utf8_decode(""), '0', 0, 'L');
+$pdf->Cell(30, $l, utf8_decode("Código"), 'TLR', 1, 'C');
 
-    $pdf->Ln();
+$pdf->SetX($x);
+$pdf->SetFont('Arial', '', $f);
+$pdf->Cell(140, $l, utf8_decode(""), '0', 0, 'L');
+$pdf->Cell(30, $l, utf8_decode("JM".$jm['id']), 'BLR', 1, 'C');
 
-    $pdf->SetX($x);
-    $pdf->SetFont('Arial', '', $f);
-    $pdf->MultiCell(180, $l, utf8_decode("Declaro, sob as penas da Lei, que não sou servidor público municipal e que não me encontro em impedimento para contratar com a Prefeitura do Município de São Paulo / Secretaria Municipal de Cultura, mediante recebimento de cachê e/ou bilheteria, quando for o caso."));
+$pdf->Ln(10);
 
-    $pdf->Ln();
+$pdf->SetX($x);
+$pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(14, $l, utf8_decode("Nome:"), 0, 0, 'L');
+$pdf->SetFont('Arial', '', $f);
+$pdf->Cell(20, $l, utf8_decode($pf['nome']), 0, 1, 'L');
 
-    $pdf->SetX($x);
-    $pdf->SetFont('Arial', '', $f);
-    $pdf->MultiCell(180, $l, utf8_decode("Declaro, sob as penas da lei, dentre os integrantes abaixo listados não há crianças e adolescentes. Quando houver, estamos cientes que é de nossa responsabilidade a adoção das providências de obtenção  de  decisão judicial  junto à Vara da Infância e Juventude."));
+$pdf->SetX($x);
+$pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(28, $l, utf8_decode("Nome Social:"), 0, 0, 'L');
+$pdf->SetFont('Arial', '', $f);
+$pdf->Cell(20, $l, utf8_decode($pf['nome_artistico']), 0, 1, 'L');
 
-    $pdf->Ln();
+$pdf->SetX($x);
+$pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(43, $l, utf8_decode("Data de Nascimento:"), 0, 0, 'L');
+$pdf->SetFont('Arial', '', $f);
+$pdf->Cell(20, $l, date("d/m/Y", strtotime($pf['data_nascimento'])), 0, 1, 'L');
 
-    $pdf->SetX($x);
-    $pdf->SetFont('Arial', '', $f);
-    $pdf->MultiCell(180, $l, utf8_decode("Declaro, ainda, neste ato, que autorizo, a título gratuito, por prazo indeterminado, a Municipalidade de São Paulo, através da SMC, o uso da nossa imagem, voz e performance nas suas publicações em papel e qualquer mídia digital, streaming ou internet existentes ou que venha a existir como também para os fins de arquivo e material de pesquisa e consulta."));
+$pdf->SetX($x);
+$pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(9, $l, utf8_decode("RG:"), 0, 0, 'L');
+$pdf->SetFont('Arial', '', $f);
+$pdf->Cell(20, $l, utf8_decode($pf['rg']), 0, 1, 'L');
 
-    $pdf->Ln();
+$pdf->SetX($x);
+$pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(12, $l, utf8_decode("CPF:"), 0, 0, 'L');
+$pdf->SetFont('Arial', '', $f);
+$pdf->Cell(20, $l, utf8_decode($pf['cpf']), 0, 1, 'L');
 
-    $pdf->SetX($x);
-    $pdf->SetFont('Arial', '', $f);
-    $pdf->MultiCell(180, $l, utf8_decode("Declaro, ainda, neste ato, que autorizo, a título gratuito, por prazo indeterminado, a Municipalidade de São Paulo, através da SMC, o uso da nossa imagem, voz e performance nas suas publicações em papel e qualquer mídia digital, streaming ou internet existentes ou que venha a existir como também para os fins de arquivo e material de pesquisa e consulta."));
+$pdf->SetX($x);
+$pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(15, $l, utf8_decode("E-mail:"), 0, 0, 'L');
+$pdf->SetFont('Arial', '', $f);
+$pdf->Cell(20, $l, utf8_decode($pf['email']), 0, 1, 'L');
 
-    $pdf->Ln();
+$pdf->SetX($x);
+$pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(22, $l, utf8_decode("Telefones:"), 0, 0, 'L');
+$pdf->SetFont('Arial', '', $f);
+$pdf->Cell(20, $l, utf8_decode(isset($pf['telefones']) ? implode(" | ", $pf['telefones']) : ""), 0, 1, 'L');
 
-    $pdf->SetX($x);
-    $pdf->SetFont('Arial', '', $f);
-    $pdf->MultiCell(180, $l, utf8_decode("Fico autorizado a celebrar contrato, inclusive receber cachê e/ou bilheteria quando for o caso, outorgando quitação."));
+$pdf->SetX($x);
+$pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(22, $l, utf8_decode("Endereço:"), 0, 0, 'L');
+$pdf->SetFont('Arial', '', $f);
+$pdf->MultiCell(150, $l, utf8_decode($pf['logradouro'] . ", " . $pf['numero'] . " " . $pf['complemento'] . " " . $pf['bairro'] . " - " . $pf['cidade'] . "-" . $pf['uf'] . " CEP: " . $pf['cep']));
 
-    $pdf->Ln();
+$pdf->Ln(20);
 
-    $pdf->SetX($x);
-    $pdf->SetFont('Arial', '', $f);
-    $pdf->MultiCell(180, $l, utf8_decode("Estou ciente de que o pagamento dos valores decorrentes dos serviços é de minha responsabilidade, não cabendo pleitear à Prefeitura quaisquer valores eventualmente não repassados."));
+$pdf->SetX($x);
+$pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(170, $l, utf8_decode("Cadastro enviado em:"), 0, 1, 'C');
 
-    $pdf->Ln();
-
-    $pdf->SetX($x);
-    $pdf->SetFont('Arial', '', $f);
-    $pdf->Cell(128, $l, utf8_decode("Integrantes:"), 0, 1, 'L');
-
-    $pdf->SetX($x);
-    $pdf->SetFont('Arial', '', 9);
-    $pdf->MultiCell(180, 5, utf8_decode($evento['integrantes']));
-
-    $pdf->Ln();
-
-    $pdf->SetX($x);
-    $pdf->SetFont('Arial', '', $f);
-    $pdf->Cell(128, $l, utf8_decode("São Paulo, _______ / _______ / " . date('Y') . "."), 0, 1, 'L');
-
-    $pdf->Ln(20);
-
-    $pdf->SetX($x);
-    $pdf->SetFont('Arial', '', $f);
-    $pdf->Cell(120, 4, utf8_decode("Nome do Líder do Grupo: " . $evento['lider_nome']), 'T', 1, 'L');
-    $pdf->SetX($x);
-    $pdf->SetFont('Arial', '', $f);
-    $pdf->Cell(128, 4, utf8_decode("RG: " . $evento['lider_rg'] . ""), 0, 1, 'L');
-    $pdf->SetX($x);
-    $pdf->SetFont('Arial', '', $f);
-    $pdf->Cell(128, 4, utf8_decode("CPF: " . $evento['lider_cpf'] . ""), 0, 1, 'L');
-
+$pdf->SetX($x);
+$pdf->SetFont('Arial', '', $f);
+$pdf->Cell(170, $l, date("d/m/Y H:i:s", strtotime($jm['data_cadastro'])), 0, 1, 'C');
 
 $pdf->Output();
