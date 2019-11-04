@@ -81,8 +81,8 @@ unset($_SESSION['modulo']);
                 </div>
             </div>
             <!-- ./col -->
+            <!-- Removido até verificar o melhor jeito para fazer
             <div class="col-md-3">
-                <!-- small card -->
                 <div class="card card-primary card-outline">
                     <div class="card-header">
                         <h3 class="card-title">
@@ -100,6 +100,7 @@ unset($_SESSION['modulo']);
                     </div>
                 </div>
             </div>
+            -->
             <!-- ./col -->
         </div>
         <!-- ./row -->
