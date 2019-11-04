@@ -121,11 +121,15 @@ class PessoaFisicaModel extends ValidacaoModel
             $erros = array_merge($erros, $validaTelefone);
         }
 
-        if (MainModel::verificaCenica(MainModel::encryption($evento_id))) {
-            if (!isset($erros) || $erros == false) { $erros = []; }
-            $erros['drt']['bol'] = true;
-            $erros['drt']['motivo'] = 'Proponente não possui DRT cadastrado';
-        };
+        if ($evento_id != null) {
+            if (MainModel::verificaCenica(MainModel::encryption($evento_id))) {
+                if (!isset($erros) || $erros == false) {
+                    $erros = [];
+                }
+                $erros['drt']['bol'] = true;
+                $erros['drt']['motivo'] = 'Proponente não possui DRT cadastrado';
+            };
+        }
 
         $validaArquivos = ValidacaoModel::validaArquivos(1, $pessoa_fisica_id);
         if ($validaArquivos) {

@@ -411,4 +411,19 @@ class MainModel extends DbModel
         return $i;
     }
 
+    public function existeErro($erros){
+        $erro = MainModel::in_array_r(true, $erros, true);
+        if ($erro) {
+            foreach ($erros as $key => $item) {
+                if ($erro != false) {
+                    if ($item['bol']) {
+                        $validacao[] = $item['motivo'];
+                    }
+                }
+            }
+            return $validacao;
+        } else {
+            return false;
+        }
+    }
 }

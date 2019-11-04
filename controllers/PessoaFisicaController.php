@@ -236,7 +236,17 @@ class PessoaFisicaController extends PessoaFisicaModel
         return $consulta_pf_pass;
     }
 
+    /**
+     * @param int|string $pessoa_fisica_id
+     * @param int $validacaoTipo <p>Deve conter o valor 1 para validação de pessoa física e 2 para validação de líder</p>
+     * @param int|null $evento_id
+     * @return array|bool
+     */
     public function validaPf($pessoa_fisica_id, $validacaoTipo, $evento_id = null){
+        $tipo = gettype($pessoa_fisica_id);
+        if ($tipo == "string") {
+            $pessoa_fisica_id = MainModel::decryption($pessoa_fisica_id);
+        }
         $pf = PessoaFisicaModel::validaPfModel($pessoa_fisica_id, $validacaoTipo, $evento_id);
         return $pf;
     }

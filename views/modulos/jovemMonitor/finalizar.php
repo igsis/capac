@@ -3,6 +3,8 @@
 require_once "./controllers/PessoaFisicaController.php";
 $pfObj = new PessoaFisicaController();
 $pf = $pfObj->recuperaPessoaFisica($_SESSION['origem_id_c']);
+$erros = $pfObj->validaPf(1, 2);
+$validacoesJm = $erros ? $pfObj->existeErro($erros) : false;
 ?>
 
 <!-- Content Header (Page header) -->
@@ -13,6 +15,22 @@ $pf = $pfObj->recuperaPessoaFisica($_SESSION['origem_id_c']);
                 <h1 class="m-0 text-dark">Finalizar o Envio</h1>
             </div><!-- /.col -->
         </div><!-- /.row -->
+        <?php if ($validacoesJm): ?>
+            <div class="row erro-validacao">
+                <div class="col-md-4">
+                    <div class="card bg-danger">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fa fa-exclamation mr-3"></i><strong>Erros no cadastro</strong></h3>
+                        </div>
+                        <div class="card-body">
+                            <?php foreach ($validacoesJm as $erro): ?>
+                                <li><?= $erro ?></li>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
     </div>
     <!-- /.container-fluid -->
 </div>

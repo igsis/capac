@@ -13,7 +13,7 @@
 <?php if (isset($_SESSION['origem_id_c'])){
     ?>
     <li class="nav-item">
-        <a href="<?= SERVERURL ?>jovemMonitor/proponente" class="nav-link" id="proponente">
+        <a href="<?= SERVERURL ?>jovemMonitor/pf_cadastro&id=<?=$_SESSION['origem_id_c']?>" class="nav-link" id="proponente">
             <i class="far fa-circle nav-icon"></i>
             <p>Cadastro</p>
         </a>
