@@ -58,6 +58,13 @@ class PessoaFisicaController extends PessoaFisicaModel
                 }
             }
 
+            if (isset($dadosLimpos['dt'])){
+                if (count($dadosLimpos['dt']) > 0) {
+                    $dadosLimpos['dt']['pessoa_fisica_id'] = $id;
+                    DbModel::insert('pf_detalhes', $dadosLimpos['dt']);
+                }
+            }
+
             session_start(['name' => 'cpc']);
             if ($_SESSION['modulo_c'] == 7){ //jovem monitor
                 $_SESSION['origem_id_c'] = $id;
@@ -173,6 +180,18 @@ class PessoaFisicaController extends PessoaFisicaModel
                 }
             }
 
+            if (isset($dadosLimpos['dt'])){
+                if (count($dadosLimpos['dt']) > 0) {
+                    $detalhe_existe = DbModel::consultaSimples("SELECT * FROM pf_detalhes WHERE pessoa_fisica_id = '$idDecryp'");
+                    if ($detalhe_existe->rowCount() > 0) {
+                        DbModel::updateEspecial('pf_detalhes', $dadosLimpos['dt'], "pessoa_fisica_id", $idDecryp);
+                    } else {
+                        $dadosLimpos['dt']['pessoa_fisica_id'] = $idDecryp;
+                        DbModel::insert('pf_detalhes', $dadosLimpos['dt']);
+                    }
+                }
+            }
+
             session_start(['name' => 'cpc']);
             if ($_SESSION['modulo_c'] == 7){ //jovem monitor
                 $_SESSION['origem_id_c'] = $id;
@@ -215,6 +234,7 @@ class PessoaFisicaController extends PessoaFisicaModel
             LEFT JOIN nits n on pf.id = n.pessoa_fisica_id
             LEFT JOIN nacionalidades n2 on pf.nacionalidade_id = n2.id
             LEFT JOIN bancos b on pb.banco_id = b.id
+            LEFT JOIN pf_detalhes pd on pf.id = pd.pessoa_fisica_id
             WHERE pf.id = '$id'");
 
         $pf = $pf->fetch(PDO::FETCH_ASSOC);
