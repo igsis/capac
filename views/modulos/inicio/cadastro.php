@@ -1,4 +1,6 @@
-<!-- Content Header (Page header) -->
+<?php
+$url = 'http://' . $_SERVER['HTTP_HOST'] . '/capac/api/verificadorEmail.php';
+?>
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -18,7 +20,8 @@
         <div class="card-body register-card-body">
             <p class="login-box-msg">Efetue seu Cadastro</p>
 
-            <form class="needs-validation formulario-ajax" data-form="save" action="<?=SERVERURL?>ajax/usuarioAjax.php" method="post">
+            <form class="needs-validation formulario-ajax" data-form="save"
+                  action="<?= SERVERURL ?>ajax/usuarioAjax.php" method="post">
                 <input type="hidden" name="_method" value="insereNovoUsuario">
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" name="nome" placeholder="Nome Completo" required>
@@ -31,19 +34,20 @@
                         <strong>Insira seu Nome Completo</strong>
                     </div>
                 </div>
-                <div class="input-group mb-3">
-                    <input type="email" class="form-control" name="email" placeholder="Email" required>
+                <div class="input-group mb-3" id="divEmail">
+                    <input type="email" class="form-control" name="email" placeholder="Email" required id="email">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-envelope"></span>
                         </div>
                     </div>
                     <div class="invalid-feedback">
-                        <strong>Insira um Email Válido</strong>
+                        <strong>Email já cadastrado</strong>
                     </div>
                 </div>
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" name="telefone" placeholder="Telefone" onkeyup="mascara( this, mtel );" maxlength="15" required>
+                    <input type="text" class="form-control" name="telefone" placeholder="Telefone"
+                           onkeyup="mascara( this, mtel );" maxlength="15" required>
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-phone"></span>
@@ -76,7 +80,7 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">Cadastrar</button>
+                    <button type="submit" class="btn btn-primary btn-block btn-flat" id="cadastra">Cadastrar</button>
                 </div>
                 <div class="resposta-ajax">
 
@@ -90,4 +94,29 @@
         <!-- /.form-box -->
     </div><!-- /.card -->
 </div>
-<!-- /.register-box -->
+
+<script>
+    const url = `<?=$url?>`;
+    var email = $('#email');
+
+    email.blur(function () {
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: {"email": email.val()},
+
+            success: function (data) {
+                let divEmail = document.querySelector('#divEmail');
+                let emailCampo = document.querySelector('#email');
+
+                if (data.ok) {
+                    emailCampo.classList.remove("is-invalid");
+                    $("#cadastra").attr('disabled', false);
+                } else {
+                    emailCampo.classList.add("is-invalid");
+                    $("#cadastra").attr('disabled', true);
+                }
+            }
+        })
+    })
+</script>
