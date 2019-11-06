@@ -51,7 +51,8 @@ class ViewsModel
             'anexos_lider',
             'demais_anexos',
             'finalizar',
-            'representante'
+            'representante',
+            'programa'
         ];
         if (self::verificaModulo($modulo)) {
             if (in_array($view, $whitelist)) {

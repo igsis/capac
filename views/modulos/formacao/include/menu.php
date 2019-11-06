@@ -6,31 +6,27 @@
 </li>
 <li class="nav-item">
     <a href="<?= SERVERURL ?>formacao/proponente" class="nav-link" id="proponente">
-        <i class="far fa-circle nav-icon"></i>
+        <i class="fa fa-search nav-icon"></i>
         <p>Cadastro</p>
     </a>
 </li>
 <?php if (isset($_SESSION['origem_id_c'])){ ?>
     <li class="nav-item">
-        <a href="<?= SERVERURL ?>formacao/informacoes_complementares" class="nav-link" id="informacoes_complementares">
+        <a href="<?= SERVERURL ?>formacao/informacoes_complementares" class="nav-link" id="dados_cadastrais">
             <i class="far fa-circle nav-icon"></i>
-            <p>Cadastro</p>
+            <p>Dados cadastrais</p>
         </a>
-        <ul class="nav nav-treeview">
-            <li class="nav-item">
-                <a href="<?= SERVERURL ?>formacao/anexos_proponente" class="nav-link" id="anexos-proponente">
-                    <div class="row">
-                        <div class="col-3"><i class="ml-3 far fa-dot-circle nav-icon"></i></div>
-                        <div class="col-9">Anexos</div>
-                    </div>
-                </a>
-            </li>
-        </ul>
+    </li>
+    <li class="nav-item">
+        <a href="<?= SERVERURL ?>formacao/anexos_proponente" class="nav-link" id="anexos-proponente">
+            <i class="far fa-circle nav-icon"></i>
+            <p>Anexos da pessoa</p>
+        </a>
     </li>
     <li class="nav-item">
         <a href="<?= SERVERURL ?>formacao/programa" class="nav-link" id="programa">
             <i class="far fa-circle nav-icon"></i>
-            <p>Programa</p>
+            <p>Detalhes do programa</p>
         </a>
     </li>
     <li class="nav-item">
