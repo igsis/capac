@@ -74,7 +74,7 @@ $form = $formObj->recuperaFormacao($idPf)->fetch();
                                     </select>
                                 </div>
                                 <div class="form-group col">
-                                    <label for="linguagem_id">Linguagens: *</label>
+                                    <label for="linguagem_id">Linguagem: *</label>
                                     <select class="form-control" id="linguagem_id" name="linguagem_id" required>
                                         <option value="">Selecione uma opção...</option>
                                         <?php
@@ -115,6 +115,6 @@ $form = $formObj->recuperaFormacao($idPf)->fetch();
 <script type="application/javascript">
     $(document).ready(function () {
         $('.nav-link').removeClass('active');
-        $('#dados_cadastrais').addClass('active');
+        $('#programa').addClass('active');
     })
 </script>

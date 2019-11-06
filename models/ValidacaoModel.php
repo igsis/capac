@@ -76,6 +76,18 @@ class ValidacaoModel extends MainModel
         }
     }
 
+    protected function validaDetalhes($idPf)
+    {
+        $pf_detalhe = DbModel::consultaSimples("SELECT * FROM pf_detalhes WHERE pessoa_fisica_id = '$idPf'")->fetchObject();
+        $erros = ValidacaoModel::retornaMensagem($pf_detalhe);
+
+        if (isset($erros)){
+            return $erros;
+        } else {
+            return false;
+        }
+    }
+
     protected function validaRepresentante($id)
     {
         $representante = DbModel::getInfo('representante_legais', $id)->fetchObject();

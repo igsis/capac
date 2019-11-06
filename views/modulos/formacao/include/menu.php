@@ -1,3 +1,13 @@
+<?php
+require_once "./controllers/FormacaoController.php";
+$formObj = new FormacaoController();
+
+if (isset($_SESSION['origem_id_c'])){
+    $idPf = $_SESSION['origem_id_c'];
+    $form = $formObj->recuperaFormacao($idPf)->fetch();
+    $id = MainModel::encryption($form['id']);
+}
+?>
 <li class="nav-item">
     <a href="<?= SERVERURL ?>formacao/inicio" class="nav-link" id="evento_cc_inicio">
         <i class="fa fa-info nav-icon"></i>
@@ -12,7 +22,7 @@
 </li>
 <?php if (isset($_SESSION['origem_id_c'])){ ?>
     <li class="nav-item">
-        <a href="<?= SERVERURL ?>formacao/informacoes_complementares" class="nav-link" id="dados_cadastrais">
+        <a href="<?= SERVERURL ?>formacao/pf_cadastro<?= $idPf ? '&id='.$idPf : NULL ?>" class="nav-link" id="dados_cadastrais">
             <i class="far fa-circle nav-icon"></i>
             <p>Dados cadastrais</p>
         </a>
@@ -24,7 +34,7 @@
         </a>
     </li>
     <li class="nav-item">
-        <a href="<?= SERVERURL ?>formacao/programa" class="nav-link" id="programa">
+        <a href="<?= SERVERURL ?>formacao/programa<?= $id ? '&id='.$id : NULL ?>" class="nav-link" id="programa">
             <i class="far fa-circle nav-icon"></i>
             <p>Detalhes do programa</p>
         </a>

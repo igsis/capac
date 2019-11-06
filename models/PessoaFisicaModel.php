@@ -97,6 +97,18 @@ class PessoaFisicaModel extends ValidacaoModel
                     'nacionalidade_id',
                 ];
                 break;
+
+            case 3: //formação
+                $naoObrigatorios = [
+                    'nome_artistico',
+                    'ccm',
+                    'cpf',
+                    'passaporte',
+                ];
+
+                $validaEndereco = ValidacaoModel::validaEndereco(1, $pessoa_fisica_id);
+                $validaDetalhes = ValidacaoModel::validaDetalhes($pessoa_fisica_id);
+                break;
             default:
                 $naoObrigatorios = [];
                 break;
@@ -109,14 +121,22 @@ class PessoaFisicaModel extends ValidacaoModel
 
         $erros = ValidacaoModel::retornaMensagem($pf, $naoObrigatorios);
 
+        if($validacaoTipo == 3){
+            if (!isset($erros) || $erros == false) { $erros = []; }
+            $erros = array_merge($erros, $validaDetalhes);
+        }
+
+        if ($validacaoTipo == 1 || $validacaoTipo == 3){
+            if ($validaEndereco) {
+                if (!isset($erros) || $erros == false) { $erros = []; }
+                $erros = array_merge($erros, $validaEndereco);
+            }
+        }
+
         if ($validacaoTipo == 1) {
             if ($validaBanco) {
                 if (!isset($erros) || $erros == false) { $erros = []; }
                 $erros = array_merge($erros, $validaBanco);
-            }
-            if ($validaEndereco) {
-                if (!isset($erros) || $erros == false) { $erros = []; }
-                $erros = array_merge($erros, $validaEndereco);
             }
         }
 
