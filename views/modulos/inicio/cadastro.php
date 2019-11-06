@@ -14,12 +14,12 @@ $url = 'http://' . $_SERVER['HTTP_HOST'] . '/capac/api/verificadorEmail.php';
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content-header -->
-<div class="register-box">
+<div class="login-page">
 
     <div class="card">
         <div class="card-body register-card-body">
-            <p class="login-box-msg">Efetue seu Cadastro</p>
-
+            <h5 class="login-box-msg">Efetue seu Cadastro</h5>
+            <p class="card-text"><span style="text-align: justify; display:block;"> Confira seus dados antes de clicar no botão "Cadastrar".</span></p>
             <form class="needs-validation formulario-ajax" data-form="save"
                   action="<?= SERVERURL ?>ajax/usuarioAjax.php" method="post">
                 <input type="hidden" name="_method" value="insereNovoUsuario">
