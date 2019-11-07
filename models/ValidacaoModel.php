@@ -78,9 +78,20 @@ class ValidacaoModel extends MainModel
 
     protected function validaDetalhes($idPf)
     {
-        $pf_detalhe = DbModel::consultaSimples("SELECT * FROM pf_detalhes WHERE pessoa_fisica_id = '$idPf'")->fetchObject();
-        $erros = ValidacaoModel::retornaMensagem($pf_detalhe);
+        $proponente = DbModel::consultaSimples("SELECT * FROM pf_detalhes WHERE pessoa_fisica_id = '$idPf'");
 
+        $naoObrigatorios = [
+            'curriculo'
+        ];
+        if ($proponente->rowCount() == 0) {
+            $erros['detalhes']['bol'] = true;
+            $erros['detalhes']['motivo'] = "Cadastro de pesssoa física incompleto";
+
+            return $erros;
+        } else {
+            $proponente = $proponente->fetchObject();
+            $erros = ValidacaoModel::retornaMensagem($proponente, $naoObrigatorios);
+        }
         if (isset($erros)){
             return $erros;
         } else {

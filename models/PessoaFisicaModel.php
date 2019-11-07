@@ -122,8 +122,10 @@ class PessoaFisicaModel extends ValidacaoModel
         $erros = ValidacaoModel::retornaMensagem($pf, $naoObrigatorios);
 
         if($validacaoTipo == 3){
-            if (!isset($erros) || $erros == false) { $erros = []; }
-            $erros = array_merge($erros, $validaDetalhes);
+            if ($validaDetalhes){
+                if (!isset($erros) || $erros == false) { $erros = []; }
+                $erros = array_merge($erros, $validaDetalhes);
+            }
         }
 
         if ($validacaoTipo == 1 || $validacaoTipo == 3){
