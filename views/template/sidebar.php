@@ -38,17 +38,19 @@
             <li class="nav-header">CONTA</li>
             <li class="nav-item">
                 <a href="<?= SERVERURL ?>inicio/edita" class="nav-link">
-                    <i class="fa fa-user"></i>&nbsp; Minha conta
+                    <i class="fa fa-user"></i> 
+                    <p>Minha conta</p>
                 </a>
             </li>
             <li class="nav-item">
                 <a href="#" class="nav-link">
-                    <i class="fa fa-question"></i>&nbsp; Ajuda
+                    <i class="fa fa-question"></i>&nbsp;
+                    <p>Ajuda</p>
                 </a>
             </li>
             <li class="nav-item">
                 <a href="<?= SERVERURL ?>inicio/logout" class="nav-link">
-                    <i class="fas fa-sign-out-alt"></i>&nbsp; Sair
+                    <i class="fas fa-sign-out-alt"></i>&nbsp; <p>Sair</p>
                 </a>
             </li>
         </ul>
