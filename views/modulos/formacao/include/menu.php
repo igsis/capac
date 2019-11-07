@@ -28,21 +28,15 @@ if (isset($_SESSION['origem_id_c'])){
         </a>
     </li>
     <li class="nav-item">
-        <a href="<?= SERVERURL ?>formacao/anexos_proponente" class="nav-link" id="anexos-proponente">
-            <i class="far fa-circle nav-icon"></i>
-            <p>Anexos da pessoa</p>
-        </a>
-    </li>
-    <li class="nav-item">
         <a href="<?= SERVERURL ?>formacao/programa<?= $id ? '&id='.$id : NULL ?>" class="nav-link" id="programa">
             <i class="far fa-circle nav-icon"></i>
             <p>Detalhes do programa</p>
         </a>
     </li>
     <li class="nav-item">
-        <a href="<?= SERVERURL ?>formacao/demais_anexos" class="nav-link" id="demais_anexos">
+        <a href="<?= SERVERURL ?>formacao/anexos_proponente" class="nav-link" id="anexos-proponente">
             <i class="far fa-circle nav-icon"></i>
-            <p>Demais anexos</p>
+            <p>Anexos</p>
         </a>
     </li>
     <li class="nav-item">
