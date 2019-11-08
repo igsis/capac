@@ -1,13 +1,13 @@
 <?php
 if ($pedidoAjax) {
-    require_once "../models/MainModel.php";
+    require_once "../models/ValidacaoModel.php";
     require_once "../controllers/PessoaFisicaController.php";
 } else {
-    require_once "./models/MainModel.php";
+    require_once "./models/ValidacaoModel.php";
     require_once "./controllers/PessoaFisicaController.php";
 }
 
-class FormacaoController extends MainModel
+class FormacaoController extends ValidacaoModel
 {
     public function insereFormacao()
     {
@@ -30,7 +30,7 @@ class FormacaoController extends MainModel
                 'titulo' => 'Detalhes do programa',
                 'texto' => 'Cadastro realizado com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL . $pagina . '&id=' . MainModel::encryption($id)
+                'location' => SERVERURL . $pagina . '&idC=' . MainModel::encryption($id)
             ];
         } else {
             $alerta = [
@@ -65,7 +65,7 @@ class FormacaoController extends MainModel
                 'titulo' => 'Detalhes do programa',
                 'texto' => 'Cadastro editado com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL . $pagina . '&id=' . $id
+                'location' => SERVERURL . $pagina . '&idC=' . $id
             ];
         } else {
             $alerta = [
@@ -73,7 +73,7 @@ class FormacaoController extends MainModel
                 'titulo' => 'Erro!',
                 'texto' => 'Erro ao salvar!',
                 'tipo' => 'error',
-                'location' => SERVERURL . $pagina . '&id=' . $id
+                'location' => SERVERURL . $pagina . '&idC=' . $id
             ];
         }
         return MainModel::sweetAlert($alerta);
@@ -92,6 +92,12 @@ class FormacaoController extends MainModel
             LEFT JOIN form_cargos fc on form_cadastros.form_cargo_id = fc.id
             WHERE pessoa_fisica_id = '$idPf'
         ");
+        return $formacao;
+    }
+
+    public function validaForm($idPf){
+        $idPf = MainModel::decryption($idPf);
+        $formacao = ValidacaoModel::validaFormacao($idPf);
         return $formacao;
     }
 }

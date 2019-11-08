@@ -1,5 +1,5 @@
 <?php
-$id = isset($_GET['id']) ? $_GET['id'] : null;
+$id = isset($_GET['idC']) ? $_GET['idC'] : null;
 require_once "./controllers/FormacaoController.php";
 $formObj = new FormacaoController();
 
