@@ -67,7 +67,7 @@ class PessoaFisicaController extends PessoaFisicaModel
 
             session_start(['name' => 'cpc']);
             if ($_SESSION['modulo_c'] == 6 || $_SESSION['modulo_c'] == 7){ //formação ou jovem monitor
-                $_SESSION['origem_id_c'] = $id;
+                $_SESSION['origem_id_c'] = MainModel::encryption($id);
             }
 
             if($retornaId){
