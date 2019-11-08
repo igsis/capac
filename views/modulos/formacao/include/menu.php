@@ -5,7 +5,9 @@ $formObj = new FormacaoController();
 if (isset($_SESSION['origem_id_c'])){
     $idPf = $_SESSION['origem_id_c'];
     $form = $formObj->recuperaFormacao($idPf)->fetch();
-    $id = MainModel::encryption($form['id']);
+    if ($form){
+        $id = MainModel::encryption($form['id']);
+    }
 }
 ?>
 <li class="nav-item">

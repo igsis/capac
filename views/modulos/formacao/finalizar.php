@@ -10,6 +10,8 @@ $validacoesForm = $erros ? $pfObj->existeErro($erros) : false;
 require_once "./controllers/FormacaoController.php";
 $formObj = new FormacaoController();
 $form = $formObj->recuperaFormacao($idPf)->fetch();
+$erroForm = $formObj->validaForm($idPf);
+$validacoesPrograma = $erroForm ? $formObj->existeErro($erroForm) : false;
 ?>
 
 <!-- Content Header (Page header) -->
@@ -22,7 +24,7 @@ $form = $formObj->recuperaFormacao($idPf)->fetch();
         </div><!-- /.row -->
         <?php if ($validacoesForm): ?>
             <div class="row erro-validacao">
-                <div class="col-md-4">
+                <div class="col">
                     <div class="card bg-danger">
                         <div class="card-header">
                             <h3 class="card-title"><i class="fa fa-exclamation mr-3"></i><strong>Erros no cadastro</strong></h3>
@@ -34,6 +36,20 @@ $form = $formObj->recuperaFormacao($idPf)->fetch();
                         </div>
                     </div>
                 </div>
+                <?php if ($validacoesPrograma){ ?>
+                    <div class="col">
+                        <div class="card bg-danger">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fa fa-exclamation mr-3"></i><strong>Erros no cadastro</strong></h3>
+                            </div>
+                            <div class="card-body">
+                                <?php foreach ($validacoesPrograma as $erro): ?>
+                                    <li><?= $erro ?></li>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    </div>
+                <?php } ?>
             </div>
         <?php endif; ?>
     </div>

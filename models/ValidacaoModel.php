@@ -99,6 +99,26 @@ class ValidacaoModel extends MainModel
         }
     }
 
+    protected function validaFormacao($idPf)
+    {
+        $formacao = DbModel::consultaSimples("SELECT * FROM form_cadastros WHERE pessoa_fisica_id = '$idPf'");
+
+         if ($formacao->rowCount() == 0) {
+            $erros['detalhes']['bol'] = true;
+            $erros['detalhes']['motivo'] = "Detalhes do programa não inseridos!";
+
+            return $erros;
+        } else {
+            $formacao = $formacao->fetchObject();
+            $erros = ValidacaoModel::retornaMensagem($formacao);
+        }
+        if (isset($erros)){
+            return $erros;
+        } else {
+            return false;
+        }
+    }
+
     protected function validaRepresentante($id)
     {
         $representante = DbModel::getInfo('representante_legais', $id)->fetchObject();
