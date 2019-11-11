@@ -72,11 +72,11 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                                             </td>
                                         </tr>
                                     <?php } else { ?>
-                                        <tr>
+                                        <tr class="d-flex flex-column">
                                             <td>
                                                 <label for=""><?=$arquivo->documento?></label>
                                             </td>
-                                            <td>
+                                            <td class="border-top-0">
                                                 <input type="hidden" name="<?=$arquivo->sigla?>" value="<?=$arquivo->id?>">
                                                 <input class="text-center" type='file' name='<?=$arquivo->sigla?>'><br>
                                             </td>
