@@ -100,7 +100,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                 <!-- Horizontal Form -->
                 <div class="card card-info">
                     <div class="card-header">
-                        <h3 class="card-title">Aquivos anexados</h3>
+                        <h3 class="card-title">Arquivos anexados</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- table start -->
@@ -139,7 +139,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                             } else {
                                 ?>
                                 <tr>
-                                    <td class="text-center" colspan="3">Nenhum arquivo enviado</td>
+                                    <td class="text-center" colspan="4">Nenhum arquivo enviado</td>
                                 </tr>
                                 <?php
                             }
