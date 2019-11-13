@@ -259,7 +259,7 @@ if (isset($_POST['pj_cnpj'])){
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>eventos/representante_cadastro&idPj=<?= $id ?>" role="form">
+            <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>eventos/representante_cadastro&idPj=<?= $id ?>" role="form" id="formularioPf">
                 <input type="hidden" name="idPj" value="<?= $id ?>">
                 <input type="hidden" name="representante" id="representante">
                 <div class="modal-body">
@@ -268,6 +268,9 @@ if (isset($_POST['pj_cnpj'])){
                             <label for="cpf">CPF:</label>
                             <input type="text" class="form-control" id="cpf" name="cpf" onkeypress="mask(this, '###.###.###-##')" maxlength="14" required>
                         </div>
+                        <br>
+                        <span style="display: none;" id="dialogError" class="alert alert-danger"
+                              role="alert">CPF inválido</span>
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
