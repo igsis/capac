@@ -30,7 +30,7 @@ if (isset($_SESSION['origem_id_c'])){
         </a>
     </li>
     <li class="nav-item">
-        <a href="<?= SERVERURL ?>formacao/programa<?= $id ? '&idC='.$id : NULL ?>" class="nav-link" id="programa">
+        <a href="<?= SERVERURL ?>formacao/programa<?= $idPf ? '&idC='.$idPf : NULL ?>" class="nav-link" id="programa">
             <i class="far fa-circle nav-icon"></i>
             <p>Detalhes do programa</p>
         </a>
