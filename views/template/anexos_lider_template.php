@@ -51,7 +51,57 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
+            <div class="col">
+                <!-- Horizontal Form -->
+                <div class="card card-info">
+                    <div class="card-header">
+                        <h3 class="card-title">Lista de Arquivos</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- table start -->
+                    <div class="card-body p-0">
+                        <form class="formulario-ajax" method="POST" action="<?=SERVERURL?>ajax/arquivosAjax.php" data-form="save" enctype="multipart/form-data">
+                            <input type="hidden" name="_method" value="enviarArquivo">
+                            <input type="hidden" name="origem_id" value="<?= $proponente_id ?>">
+                            <input type="hidden" name="pagina" value="<?= $pagina ?>">
+                            <table class="table table-striped">
+                                <tbody>
+                                <?php
+                                $arquivos = $arquivosObj->listarArquivosLider()->fetchAll(PDO::FETCH_OBJ);
+                                foreach ($arquivos as $arquivo) {
+                                    if ($arquivosObj->consultaArquivoEnviado($arquivo->id, $proponente_id)) {
+                                        ?>
+                                        <tr>
+                                            <td colspan="2">
+                                                <div class="callout callout-success text-center">
+                                                    Arquivo <strong><?= $arquivo->documento ?></strong> já enviado!
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php } else { ?>
+                                        <tr>
+                                            <td>
+                                                <label for=""><?=$arquivo->documento?></label>
+                                            </td>
+                                            <td>
+                                                <input type="hidden" name="<?=$arquivo->sigla?>" value="<?=$arquivo->id?>">
+                                                <input class="text-center" type='file' name='<?=$arquivo->sigla?>'><br>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                    }
+                                }
+                                ?>
+                                </tbody>
+                            </table>
+                            <input type="submit" class="btn btn-success btn-md btn-block" name="enviar" value='Enviar'>
+
+                            <div class="resposta-ajax"></div>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+            <div class="col">
                 <!-- Horizontal Form -->
                 <div class="card card-info">
                     <div class="card-header">
@@ -77,7 +127,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                                     ?>
                                     <tr>
                                         <td><?= $arquivo->documento ?></td>
-                                        <td><a href="<?=SERVERURL."uploads/".$arquivo->arquivo?>" target="_blank"><?= $arquivo->arquivo ?></a></td>
+                                        <td><a href="<?=SERVERURL."uploads/".$arquivo->arquivo?>" target="_blank"><?= mb_strimwidth($arquivo->arquivo, '15', '25', '...') ?></a></td>
                                         <td><?= $arquivosObj->dataParaBR($arquivo->data) ?></td>
                                         <td>
                                             <form class="formulario-ajax" action="<?=SERVERURL?>ajax/arquivosAjax.php" method="POST" data-form="delete">
@@ -94,7 +144,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                             } else {
                                 ?>
                                 <tr>
-                                    <td class="text-center" colspan="3">Nenhum arquivo enviado</td>
+                                    <td class="text-center" colspan="4">Nenhum arquivo enviado</td>
                                 </tr>
                                 <?php
                             }
@@ -103,59 +153,6 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                         </table>
                     </div>
 
-                </div>
-                <!-- /.card -->
-            </div>
-        </div>
-        <!-- /.row -->
-        <div class="row">
-            <div class="col-md-12">
-                <!-- Horizontal Form -->
-                <div class="card card-info">
-                    <div class="card-header">
-                        <h3 class="card-title">Lista de Arquivos</h3>
-                    </div>
-                    <!-- /.card-header -->
-                    <!-- table start -->
-                    <div class="card-body p-0">
-                        <form class="formulario-ajax" method="POST" action="<?=SERVERURL?>ajax/arquivosAjax.php" data-form="save" enctype="multipart/form-data">
-                            <input type="hidden" name="_method" value="enviarArquivo">
-                            <input type="hidden" name="origem_id" value="<?= $proponente_id ?>">
-                            <input type="hidden" name="pagina" value="<?= $pagina ?>">
-                            <table class="table table-striped">
-                                <tbody>
-                                    <?php
-                                    $arquivos = $arquivosObj->listarArquivos($tipo_documento_id)->fetchAll(PDO::FETCH_OBJ);
-                                    foreach ($arquivos as $arquivo) {
-                                        if ($arquivosObj->consultaArquivoEnviado($arquivo->id, $proponente_id)) {
-                                        ?>
-                                            <tr>
-                                                <td colspan="2">
-                                                    <div class="callout callout-success text-center">
-                                                        Arquivo <strong><?= $arquivo->documento ?></strong> já enviado!
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        <?php } else { ?>
-                                            <tr>
-                                                <td>
-                                                    <label for=""><?=$arquivo->documento?></label>
-                                                </td>
-                                                <td>
-                                                    <input type="hidden" name="<?=$arquivo->sigla?>" value="<?=$arquivo->id?>">
-                                                    <input class="text-center" type='file' name='<?=$arquivo->sigla?>'><br>
-                                                </td>
-                                            </tr>
-                                        <?php
-                                        }
-                                    }
-                                    ?>
-                                </tbody>
-                            </table>
-                            <input type="submit" class="btn btn-success btn-md btn-block" name="enviar" value='Enviar'>
-
-                            <div class="resposta-ajax"></div>
-                    </div>
                 </div>
                 <!-- /.card -->
             </div>
