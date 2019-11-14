@@ -2,7 +2,7 @@
 require_once "./controllers/ArquivoController.php";
 $arquivosObj = new ArquivoController();
 
-$tipo_documento_id = 1;
+$tipo_documento_id = 7;
 $proponente_id = $_SESSION['origem_id_c'];
 
 $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id)->fetchAll(PDO::FETCH_COLUMN);
@@ -122,7 +122,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                                     ?>
                                     <tr>
                                         <td><?= $arquivo->documento ?></td>
-                                        <td><a href="<?=SERVERURL."uploads/".$arquivo->arquivo?>" target="_blank"><?= $arquivo->arquivo ?></a></td>
+                                        <td><a href="<?=SERVERURL."uploads/".$arquivo->arquivo?>" target="_blank"><?= mb_strimwidth($arquivo->arquivo, '15', '25', '...') ?></a></td>
                                         <td><?= $arquivosObj->dataParaBR($arquivo->data) ?></td>
                                         <td>
                                             <form class="formulario-ajax" action="<?=SERVERURL?>ajax/arquivosAjax.php" method="POST" data-form="delete">
