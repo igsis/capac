@@ -96,7 +96,7 @@ $url = 'http://' . $_SERVER['HTTP_HOST'] . '/capac/api/verificadorEmail.php';
 </div>
 
 <script>
-    const url = `<?=$url?>`;
+    const url = `<?= $url ?>`;
     var email = $('#email');
 
     email.blur(function () {

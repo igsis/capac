@@ -295,8 +295,8 @@ $cenica = $insAtracao->verificaCenica($_SESSION['origem_id_c']);
     let linguagem = document.querySelector("#oficina_linguagem_id");
 
     if (linguagem.value != "") {
-        let sublinguagem_id = <?=$pf['oficina_sublinguagem_id']?>;
-        getSublinguagem(linguagem.value, sublinguagem_id);
+        let sublinguagem_id = <?= $pf['oficina_sublinguagem_id'] ?>
+        getSublinguagem(linguagem.value, sublinguagem_id)
     }
 
     linguagem.addEventListener('change', async e => {
