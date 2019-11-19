@@ -3,7 +3,7 @@
 require_once "./controllers/PessoaFisicaController.php";
 $pfObj = new PessoaFisicaController();
 $pf = $pfObj->recuperaPessoaFisica($_SESSION['origem_id_c']);
-$erros = $pfObj->validaPf(1, 2);
+$erros = $pfObj->validaPf(intval($pf['id']), 2,null,7);
 $validacoesJm = $erros ? $pfObj->existeErro($erros) : false;
 ?>
 

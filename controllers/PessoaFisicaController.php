@@ -265,12 +265,12 @@ class PessoaFisicaController extends PessoaFisicaModel
      * @param int|null $evento_id
      * @return array|bool
      */
-    public function validaPf($pessoa_fisica_id, $validacaoTipo, $evento_id = null){
+    public function validaPf($pessoa_fisica_id, $validacaoTipo, $evento_id = null,$tipo_documentos=null){
         $tipo = gettype($pessoa_fisica_id);
         if ($tipo == "string") {
             $pessoa_fisica_id = MainModel::decryption($pessoa_fisica_id);
         }
-        $pf = PessoaFisicaModel::validaPfModel($pessoa_fisica_id, $validacaoTipo, $evento_id);
+        $pf = PessoaFisicaModel::validaPfModel($pessoa_fisica_id, $validacaoTipo, $evento_id,$tipo_documentos);
         return $pf;
     }
 }

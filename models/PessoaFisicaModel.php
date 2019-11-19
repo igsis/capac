@@ -72,7 +72,7 @@ class PessoaFisicaModel extends ValidacaoModel
      * 2 - Líder</p>
      * @return array|bool
      */
-    protected function validaPfModel($pessoa_fisica_id, $validacaoTipo, $evento_id) {
+    protected function validaPfModel($pessoa_fisica_id, $validacaoTipo, $evento_id,$tipo_documentos=null) {
         $pf = DbModel::getInfo("pessoa_fisicas",$pessoa_fisica_id)->fetchObject();
 
         switch ($validacaoTipo) {
@@ -157,7 +157,7 @@ class PessoaFisicaModel extends ValidacaoModel
             };
         }
 
-        $validaArquivos = ValidacaoModel::validaArquivos(1, $pessoa_fisica_id);
+        $validaArquivos = ValidacaoModel::validaArquivos(intval($tipo_documentos), $pessoa_fisica_id);
         if ($validaArquivos) {
             if (!isset($erros) || $erros == false) { $erros = []; }
             $erros = array_merge($erros, $validaArquivos);
