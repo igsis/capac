@@ -65,7 +65,7 @@ class PessoaFisicaController extends PessoaFisicaModel
                 }
             }
 
-            session_start(['name' => 'cpc']);
+//            session_start(['name' => 'cpc']);
             if ($_SESSION['modulo_c'] == 6 || $_SESSION['modulo_c'] == 7){ //formação ou jovem monitor
                 $_SESSION['origem_id_c'] = MainModel::encryption($id);
             }
@@ -265,7 +265,7 @@ class PessoaFisicaController extends PessoaFisicaModel
      * @param int|null $evento_id
      * @return array|bool
      */
-    public function validaPf($pessoa_fisica_id, $validacaoTipo, $evento_id = null,$tipo_documentos=null){
+    public function validaPf($pessoa_fisica_id, $validacaoTipo, $evento_id = null, $tipo_documentos = null){
         $tipo = gettype($pessoa_fisica_id);
         if ($tipo == "string") {
             $pessoa_fisica_id = MainModel::decryption($pessoa_fisica_id);

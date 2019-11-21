@@ -175,7 +175,7 @@ class ValidacaoModel extends MainModel
         $sql = "SELECT ld.id, ld.documento, a.arquivo
                 FROM lista_documentos AS ld
                 LEFT JOIN (SELECT * FROM arquivos WHERE publicado = 1 AND origem_id = '$origem_id') AS a on ld.id = a.lista_documento_id
-                WHERE ld.tipo_documento_id = '$tipoDocumento'";
+                WHERE ld.tipo_documento_id = '$tipoDocumento' AND ld.publicado = '1'";
         $arquivos = DbModel::consultaSimples($sql)->fetchAll(PDO::FETCH_OBJ);
 
         foreach ($arquivos as $arquivo) {
