@@ -65,7 +65,6 @@ class PessoaFisicaController extends PessoaFisicaModel
                 }
             }
 
-//            session_start(['name' => 'cpc']);
             if ($_SESSION['modulo_c'] == 6 || $_SESSION['modulo_c'] == 7){ //formação ou jovem monitor
                 $_SESSION['origem_id_c'] = MainModel::encryption($id);
             }
@@ -226,7 +225,8 @@ class PessoaFisicaController extends PessoaFisicaModel
     public function recuperaPessoaFisica($id) {
         $id = MainModel::decryption($id);
         $pf = DbModel::consultaSimples(
-            "SELECT * FROM pessoa_fisicas AS pf
+            "SELECT pf.*, pe.*, pb.*, po.*, d.*, n.*, n2.nacionalidade, b.banco, b.codigo, pd.*, e.descricao, r.regiao, gi.grau_instrucao
+            FROM pessoa_fisicas AS pf
             LEFT JOIN pf_enderecos pe on pf.id = pe.pessoa_fisica_id
             LEFT JOIN pf_bancos pb on pf.id = pb.pessoa_fisica_id
             LEFT JOIN pf_oficinas po on pf.id = po.pessoa_fisica_id
