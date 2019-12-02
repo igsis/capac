@@ -115,7 +115,7 @@ $lista_documento_id = $arquivosObj->recuperaIdListaDocumento(4)->fetch(PDO::FETC
                             <input type="hidden" name="_method" value="enviarArquivoComProd">
                             <input type="hidden" name="origem_id" value="<?= $evento_id ?>">
                             <input type="hidden" name="modulo" value="<?=$modulo?>">
-                            <input type="hidden" name="lista_documento_id" value="<?=$lista_documento_id?>">
+                            <input type="hidden" name="lista_documento_id" value="4">
                             <table class="table table-striped">
                             <?php
                                 echo "<tbody>";

@@ -54,6 +54,10 @@ class PessoaFisicaModel extends ValidacaoModel
                         $campo = substr($campo, 3);
                         $dadosLimpos['of'][$campo] = MainModel::limparString($post);
                         break;
+                    case "dt":
+                        $campo = substr($campo, 3);
+                        $dadosLimpos['dt'][$campo] = MainModel::limparString($post);
+                        break;
                 }
             }
         }
@@ -68,7 +72,7 @@ class PessoaFisicaModel extends ValidacaoModel
      * 2 - Líder</p>
      * @return array|bool
      */
-    protected function validaPfModel($pessoa_fisica_id, $validacaoTipo, $evento_id) {
+    protected function validaPfModel($pessoa_fisica_id, $validacaoTipo, $evento_id,$tipo_documentos=null) {
         $pf = DbModel::getInfo("pessoa_fisicas",$pessoa_fisica_id)->fetchObject();
 
         switch ($validacaoTipo) {
@@ -93,6 +97,18 @@ class PessoaFisicaModel extends ValidacaoModel
                     'nacionalidade_id',
                 ];
                 break;
+
+            case 3: //formação
+                $naoObrigatorios = [
+                    'nome_artistico',
+                    'ccm',
+                    'cpf',
+                    'passaporte',
+                ];
+
+                $validaEndereco = ValidacaoModel::validaEndereco(1, $pessoa_fisica_id);
+                $validaDetalhes = ValidacaoModel::validaDetalhes($pessoa_fisica_id);
+                break;
             default:
                 $naoObrigatorios = [];
                 break;
@@ -105,14 +121,24 @@ class PessoaFisicaModel extends ValidacaoModel
 
         $erros = ValidacaoModel::retornaMensagem($pf, $naoObrigatorios);
 
+        if($validacaoTipo == 3){
+            if ($validaDetalhes){
+                if (!isset($erros) || $erros == false) { $erros = []; }
+                $erros = array_merge($erros, $validaDetalhes);
+            }
+        }
+
+        if ($validacaoTipo == 1 || $validacaoTipo == 3){
+            if ($validaEndereco) {
+                if (!isset($erros) || $erros == false) { $erros = []; }
+                $erros = array_merge($erros, $validaEndereco);
+            }
+        }
+
         if ($validacaoTipo == 1) {
             if ($validaBanco) {
                 if (!isset($erros) || $erros == false) { $erros = []; }
                 $erros = array_merge($erros, $validaBanco);
-            }
-            if ($validaEndereco) {
-                if (!isset($erros) || $erros == false) { $erros = []; }
-                $erros = array_merge($erros, $validaEndereco);
             }
         }
 
@@ -131,7 +157,7 @@ class PessoaFisicaModel extends ValidacaoModel
             };
         }
 
-        $validaArquivos = ValidacaoModel::validaArquivos(1, $pessoa_fisica_id);
+        $validaArquivos = ValidacaoModel::validaArquivos(intval($tipo_documentos), $pessoa_fisica_id);
         if ($validaArquivos) {
             if (!isset($erros) || $erros == false) { $erros = []; }
             $erros = array_merge($erros, $validaArquivos);

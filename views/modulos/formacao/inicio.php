@@ -94,7 +94,7 @@ if (isset($_GET['modulo'])) {
                     <!-- /.card-body -->
                     <div class="card-footer">
                         <div class="offset-md-4 col-md-4">
-                            <a href="<?= SERVERURL ?>eventos/evento_lista"><button class="btn btn-block btn-success">Clique aqui para começar</button></a>
+                            <a href="<?= SERVERURL ?>formacao/proponente"><button class="btn btn-block btn-success">Clique aqui para começar</button></a>
                         </div>
                     </div>
                 </div>

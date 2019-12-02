@@ -18,7 +18,7 @@ $produtor = $insProdutor->recuperaProdutor($id)->fetchObject();
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Cadastro de produtor</h1>
+                <h1 class="m-0 text-dark">Produtor</h1>
             </div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->

@@ -43,7 +43,7 @@ $cenica = $insAtracao->verificaCenica($_SESSION['origem_id_c']);
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Cadastro de pessoa física</h1>
+                <h1 class="m-0 text-dark">Pessoa Física</h1>
             </div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
@@ -295,13 +295,13 @@ $cenica = $insAtracao->verificaCenica($_SESSION['origem_id_c']);
     let linguagem = document.querySelector("#oficina_linguagem_id");
 
     if (linguagem.value != "") {
-        let sublinguagem_id = <?=$pf['oficina_sublinguagem_id']?>;
+        let sublinguagem_id = <?= $pf['oficina_sublinguagem_id'] ?>
         getSublinguagem(linguagem.value, sublinguagem_id)
     }
 
     linguagem.addEventListener('change', async e => {
         let idLinguagem = $('#oficina_linguagem_id option:checked').val();
-        getSublinguagem(idLinguagem, '')
+        getSublinguagem(idLinguagem, '');
 
         fetch(`${url}?linguagem_id=${idLinguagem}`)
             .then(response => response.json())
@@ -310,7 +310,7 @@ $cenica = $insAtracao->verificaCenica($_SESSION['origem_id_c']);
                 $('#oficina_sublinguagem_id').append('<option value="">Selecione... </option>');
 
                 for (const sublinguagem of sublinguagens) {
-                    $('#oficina_sublinguagem_id').append(`<option value='${sublinguagem.id}'>${sublinguagem.sublinguagem}</option>`).focus();;
+                    $('#oficina_sublinguagem_id').append(`<option value='${sublinguagem.id}'>${sublinguagem.sublinguagem}</option>`).focus();
                 }
             })
     })

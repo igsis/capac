@@ -173,7 +173,6 @@ if ($oficina) {
                         <!-- /.card-body -->
                         <div class="card-footer">
                             <button type="submit" class="btn btn-info float-right" id="cadastra">Gravar</button>
-                            <button type="submit" class="btn btn-default">Cancel</button>
                         </div>
                         <!-- /.card-footer -->
                         <div class="resposta-ajax"></div>

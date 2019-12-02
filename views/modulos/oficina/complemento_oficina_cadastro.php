@@ -53,8 +53,7 @@ $complementos = $oficinaObj->recuperaComplementosOficina($atracao_id);
                                             <i class="far fa-calendar-alt"></i>
                                         </span>
                                         </div>
-                                        <input type="text" id="dateRange" name="dataInicioFim" class="form-control"
-                                               value="<?= $oficinaObj->dataParaBR($complementos->data_inicio) . " - " . $oficinaObj->dataParaBR($complementos->data_fim) ?>"></div>
+                                        <input type="text" id="dateRange" name="dataInicioFim" class="form-control" value="<?= $oficinaObj->dataParaBR($complementos->data_inicio) . " - " . $oficinaObj->dataParaBR($complementos->data_fim) ?>"></div>
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label for="execucao_dia1_id">Dia execução 1: *</label><br/>

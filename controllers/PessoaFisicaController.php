@@ -58,9 +58,15 @@ class PessoaFisicaController extends PessoaFisicaModel
                 }
             }
 
-            session_start(['name' => 'cpc']);
-            if ($_SESSION['modulo_c'] == 7){ //jovem monitor
-                $_SESSION['origem_id_c'] = $id;
+            if (isset($dadosLimpos['dt'])){
+                if (count($dadosLimpos['dt']) > 0) {
+                    $dadosLimpos['dt']['pessoa_fisica_id'] = $id;
+                    DbModel::insert('pf_detalhes', $dadosLimpos['dt']);
+                }
+            }
+
+            if ($_SESSION['modulo_c'] == 6 || $_SESSION['modulo_c'] == 7){ //formação ou jovem monitor
+                $_SESSION['origem_id_c'] = MainModel::encryption($id);
             }
 
             if($retornaId){
@@ -173,8 +179,20 @@ class PessoaFisicaController extends PessoaFisicaModel
                 }
             }
 
+            if (isset($dadosLimpos['dt'])){
+                if (count($dadosLimpos['dt']) > 0) {
+                    $detalhe_existe = DbModel::consultaSimples("SELECT * FROM pf_detalhes WHERE pessoa_fisica_id = '$idDecryp'");
+                    if ($detalhe_existe->rowCount() > 0) {
+                        DbModel::updateEspecial('pf_detalhes', $dadosLimpos['dt'], "pessoa_fisica_id", $idDecryp);
+                    } else {
+                        $dadosLimpos['dt']['pessoa_fisica_id'] = $idDecryp;
+                        DbModel::insert('pf_detalhes', $dadosLimpos['dt']);
+                    }
+                }
+            }
+
             session_start(['name' => 'cpc']);
-            if ($_SESSION['modulo_c'] == 7){ //jovem monitor
+            if ($_SESSION['modulo_c'] == 6 || $_SESSION['modulo_c'] == 7){ //formação ou jovem monitor
                 $_SESSION['origem_id_c'] = $id;
             }
 
@@ -207,7 +225,8 @@ class PessoaFisicaController extends PessoaFisicaModel
     public function recuperaPessoaFisica($id) {
         $id = MainModel::decryption($id);
         $pf = DbModel::consultaSimples(
-            "SELECT * FROM pessoa_fisicas AS pf
+            "SELECT pf.*, pe.*, pb.*, po.*, d.*, n.*, n2.nacionalidade, b.banco, b.codigo, pd.*, e.descricao, r.regiao, gi.grau_instrucao
+            FROM pessoa_fisicas AS pf
             LEFT JOIN pf_enderecos pe on pf.id = pe.pessoa_fisica_id
             LEFT JOIN pf_bancos pb on pf.id = pb.pessoa_fisica_id
             LEFT JOIN pf_oficinas po on pf.id = po.pessoa_fisica_id
@@ -215,6 +234,10 @@ class PessoaFisicaController extends PessoaFisicaModel
             LEFT JOIN nits n on pf.id = n.pessoa_fisica_id
             LEFT JOIN nacionalidades n2 on pf.nacionalidade_id = n2.id
             LEFT JOIN bancos b on pb.banco_id = b.id
+            LEFT JOIN pf_detalhes pd on pf.id = pd.pessoa_fisica_id
+            LEFT JOIN etnias e on pd.etnia_id = e.id
+            LEFT JOIN regiaos r on pd.regiao_id = r.id
+            LEFT JOIN grau_instrucoes gi on pd.grau_instrucao_id = gi.id
             WHERE pf.id = '$id'");
 
         $pf = $pf->fetch(PDO::FETCH_ASSOC);
@@ -242,12 +265,12 @@ class PessoaFisicaController extends PessoaFisicaModel
      * @param int|null $evento_id
      * @return array|bool
      */
-    public function validaPf($pessoa_fisica_id, $validacaoTipo, $evento_id = null){
+    public function validaPf($pessoa_fisica_id, $validacaoTipo, $evento_id = null, $tipo_documentos = null){
         $tipo = gettype($pessoa_fisica_id);
         if ($tipo == "string") {
             $pessoa_fisica_id = MainModel::decryption($pessoa_fisica_id);
         }
-        $pf = PessoaFisicaModel::validaPfModel($pessoa_fisica_id, $validacaoTipo, $evento_id);
+        $pf = PessoaFisicaModel::validaPfModel($pessoa_fisica_id, $validacaoTipo, $evento_id,$tipo_documentos);
         return $pf;
     }
 }

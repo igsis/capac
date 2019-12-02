@@ -23,9 +23,16 @@ class ArquivoController extends ArquivoModel
         return $arquivos;
     }
 
+    public function listarArquivosLider() {
+        $sql = "SELECT * FROM lista_documentos WHERE tipo_documento_id = '1' AND publicado = '1' AND id IN (1,2,47,89)";
+        $arquivos = DbModel::consultaSimples($sql);
+
+        return $arquivos;
+    }
+
     public function listarArquivosEnviadosComProd($origem_id) {
         $origem_id = MainModel::decryption($origem_id);
-        $sql = "SELECT * FROM arquivos WHERE `origem_id` = '$origem_id' AND lista_documento_id = '1' AND publicado = '1'";
+        $sql = "SELECT * FROM arquivos WHERE `origem_id` = '$origem_id' AND lista_documento_id = '4' AND publicado = '1'";
         $arquivos = DbModel::consultaSimples($sql);
 
         return $arquivos;

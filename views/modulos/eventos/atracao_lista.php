@@ -13,7 +13,7 @@ $atracaoObj = new AtracaoController();
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-9">
-                <h1 class="m-0 text-dark">Eventos</h1>
+                <h1 class="m-0 text-dark">Atrações</h1>
             </div><!-- /.col -->
             <div class="col-sm-3">
                 <a href="<?= SERVERURL ?>eventos/atracao_cadastro"><button class="btn btn-success btn-block">Adicionar</button></a>

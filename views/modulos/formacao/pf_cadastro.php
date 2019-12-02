@@ -25,7 +25,7 @@ if (isset($_POST['pf_cpf'])){
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Cadastro de pessoa física</h1>
+                <h1 class="m-0 text-dark">Pessoa Física</h1>
             </div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
@@ -44,10 +44,9 @@ if (isset($_POST['pf_cpf'])){
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/pedidoFisicaAjax.php" role="form" data-form="<?= ($id) ? "update" : "save" ?>">
+                    <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/pessoaFisicaAjax.php" role="form" data-form="<?= ($id) ? "update" : "save" ?>">
                         <input type="hidden" name="_method" value="<?= ($id) ? "editar" : "cadastrar" ?>">
-                        <input type="hidden" name="pagina" value="eventos">
-                        <input type="hidden" name="origem_tipo" value="1">
+                        <input type="hidden" name="pagina" value="formacao/pf_cadastro">
                         <input type="hidden" name="pf_ultima_atualizacao" value="<?= date('Y-m-d H-i-s') ?>">
                         <?php if ($id): ?>
                             <input type="hidden" name="id" value="<?= $id ?>">
@@ -59,7 +58,7 @@ if (isset($_POST['pf_cpf'])){
                                     <input type="text" class="form-control" name="pf_nome" placeholder="Digite o nome" maxlength="70" value="<?= $pf['nome'] ?>" required>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="nomeArtistico">Nome Artistico:</label>
+                                    <label for="nomeArtistico">Nome Artístico:</label>
                                     <input type="text" class="form-control" name="pf_nome_artistico" placeholder="Digite o nome artistico" maxlength="70" value="<?= $pf['nome_artistico'] ?>">
                                 </div>
                             </div>
@@ -163,45 +162,71 @@ if (isset($_POST['pf_cpf'])){
                             </div>
                             <hr/>
                             <div class="row">
+                                <div class="form-group col">
+                                    <label for="regiao_id">Região: *</label>
+                                    <select class="form-control" id="regiao_id" name="dt_regiao_id" required>
+                                        <option value="">Selecione uma opção...</option>
+                                        <?php
+                                        $insPessoaFisica->geraOpcao("regiaos",$pf['regiao_id']);
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="form-group col">
+                                    <label for="etnia_id">Etnia: *</label>
+                                    <select class="form-control" id="etnia_id" name="dt_etnia_id" required>
+                                        <option value="">Selecione uma opção...</option>
+                                        <?php
+                                        $insPessoaFisica->geraOpcao("etnias",$pf['etnia_id']);
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="form-group col">
+                                    <label for="grau_instrucao_id">Grau de Instrução: *</label>
+                                    <select class="form-control" id="grau_instrucao_id" name="dt_grau_instrucao_id" required>
+                                        <option value="">Selecione uma opção...</option>
+                                        <?php
+                                        $insPessoaFisica->geraOpcao("grau_instrucoes",$pf['grau_instrucao_id']);
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <hr/>
+                            <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="nit">NIT: </label>
-                                    <input type="text" id="nit" name="ni_nit" class="form-control" maxlength="45" placeholder="Digite o NIT" value="<?= $pf['nit'] ?>">
+                                    <label for="nit">NIT: *</label>
+                                    <input type="text" id="nit" name="ni_nit" class="form-control" maxlength="45" placeholder="Digite o NIT" required value="<?= $pf['nit'] ?>">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="drt">DRT: </label>
                                     <input type="text" id="drt" name="dr_drt" class="form-control" maxlength="45" placeholder="Digite o DRT em caso de artes cênicas" value="<?= $pf['drt'] ?>">
                                 </div>
                             </div>
-                            <?php
-                            if ($_SESSION['modulo_c']!=2) {
-                            ?>
-                                <hr/>
-                                <div class="alert alert-warning alert-dismissible">
-                                    <h5><i class="icon fas fa-exclamation-triangle"></i> Atenção!</h5>
-                                    Realizamos pagamentos de valores acima de R$ 5.000,00 <b>* SOMENTE COM CONTA CORRENTE NO BANCO DO BRASIL *</b>. Não são aceitas: conta fácil, poupança e conjunta.
+                            <hr/>
+                            <div class="alert alert-warning alert-dismissible">
+                                <h5><i class="icon fas fa-exclamation-triangle"></i> Atenção!</h5>
+                                Pagamentos serão feitos unicamente em conta corrente de Pessoa Física no Banco do Brasil.<br/>
+                                Não são aceitas: conta fácil, poupança e conjunta.<br/>
+                                Candidato contratado que não possuir conta, receberá no ato da assinatura do contrato, carta de apresentação para abertura da conta.
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label for="banco">Banco:</label>
+                                    <select id="banco" name="bc_banco_id" class="form-control">
+                                        <option value="">Selecione um banco...</option>
+                                        <?php
+                                        $insPessoaFisica->geraOpcao("bancos", $pf['banco_id']);
+                                        ?>
+                                    </select>
                                 </div>
-                                <div class="row">
-                                    <div class="form-group col-md-4">
-                                        <label for="banco">Banco:</label>
-                                        <select required id="banco" name="bc_banco_id" class="form-control">
-                                            <option value="">Selecione um banco...</option>
-                                            <?php
-                                            $insPessoaFisica->geraOpcao("bancos", $pf['banco_id']);
-                                            ?>
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label for="agencia">Agência: *</label>
-                                        <input type="text" id="agencia" name="bc_agencia" class="form-control" placeholder="Digite a Agência" maxlength="12" value="<?= $pf['agencia'] ?>" required>
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label for="conta">Conta: *</label>
-                                        <input type="text" id="conta" name="bc_conta" class="form-control" placeholder="Digite a Conta" maxlength="12" value="<?= $pf['conta'] ?>" required>
-                                    </div>
+                                <div class="form-group col-md-4">
+                                    <label for="agencia">Agência:</label>
+                                    <input type="text" id="agencia" name="bc_agencia" class="form-control" placeholder="Digite a Agência" maxlength="12" value="<?= $pf['agencia'] ?>">
                                 </div>
-                            <?php
-                            }
-                            ?>
+                                <div class="form-group col-md-4">
+                                    <label for="conta">Conta:</label>
+                                    <input type="text" id="conta" name="bc_conta" class="form-control" placeholder="Digite a Conta" maxlength="12" value="<?= $pf['conta'] ?>">
+                                </div>
+                            </div>
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">
@@ -221,3 +246,10 @@ if (isset($_POST['pf_cpf'])){
 
 
 <script src="../views/dist/js/cep_api.js"></script>
+
+<script type="application/javascript">
+    $(document).ready(function () {
+        $('.nav-link').removeClass('active');
+        $('#dados_cadastrais').addClass('active');
+    })
+</script>

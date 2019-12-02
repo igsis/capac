@@ -76,6 +76,49 @@ class ValidacaoModel extends MainModel
         }
     }
 
+    protected function validaDetalhes($idPf)
+    {
+        $proponente = DbModel::consultaSimples("SELECT * FROM pf_detalhes WHERE pessoa_fisica_id = '$idPf'");
+
+        $naoObrigatorios = [
+            'curriculo'
+        ];
+        if ($proponente->rowCount() == 0) {
+            $erros['detalhes']['bol'] = true;
+            $erros['detalhes']['motivo'] = "Cadastro de pesssoa física incompleto";
+
+            return $erros;
+        } else {
+            $proponente = $proponente->fetchObject();
+            $erros = ValidacaoModel::retornaMensagem($proponente, $naoObrigatorios);
+        }
+        if (isset($erros)){
+            return $erros;
+        } else {
+            return false;
+        }
+    }
+
+    protected function validaFormacao($idPf)
+    {
+        $formacao = DbModel::consultaSimples("SELECT * FROM form_cadastros WHERE pessoa_fisica_id = '$idPf'");
+
+         if ($formacao->rowCount() == 0) {
+            $erros['detalhes']['bol'] = true;
+            $erros['detalhes']['motivo'] = "Detalhes do programa não inseridos!";
+
+            return $erros;
+        } else {
+            $formacao = $formacao->fetchObject();
+            $erros = ValidacaoModel::retornaMensagem($formacao);
+        }
+        if (isset($erros)){
+            return $erros;
+        } else {
+            return false;
+        }
+    }
+
     protected function validaRepresentante($id)
     {
         $representante = DbModel::getInfo('representante_legais', $id)->fetchObject();
@@ -132,7 +175,7 @@ class ValidacaoModel extends MainModel
         $sql = "SELECT ld.id, ld.documento, a.arquivo
                 FROM lista_documentos AS ld
                 LEFT JOIN (SELECT * FROM arquivos WHERE publicado = 1 AND origem_id = '$origem_id') AS a on ld.id = a.lista_documento_id
-                WHERE ld.tipo_documento_id = '$tipoDocumento'";
+                WHERE ld.tipo_documento_id = '$tipoDocumento' AND ld.publicado = '1'";
         $arquivos = DbModel::consultaSimples($sql)->fetchAll(PDO::FETCH_OBJ);
 
         foreach ($arquivos as $arquivo) {

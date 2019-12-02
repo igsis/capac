@@ -63,8 +63,11 @@ class ProdutorController extends MainModel
 
     /* edita */
     public function editaProdutor($post, $produtor_id){
+        $modulo = $post['modulo'];
         unset($post['_method']);
+        unset($post['modulo']);
         unset($post['produtor_id']);
+        unset($post['pagina']);
         $dados = [];
         foreach ($post as $campo => $valor) {
             if ($campo != "pagina") {
@@ -73,13 +76,13 @@ class ProdutorController extends MainModel
         }
 
         $edita = DbModel::update('produtores', $dados, $produtor_id);
-        if ($edita->rowCount() >= 1) {
+        if ($edita->rowCount() >= 1 || DbModel::connection()->errorCode() == 0) {
             $alerta = [
                 'alerta' => 'sucesso',
                 'titulo' => 'Produtor Atualizado',
                 'texto' => 'Produtor editado com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL.$post['pagina'].'/produtor_cadastro&key='.$id
+                'location' => SERVERURL.$modulo.'/produtor_cadastro&key='.MainModel::encryption($produtor_id)
             ];
         } else {
             $alerta = [
@@ -87,7 +90,7 @@ class ProdutorController extends MainModel
                 'titulo' => 'Erro!',
                 'texto' => 'Erro ao salvar!',
                 'tipo' => 'error',
-                'location' => SERVERURL.'oficina/produtor_cadastro&id='.$id
+                'location' => SERVERURL.$modulo.'/produtor_cadastro&key='.MainModel::encryption($produtor_id)
             ];
         }
         return MainModel::sweetAlert($alerta);
