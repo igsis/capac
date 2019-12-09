@@ -8,7 +8,7 @@ if ($pedidoAjax) {
 
 class ArquivoModel extends MainModel
 {
-    protected function separaArquivosComProd() {
+    protected function separaArquivosComProd($lista_documento_id) {
         foreach ($_FILES as $file) {
             $numArquivos = count($file['error']);
             foreach ($file as $key => $dados) {
@@ -18,7 +18,7 @@ class ArquivoModel extends MainModel
             }
         }
         foreach ($arquivos as $key => $arquivo) {
-            $arquivos[$key]['lista_documento_id'] = 8;
+            $arquivos[$key]['lista_documento_id'] = $lista_documento_id;
         }
         return $arquivos;
     }

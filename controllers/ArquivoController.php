@@ -32,7 +32,7 @@ class ArquivoController extends ArquivoModel
 
     public function listarArquivosEnviadosComProd($origem_id) {
         $origem_id = MainModel::decryption($origem_id);
-        $sql = "SELECT * FROM arquivos WHERE `origem_id` = '$origem_id' AND lista_documento_id = '8' AND publicado = '1'";
+        $sql = "SELECT * FROM arquivos WHERE `origem_id` = '$origem_id' AND lista_documento_id = (SELECT id FROM lista_documentos WHERE tipo_documento_id = 8) AND publicado = '1'";
         $arquivos = DbModel::consultaSimples($sql);
 
         return $arquivos;
@@ -40,7 +40,8 @@ class ArquivoController extends ArquivoModel
 
     public function enviarArquivoComProd($origem_id, $modulo) {
         $origem_id = MainModel::decryption($origem_id);
-        $arquivos = ArquivoModel::separaArquivosComProd();
+        $lista_documento_id = DbModel::consultaSimples('SELECT id FROM lista_documentos WHERE tipo_documento_id = 8')->fetchColumn();
+        $arquivos = ArquivoModel::separaArquivosComProd($lista_documento_id);
         $erros = ArquivoModel::enviaArquivos($arquivos, $origem_id, 15);
         $erro = MainModel::in_array_r(true, $erros, true);
 
