@@ -18,7 +18,7 @@ class ArquivoModel extends MainModel
             }
         }
         foreach ($arquivos as $key => $arquivo) {
-            $arquivos[$key]['lista_documento_id'] = 4;
+            $arquivos[$key]['lista_documento_id'] = 8;
         }
         return $arquivos;
     }

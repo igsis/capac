@@ -2,7 +2,7 @@
 $evento_id = $_SESSION['origem_id_c'];
 require_once "./controllers/ArquivoController.php";
 $arquivosObj = new ArquivoController();
-$lista_documento_id = $arquivosObj->recuperaIdListaDocumento(4)->fetch(PDO::FETCH_COLUMN);
+$lista_documento_id = $arquivosObj->recuperaIdListaDocumento(8)->fetch(PDO::FETCH_COLUMN);
 ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
