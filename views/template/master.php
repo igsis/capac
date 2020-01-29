@@ -41,7 +41,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 $view = $template->exibirViewController();
 if ($view == 'login'):
-    require_once "./views/modulos/inicio/login.php";
+    require_once "./views/modulos/inicio/index.php";
 elseif ($view == 'cadastro'):
     require_once "./views/modulos/inicio/cadastro.php";
 else:
