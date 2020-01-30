@@ -65,8 +65,8 @@ class ViewsModel
             } else {
                 $conteudo = "./views/modulos/$modulo/inicio.php";
             }
-        } elseif ($modulo == "index") {
-            $conteudo = "index";
+        } elseif ($modulo == "login") {
+            $conteudo = "login";
         } elseif ($modulo == "cadastro") {
             $conteudo = "cadastro";
         } elseif ($modulo == "index") {
