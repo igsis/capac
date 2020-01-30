@@ -52,7 +52,8 @@ class ViewsModel
             'demais_anexos',
             'finalizar',
             'representante',
-            'programa'
+            'programa',
+            'login'
         ];
         if (self::verificaModulo($modulo)) {
             if (in_array($view, $whitelist)) {
@@ -64,14 +65,14 @@ class ViewsModel
             } else {
                 $conteudo = "./views/modulos/$modulo/inicio.php";
             }
-        } elseif ($modulo == "login") {
-            $conteudo = "login";
+        } elseif ($modulo == "index") {
+            $conteudo = "index";
         } elseif ($modulo == "cadastro") {
             $conteudo = "cadastro";
         } elseif ($modulo == "index") {
-            $conteudo = "login";
+            $conteudo = "index";
         } else {
-            $conteudo = "login";
+            $conteudo = "index";
         }
 
         return $conteudo;
