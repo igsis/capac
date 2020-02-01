@@ -53,6 +53,7 @@ class ViewsModel
             'demais_anexos',
             'finalizar',
             'representante',
+            'fomento_edital',
             'programa',
             'projeto_cadastro'
         ];

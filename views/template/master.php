@@ -43,7 +43,7 @@ $view = $template->exibirViewController();
 if ($view == 'login'):
     require_once "./views/modulos/inicio/login.php";
 elseif ($view == 'cadastro'):
-    require_once "./views/modulos/inicio/cadastro.php";
+    require_once "./views/modulos/inicio/fomento_edital.php";
 else:
     session_start(['name' => 'cpc']);
     require_once "./controllers/UsuarioController.php";
