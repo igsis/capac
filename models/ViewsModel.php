@@ -53,7 +53,8 @@ class ViewsModel
             'demais_anexos',
             'finalizar',
             'representante',
-            'programa'
+            'programa',
+            'projeto_cadastro'
         ];
         if (self::verificaModulo($modulo)) {
             if (in_array($view, $whitelist)) {

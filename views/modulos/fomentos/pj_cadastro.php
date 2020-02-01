@@ -7,11 +7,7 @@ if ($id) {
     $pj = $insPessoaJuridica->recuperaPessoaJuridica($id);
     $cnpj = $pj['cnpj'];
 }
-if (isset($_POST['pj_cnpj'])){
-    $pj = $insPessoaJuridica->getCNPJ($_POST['pj_cnpj'])->fetch();
-    $cnpj = $_POST['pj_cnpj'];
-}
-/*
+
 if (isset($_POST['pj_cnpj'])){
     $pj = $insPessoaJuridica->getCNPJ($_POST['pj_cnpj'])->fetch();
     if ($pj['cnpj'] != ''){
@@ -23,7 +19,6 @@ if (isset($_POST['pj_cnpj'])){
         $cnpj = $_POST['pj_cnpj'];
     }
 }
-*/
 ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">

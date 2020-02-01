@@ -10,6 +10,14 @@
         <p>Busca</p>
     </a>
 </li>
+<!--provisório-->
+<li class="nav-item">
+    <a href="<?= SERVERURL ?>fomentos/projeto_cadastro" class="nav-link" id="proponente">
+        <i class="far fa-circle nav-icon"></i>
+        <p>projeto</p>
+    </a>
+</li>
+
 <?php if (isset($_SESSION['origem_id_c'])){
     ?>
     <li class="nav-item">
