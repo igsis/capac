@@ -165,6 +165,26 @@ unset($_SESSION['modulo']);
                 </div>
             </div>
             <!-- ./col -->
+            <div class="col-md-3">
+                <!-- small card -->
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-file-alt"></i>
+                            Fomento
+                        </h3>
+                    </div>
+                    <div class="bg-light col-md">
+                        <p>Provisório</p>
+                    </div>
+                    <div align="center">
+                        <a href="<?=SERVERURL?>fomentos&modulo=7" class="small-box-footer">
+                            Acesse <i class="fas fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- ./col -->
         </div>
         <!-- ./row -->
 
