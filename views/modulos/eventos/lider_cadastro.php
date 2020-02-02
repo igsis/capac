@@ -18,7 +18,7 @@ if ($id) {
 if (isset($_POST['pf_cpf'])){
     $documento = $_POST['pf_cpf'];
     $pf = $insPessoaFisica->getCPF($documento)->fetch();
-    if ($pf['cpf'] != ''){
+    if ($pf){
         $id = MainModel::encryption($pf['id']);
         $pf = $insPessoaFisica->recuperaPessoaFisica($id);
         $documento = $pf['cpf'];
@@ -73,11 +73,11 @@ if (isset($_POST['pf_passaporte'])){
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label for="nome">Nome: *</label>
-                                    <input type="text" class="form-control" name="pf_nome" placeholder="Digite o nome" maxlength="70" value="<?= $pf['nome'] ?>" required>
+                                    <input type="text" class="form-control" name="pf_nome" placeholder="Digite o nome" maxlength="70" value="<?= $pf['nome'] ?? '' ?>" required>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="nomeArtistico">Nome Artistico:</label>
-                                    <input type="text" class="form-control" name="pf_nome_artistico" placeholder="Digite o nome artistico" maxlength="70" value="<?= $pf['nome_artistico'] ?>">
+                                    <input type="text" class="form-control" name="pf_nome_artistico" placeholder="Digite o nome artistico" maxlength="70" value="<?= $pf['nome_artistico'] ?? '' ?>">
                                 </div>
                             </div>
 
@@ -87,7 +87,7 @@ if (isset($_POST['pf_passaporte'])){
                                     ?>
                                     <div class="form-group col-md-3">
                                         <label for="rg">RG: *</label>
-                                        <input type="text" class="form-control" name="pf_rg" placeholder="Digite o RG" maxlength="20" value="<?= $pf['rg'] ?>" required>
+                                        <input type="text" class="form-control" name="pf_rg" placeholder="Digite o RG" maxlength="20" value="<?= $pf['rg'] ?? '' ?>" required>
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label for="cpf">CPF: </label>
@@ -106,7 +106,7 @@ if (isset($_POST['pf_passaporte'])){
                                 ?>
                                 <div class="form-group col-md-6">
                                     <label for="email">E-mail: *</label>
-                                    <input type="email" name="pf_email" class="form-control" maxlength="60" placeholder="Digite o E-mail" value="<?= $pf['email'] ?>" required>
+                                    <input type="email" name="pf_email" class="form-control" maxlength="60" placeholder="Digite o E-mail" value="<?= $pf['email'] ?? '' ?>" required>
                                 </div>
                             </div>
                             <hr/>
@@ -126,7 +126,7 @@ if (isset($_POST['pf_passaporte'])){
                                 <div class="form-group col-md-6">
                                     <?php if ($cenica > 0): ?>
                                         <label for="drt">DRT: </label>
-                                        <input type="text" id="drt" name="dr_drt" class="form-control" maxlength="45" placeholder="Digite o DRT em caso de artes cênicas" value="<?= $pf['drt'] ?>">
+                                        <input type="text" id="drt" name="dr_drt" class="form-control" maxlength="45" placeholder="Digite o DRT em caso de artes cênicas" value="<?= $pf['drt'] ?? '' ?>">
                                     <?php endif; ?>
                                 </div>
                             </div>
