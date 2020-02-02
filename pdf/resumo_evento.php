@@ -139,7 +139,7 @@ $pedido = $pedidoObj->recuperaPedido(1);
                             <?php if ($pedido->pessoa_tipo_id == 2): ?>
                                 <h5><b>Líder do grupo ou artista solo</b></h5>
                                 <?php
-                                require_once "./controllers/LiderController.php";
+                                require_once "../controllers/LiderController.php";
                                 $liderObj = new LiderController();
                                 $lider = $liderObj->getLider($atracao->id);
                                 ?>

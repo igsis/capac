@@ -41,27 +41,37 @@ $evento_id = $_SESSION['origem_id_c'];
                             <?php foreach ($atracaoObj->listaAtracaoLider() as $atracao): ?>
                                 <tr>
                                     <td><?=$atracao->nome_atracao?></td>
-                                    <td>
-                                        <?php
-                                        if (!$atracao->pessoa_fisica_id){
-                                            $disabled = "disabled" ?>
-                                            <button id="btn-atracao" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-default" data-atracao="<?=$atracao->atracao_id?>"><i class="fas fa-plus"></i> Adicionar</button>
-                                        <?php
-                                        } else{
-                                            $disabled = ""?>
-                                            <form class="form-horizontal" method="POST" action="<?=SERVERURL."eventos/lider_cadastro&id=".$atracaoObj->encryption($atracao->pessoa_fisica_id)?>" role="form">
-                                                <input type="hidden" name="atracao_id" value="<?= $atracao->atracao_id?>">
-                                                <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> <?=$atracao->nome?></button>
+                                    <?php
+                                    if (!$atracao->pessoa_fisica_id){
+                                        $disabled = "disabled" ?>
+                                        <td colspan="3">
+                                            <button id="btn-atracao" class="btn btn-sm btn-primary"
+                                                    data-toggle="modal" data-target="#modal-default"
+                                                    data-atracao="<?= $atracao->atracao_id ?>"><i
+                                                        class="fas fa-plus"></i> Adicionar
+                                            </button>
+                                        </td>
+                                    <?php
+                                    } else{
+                                        $disabled = ""?>
+                                        <td>
+                                            <form class="form-horizontal" method="POST"
+                                                  action="<?= SERVERURL . "eventos/lider_cadastro&id=" . $atracaoObj->encryption($atracao->pessoa_fisica_id) ?>"
+                                                  role="form">
+                                                <input type="hidden" name="atracao_id"
+                                                       value="<?= $atracao->atracao_id ?>">
+                                                <button class="btn btn-sm btn-primary"><i
+                                                            class="fas fa-edit"></i> <?= $atracao->nome ?></button>
                                             </form>
-                                        <?php } ?>
-                                    </td>
-                                    <td>
-                                        <a class="btn btn-sm btn-primary"
-                                           href="<?=SERVERURL."eventos/anexos_lider&id=".$atracaoObj->encryption($atracao->pessoa_fisica_id)?>">
-                                            <i class="fas fa-archive"></i> Anexos
-                                        </a>
-                                    </td>
-                                    <td><button id="btn-atracao" class="btn btn-sm bg-purple" data-toggle="modal" data-target="#modal-default" data-atracao="<?=$atracao->atracao_id?>"><i class="fas fa-retweet"></i> Trocar líder</button></td>
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-sm btn-primary"
+                                               href="<?=SERVERURL."eventos/anexos_lider&id=".$atracaoObj->encryption($atracao->pessoa_fisica_id)?>">
+                                                <i class="fas fa-archive"></i> Anexos
+                                            </a>
+                                        </td>
+                                        <td><button id="btn-atracao" class="btn btn-sm bg-purple" data-toggle="modal" data-target="#modal-default" data-atracao="<?=$atracao->atracao_id?>"><i class="fas fa-retweet"></i> Trocar líder</button></td>
+                                    <?php } ?>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>

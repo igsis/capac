@@ -13,6 +13,7 @@ class ViewsModel
             "pessoaFisica",
             "pessoaJurídica",
             "agendao",
+            "fomentos",
         ];
 
         if (in_array($mod, $modulos)) {
@@ -52,7 +53,9 @@ class ViewsModel
             'demais_anexos',
             'finalizar',
             'representante',
-            'programa'
+            'fomento_edital',
+            'programa',
+            'projeto_cadastro'
         ];
         if (self::verificaModulo($modulo)) {
             if (in_array($view, $whitelist)) {

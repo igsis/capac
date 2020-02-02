@@ -79,7 +79,7 @@ class AtracaoModel extends ValidacaoModel
                     $erros[$nomeAtracao]['lider']['motivo'] = 'Atração não possui Líder cadastrado';
                 } else {
                     $lider = $lider->fetchObject();
-                    $erros[$nomeAtracao]['lider'] = (new PessoaFisicaController)->validaPf($lider->pessoa_fisica_id, 2);
+                    $erros[$nomeAtracao]['lider'] = (new PessoaFisicaController)->validaPf((int)$lider->pessoa_fisica_id, 2);
                 }
             }
 

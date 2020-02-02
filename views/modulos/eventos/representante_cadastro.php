@@ -14,7 +14,7 @@ if ($id) {
 if (isset($_POST['cpf'])){
     $documento = $_POST['cpf'];
     $representante = $insRepresentante->getCPF($documento)->fetch();
-    if ($representante['cpf'] != ''){
+    if ($representante){
         $id = MainModel::encryption($representante['id']);
         $representante = $insRepresentante->recuperaRepresentante($id)->fetch();
         $documento = $representante['cpf'];
@@ -59,11 +59,11 @@ if (isset($_POST['cpf'])){
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label for="nome">Nome: *</label>
-                                    <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite o nome completo" maxlength="70" value="<?= $representante['nome'] ?>" required>
+                                    <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite o nome completo" maxlength="70" value="<?= $representante['nome'] ?? ' ' ?>" required>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="rg">RG: </label>
-                                    <input type="text" class="form-control" id="rg" name="rg" maxlength="20" value="<?= $representante['rg'] ?>" required>
+                                    <input type="text" class="form-control" id="rg" name="rg" maxlength="20" value="<?= $representante['rg'] ?? ' ' ?>" required>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="cpf">CPF: </label>
