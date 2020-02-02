@@ -10,7 +10,7 @@ if ($id) {
 
 if (isset($_POST['pj_cnpj'])){
     $pj = $insPessoaJuridica->getCNPJ($_POST['pj_cnpj'])->fetch();
-    if ($pj['cnpj'] != ''){
+    if ($pj){
         $id = MainModel::encryption($pj['id']);
         $pj = $insPessoaJuridica->recuperaPessoaJuridica($id);
         $cnpj = $pj['cnpj'];
@@ -58,7 +58,7 @@ if (isset($_POST['pj_cnpj'])){
                             <div class="row">
                                 <div class="form-group col-md-8">
                                     <label for="razao_social">Razão Social: *</label>
-                                    <input type="text" class="form-control" id="razao_social" name="pj_razao_social" maxlength="100" required value="<?= $pj['razao_social'] ?>">
+                                    <input type="text" class="form-control" id="razao_social" name="pj_razao_social" maxlength="100" required value="<?= $pj['razao_social'] ?? '' ?>">
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label for="cnpj">CNPJ: *</label>
@@ -66,14 +66,14 @@ if (isset($_POST['pj_cnpj'])){
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label for="ccm">CCM: </label>
-                                    <input type="text" class="form-control" id="ccm" name="pj_ccm" value="<?= $pj['ccm'] ?>">
+                                    <input type="text" class="form-control" id="ccm" name="pj_ccm" value="<?= $pj['ccm'] ?? '' ?>">
                                 </div>
                             </div>
                             <hr/>
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label for="email">E-mail: *</label>
-                                    <input type="email" name="pj_email" class="form-control" maxlength="60" placeholder="Digite o E-mail" value="<?= $pj['email'] ?>" required>
+                                    <input type="email" name="pj_email" class="form-control" maxlength="60" placeholder="Digite o E-mail" value="<?= $pj['email'] ?? '' ?>" required>
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label for="telefone">Telefone #1: *</label>
@@ -92,7 +92,7 @@ if (isset($_POST['pj_cnpj'])){
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label for="cep">CEP: *</label>
-                                    <input type="text" class="form-control" name="en_cep" id="cep" onkeypress="mask(this, '#####-###')" maxlength="9" placeholder="Digite o CEP" required value="<?= $pj['cep'] ?>" >
+                                    <input type="text" class="form-control" name="en_cep" id="cep" onkeypress="mask(this, '#####-###')" maxlength="9" placeholder="Digite o CEP" required value="<?= $pj['cep'] ?? '' ?>" >
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label>&nbsp;</label><br>
@@ -102,27 +102,27 @@ if (isset($_POST['pj_cnpj'])){
                             <div class="row">
                                 <div class="form-group col-md-3">
                                     <label for="rua">Rua: *</label>
-                                    <input type="text" class="form-control" name="en_logradouro" id="rua" placeholder="Digite a rua" maxlength="2   00" value="<?= $pj['logradouro'] ?>" readonly>
+                                    <input type="text" class="form-control" name="en_logradouro" id="rua" placeholder="Digite a rua" maxlength="2   00" value="<?= $pj['logradouro'] ?? '' ?>" readonly>
                                 </div>
                                 <div class="form-group col-md-1">
                                     <label for="numero">Número: *</label>
-                                    <input type="number" name="en_numero" class="form-control" placeholder="Ex.: 10" value="<?= $pj['numero'] ?>" required>
+                                    <input type="number" name="en_numero" class="form-control" placeholder="Ex.: 10" value="<?= $pj['numero'] ?? '' ?>" required>
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label for="complemento">Complemento:</label>
-                                    <input type="text" name="en_complemento" class="form-control" maxlength="20" placeholder="Digite o complemento" value="<?= $pj['complemento'] ?>">
+                                    <input type="text" name="en_complemento" class="form-control" maxlength="20" placeholder="Digite o complemento" value="<?= $pj['complemento'] ?? '' ?>">
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="bairro">Bairro: *</label>
-                                    <input type="text" class="form-control" name="en_bairro" id="bairro" placeholder="Digite o Bairro" maxlength="80" value="<?= $pj['bairro'] ?>" readonly>
+                                    <input type="text" class="form-control" name="en_bairro" id="bairro" placeholder="Digite o Bairro" maxlength="80" value="<?= $pj['bairro'] ?? '' ?>" readonly>
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label for="cidade">Cidade: *</label>
-                                    <input type="text" class="form-control" name="en_cidade" id="cidade" placeholder="Digite a cidade" maxlength="50" value="<?= $pj['cidade'] ?>" readonly>
+                                    <input type="text" class="form-control" name="en_cidade" id="cidade" placeholder="Digite a cidade" maxlength="50" value="<?= $pj['cidade'] ?? '' ?>" readonly>
                                 </div>
                                 <div class="form-group col-md-1">
                                     <label for="estado">Estado: *</label>
-                                    <input type="text" class="form-control" name="en_uf" id="estado" maxlength="2" placeholder="Ex.: SP" value="<?= $pj['uf'] ?>" readonly>
+                                    <input type="text" class="form-control" name="en_uf" id="estado" maxlength="2" placeholder="Ex.: SP" value="<?= $pj['uf'] ?? '' ?>" readonly>
                                 </div>
                             </div>
                             <hr/>
@@ -142,11 +142,11 @@ if (isset($_POST['pj_cnpj'])){
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="agencia">Agência: *</label>
-                                    <input type="text" id="agencia" name="bc_agencia" class="form-control"  placeholder="Digite a Agência" maxlength="12" value="<?= $pj['agencia'] ?>" required>
+                                    <input type="text" id="agencia" name="bc_agencia" class="form-control"  placeholder="Digite a Agência" maxlength="12" value="<?= $pj['agencia'] ?? '' ?>" required>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="conta">Conta: *</label>
-                                    <input type="text" id="conta" name="bc_conta" class="form-control" placeholder="Digite a Conta" maxlength="12" value="<?= $pj['conta'] ?>" required>
+                                    <input type="text" id="conta" name="bc_conta" class="form-control" placeholder="Digite a Conta" maxlength="12" value="<?= $pj['conta'] ?? '' ?>" required>
                                 </div>
                             </div>
 
