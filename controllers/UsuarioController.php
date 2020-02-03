@@ -9,7 +9,7 @@ if ($pedidoAjax) {
 class UsuarioController extends UsuarioModel
 {
 
-    public function iniciaSessao($modulo = false) {
+    public function iniciaSessao($modulo = false, $edital = null) {
         $email = MainModel::limparString($_POST['email']);
         $senha = MainModel::limparString($_POST['senha']);
         $senha = MainModel::encryption($senha);
@@ -37,6 +37,7 @@ class UsuarioController extends UsuarioModel
                     return $urlLocation = "<script> window.location='inicio/inicio' </script>";
                 } else {
                     if ($modulo == 8) {
+                        $_SESSION['edital_c'] = $edital;
                         return $urlLocation = "<script> window.location='fomentos/inicio&modulo=$modulo' </script>";
                     }
                 }

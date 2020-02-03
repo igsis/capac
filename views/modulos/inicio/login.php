@@ -3,7 +3,8 @@
         require_once "./controllers/UsuarioController.php";
         $login = new UsuarioController();
         $modulo = $_GET['modulo'] ?? false;
-        echo $login->iniciaSessao($modulo);
+        $edital = $_GET['edital'] ?? null;
+        echo $login->iniciaSessao($modulo, $edital);
     }
 ?>
 <!-- Content Header (Page header) -->
