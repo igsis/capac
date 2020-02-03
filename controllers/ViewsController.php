@@ -30,7 +30,7 @@ class ViewsController extends ViewsModel
 
             $resposta = ViewsModel::exibirViewModel($rota['view'], $rota['modulo']);
         } else {
-            $resposta = "login";
+            $resposta = "index";
         }
         return $resposta;
     }

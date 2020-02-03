@@ -53,8 +53,9 @@ class ViewsModel
             'demais_anexos',
             'finalizar',
             'representante',
-            'fomento_edital',
             'programa',
+            'login',
+            'fomento_edital',
             'projeto_cadastro'
         ];
         if (self::verificaModulo($modulo)) {
@@ -73,6 +74,8 @@ class ViewsModel
             $conteudo = "cadastro";
         } elseif ($modulo == "index") {
             $conteudo = "login";
+        } elseif ($modulo == "fomento_edital") {
+            $conteudo = "fomento_edital";
         } else {
             $conteudo = "login";
         }
