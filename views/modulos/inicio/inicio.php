@@ -178,7 +178,7 @@ unset($_SESSION['modulo']);
                         <p>Provisório</p>
                     </div>
                     <div align="center">
-                        <a href="<?=SERVERURL?>fomentos&modulo=7" class="small-box-footer">
+                        <a href="<?=SERVERURL?>fomentos&modulo=8" class="small-box-footer">
                             Acesse <i class="fas fa-arrow-circle-right"></i>
                         </a>
                     </div>
