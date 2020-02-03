@@ -74,6 +74,8 @@ class ViewsModel
             $conteudo = "cadastro";
         } elseif ($modulo == "index") {
             $conteudo = "login";
+        } elseif ($modulo == "fomento_edital") {
+            $conteudo = "fomento_edital";
         } else {
             $conteudo = "login";
         }
