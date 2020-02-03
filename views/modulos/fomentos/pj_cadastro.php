@@ -10,7 +10,7 @@ if ($id) {
 
 if (isset($_POST['pj_cnpj'])){
     $pj = $insPessoaJuridica->getCNPJ($_POST['pj_cnpj'])->fetch();
-    if ($pj['cnpj'] != ''){
+    if ($pj){
         $id = MainModel::encryption($pj['id']);
         $pj = $insPessoaJuridica->recuperaPessoaJuridica($id);
         $cnpj = $pj['cnpj'];
@@ -44,11 +44,10 @@ if (isset($_POST['pj_cnpj'])){
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/pedidoJuridicaAjax.php" role="form" data-form="<?= ($id) ? "update" : "save" ?>">
+                    <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/pessoaJuridicaAjax.php" role="form" data-form="<?= ($id) ? "update" : "save" ?>">
                         <input type="hidden" name="_method" value="<?= ($id) ? "editar" : "cadastrar" ?>">
                         <input type="hidden" name="ultima_atualizacao" value="<?= date('Y-m-d H-i-s') ?>">
                         <input type="hidden" name="pagina" value="fomentos">
-                        <input type="hidden" name="origem_tipo" value="1">
                         <?php if ($id): ?>
                             <input type="hidden" name="id" value="<?= $id ?>">
                             <button class="btn swalDefaultWarning">
@@ -56,9 +55,9 @@ if (isset($_POST['pj_cnpj'])){
                         <?php endif; ?>
                         <div class="card-body">
                             <div class="row">
-                                <div class="form-group col-md-8">
+                                <div class="form-group col-md-10">
                                     <label for="razao_social">Razão Social: *</label>
-                                    <input type="text" class="form-control" id="razao_social" name="pj_razao_social" maxlength="100" required value="<?= $pj['razao_social'] ?>">
+                                    <input type="text" class="form-control" id="razao_social" name="pj_razao_social" maxlength="100" required value="<?= $pj['razao_social'] ?? '' ?>">
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label for="cnpj">CNPJ: *</label>
@@ -69,7 +68,7 @@ if (isset($_POST['pj_cnpj'])){
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label for="email">E-mail: *</label>
-                                    <input type="email" name="pj_email" class="form-control" maxlength="60" placeholder="Digite o E-mail" value="<?= $pj['email'] ?>" required>
+                                    <input type="email" name="pj_email" class="form-control" maxlength="60" placeholder="Digite o E-mail" value="<?= $pj['email'] ?? '' ?>" required>
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label for="telefone">Telefone #1: *</label>
@@ -88,7 +87,7 @@ if (isset($_POST['pj_cnpj'])){
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label for="cep">CEP: *</label>
-                                    <input type="text" class="form-control" name="en_cep" id="cep" onkeypress="mask(this, '#####-###')" maxlength="9" placeholder="Digite o CEP" required value="<?= $pj['cep'] ?>" >
+                                    <input type="text" class="form-control" name="en_cep" id="cep" onkeypress="mask(this, '#####-###')" maxlength="9" placeholder="Digite o CEP" required value="<?= $pj['cep'] ?? '' ?>" >
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label>&nbsp;</label><br>
@@ -98,27 +97,27 @@ if (isset($_POST['pj_cnpj'])){
                             <div class="row">
                                 <div class="form-group col-md-3">
                                     <label for="rua">Rua: *</label>
-                                    <input type="text" class="form-control" name="en_logradouro" id="rua" placeholder="Digite a rua" maxlength="2   00" value="<?= $pj['logradouro'] ?>" readonly>
+                                    <input type="text" class="form-control" name="en_logradouro" id="rua" placeholder="Digite a rua" maxlength="2   00" value="<?= $pj['logradouro'] ?? '' ?>" readonly>
                                 </div>
                                 <div class="form-group col-md-1">
                                     <label for="numero">Número: *</label>
-                                    <input type="number" name="en_numero" class="form-control" placeholder="Ex.: 10" value="<?= $pj['numero'] ?>" required>
+                                    <input type="number" name="en_numero" class="form-control" placeholder="Ex.: 10" value="<?= $pj['numero'] ?? '' ?>" required>
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label for="complemento">Complemento:</label>
-                                    <input type="text" name="en_complemento" class="form-control" maxlength="20" placeholder="Digite o complemento" value="<?= $pj['complemento'] ?>">
+                                    <input type="text" name="en_complemento" class="form-control" maxlength="20" placeholder="Digite o complemento" value="<?= $pj['complemento'] ?? '' ?>">
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="bairro">Bairro: *</label>
-                                    <input type="text" class="form-control" name="en_bairro" id="bairro" placeholder="Digite o Bairro" maxlength="80" value="<?= $pj['bairro'] ?>" readonly>
+                                    <input type="text" class="form-control" name="en_bairro" id="bairro" placeholder="Digite o Bairro" maxlength="80" value="<?= $pj['bairro'] ?? '' ?>" readonly>
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label for="cidade">Cidade: *</label>
-                                    <input type="text" class="form-control" name="en_cidade" id="cidade" placeholder="Digite a cidade" maxlength="50" value="<?= $pj['cidade'] ?>" readonly>
+                                    <input type="text" class="form-control" name="en_cidade" id="cidade" placeholder="Digite a cidade" maxlength="50" value="<?= $pj['cidade'] ?? '' ?>" readonly>
                                 </div>
                                 <div class="form-group col-md-1">
                                     <label for="estado">Estado: *</label>
-                                    <input type="text" class="form-control" name="en_uf" id="estado" maxlength="2" placeholder="Ex.: SP" value="<?= $pj['uf'] ?>" readonly>
+                                    <input type="text" class="form-control" name="en_uf" id="estado" maxlength="2" placeholder="Ex.: SP" value="<?= $pj['uf'] ?? '' ?>" readonly>
                                 </div>
                             </div>
 
@@ -166,7 +165,7 @@ if (isset($_POST['pj_cnpj'])){
                                                 <td><?= $rep1['cpf'] ?></td>
                                                 <td>
                                                     <div class="row">
-                                                        <form class="form-horizontal mr-2" method="POST" action="<?= SERVERURL ?>fomentos/representante_cadastro&idPj=<?= $id ?>&id=<?= MainModel::encryption($rep1['id']) ?>" role="form">
+                                                        <form class="form-horizontal mr-2" method="POST" action="<?= SERVERURL ?>eventos/representante_cadastro&idPj=<?= $id ?>&id=<?= MainModel::encryption($rep1['id']) ?>" role="form">
                                                             <input type="hidden" name="representante" value="1">
                                                             <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</button>
                                                         </form>
@@ -174,13 +173,12 @@ if (isset($_POST['pj_cnpj'])){
                                                     </div>
                                                 </td>
                                             </tr>
-
                                         </tbody>
                                     </table>
                             <?php
                                 else:
                                     ?>
-                                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-default" id="1"><i class="fas fa-plus"></i> Novo Representante Legal</button>
+                                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-default" id="1"><i class="fas fa-plus"></i> Novo Representante Legal #1</button>
                             <?php
                                 endif;
                             endif;
@@ -204,7 +202,7 @@ if (isset($_POST['pj_cnpj'])){
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>fomentos/representante_cadastro&idPj=<?= $id ?>" role="form" id="formularioPf">
+            <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>eventos/representante_cadastro&idPj=<?= $id ?>" role="form" id="formularioPf">
                 <input type="hidden" name="idPj" value="<?= $id ?>">
                 <input type="hidden" name="representante" id="representante">
                 <div class="modal-body">
@@ -243,7 +241,7 @@ if (isset($_POST['pj_cnpj'])){
             <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/representanteAjax.php" role="form" data-form="update">
                 <input type="hidden" name="_method" value="remover">
                 <input type="hidden" name="idPj" value="<?= $id ?>">
-                <input type="hidden" name="pagina" value="fomentos">
+                <input type="hidden" name="pagina" value="eventos">
                 <input type="hidden" name="representante" id="representanteEx">
                 <div class="modal-body">
                     <p>Realmente deseja remover o represente legal?</p>
