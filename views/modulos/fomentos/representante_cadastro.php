@@ -48,7 +48,7 @@ if (isset($_POST['cpf'])){
                     <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/representanteAjax.php" role="form" data-form="<?= ($id) ? "update" : "save" ?>">
                         <input type="hidden" name="_method" value="<?= ($id) ? "editar" : "cadastrar" ?>">
                         <input type="hidden" name="idPj" value="<?= $idPj ?>">
-                        <input type="hidden" name="pagina" value="eventos">
+                        <input type="hidden" name="pagina" value="fomentos">
                         <?php if (isset($_POST['representante'])): ?>
                             <input type="hidden" name="representante" value="<?= $_POST['representante'] ?>">
                         <?php endif; ?>
@@ -76,7 +76,7 @@ if (isset($_POST['cpf'])){
                         <div class="card-footer">
                             <button type="submit" class="btn btn-info float-right">Gravar</button>
                     </form>
-                    <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>eventos/pj_cadastro&id=<?= $idPj ?>" role="form">
+                    <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>fomentos/pj_cadastro&id=<?= $idPj ?>" role="form">
                         <button type="submit" class="btn btn-default float-left">Voltar</button>
                     </form>
                         </div>

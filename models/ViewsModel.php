@@ -13,6 +13,7 @@ class ViewsModel
             "pessoaFisica",
             "pessoaJurídica",
             "agendao",
+            "fomentos",
         ];
 
         if (in_array($mod, $modulos)) {
@@ -53,7 +54,9 @@ class ViewsModel
             'finalizar',
             'representante',
             'programa',
-            'login'
+            'login',
+            'fomento_edital',
+            'projeto_cadastro'
         ];
         if (self::verificaModulo($modulo)) {
             if (in_array($view, $whitelist)) {
@@ -70,9 +73,9 @@ class ViewsModel
         } elseif ($modulo == "cadastro") {
             $conteudo = "cadastro";
         } elseif ($modulo == "index") {
-            $conteudo = "index";
+            $conteudo = "login";
         } else {
-            $conteudo = "index";
+            $conteudo = "login";
         }
 
         return $conteudo;

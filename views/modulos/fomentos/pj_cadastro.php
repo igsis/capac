@@ -44,11 +44,10 @@ if (isset($_POST['pj_cnpj'])){
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/pedidoJuridicaAjax.php" role="form" data-form="<?= ($id) ? "update" : "save" ?>">
+                    <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/pessoaJuridicaAjax.php" role="form" data-form="<?= ($id) ? "update" : "save" ?>">
                         <input type="hidden" name="_method" value="<?= ($id) ? "editar" : "cadastrar" ?>">
                         <input type="hidden" name="ultima_atualizacao" value="<?= date('Y-m-d H-i-s') ?>">
-                        <input type="hidden" name="pagina" value="eventos">
-                        <input type="hidden" name="origem_tipo" value="1">
+                        <input type="hidden" name="pagina" value="fomentos">
                         <?php if ($id): ?>
                             <input type="hidden" name="id" value="<?= $id ?>">
                             <button class="btn swalDefaultWarning">
@@ -56,17 +55,13 @@ if (isset($_POST['pj_cnpj'])){
                         <?php endif; ?>
                         <div class="card-body">
                             <div class="row">
-                                <div class="form-group col-md-8">
+                                <div class="form-group col-md-10">
                                     <label for="razao_social">Razão Social: *</label>
                                     <input type="text" class="form-control" id="razao_social" name="pj_razao_social" maxlength="100" required value="<?= $pj['razao_social'] ?? '' ?>">
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label for="cnpj">CNPJ: *</label>
                                     <input type="text" class="form-control" id="cnpj" name="pj_cnpj" value="<?= $cnpj ?>" required readonly>
-                                </div>
-                                <div class="form-group col-md-2">
-                                    <label for="ccm">CCM: </label>
-                                    <input type="text" class="form-control" id="ccm" name="pj_ccm" value="<?= $pj['ccm'] ?? '' ?>">
                                 </div>
                             </div>
                             <hr/>
@@ -125,30 +120,6 @@ if (isset($_POST['pj_cnpj'])){
                                     <input type="text" class="form-control" name="en_uf" id="estado" maxlength="2" placeholder="Ex.: SP" value="<?= $pj['uf'] ?? '' ?>" readonly>
                                 </div>
                             </div>
-                            <hr/>
-                            <div class="alert alert-warning alert-dismissible">
-                                <h5><i class="icon fas fa-exclamation-triangle"></i> Atenção!</h5>
-                                Realizamos pagamentos de valores acima de R$ 5.000,00 <b>* SOMENTE COM CONTA CORRENTE NO BANCO DO BRASIL *</b>. Não são aceitas: conta fácil, poupança e conjunta.
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label for="banco">Banco:</label>
-                                    <select required id="banco" name="bc_banco_id" class="form-control">
-                                        <option value="">Selecione um banco...</option>
-                                        <?php
-                                        $insPessoaJuridica->geraOpcao("bancos",$pj['banco_id']);
-                                        ?>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="agencia">Agência: *</label>
-                                    <input type="text" id="agencia" name="bc_agencia" class="form-control"  placeholder="Digite a Agência" maxlength="12" value="<?= $pj['agencia'] ?? '' ?>" required>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="conta">Conta: *</label>
-                                    <input type="text" id="conta" name="bc_conta" class="form-control" placeholder="Digite a Conta" maxlength="12" value="<?= $pj['conta'] ?? '' ?>" required>
-                                </div>
-                            </div>
 
                         </div>
                         <!-- /.card-body -->
@@ -194,7 +165,7 @@ if (isset($_POST['pj_cnpj'])){
                                                 <td><?= $rep1['cpf'] ?></td>
                                                 <td>
                                                     <div class="row">
-                                                        <form class="form-horizontal mr-2" method="POST" action="<?= SERVERURL ?>eventos/representante_cadastro&idPj=<?= $id ?>&id=<?= MainModel::encryption($rep1['id']) ?>" role="form">
+                                                        <form class="form-horizontal mr-2" method="POST" action="<?= SERVERURL ?>fomentos/representante_cadastro&idPj=<?= $id ?>&id=<?= MainModel::encryption($rep1['id']) ?>" role="form">
                                                             <input type="hidden" name="representante" value="1">
                                                             <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</button>
                                                         </form>
@@ -202,34 +173,6 @@ if (isset($_POST['pj_cnpj'])){
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <?php
-                                            if ($pj['representante_legal2_id']):
-                                                $r2 = $pj['representante_legal2_id'];
-                                                $rep2 = DbModel::consultaSimples("SELECT * FROM representante_legais WHERE id = '$r2'")->fetch();
-                                            ?>
-                                                <tr>
-                                                    <td><b>#2</b></td>
-                                                    <td><?= $rep2['nome'] ?></td>
-                                                    <td><?= $rep2['rg'] ?></td>
-                                                    <td><?= $rep2['cpf'] ?></td>
-                                                    <td>
-                                                        <div class="row">
-                                                            <form class="form-horizontal mr-2" method="POST" action="<?= SERVERURL ?>eventos/representante_cadastro&idPj=<?= $id ?>&id=<?= MainModel::encryption($rep2['id']) ?>" role="form">
-                                                                <input type="hidden" name="representante" value="2">
-                                                                <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</button>
-                                                            </form>
-                                                            <button class="btn btn-sm btn-danger" id="e2"><i class="fas fa-trash"></i> Apagar</button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            <?php
-                                            else:
-                                            ?>
-                                                <button class="btn btn-sm btn-primary" id="2"><i class="fas fa-plus"></i> Novo Representante Legal #2</button>
-
-                                            <?php
-                                            endif;
-                                            ?>
                                         </tbody>
                                     </table>
                             <?php
@@ -259,7 +202,7 @@ if (isset($_POST['pj_cnpj'])){
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>eventos/representante_cadastro&idPj=<?= $id ?>" role="form" id="formularioPf">
+            <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>fomentos/representante_cadastro&idPj=<?= $id ?>" role="form" id="formularioPf">
                 <input type="hidden" name="idPj" value="<?= $id ?>">
                 <input type="hidden" name="representante" id="representante">
                 <div class="modal-body">
@@ -298,7 +241,7 @@ if (isset($_POST['pj_cnpj'])){
             <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/representanteAjax.php" role="form" data-form="update">
                 <input type="hidden" name="_method" value="remover">
                 <input type="hidden" name="idPj" value="<?= $id ?>">
-                <input type="hidden" name="pagina" value="eventos">
+                <input type="hidden" name="pagina" value="fomentos">
                 <input type="hidden" name="representante" id="representanteEx">
                 <div class="modal-body">
                     <p>Realmente deseja remover o represente legal?</p>

@@ -1,7 +1,7 @@
 <?php
     $view = new ViewsController();
 
-    $nomeUser = strstr($_SESSION['nome_c'], ' ', true);
+    $nomeUser = explode(' ', $_SESSION['nome_c'])[0];
 
 ?>
 <!-- Brand Logo -->
