@@ -120,6 +120,10 @@ class PessoaJuridicaController extends PessoaJuridicaModel
                 }
             }
 
+            if ($_SESSION['modulo_c'] == 8 || $_SESSION['modulo_c'] == 9){ //fomento
+                $_SESSION['origem_id_c'] = $id;
+            }
+
             if($retornaId){
                 return $idDecryp;
             } else{
