@@ -1,52 +1,23 @@
 <?php
-/*
 $id = isset($_GET['id']) ? $_GET['id'] : null;
-require_once "./controllers/PessoaFisicaController.php";
-$insPessoaFisica = new PessoaFisicaController();
-require_once "./controllers/AtracaoController.php";
-$insAtracao = new AtracaoController();
+require_once "./controllers/ProjetoController.php";
+$objProjeto = new ProjetoController();
 
 if ($id) {
-    $pf = $insPessoaFisica->recuperaPessoaFisica($id);
-    $cenica = $insAtracao->verificaCenica($_SESSION['origem_id_c']);
-    if ($pf['cpf'] != "") {
-        $documento = $pf['cpf'];
-    } else {
-        $documento = $pf['passaporte'];
-    }
+    $projeto = $objProjeto->recuperaProjeto($id);
 }
 
-if (isset($_POST['pf_cpf'])){
-    $documento = $_POST['pf_cpf'];
-    $pf = $insPessoaFisica->getCPF($documento)->fetch();
-    if ($pf['cpf'] != ''){
-        $id = MainModel::encryption($pf['id']);
-        $pf = $insPessoaFisica->recuperaPessoaFisica($id);
-        $documento = $pf['cpf'];
-    }
-    $cenica = $insAtracao->verificaCenica($_SESSION['origem_id_c']);
-}
-if (isset($_POST['pf_passaporte'])){
-    $documento = $_POST['pf_passaporte'];
-    $pf = $insPessoaFisica->getPassaporte($documento)->fetch();
-    if ($pf['passaporte'] != ''){
-        $id = MainModel::encryption($pf['id']);
-        $pf = $insPessoaFisica->recuperaPessoaFisica($id);
-        $documento = $pf['passaporte'];
-    }
-    $cenica = $insAtracao->verificaCenica($_SESSION['origem_id_c']);
-}
-*/
-$id = 1;
-$fomento = [
-    "id" => '1',
-    "instituicao" => 'inst',
-    "site" => 'site',
-    "valor_projeto" => 'valor',
-    "duracao" => 2,
-    "nucleo_artistico" => 'aeooo',
-    "representante_nucleo" => 'ghjkl'
-];
+//
+//$id = 1;
+//$projeto = [
+//    "id" => '1',
+//    "instituicao" => 'inst',
+//    "site" => 'site',
+//    "valor_projeto" => 'valor',
+//    "duracao" => 2,
+//    "nucleo_artistico" => 'aeooo',
+//    "representante_nucleo" => 'ghjkl'
+//];
 ?>
 
 <!-- Content Header (Page header) -->
@@ -76,7 +47,8 @@ $fomento = [
                     <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/projetoAjax.php" role="form" data-form="<?= ($id) ? "update" : "save" ?>">
                         <input type="hidden" name="_method" value="<?= ($id) ? "editar" : "cadastrar" ?>">
                         <input type="hidden" name="pagina" value="eventos">
-                        <input type="hidden" name="pf_ultima_atualizacao" value="<?= date('Y-m-d H-i-s') ?>">
+                        <input type="hidden" name="usuario_id" value="<?= $_SESSION['usuario_id_c'] ?>">
+                        <input type="hidden" name="pessoa_tipo_id" value="2">
                         <?php if ($id): ?>
                             <input type="hidden" name="id" value="<?= $id ?>">
                         <?php endif; ?>
@@ -84,40 +56,40 @@ $fomento = [
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label for="instituicao">Instituição responsável: *</label>
-                                    <input type="text" class="form-control" id="instituicao" name="instituicao" placeholder="Digite a instituição responsável" maxlength="80" value="<?= $fomento['instituicao'] ?>" required>
+                                    <input type="text" class="form-control" id="instituicao" name="instituicao" placeholder="Digite a instituição responsável" maxlength="80" value="<?= $projeto['instituicao'] ?? null ?>" required>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="usuario_id">Responsável pela inscrição: *</label>
-                                    <input type="text" class="form-control" id="usuario_id" name="usuario_id" value="<?= $_SESSION['nome_c'] ?>" disabled>
+                                    <label for="usuario_nome">Responsável pela inscrição: *</label>
+                                    <input type="text" class="form-control" id="usuario_nome" name="usuario_nome" value="<?= $_SESSION['nome_c'] ?>" disabled>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label for="site">Site: *</label>
-                                    <input type="text" class="form-control" id="site" name="site" value="<?= $fomento['site'] ?>">
+                                    <input type="text" class="form-control" id="site" name="site" value="<?= $projeto['site'] ?? null ?>" required>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="valor_projeto">Valor do projeto: *</label>
-                                    <input type="text" class="form-control" id="valor_projeto" name="valor_projeto" value="<?= $fomento['valor_projeto'] ?>">
+                                    <input type="text" class="form-control" id="valor_projeto" name="valor_projeto" value="<?= $projeto['valor_projeto'] ? dinheiroParaBr($projeto['valor_projeto']) : null ?>" required>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="duracao">Duração: (em meses) *</label>
-                                    <input type="number" class="form-control" id="duracao" name="duracao" value="<?= $fomento['duracao'] ?>">
+                                    <input type="number" class="form-control" id="duracao" name="duracao" value="<?= $projeto['duracao'] ?? null ?>" required>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="form-group col-md">
                                     <label for="nucleo_artistico">Núcleo artístico: *</label>
-                                    <textarea class="form-control" rows="5" id="nucleo_artistico" name="nucleo_artistico"><?= $fomento['nucleo_artistico'] ?></textarea>
+                                    <textarea class="form-control" rows="5" id="nucleo_artistico" name="nucleo_artistico" required><?= $projeto['nucleo_artistico'] ?? null ?></textarea>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="form-group col-md">
                                     <label for="representante_nucleo">Representante do núcleo: *</label>
-                                    <input type="text" class="form-control" id="representante_nucleo" name="representante_nucleo" maxlength="100" value="<?= $fomento['representante_nucleo'] ?>">
+                                    <input type="text" class="form-control" id="representante_nucleo" name="representante_nucleo" maxlength="100" value="<?= $projeto['representante_nucleo'] ?? null ?>" required>
                                 </div>
                             </div>
                         </div>

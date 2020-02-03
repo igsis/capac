@@ -7,12 +7,11 @@ if ($pedidoAjax) {
 
 class ProjetoController extends MainModel
 {
-    public function insereProjeto($post, $proponente_id, $modulo){
+    public function insereProjeto($post, $modulo){
         /* executa limpeza nos campos */
-        $proponente_id = MainModel::decryption($proponente_id);
+        $post['pessoa_juridica_id'] = MainModel::decryption($_SESSION['origem_id_c']);
         unset($post['_method']);
         unset($post['modulo']);
-        unset($post['proponente_id']);
         $dados = [];
         foreach ($post as $campo => $valor) {
             if ($campo != "modulo") {
