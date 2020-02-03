@@ -10,7 +10,7 @@ if (isset($_POST['_method'])) {
     if ($_POST['_method'] == "cadastrar") {
         echo $insProjeto->insereProjeto($_POST);
     } elseif ($_POST['_method'] == "editar") {
-        echo $insProjeto->editaProjeto($_POST, $_POST['projeto_id']);
+        echo $insProjeto->editaProjeto($_POST, $_POST['id']);
     }
 } else {
     include_once "../config/destroySession.php";

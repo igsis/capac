@@ -27,12 +27,13 @@ class ProjetoController extends MainModel
         $insere = DbModel::insert('fom_projetos', $dados);
         if ($insere->rowCount() >= 1) {
             $projeto_id = DbModel::connection()->lastInsertId();
+            $_SESSION['projeto_c'] = MainModel::encryption($projeto_id);
             $alerta = [
                 'alerta' => 'sucesso',
                 'titulo' => 'Projeto Cadastrado!',
                 'texto' => 'Projeto cadastrado com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL . 'fomentos/projeto_cadastro&key=' . MainModel::encryption($projeto_id)
+                'location' => SERVERURL . 'fomentos/projeto_cadastro&id=' . MainModel::encryption($projeto_id)
             ];
         } else {
             $alerta = [
@@ -47,10 +48,11 @@ class ProjetoController extends MainModel
     }
 
     /* edita */
-    public function editaProjeto($post, $projeto_id){
+    public function editaProjeto($post, $id){
+        $id = MainModel::decryption($id);
         unset($post['_method']);
         unset($post['modulo']);
-        unset($post['projeto_id']);
+        unset($post['id']);
         unset($post['pagina']);
         $dados = [];
         foreach ($post as $campo => $valor) {
@@ -59,14 +61,14 @@ class ProjetoController extends MainModel
             }
         }
 
-        $edita = DbModel::update('fom_projetos', $dados, $projeto_id);
+        $edita = DbModel::update('fom_projetos', $dados, $id);
         if ($edita->rowCount() >= 1 || DbModel::connection()->errorCode() == 0) {
             $alerta = [
                 'alerta' => 'sucesso',
                 'titulo' => 'Projeto Atualizado',
                 'texto' => 'Projeto editado com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL.'fomentos/projeto_cadastro&key='.MainModel::encryption($projeto_id)
+                'location' => SERVERURL.'fomentos/projeto_cadastro&id='.MainModel::encryption($id)
             ];
         } else {
             $alerta = [
@@ -74,7 +76,7 @@ class ProjetoController extends MainModel
                 'titulo' => 'Erro!',
                 'texto' => 'Erro ao salvar!',
                 'tipo' => 'error',
-                'location' => SERVERURL.'fomentos/projeto_cadastro&key='.MainModel::encryption($projeto_id)
+                'location' => SERVERURL.'fomentos/projeto_cadastro&id='.MainModel::encryption($projeto_id)
             ];
         }
         return MainModel::sweetAlert($alerta);
@@ -82,7 +84,6 @@ class ProjetoController extends MainModel
 
     public function recuperaProjeto($id) {
         $id = MainModel::decryption($id);
-        $projeto = DbModel::getInfo('fom_projetos',$id);
-        return $projeto;
+        return DbModel::getInfo('fom_projetos',$id)->fetch();
     }
 }

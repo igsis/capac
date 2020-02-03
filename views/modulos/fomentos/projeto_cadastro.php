@@ -3,6 +3,9 @@ $id = isset($_GET['id']) ? $_GET['id'] : null;
 require_once "./controllers/ProjetoController.php";
 $objProjeto = new ProjetoController();
 
+if (isset($_SESSION['projeto_c'])){
+    $id = $_SESSION['projeto_c'];
+}
 if ($id) {
     $projeto = $objProjeto->recuperaProjeto($id);
 }
@@ -59,7 +62,7 @@ if ($id) {
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="valor_projeto">Valor do projeto: *</label>
-                                    <input type="text" class="form-control" id="valor_projeto" name="valor_projeto" value="<?= isset($projeto['valor_projeto']) ? dinheiroParaBr($projeto['valor_projeto']) : null ?>" required>
+                                    <input type="text" class="form-control" id="valor_projeto" name="valor_projeto" value="<?= isset($projeto['valor_projeto']) ? $projeto['valor_projeto'] : null ?>" required>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="duracao">Duração: (em meses) *</label>
