@@ -72,15 +72,19 @@
 
                                             <div class="row">
                                                 <div class="col-6">
-                                                    <div class="btn disabled info-box bg-purple" id="inscreverEvento"
-                                                         data-toggle="tooltip" data-placement="top" title="Em Breve">
+                                                    <a href="login">
+                                                        <div class="btn disabled info-box bg-purple"
+                                                             id="inscreverEvento"
+                                                             data-toggle="tooltip" data-placement="top"
+                                                             title="Em Breve">
                                                             <span class="info-box-icon"><i
-                                                                    class="fas fa-file"></i></span>
+                                                                        class="fas fa-file"></i></span>
 
-                                                        <div class="card-body">
-                                                            <span class="info-box-number">Quero Inscrever Meu Evento</span>
+                                                            <div class="card-body">
+                                                                <span class="info-box-number">Quero Inscrever Meu Evento</span>
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    </a>
                                                 </div>
                                                 <div class="col-6">
                                                     <a href="fomento_edital">
