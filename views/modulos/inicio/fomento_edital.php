@@ -1,4 +1,8 @@
 <?php
+unset($_SESSION['origem_id_c']);
+unset($_SESSION['pedido_id_c']);
+unset($_SESSION['modulo']);
+unset($_SESSION['edital']);
 require_once "./controllers/FomentoController.php";
 $fomentoObj = new FomentoController();
 ?>
@@ -30,10 +34,9 @@ $fomentoObj = new FomentoController();
                             <?= $fomento['descricao'] ?>
                         </div>
                         <div class="card-footer">
-                            <form class="form-horizontal formulario-ajax" method="POST" action="<?=SERVERURL?>ajax/jovemMonitorAjax.php" role="form" data-form="update">
-                                <button type="submit" class="btn btn-outline-primary btn-block float-right" id="cadastra">Inscreva-se</button>
-                                <div class="resposta-ajax"></div>
-                            </form>
+                            <a href="<?=SERVERURL?>fomentos&modulo=8&edital=<?= MainModel::encryption($fomento['id']) ?>" class="small-box-footer">
+                                Inscreva-se <i class="fas fa-arrow-circle-right"></i>
+                            </a>
                         </div>
 
                     </div>

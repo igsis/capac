@@ -8,11 +8,14 @@ if ($pedidoAjax) {
 class ProjetoController extends MainModel
 {
     public function insereProjeto($post){
+        session_start(['name' => 'cpc']);
         /* executa limpeza nos campos */
-        $post['pessoa_juridica_id'] = MainModel::decryption($_SESSION['origem_id_c']);
         unset($post['_method']);
         unset($post['modulo']);
-        $dados = [];
+        unset($post['pagina']);
+        $dados['fom_edital_id'] = MainModel::decryption($_SESSION['edital_c']);
+        $dados['pessoa_juridica_id'] = MainModel::decryption($_SESSION['origem_id_c']);
+        $dados['fom_status_id'] = 1;
         foreach ($post as $campo => $valor) {
             if ($campo != "modulo") {
                 $dados[$campo] = MainModel::limparString($valor);
@@ -29,7 +32,7 @@ class ProjetoController extends MainModel
                 'titulo' => 'Projeto Cadastrado!',
                 'texto' => 'Projeto cadastrado com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL . $modulo.'/projeto_cadastro&key=' . MainModel::encryption($projeto_id)
+                'location' => SERVERURL . 'fomentos/projeto_cadastro&key=' . MainModel::encryption($projeto_id)
             ];
         } else {
             $alerta = [
