@@ -6,18 +6,6 @@ $objProjeto = new ProjetoController();
 if ($id) {
     $projeto = $objProjeto->recuperaProjeto($id);
 }
-
-//
-//$id = 1;
-//$projeto = [
-//    "id" => '1',
-//    "instituicao" => 'inst',
-//    "site" => 'site',
-//    "valor_projeto" => 'valor',
-//    "duracao" => 2,
-//    "nucleo_artistico" => 'aeooo',
-//    "representante_nucleo" => 'ghjkl'
-//];
 ?>
 
 <!-- Content Header (Page header) -->
@@ -56,7 +44,7 @@ if ($id) {
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label for="instituicao">Instituição responsável: *</label>
-                                    <input type="text" class="form-control" id="instituicao" name="instituicao" placeholder="Digite a instituição responsável" maxlength="80" value="<?= $projeto['instituicao'] ?? null ?>" required>
+                                    <input type="text" class="form-control" id="instituicao" name="instituicao" maxlength="80" value="<?= $projeto['instituicao'] ?? null ?>" required>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="usuario_nome">Responsável pela inscrição: *</label>
@@ -71,7 +59,7 @@ if ($id) {
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="valor_projeto">Valor do projeto: *</label>
-                                    <input type="text" class="form-control" id="valor_projeto" name="valor_projeto" value="<?= $projeto['valor_projeto'] ? dinheiroParaBr($projeto['valor_projeto']) : null ?>" required>
+                                    <input type="text" class="form-control" id="valor_projeto" name="valor_projeto" value="<?= isset($projeto['valor_projeto']) ? dinheiroParaBr($projeto['valor_projeto']) : null ?>" required>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="duracao">Duração: (em meses) *</label>

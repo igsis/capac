@@ -7,7 +7,7 @@ if ($pedidoAjax) {
 
 class ProjetoController extends MainModel
 {
-    public function insereProjeto($post, $modulo){
+    public function insereProjeto($post){
         /* executa limpeza nos campos */
         $post['pessoa_juridica_id'] = MainModel::decryption($_SESSION['origem_id_c']);
         unset($post['_method']);
