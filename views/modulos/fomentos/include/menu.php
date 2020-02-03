@@ -6,24 +6,23 @@
 </li>
 <li class="nav-item">
     <a href="<?= SERVERURL ?>fomentos/proponente" class="nav-link" id="proponente">
-        <i class="far fa-circle nav-icon"></i>
+        <i class="fas fa-search-plus nav-icon"></i>
         <p>Busca</p>
     </a>
 </li>
-<!--provisório-->
-<li class="nav-item">
-    <a href="<?= SERVERURL ?>fomentos/projeto_cadastro" class="nav-link" id="proponente">
-        <i class="far fa-circle nav-icon"></i>
-        <p>projeto</p>
-    </a>
-</li>
-
+<hr/>
 <?php if (isset($_SESSION['origem_id_c'])){
     ?>
     <li class="nav-item">
         <a href="<?= SERVERURL ?>fomentos/pj_cadastro&id=<?=$_SESSION['origem_id_c']?>" class="nav-link" id="proponente">
             <i class="far fa-circle nav-icon"></i>
-            <p>Cadastro</p>
+            <p>Empresa</p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="<?= SERVERURL ?>fomentos/projeto_cadastro" class="nav-link" id="projeto">
+            <i class="far fa-circle nav-icon"></i>
+            <p>Projeto</p>
         </a>
     </li>
     <li class="nav-item">
