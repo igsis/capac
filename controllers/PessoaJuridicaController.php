@@ -83,25 +83,27 @@ class PessoaJuridicaController extends PessoaJuridicaModel
         $edita = DbModel::update('pessoa_juridicas', $dadosLimpos['pj'], $idDecryp);
         if ($edita) {
 
-            if (count($dadosLimpos['bc']) > 0) {
-                $banco_existe = DbModel::consultaSimples("SELECT * FROM pj_bancos WHERE pessoa_juridica_id = '$idDecryp'");
-                if ($banco_existe->rowCount()>0){
-                    DbModel::updateEspecial('pj_bancos', $dadosLimpos['bc'], "pessoa_juridica_id",$idDecryp);
-                }
-                else{
-                    $dadosLimpos['bc']['pessoa_juridica_id'] = $idDecryp;
-                    DbModel::insert('pj_bancos', $dadosLimpos['bc']);
+            if (isset($dadosLimpos['bc'])) {
+                if (count($dadosLimpos['bc']) > 0) {
+                    $banco_existe = DbModel::consultaSimples("SELECT * FROM pj_bancos WHERE pessoa_juridica_id = '$idDecryp'");
+                    if ($banco_existe->rowCount() > 0) {
+                        DbModel::updateEspecial('pj_bancos', $dadosLimpos['bc'], "pessoa_juridica_id", $idDecryp);
+                    } else {
+                        $dadosLimpos['bc']['pessoa_juridica_id'] = $idDecryp;
+                        DbModel::insert('pj_bancos', $dadosLimpos['bc']);
+                    }
                 }
             }
 
-            if (count($dadosLimpos['en']) > 0) {
-                $endereco_existe = DbModel::consultaSimples("SELECT * FROM pj_enderecos WHERE pessoa_juridica_id = '$idDecryp'");
-                if ($endereco_existe->rowCount()>0){
-                    DbModel::updateEspecial('pj_enderecos', $dadosLimpos['en'], "pessoa_juridica_id",$idDecryp);
-                }
-                else{
-                    $dadosLimpos['en']['pessoa_juridica_id'] = $idDecryp;
-                    DbModel::insert('pj_enderecos', $dadosLimpos['en']);
+            if (isset($dadosLimpos['en'])) {
+                if (count($dadosLimpos['en']) > 0) {
+                    $endereco_existe = DbModel::consultaSimples("SELECT * FROM pj_enderecos WHERE pessoa_juridica_id = '$idDecryp'");
+                    if ($endereco_existe->rowCount() > 0) {
+                        DbModel::updateEspecial('pj_enderecos', $dadosLimpos['en'], "pessoa_juridica_id", $idDecryp);
+                    } else {
+                        $dadosLimpos['en']['pessoa_juridica_id'] = $idDecryp;
+                        DbModel::insert('pj_enderecos', $dadosLimpos['en']);
+                    }
                 }
             }
 
