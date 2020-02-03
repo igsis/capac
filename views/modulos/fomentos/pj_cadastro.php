@@ -165,7 +165,7 @@ if (isset($_POST['pj_cnpj'])){
                                                 <td><?= $rep1['cpf'] ?></td>
                                                 <td>
                                                     <div class="row">
-                                                        <form class="form-horizontal mr-2" method="POST" action="<?= SERVERURL ?>eventos/representante_cadastro&idPj=<?= $id ?>&id=<?= MainModel::encryption($rep1['id']) ?>" role="form">
+                                                        <form class="form-horizontal mr-2" method="POST" action="<?= SERVERURL ?>fomentos/representante_cadastro&idPj=<?= $id ?>&id=<?= MainModel::encryption($rep1['id']) ?>" role="form">
                                                             <input type="hidden" name="representante" value="1">
                                                             <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</button>
                                                         </form>
@@ -202,7 +202,7 @@ if (isset($_POST['pj_cnpj'])){
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>eventos/representante_cadastro&idPj=<?= $id ?>" role="form" id="formularioPf">
+            <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>fomentos/representante_cadastro&idPj=<?= $id ?>" role="form" id="formularioPf">
                 <input type="hidden" name="idPj" value="<?= $id ?>">
                 <input type="hidden" name="representante" id="representante">
                 <div class="modal-body">
@@ -241,7 +241,7 @@ if (isset($_POST['pj_cnpj'])){
             <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/representanteAjax.php" role="form" data-form="update">
                 <input type="hidden" name="_method" value="remover">
                 <input type="hidden" name="idPj" value="<?= $id ?>">
-                <input type="hidden" name="pagina" value="eventos">
+                <input type="hidden" name="pagina" value="fomentos">
                 <input type="hidden" name="representante" id="representanteEx">
                 <div class="modal-body">
                     <p>Realmente deseja remover o represente legal?</p>
