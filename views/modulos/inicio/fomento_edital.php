@@ -37,7 +37,8 @@ $fomentoObj = new FomentoController();
                             <?= $fomento['descricao'] ?>
                         </div>
                         <div class="card-footer">
-                            <a href="<?=SERVERURL?>fomentos&modulo=8&edital=<?= MainModel::encryption($fomento['id']) ?>" class="small-box-footer">
+<!--                            <a href="--><?//=SERVERURL?><!--fomentos&modulo=8&edital=--><?//= MainModel::encryption($fomento['id']) ?><!--" class="small-box-footer">-->
+                            <a href="login&modulo=8" class="small-box-footer">
                                 Inscreva-se <i class="fas fa-arrow-circle-right"></i>
                             </a>
                         </div>

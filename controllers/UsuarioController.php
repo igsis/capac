@@ -9,7 +9,7 @@ if ($pedidoAjax) {
 class UsuarioController extends UsuarioModel
 {
 
-    public function iniciaSessao() {
+    public function iniciaSessao($modulo = false) {
         $email = MainModel::limparString($_POST['email']);
         $senha = MainModel::limparString($_POST['senha']);
         $senha = MainModel::encryption($senha);
@@ -33,7 +33,13 @@ class UsuarioController extends UsuarioModel
 
                 MainModel::gravarLog('Fez Login');
 
-                return $urlLocation = '<script> window.location="inicio/inicio" </script>';
+                if (!$modulo) {
+                    return $urlLocation = "<script> window.location='inicio/inicio' </script>";
+                } else {
+                    if ($modulo == 8) {
+                        return $urlLocation = "<script> window.location='fomentos/inicio&modulo=$modulo' </script>";
+                    }
+                }
             } else {
                 $alerta = [
                     'alerta' => 'simples',
