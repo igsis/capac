@@ -3,6 +3,9 @@ unset($_SESSION['origem_id_c']);
 if (isset($_GET['modulo'])) {
     $_SESSION['modulo_c'] = $_GET['modulo'];
 }
+if (isset($_GET['edital'])){
+    $_SESSION['edital_c'] = $_GET['edital'];
+}
 ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">

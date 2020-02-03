@@ -3,6 +3,9 @@ $id = isset($_GET['id']) ? $_GET['id'] : null;
 require_once "./controllers/ProjetoController.php";
 $objProjeto = new ProjetoController();
 
+if (isset($_SESSION['projeto_c'])){
+    $id = $_SESSION['projeto_c'];
+}
 if ($id) {
     $projeto = $objProjeto->recuperaProjeto($id);
 }
@@ -34,7 +37,7 @@ if ($id) {
                     <!-- form start -->
                     <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/projetoAjax.php" role="form" data-form="<?= ($id) ? "update" : "save" ?>">
                         <input type="hidden" name="_method" value="<?= ($id) ? "editar" : "cadastrar" ?>">
-                        <input type="hidden" name="pagina" value="eventos">
+                        <input type="hidden" name="pagina" value="fomentos">
                         <input type="hidden" name="usuario_id" value="<?= $_SESSION['usuario_id_c'] ?>">
                         <input type="hidden" name="pessoa_tipo_id" value="2">
                         <?php if ($id): ?>
@@ -59,7 +62,7 @@ if ($id) {
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="valor_projeto">Valor do projeto: *</label>
-                                    <input type="text" class="form-control" id="valor_projeto" name="valor_projeto" value="<?= isset($projeto['valor_projeto']) ? dinheiroParaBr($projeto['valor_projeto']) : null ?>" required>
+                                    <input type="text" class="form-control" id="valor_projeto" name="valor_projeto" value="<?= isset($projeto['valor_projeto']) ? $projeto['valor_projeto'] : null ?>" required>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="duracao">Duração: (em meses) *</label>
