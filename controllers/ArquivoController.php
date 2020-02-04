@@ -9,8 +9,14 @@ if ($pedidoAjax) {
 
 class ArquivoController extends ArquivoModel
 {
-    public function recuperaIdListaDocumento($tipo_documento_id) {
-        $sql = "SELECT id FROM lista_documentos WHERE tipo_documento_id = '$tipo_documento_id'";
+    public function recuperaIdListaDocumento($tipo_documento_id, $fomento = false) {
+        if (!$fomento) {
+            $sql = "SELECT id FROM lista_documentos WHERE tipo_documento_id = '$tipo_documento_id'";
+        } else {
+            $sql = "SELECT fld.id FROM fom_lista_documentos AS fld
+                INNER JOIN contratacao_documentos AS cd on fld.id = cd.fom_lista_documento_id
+                WHERE cd.tipo_contratacao_id = '$tipo_documento_id'";
+        }
         $lista_documento_id = DbModel::consultaSimples($sql);
 
         return $lista_documento_id;
@@ -23,19 +29,22 @@ class ArquivoController extends ArquivoModel
         return $arquivos;
     }
 
+    public function listarArquivosFomento($edital_id){
+        $edital_id = MainModel::decryption($edital_id);
+        $sqlTipoContratacao = "SELECT tipo_contratacao_id FROM fom_editais WHERE id = '$edital_id'";
+        $tipo_contratacao_id = DbModel::consultaSimples($sqlTipoContratacao)->fetchColumn();
+        return parent::listaArquivosFomentos($tipo_contratacao_id);
+    }
+
     public function listarArquivosLider() {
         $sql = "SELECT * FROM lista_documentos WHERE tipo_documento_id = '1' AND publicado = '1' AND id IN (1,2,47,89)";
-        $arquivos = DbModel::consultaSimples($sql);
-
-        return $arquivos;
+        return ArquivoModel::consultaSimples($sql);
     }
 
     public function listarArquivosEnviadosComProd($origem_id) {
         $origem_id = MainModel::decryption($origem_id);
         $sql = "SELECT * FROM arquivos WHERE `origem_id` = '$origem_id' AND lista_documento_id = (SELECT id FROM lista_documentos WHERE tipo_documento_id = 8) AND publicado = '1'";
-        $arquivos = DbModel::consultaSimples($sql);
-
-        return $arquivos;
+        return DbModel::consultaSimples($sql);
     }
 
     public function enviarArquivoComProd($origem_id, $modulo) {
@@ -78,6 +87,13 @@ class ArquivoController extends ArquivoModel
         $arquivos = DbModel::consultaSimples($sql);
 
         return $arquivos;
+    }
+
+    public function listarArquivosFomentosEnviados($origem_id, $lista_documentos_ids) {
+        $origem_id = MainModel::decryption($origem_id);
+        $documentos = implode(", ", $lista_documentos_ids);
+        $sql = "SELECT fa.id, fa.arquivo, fa.data, fld.documento FROM fom_arquivos AS fa INNER JOIN fom_lista_documentos AS fld on fa.fom_lista_documento_id = fld.id WHERE `fom_projeto_id` = '$origem_id' AND fom_lista_documento_id IN ($documentos) AND fa.publicado = '1'";
+        return DbModel::consultaSimples($sql);
     }
 
     public function enviarArquivo($origem_id, $pagina) {
@@ -142,6 +158,14 @@ class ArquivoController extends ArquivoModel
     {
         $origem_id = MainModel::decryption($origem_id);
         $sql = "SELECT * FROM arquivos WHERE lista_documento_id = '$lista_documento_id' AND origem_id = '$origem_id' AND publicado = '1'";
+        $arquivo = DbModel::consultaSimples($sql)->rowCount();
+        return $arquivo > 0 ? true : false;
+    }
+
+    public function consultaArquivoFomentoEnviado($lista_documento_id, $origem_id)
+    {
+        $origem_id = MainModel::decryption($origem_id);
+        $sql = "SELECT * FROM fom_arquivos WHERE fom_lista_documento_id = '$lista_documento_id' AND fom_projeto_id = '$origem_id' AND publicado = '1'";
         $arquivo = DbModel::consultaSimples($sql)->rowCount();
         return $arquivo > 0 ? true : false;
     }
