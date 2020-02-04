@@ -13,16 +13,24 @@ require_once "../controllers/ProjetoController.php";
 $projObj = new ProjetoController();
 $projeto = $projObj->recuperaProjetoCompleto($id);
 
-$idPj = MainModel::encryption($projeto['pessoa_juridica_id']);
-
 require_once "../controllers/PessoaJuridicaController.php";
 $pjObj = new PessoaJuridicaController();
-$pj = $pjObj->recuperaPessoaJuridica($idPj);
+$pj = $pjObj->recuperaPessoaJuridica(MainModel::encryption($projeto['pessoa_juridica_id']));
 
+require_once "../controllers/RepresentanteController.php";
+$repObj = new RepresentanteController();
+$rl = $repObj->recuperaRepresentante(MainModel::encryption($pj['representante_legal1_id']))->fetch();
 
 class PDF extends FPDF
 {
-
+    function Header()
+    {
+        // Logo
+        $this->Cell(80);
+        $this->Image('../views/dist/img/logo_cultura.jpg', 20, 10);
+        // Line break
+        $this->Ln(20);
+    }
 }
 
 // GERANDO O PDF:
@@ -99,6 +107,22 @@ $pdf->MultiCell(150, $l, utf8_decode($pj['logradouro'] . ", " . $pj['numero'] . 
 
 $pdf->SetX($x);
 $pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(68, $l, utf8_decode("Representante legal da empresa:"), 0, 0, 'L');
+$pdf->SetFont('Arial', '', $f);
+$pdf->Cell(20, $l, utf8_decode($rl['nome']), 0, 1, 'L');
+
+$pdf->SetX($x);
+$pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(8, $l, utf8_decode("RG:"), 0, 0, 'L');
+$pdf->SetFont('Arial', '', $f);
+$pdf->Cell(40, $l, utf8_decode($rl['rg']), 0, 0, 'L');
+$pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(10, $l, utf8_decode("CPF:"), 0, 0, 'L');
+$pdf->SetFont('Arial', '', $f);
+$pdf->Cell(20, $l, utf8_decode($rl['cpf']), 0, 1, 'L');
+
+$pdf->SetX($x);
+$pdf->SetFont('Arial', 'B', $f);
 $pdf->Cell(10, $l, utf8_decode("Site:"), 0, 0, 'L');
 $pdf->SetFont('Arial', '', $f);
 $pdf->Cell(20, $l, utf8_decode($projeto['site']), 0, 1, 'L');
@@ -107,7 +131,7 @@ $pdf->SetX($x);
 $pdf->SetFont('Arial', 'B', $f);
 $pdf->Cell(35, $l, utf8_decode("Valor do projeto:"), 0, 0, 'L');
 $pdf->SetFont('Arial', '', $f);
-$pdf->Cell(20, $l, utf8_decode("R$: ".$projeto['valor_projeto']), 0, 1, 'L');
+$pdf->Cell(120, $l, utf8_decode("R$: {$projObj->dinheiroParaBr($projeto['valor_projeto'])} ( {$projObj->valorPorExtenso($projeto['valor_projeto'])} )"), 0, 1, 'L');
 
 $pdf->SetX($x);
 $pdf->SetFont('Arial', 'B', $f);
