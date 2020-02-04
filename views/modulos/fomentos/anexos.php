@@ -66,8 +66,16 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($edital_id)->fetch
                                 $cont = 0;
                                 $arquivos = $arquivosObj->listarArquivosFomento($edital_id)->fetchAll(PDO::FETCH_OBJ);
                                 foreach ($arquivos as $arquivo) {
-                                    if (!($arquivosObj->consultaArquivoFomentoEnviado($arquivo->id, $projeto_id))) {
+                                    if ($arquivosObj->consultaArquivoFomentoEnviado($arquivo->id, $projeto_id)) {
                                         ?>
+                                        <tr>
+                                            <td colspan="2">
+                                                <div class="callout callout-success text-center">
+                                                    Arquivo <strong><?= $arquivo->documento ?></strong> já enviado!
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php } else { ?>
                                         <tr>
                                             <td>
                                                 <label for=""><?= "$arquivo->anexo - $arquivo->documento" ?></label>
@@ -122,41 +130,41 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($edital_id)->fetch
                             </tr>
                             </thead>
 <!--                            Comentado aguardando lista de documentos-->
-<!--                            <tbody>-->
-<!--                            --><?php
-//                            $arquivosEnviados = $arquivosObj->listarArquivosFomentosEnviados($projeto_id, $lista_documento_ids)->fetchAll(PDO::FETCH_OBJ);
-//                            if (count($arquivosEnviados) != 0) {
-//                                foreach ($arquivosEnviados as $arquivo) {
-//                                    ?>
-<!--                                    <tr>-->
-<!--                                        <td>--><?//= $arquivo->documento ?><!--</td>-->
-<!--                                        <td><a href="--><?//= SERVERURL . "uploads/" . $arquivo->arquivo ?><!--"-->
-<!--                                               target="_blank">--><?//= mb_strimwidth($arquivo->arquivo, '15', '25', '...') ?><!--</a>-->
-<!--                                        </td>-->
-<!--                                        <td>--><?//= $arquivosObj->dataParaBR($arquivo->data) ?><!--</td>-->
-<!--                                        <td>-->
-<!--                                            <form class="formulario-ajax" action="--><?//= SERVERURL ?><!--ajax/arquivosAjax.php"-->
-<!--                                                  method="POST" data-form="delete">-->
-<!--                                                <input type="hidden" name="_method" value="removerArquivo">-->
-<!--                                                <input type="hidden" name="pagina" value="--><?//= $_GET['views'] ?><!--">-->
-<!--                                                <input type="hidden" name="arquivo_id"-->
-<!--                                                       value="--><?//= $arquivosObj->encryption($arquivo->id) ?><!--">-->
-<!--                                                <button type="submit" class="btn btn-sm btn-danger">Apagar</button>-->
-<!--                                                <div class="resposta-ajax"></div>-->
-<!--                                            </form>-->
-<!--                                        </td>-->
-<!--                                    </tr>-->
-<!--                                    --><?php
-//                                }
-//                            } else {
-//                                ?>
-<!--                                <tr>-->
-<!--                                    <td class="text-center" colspan="4">Nenhum arquivo enviado</td>-->
-<!--                                </tr>-->
-<!--                                --><?php
-//                            }
-//                            ?>
-<!--                            </tbody>-->
+                            <tbody>
+                            <?php
+                            $arquivosEnviados = $arquivosObj->listarArquivosFomentosEnviados($projeto_id, $lista_documento_ids)->fetchAll(PDO::FETCH_OBJ);
+                            if (count($arquivosEnviados) != 0) {
+                                foreach ($arquivosEnviados as $arquivo) {
+                                    ?>
+                                    <tr>
+                                        <td><?= $arquivo->documento ?></td>
+                                        <td><a href="<?= SERVERURL . "uploads/" . $arquivo->arquivo ?>"
+                                               target="_blank"><?= mb_strimwidth($arquivo->arquivo, '15', '25', '...') ?></a>
+                                        </td>
+                                        <td><?= $arquivosObj->dataParaBR($arquivo->data) ?></td>
+                                        <td>
+                                            <form class="formulario-ajax" action="<?= SERVERURL ?>ajax/arquivosAjax.php"
+                                                  method="POST" data-form="delete">
+                                                <input type="hidden" name="_method" value="removerArquivo">
+                                                <input type="hidden" name="pagina" value="<?= $_GET['views'] ?>">
+                                                <input type="hidden" name="arquivo_id"
+                                                       value="<?= $arquivosObj->encryption($arquivo->id) ?>">
+                                                <button type="submit" class="btn btn-sm btn-danger">Apagar</button>
+                                                <div class="resposta-ajax"></div>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
+                            } else {
+                                ?>
+                                <tr>
+                                    <td class="text-center" colspan="4">Nenhum arquivo enviado</td>
+                                </tr>
+                                <?php
+                            }
+                            ?>
+                            </tbody>
                         </table>
                     </div>
 
