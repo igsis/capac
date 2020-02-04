@@ -95,6 +95,7 @@ class ProjetoController extends MainModel
             INNER JOIN fom_status fs on fp.fom_status_id = fs.id
             LEFT JOIN pessoa_juridicas pj on fp.pessoa_juridica_id = pj.id
             LEFT JOIN pessoa_fisicas pf on fp.pessoa_fisica_id = pf.id
+            INNER JOIN usuarios u on fp.usuario_id = u.id
             WHERE fp.id = '$id'
         ")->fetch();
     }

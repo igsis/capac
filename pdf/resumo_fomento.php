@@ -11,7 +11,7 @@ require_once "../config/configAPP.php";
 $id = $_GET['id'];
 require_once "../controllers/ProjetoController.php";
 $projObj = new ProjetoController();
-$projeto = $projObj->recuperaProjeto($id);
+$projeto = $projObj->recuperaProjetoCompleto($id);
 
 $idPj = MainModel::encryption($projeto['pessoa_juridica_id']);
 
@@ -39,7 +39,7 @@ $pdf->SetXY($x, 25);// SetXY - DEFINE O X (largura) E O Y (altura) NA PÁGINA
 
 $pdf->SetX($x);
 $pdf->SetFont('Arial', 'B', 14);
-$pdf->Cell(170, $l, utf8_decode("CADASTRO"), 0, 1, 'C');
+$pdf->Cell(170, $l, utf8_decode($projeto['titulo']), 0, 1, 'C');
 
 $pdf->Ln(10);
 
@@ -65,7 +65,19 @@ $pdf->SetX($x);
 $pdf->SetFont('Arial', 'B', $f);
 $pdf->Cell(58, $l, utf8_decode("Responsável pela inscrição:"), 0, 0, 'L');
 $pdf->SetFont('Arial', '', $f);
-$pdf->Cell(20, $l, utf8_decode($projeto['instituicao']), 0, 1, 'L');
+$pdf->Cell(20, $l, utf8_decode($projeto['nome']), 0, 1, 'L');
+
+$pdf->SetX($x);
+$pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(28, $l, utf8_decode("Razão social:"), 0, 0, 'L');
+$pdf->SetFont('Arial', '', $f);
+$pdf->Cell(20, $l, utf8_decode($pj['razao_social']), 0, 1, 'L');
+
+$pdf->SetX($x);
+$pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(14, $l, utf8_decode("CNPJ:"), 0, 0, 'L');
+$pdf->SetFont('Arial', '', $f);
+$pdf->Cell(20, $l, utf8_decode($pj['cnpj']), 0, 1, 'L');
 
 $pdf->SetX($x);
 $pdf->SetFont('Arial', 'B', $f);
