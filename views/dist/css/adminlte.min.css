@@ -21948,9 +21948,13 @@ html.maximized-card {
     -ms-flex-align: center;
     align-items: center;
     background-image: url("../img/sao-paulo.jpg");
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
     display: -ms-flexbox;
     display: flex;
-    height: 80vh;
+    height: 100vh;
     -ms-flex-pack: center;
     justify-content: center
 }
