@@ -131,13 +131,13 @@ $pdf->SetX($x);
 $pdf->SetFont('Arial', 'B', $f);
 $pdf->Cell(35, $l, utf8_decode("Valor do projeto:"), 0, 0, 'L');
 $pdf->SetFont('Arial', '', $f);
-$pdf->Cell(120, $l, utf8_decode("R$: {$projObj->dinheiroParaBr($projeto['valor_projeto'])} ( {$projObj->valorPorExtenso($projeto['valor_projeto'])} )"), 0, 1, 'L');
+$pdf->Cell(120, $l, utf8_decode("R$: {$projObj->dinheiroParaBr($projeto['valor_projeto'])} ({$projObj->valorPorExtenso($projeto['valor_projeto'])})"), 0, 1, 'L');
 
 $pdf->SetX($x);
 $pdf->SetFont('Arial', 'B', $f);
 $pdf->Cell(44, $l, utf8_decode("Duração (em meses):"), 0, 0, 'L');
 $pdf->SetFont('Arial', '', $f);
-$pdf->Cell(20, $l, utf8_decode($projeto['duracao']), 0, 1, 'L');
+$pdf->Cell(20, $l, utf8_decode($projeto['duracao'] ." mes(es)"), 0, 1, 'L');
 
 $pdf->SetX($x);
 $pdf->SetFont('Arial', 'B', $f);
