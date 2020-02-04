@@ -76,7 +76,7 @@ class ProjetoController extends MainModel
                 'titulo' => 'Erro!',
                 'texto' => 'Erro ao salvar!',
                 'tipo' => 'error',
-                'location' => SERVERURL.'fomentos/projeto_cadastro&id='.MainModel::encryption($projeto_id)
+                'location' => SERVERURL.'fomentos/projeto_cadastro&id='.MainModel::encryption($id)
             ];
         }
         return MainModel::sweetAlert($alerta);
@@ -85,5 +85,17 @@ class ProjetoController extends MainModel
     public function recuperaProjeto($id) {
         $id = MainModel::decryption($id);
         return DbModel::getInfo('fom_projetos',$id)->fetch();
+    }
+
+    public function recuperaProjetoCompleto($id) {
+        $id = MainModel::decryption($id);
+        return DbModel::consultaSimples("SELECT * 
+            FROM fom_projetos fp
+            INNER JOIN fom_editais fe on fp.fom_edital_id = fe.id
+            INNER JOIN fom_status fs on fp.fom_status_id = fs.id
+            LEFT JOIN pessoa_juridicas pj on fp.pessoa_juridica_id = pj.id
+            LEFT JOIN pessoa_fisicas pf on fp.pessoa_fisica_id = pf.id
+            WHERE fp.id = '$id'
+        ")->fetch();
     }
 }
