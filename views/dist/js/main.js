@@ -274,3 +274,14 @@ $('#formularioPj').submit(function (event) {
         }
     }
 })
+
+
+$('#dinheiro').ready(function () {
+    let valor = $('#dinheiro').text();
+
+    valor = parseFloat(valor);
+    let dinheiroBr = valor.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+
+     $('#dinheiro').text(dinheiroBr)
+
+})
