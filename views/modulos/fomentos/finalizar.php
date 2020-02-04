@@ -23,12 +23,14 @@ $repObj = new RepresentanteController();
 $repre = $repObj->recuperaRepresentante(MainModel::encryption($pj['representante_legal1_id']))->fetch(PDO::FETCH_ASSOC);
 
 $status = $projetoObj->recuperaStatusProjeto($projeto['fom_status_id']);
+if ($projeto['data_inscricao']) {
+    $dataEnvio = MainModel::dataHora($projeto['data_inscricao']);
+}
 
 ?>
 
 <!-- Content Header (Page header) -->
 <div class="content-header">
-    <?= var_dump($projeto); var_dump($repre); var_dump($pj); ?>
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
@@ -48,7 +50,7 @@ $status = $projetoObj->recuperaStatusProjeto($projeto['fom_status_id']);
                     <div class="card-header">
                         <h3 class="card-title">Dados</h3>
                     </div>
-
+                    <?php if ($projeto['protocolo'] == null && $projeto['data_inscricao'] == null): ?>
                     <div class="row justify-content-center mt-3">
                         <div class="col-md-10">
                             <div class="alert alert-warning alert-dismissible">
@@ -58,6 +60,7 @@ $status = $projetoObj->recuperaStatusProjeto($projeto['fom_status_id']);
                             </div>
                         </div>
                     </div>
+                    <?php endif; ?>
                     <!-- /.card-header -->
                     <ul id="lista-finalizar-fom">
                         <?= $projeto['protocolo'] ? "<li class=\"my-2\"><span class=\"subtitulos mr-2\">Código de cadastro:</span> {$projeto['protocolo']}</li>" : '' ?>
@@ -96,19 +99,21 @@ $status = $projetoObj->recuperaStatusProjeto($projeto['fom_status_id']);
                         </li>
                         <li class="my-2"><span class="subtitulos mr-2">Status: </span> <?= $status ?> </li>
                         <li class="my-2"><span class="subtitulos mr-2">Edição: </span> Edição</li>
-                        <?= $projeto['data_inscricao'] ? "<li class=\"my-2\"><span class=\"subtitulos mr-2\">Data de Envio: </span> {$projeto['data_inscricao']} </li>" : '' ?>
+                        <?= $projeto['data_inscricao'] ? "<li class=\"my-2\"><span class=\"subtitulos mr-2\">Data de Envio: </span> {$dataEnvio} </li>" : '' ?>
                     </ul>
-                    <?php if ($projeto['protocolo'] && $projeto['data_inscricao']){?>
+                    <?php if ($projeto['protocolo'] == null && $projeto['data_inscricao'] == null): ?>
                     <div class="row justify-content-center mb-4">
-                        <form class="formulario-ajax" method="post" action="<?= SERVERURL ?>ajax/projetoAjax.php" role="form"
-                          data-form="save">
-                            <input type="hidden" name="_method" value="finalizar_fom" >
+                        <form class="formulario-ajax" method="post" action="<?= SERVERURL ?>ajax/projetoAjax.php"
+                              role="form"
+                              data-form="save">
+                            <input type="hidden" name="_method" value="finalizar_fom">
                             <input type="hidden" name="id" value="<?= $projeto['id'] ?>">
                             <input type="hidden">
-                            <button type="submit" class="btn btn-success btn-lg">Clique aqui para enviar seu projeto</button>
+                            <button type="submit" class="btn btn-success btn-lg">Clique aqui para enviar seu projeto
+                            </button>
                         </form>
                     </div>
-                    <?php }?>
+                    <?php endif; ?>
                     <div class="resposta-ajax"></div>
                 </div>
                 <!-- /.card -->

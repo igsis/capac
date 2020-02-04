@@ -462,4 +462,9 @@ class MainModel extends DbModel
             return false;
         }
     }
+
+    public function gerarProtocolo($id,$edital){
+        $edit = $this->decryption($edital);
+        return date("Ymd").".".$id."-".$edit;
+    }
 }
