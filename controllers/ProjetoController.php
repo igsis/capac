@@ -105,4 +105,17 @@ class ProjetoController extends MainModel
         FROM fom_status
         WHERE id = '$id'")->fetchColumn();
     }
+
+    public function finalizarProjeto($id){
+        session_start(['name' => 'cpc']);
+
+        $projetoId = MainModel::encryption($id);
+        $projeto = $this->recuperaProjeto($projetoId);
+
+        $projeto['data_inscricao'] = date('Y-m-d H-i-s');
+
+        return $projeto;
+    }
+
+
 }

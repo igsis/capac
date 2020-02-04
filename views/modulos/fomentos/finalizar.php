@@ -2,6 +2,7 @@
 //CONFIGS
 require_once "./config/configAPP.php";
 
+
 //CONTROLLERS
 require_once "./controllers/ProjetoController.php";
 require_once "./controllers/PessoaJuridicaController.php";
@@ -27,6 +28,7 @@ $status = $projetoObj->recuperaStatusProjeto($projeto['fom_status_id']);
 
 <!-- Content Header (Page header) -->
 <div class="content-header">
+    <?= var_dump($projeto); var_dump($repre); var_dump($pj); ?>
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
@@ -59,24 +61,55 @@ $status = $projetoObj->recuperaStatusProjeto($projeto['fom_status_id']);
                     <!-- /.card-header -->
                     <ul id="lista-finalizar-fom">
                         <?= $projeto['protocolo'] ? "<li class=\"my-2\"><span class=\"subtitulos mr-2\">Código de cadastro:</span> {$projeto['protocolo']}</li>" : '' ?>
-                        <li class="my-2"><span class="subtitulos mr-2">Instituição responsável: </span> <?= $projeto['instituicao'] ?></li>
-                        <li class="my-2"><span class="subtitulos mr-2">Responsável pela inscrição: </span> <?= $_SESSION['nome_c'] ?></li>
-                        <li class="my-2"><span class="subtitulos mr-2">Razão social: </span><?= $pj['razao_social'] ?><span class="ml-5 subtitulos mr-2">CNPJ: </span> <?= $pj['cnpj'] ?> </li>
-                        <li class="my-2"><span class="subtitulos mr-2">Representante Legal da empresa: </span> <?= $repre['nome'] ?> <span class="ml-5 subtitulos mr-2">RG: </span> <?= $repre['rg'] ?>  <span class="ml-5 subtitulos mr-2">CPF: </span> <?= $repre['cpf'] ?></li>
-                        <li class="my-2"><span class="subtitulos mr-2">E-mail: </span> teste@test.com  <span class="ml-5 subtitulos mr-2">Telefone: </span> (11) 99999-9999</li>
-                        <li class="my-2"> <span class="subtitulos mr-2">Endereço: </span> <?= "{$pj['logradouro']}, {$pj['numero']}  {$pj['complemento']} - {$pj['bairro']}, {$pj['cidade']} - {$pj['uf']}, {$pj['cep']}" ?></li>
-                        <li class="my-2"><span class="subtitulos mr-2">Site:</span> <a href="<?= "http://{$projeto['site']}"?>" target="_blank"><?= $projeto['site']?></a> </li>
-                        <li class="my-2"><span class="subtitulos mr-2">Valor do projeto:</span> <span id="dinheiro"><?= $projeto['valor_projeto'] ?></span></li>
-                        <li class="my-2"><span class="subtitulos mr-2">Duração do projeto em meses: </span> <?= $projeto['duracao'] ?> meses</li>
-                        <li class="my-2"><span class="subtitulos mr-2">Núcleo artístico: </span> <?= $projeto['nucleo_artistico'] ?></li>
-                        <li class="my-2"><span class="subtitulos mr-2">Representante do núcleo: </span> <?= $projeto['representante_nucleo'] ?></li>
+                        <li class="my-2"><span
+                                    class="subtitulos mr-2">Instituição responsável: </span> <?= $projeto['instituicao'] ?>
+                        </li>
+                        <li class="my-2"><span
+                                    class="subtitulos mr-2">Responsável pela inscrição: </span> <?= $_SESSION['nome_c'] ?>
+                        </li>
+                        <li class="my-2"><span class="subtitulos mr-2">Razão social: </span><?= $pj['razao_social'] ?>
+                            <span class="ml-5 subtitulos mr-2">CNPJ: </span> <?= $pj['cnpj'] ?> </li>
+                        <li class="my-2"><span
+                                    class="subtitulos mr-2">Representante Legal da empresa: </span> <?= $repre['nome'] ?>
+                            <span class="ml-5 subtitulos mr-2">RG: </span> <?= $repre['rg'] ?> <span
+                                    class="ml-5 subtitulos mr-2">CPF: </span> <?= $repre['cpf'] ?></li>
+                        <li class="my-2"><span class="subtitulos mr-2">E-mail: </span> teste@test.com <span
+                                    class="ml-5 subtitulos mr-2">Telefone: </span> (11) 99999-9999
+                        </li>
+                        <li class="my-2"><span
+                                    class="subtitulos mr-2">Endereço: </span> <?= "{$pj['logradouro']}, {$pj['numero']}  {$pj['complemento']} - {$pj['bairro']}, {$pj['cidade']} - {$pj['uf']}, {$pj['cep']}" ?>
+                        </li>
+                        <li class="my-2"><span class="subtitulos mr-2">Site:</span> <a
+                                    href="<?= "http://{$projeto['site']}" ?>"
+                                    target="_blank"><?= $projeto['site'] ?></a></li>
+                        <li class="my-2"><span class="subtitulos mr-2">Valor do projeto:</span> <span
+                                    id="dinheiro"><?= $projeto['valor_projeto'] ?></span></li>
+                        <li class="my-2"><span
+                                    class="subtitulos mr-2">Duração do projeto em meses: </span> <?= $projeto['duracao'] ?>
+                            meses
+                        </li>
+                        <li class="my-2"><span
+                                    class="subtitulos mr-2">Núcleo artístico: </span> <?= $projeto['nucleo_artistico'] ?>
+                        </li>
+                        <li class="my-2"><span
+                                    class="subtitulos mr-2">Representante do núcleo: </span> <?= $projeto['representante_nucleo'] ?>
+                        </li>
                         <li class="my-2"><span class="subtitulos mr-2">Status: </span> <?= $status ?> </li>
                         <li class="my-2"><span class="subtitulos mr-2">Edição: </span> Edição</li>
                         <?= $projeto['data_inscricao'] ? "<li class=\"my-2\"><span class=\"subtitulos mr-2\">Data de Envio: </span> {$projeto['data_inscricao']} </li>" : '' ?>
                     </ul>
+                    <?php if ($projeto['protocolo'] && $projeto['data_inscricao']){?>
                     <div class="row justify-content-center mb-4">
-                        <button class="btn btn-success btn-lg">Clique aqui para enviar seu projeto</button>
+                        <form class="formulario-ajax" method="post" action="<?= SERVERURL ?>ajax/projetoAjax.php" role="form"
+                          data-form="save">
+                            <input type="hidden" name="_method" value="finalizar_fom" >
+                            <input type="hidden" name="id" value="<?= $projeto['id'] ?>">
+                            <input type="hidden">
+                            <button type="submit" class="btn btn-success btn-lg">Clique aqui para enviar seu projeto</button>
+                        </form>
                     </div>
+                    <?php }?>
+                    <div class="resposta-ajax"></div>
                 </div>
                 <!-- /.card -->
             </div>

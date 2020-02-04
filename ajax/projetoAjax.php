@@ -11,6 +11,8 @@ if (isset($_POST['_method'])) {
         echo $insProjeto->insereProjeto($_POST);
     } elseif ($_POST['_method'] == "editar") {
         echo $insProjeto->editaProjeto($_POST, $_POST['id']);
+    } elseif ($_POST['_method'] == "finalizar_fom"){
+        echo $insProjeto->finalizarProjeto($_POST['id']);
     }
 } else {
     include_once "../config/destroySession.php";
