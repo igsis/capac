@@ -26,9 +26,8 @@ class ArquivoModel extends MainModel
     /**
      * @param $arquivos
      * @param $origem_id
-     * @param $lista_documento_id
      * @param $tamanhoMaximo
-     * @param $validaExtensao
+     * @param $validaPDF
      * @return mixed
      */
     protected function enviaArquivos($arquivos, $origem_id, $tamanhoMaximo, $validaPDF = false) {
@@ -81,5 +80,14 @@ class ArquivoModel extends MainModel
             }
         }
         return $erros;
+    }
+
+    protected function listaArquivosFomentos($tipo_contratacao_id) {
+        $sql = "SELECT fld.* FROM fom_lista_documentos AS fld
+                INNER JOIN contratacao_documentos AS cd on fld.id = cd.fom_lista_documento_id
+                WHERE cd.tipo_contratacao_id = '$tipo_contratacao_id'";
+        $arquivos = DbModel::consultaSimples($sql);
+
+        return $arquivos;
     }
 }
