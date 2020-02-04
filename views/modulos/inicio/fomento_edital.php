@@ -4,7 +4,6 @@ if (isset($_SESSION)) {
     unset($_SESSION['pedido_id_c']);
     unset($_SESSION['modulo_c']);
     unset($_SESSION['edital_c']);
-    unset($_SESSION['edital_c']);
 }
 require_once "./controllers/FomentoController.php";
 $fomentoObj = new FomentoController();
@@ -37,8 +36,7 @@ $fomentoObj = new FomentoController();
                             <?= $fomento['descricao'] ?>
                         </div>
                         <div class="card-footer">
-<!--                            <a href="--><?//=SERVERURL?><!--fomentos&modulo=8&edital=--><?//= MainModel::encryption($fomento['id']) ?><!--" class="small-box-footer">-->
-                            <a href="login&modulo=8" class="small-box-footer">
+                            <a href="login&modulo=8&edital=<?= MainModel::encryption($fomento['id']) ?>" class="small-box-footer">
                                 Inscreva-se <i class="fas fa-arrow-circle-right"></i>
                             </a>
                         </div>

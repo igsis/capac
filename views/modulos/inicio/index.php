@@ -43,14 +43,11 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-6">
-                                                    <a href="http://<?= $_SERVER['HTTP_HOST'] ?>/igsiscapac"
-                                                       target="_blank">
-                                                        <div class="info-box bg-olive">
-                                                            <span class="info-box-icon"><i
-                                                                        class="fas fa-thumbs-up"></i></span>
-
+                                                    <a href="#">
+                                                        <div class="btn disabled info-box bg-purple" id="inscreverEvento" data-toggle="tooltip" data-placement="top" title="Em Breve">
+                                                            <span class="info-box-icon"><i class="fas fa-file"></i></span>
                                                             <div class="card-body">
-                                                                <span class="info-box-number">Sou Contratado</span>
+                                                                <span class="info-box-number">Quero Inscrever Meu Evento</span>
                                                             </div>
                                                         </div>
                                                     </a>
@@ -59,9 +56,7 @@
                                                     <a href="http://<?= $_SERVER['HTTP_HOST'] ?>/igsiscapac"
                                                        target="_blank">
                                                         <div class="info-box bg-cyan">
-                                                            <span class="info-box-icon"><i
-                                                                    class="fas fa-users"></i></span>
-
+                                                            <span class="info-box-icon"><i class="fas fa-users"></i></span>
                                                             <div class="card-body">
                                                                 <span class="info-box-number">Sou Proponente de Emenda Parlamentar</span>
                                                             </div>
@@ -72,16 +67,12 @@
 
                                             <div class="row">
                                                 <div class="col-6">
-                                                    <a href="login">
-                                                        <div class="btn disabled info-box bg-purple"
-                                                             id="inscreverEvento"
-                                                             data-toggle="tooltip" data-placement="top"
-                                                             title="Em Breve">
-                                                            <span class="info-box-icon"><i
-                                                                        class="fas fa-file"></i></span>
-
+                                                    <a href="http://<?= $_SERVER['HTTP_HOST'] ?>/igsiscapac"
+                                                       target="_blank">
+                                                        <div class="info-box bg-olive">
+                                                            <span class="info-box-icon"><i class="fas fa-thumbs-up"></i></span>
                                                             <div class="card-body">
-                                                                <span class="info-box-number">Quero Inscrever Meu Evento</span>
+                                                                <span class="info-box-number">Sou Contratado</span>
                                                             </div>
                                                         </div>
                                                     </a>
@@ -89,9 +80,7 @@
                                                 <div class="col-6">
                                                     <a href="fomento_edital">
                                                         <div class="info-box bg-maroon">
-                                                            <span class="info-box-icon"><i
-                                                                        class="fas fa-theater-masks"></i></span>
-
+                                                            <span class="info-box-icon"><i class="fas fa-theater-masks"></i></span>
                                                             <div class="card-body">
                                                                 <span class="info-box-number">Fomentos</span>
                                                             </div>
@@ -105,9 +94,7 @@
                                                     <a href="http://<?= $_SERVER['HTTP_HOST'] ?>/igsiscapac"
                                                        target="_blank">
                                                         <div class="info-box bg-orange">
-                                                            <span class="info-box-icon"><i
-                                                                        class="fas fa-guitar"></i></span>
-
+                                                            <span class="info-box-icon"><i class="fas fa-guitar"></i></span>
                                                             <div class="card-body">
                                                                 <span class="info-box-number">Oficineiros</span>
                                                             </div>
@@ -116,9 +103,7 @@
                                                 </div>
                                                 <div class="col-6">
                                                     <div class="btn info-box bg-teal" id="formacao">
-                                                            <span class="info-box-icon"><i
-                                                                    class="fas fa-child"></i></span>
-
+                                                        <span class="info-box-icon"><i class="fas fa-child"></i></span>
                                                         <div class="card-body">
                                                             <span class="info-box-number">Formação</span>
                                                         </div>
