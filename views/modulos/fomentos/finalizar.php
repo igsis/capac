@@ -1,6 +1,27 @@
 <?php
+//CONFIGS
+require_once "./config/configAPP.php";
 
+//CONTROLLERS
+require_once "./controllers/ProjetoController.php";
+require_once "./controllers/PessoaJuridicaController.php";
+require_once "./controllers/RepresentanteController.php";
+require_once "./controllers/UsuarioController.php";
 
+//Projeto
+$idProj = $_SESSION['projeto_c'];
+$projetoObj = new ProjetoController();
+$projeto = $projetoObj->recuperaProjeto($idProj);
+
+//Pessoa Juridica
+$pjObj = new PessoaJuridicaController();
+$pj = $pjObj->recuperaPessoaJuridica(MainModel::encryption($projeto['pessoa_juridica_id']));
+
+//Representante
+$repObj = new RepresentanteController();
+$repre = $repObj->recuperaRepresentante(MainModel::encryption($pj['representante_legal1_id']))->fetch(PDO::FETCH_ASSOC);
+
+$status = $projetoObj->recuperaStatusProjeto($projeto['fom_status_id']);
 
 ?>
 
@@ -25,33 +46,37 @@
                     <div class="card-header">
                         <h3 class="card-title">Dados</h3>
                     </div>
+
+                    <div class="row justify-content-center mt-3">
+                        <div class="col-md-10">
+                            <div class="alert alert-warning alert-dismissible">
+                                <h5><i class="icon fas fa-exclamation-triangle"></i> Atenção!</h5>
+                                <p class="mb-1">Antes de finalizar verifique se todos os dados estão corretos.</p>
+                                <p>Após verificar clique no botão "Clique aqui para enviar seu projeto"</p>
+                            </div>
+                        </div>
+                    </div>
                     <!-- /.card-header -->
                     <ul id="lista-finalizar-fom">
-                        <li class="my-2"><span class="subtitulos mr-2">Código de cadastro:</span> 20200129.000001-te</li>
-                        <li class="my-2"><span class="subtitulos mr-2">Instituição responsável: </span> Ohhh Dono</li>
-                        <li class="my-2"><span class="subtitulos mr-2">Responsável pela inscrição: </span> Pessoa VIVA</li>
-                        <li class="my-2"><span class="subtitulos mr-2">Razão social: </span> SACOLINHAS LTDA.<span class="ml-5 subtitulos mr-2">CNPJ: </span> 00.000.000/000-00 </li>
-                        <li class="my-2"><span class="subtitulos mr-2">Representante Legal da empresa: </span> Qwerty Silva da Silva Sei <span class="ml-5 subtitulos mr-2">E-mail: </span> teste@test.com  <span class="ml-5 subtitulos mr-2">Telefone: </span> (11) 99999-9999</li>
-                        <li class="my-2"></li>
-                        <li class="my-2"><span class="subtitulos mr-2">CEP:</span> 12345-678 <span class="ml-5 subtitulos mr-2">Logradouro: </span> Rua AI <span class="ml-5 subtitulos mr-2">Número: </span>12000 <span class="ml-5 subtitulos mr-2">Bairro: </span>Bairros</li>
-                        <li class="my-2"><span class="subtitulos mr-2">Cidade: </span> Cidade  <span class="ml-5 subtitulos mr-2">Estado: </span> Estado</li>
-                        <li class="my-2"><span class="subtitulos mr-2">Site:</span> <a href="">https://www.google.com.br</a> </li>
-                        <li class="my-2"><span class="subtitulos mr-2">Valor do projeto:</span> <span id="dinheiro">999999.99</span></li>
-                        <li class="my-2"><span class="subtitulos mr-2"></span></li>
-                        <li class="my-2"><span class="subtitulos mr-2"></span></li>
-                        <li class="my-2"><span class="subtitulos mr-2"></span></li>
-                        <li class="my-2"><span class="subtitulos mr-2"></span></li>
-                        <li class="my-2"><span class="subtitulos mr-2"></span></li>
-                        <li class="my-2"><span class="subtitulos mr-2"></span></li>
-                        <li class="my-2"><span class="subtitulos mr-2"></span></li>
-                        <li class="my-2"><span class="subtitulos mr-2"></span></li>
-                        <li class="my-2"><span class="subtitulos mr-2"></span></li>
-                        <li class="my-2"><span class="subtitulos mr-2"></span></li>
-                        <li class="my-2"><span class="subtitulos mr-2"></span></li>
-                        <li class="my-2"><span class="subtitulos mr-2"></span></li>
-                        <li class="my-2"><span class="subtitulos mr-2"></span></li>
-                        <li class="my-2"><span class="subtitulos mr-2"></span></li>
+                        <?= $projeto['protocolo'] ? "<li class=\"my-2\"><span class=\"subtitulos mr-2\">Código de cadastro:</span> {$projeto['protocolo']}</li>" : '' ?>
+                        <li class="my-2"><span class="subtitulos mr-2">Instituição responsável: </span> <?= $projeto['instituicao'] ?></li>
+                        <li class="my-2"><span class="subtitulos mr-2">Responsável pela inscrição: </span> <?= $_SESSION['nome_c'] ?></li>
+                        <li class="my-2"><span class="subtitulos mr-2">Razão social: </span><?= $pj['razao_social'] ?><span class="ml-5 subtitulos mr-2">CNPJ: </span> <?= $pj['cnpj'] ?> </li>
+                        <li class="my-2"><span class="subtitulos mr-2">Representante Legal da empresa: </span> <?= $repre['nome'] ?> <span class="ml-5 subtitulos mr-2">RG: </span> <?= $repre['rg'] ?>  <span class="ml-5 subtitulos mr-2">CPF: </span> <?= $repre['cpf'] ?></li>
+                        <li class="my-2"><span class="subtitulos mr-2">E-mail: </span> teste@test.com  <span class="ml-5 subtitulos mr-2">Telefone: </span> (11) 99999-9999</li>
+                        <li class="my-2"> <span class="subtitulos mr-2">Endereço: </span> <?= "{$pj['logradouro']}, {$pj['numero']}  {$pj['complemento']} - {$pj['bairro']}, {$pj['cidade']} - {$pj['uf']}, {$pj['cep']}" ?></li>
+                        <li class="my-2"><span class="subtitulos mr-2">Site:</span> <a href="<?= "http://{$projeto['site']}"?>" target="_blank"><?= $projeto['site']?></a> </li>
+                        <li class="my-2"><span class="subtitulos mr-2">Valor do projeto:</span> <span id="dinheiro"><?= $projeto['valor_projeto'] ?></span></li>
+                        <li class="my-2"><span class="subtitulos mr-2">Duração do projeto em meses: </span> <?= $projeto['duracao'] ?> meses</li>
+                        <li class="my-2"><span class="subtitulos mr-2">Núcleo artístico: </span> <?= $projeto['nucleo_artistico'] ?></li>
+                        <li class="my-2"><span class="subtitulos mr-2">Representante do núcleo: </span> <?= $projeto['representante_nucleo'] ?></li>
+                        <li class="my-2"><span class="subtitulos mr-2">Status: </span> <?= $status ?> </li>
+                        <li class="my-2"><span class="subtitulos mr-2">Edição: </span> Edição</li>
+                        <?= $projeto['data_inscricao'] ? "<li class=\"my-2\"><span class=\"subtitulos mr-2\">Data de Envio: </span> {$projeto['data_inscricao']} </li>" : '' ?>
                     </ul>
+                    <div class="row justify-content-center mb-4">
+                        <button class="btn btn-success btn-lg">Clique aqui para enviar seu projeto</button>
+                    </div>
                 </div>
                 <!-- /.card -->
             </div>
