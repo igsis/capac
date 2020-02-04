@@ -49,7 +49,11 @@ if (isset($_POST['cpf'])){
                         <input type="hidden" name="_method" value="<?= ($id) ? "editar" : "cadastrar" ?>">
                         <input type="hidden" name="idPj" value="<?= $idPj ?>">
                         <input type="hidden" name="pagina" value="fomentos">
-                        <?php if (isset($_POST['representante'])): ?>
+
+                        <?php
+                        /** @TODO: Caso o usuario grave a tela duas vezes, não entra na condição abaixo e gera erro */
+
+                        if (isset($_POST['representante'])): ?>
                             <input type="hidden" name="representante" value="<?= $_POST['representante'] ?>">
                         <?php endif; ?>
                         <?php if ($id): ?>

@@ -18,6 +18,9 @@ class ProjetoController extends MainModel
         $dados['fom_status_id'] = 1;
         foreach ($post as $campo => $valor) {
             if ($campo != "modulo") {
+                if ($campo == 'valor_projeto'){
+                    $valor = MainModel::dinheiroDeBr($valor);
+                }
                 $dados[$campo] = MainModel::limparString($valor);
             }
         }
@@ -57,6 +60,9 @@ class ProjetoController extends MainModel
         $dados = [];
         foreach ($post as $campo => $valor) {
             if ($campo != "pagina") {
+                if ($campo == 'valor_projeto'){
+                    $valor = MainModel::dinheiroDeBr($valor);
+                }
                 $dados[$campo] = MainModel::limparString($valor);
             }
         }
@@ -81,7 +87,6 @@ class ProjetoController extends MainModel
         }
         return MainModel::sweetAlert($alerta);
     }
-
     public function recuperaProjeto($id) {
         $id = MainModel::decryption($id);
         return DbModel::getInfo('fom_projetos',$id)->fetch(PDO::FETCH_ASSOC);
