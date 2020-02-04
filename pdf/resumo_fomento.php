@@ -19,7 +19,7 @@ $pj = $pjObj->recuperaPessoaJuridica(MainModel::encryption($projeto['pessoa_juri
 
 require_once "../controllers/RepresentanteController.php";
 $repObj = new RepresentanteController();
-$rl = $repObj->recuperaRepresentante(MainModel::encryption($pj['representante_legal1_id']))->fetch();
+$rl = $repObj->recuperaRepresentante(MainModel::encryption($pj['representante_legal1_id']))->fetch(PDO::FETCH_ASSOC);
 
 class PDF extends FPDF
 {

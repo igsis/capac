@@ -84,7 +84,7 @@ class ProjetoController extends MainModel
 
     public function recuperaProjeto($id) {
         $id = MainModel::decryption($id);
-        return DbModel::getInfo('fom_projetos',$id)->fetch();
+        return DbModel::getInfo('fom_projetos',$id)->fetch(PDO::FETCH_ASSOC);
     }
 
     public function recuperaProjetoCompleto($id) {
@@ -97,6 +97,44 @@ class ProjetoController extends MainModel
             LEFT JOIN pessoa_fisicas pf on fp.pessoa_fisica_id = pf.id
             INNER JOIN usuarios u on fp.usuario_id = u.id
             WHERE fp.id = '$id'
-        ")->fetch();
+        ")->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function recuperaStatusProjeto($id){
+        return DbModel::consultaSimples("SELECT status
+        FROM fom_status
+        WHERE id = '$id'")->fetchColumn();
+    }
+
+    public function finalizarProjeto($id){
+        session_start(['name' => 'cpc']);
+
+        $projetoId = MainModel::encryption($id);
+        $projeto = $this->recuperaProjeto($projetoId);
+        $projeto['protocolo'] = MainModel::gerarProtocolo($id,$_SESSION['edital_c']);
+        $projeto['data_inscricao'] = date("Y-m-d h:i:sa");
+        $projeto['fom_status_id'] = 2;
+
+        $update = DbModel::update('fom_projetos',$projeto,$id);
+        if ($update->rowCount() >= 1 || DbModel::connection()->errorCode() == 0) {
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Projeto Atualizado',
+                'texto' => 'Projeto editado com sucesso!',
+                'tipo' => 'success',
+                'location' => SERVERURL.'fomentos/projeto_cadastro&id='.MainModel::encryption($id)
+            ];
+        } else {
+            $alerta = [
+                'alerta' => 'simples',
+                'titulo' => 'Erro!',
+                'texto' => 'Erro ao salvar!',
+                'tipo' => 'error',
+                'location' => SERVERURL.'fomentos/projeto_cadastro&id='.MainModel::encryption($id)
+            ];
+        }
+        return MainModel::sweetAlert($alerta);
+    }
+
+
 }
