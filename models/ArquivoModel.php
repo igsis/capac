@@ -30,7 +30,7 @@ class ArquivoModel extends MainModel
      * @param $validaPDF
      * @return mixed
      */
-    protected function enviaArquivos($arquivos, $origem_id, $tamanhoMaximo, $validaPDF = false) {
+    protected function enviaArquivos($arquivos, $origem_id, $tamanhoMaximo, $validaPDF = false, $fomento = false) {
         foreach ($arquivos as $key => $arquivo) {
             $erros[$key]['bol'] = false;
             if ($arquivo['error'] != 4) {
@@ -54,14 +54,24 @@ class ArquivoModel extends MainModel
 
                 if ($tamanhoArquivo < $maximoPermitido) {
                     if (move_uploaded_file($arquivoTemp, UPLOADDIR . $novoNome)) {
-                        $dadosInsertArquivo = [
-                            'origem_id' => $origem_id,
-                            'lista_documento_id' => $lista_documento_id,
-                            'arquivo' => $novoNome,
-                            'data' => $dataAtual
-                        ];
+                        if (!$fomento) {
+                            $tabela = "arquivos";
+                            $dadosInsertArquivo = [
+                                'origem_id' => $origem_id,
+                                'lista_documento_id' => $lista_documento_id,
+                            ];
+                        } else {
+                            $tabela = "fom_arquivos";
+                            $dadosInsertArquivo = [
+                                'fom_projeto_id' => $origem_id,
+                                'fom_lista_documento_id' => $lista_documento_id,
+                            ];
+                        }
 
-                        $insertArquivo = DbModel::insert('arquivos', $dadosInsertArquivo);
+                        $dadosInsertArquivo['arquivo'] = $novoNome;
+                        $dadosInsertArquivo['data'] = $dataAtual;
+
+                        $insertArquivo = DbModel::insert($tabela, $dadosInsertArquivo);
                         if ($insertArquivo->rowCount() == 0) {
                             $erros[$key]['bol'] = true;
                             $erros[$key]['motivo'] = "Falha ao salvar na base de dados";
@@ -83,8 +93,10 @@ class ArquivoModel extends MainModel
     }
 
     protected function listaArquivosFomentos($tipo_contratacao_id) {
-        $sql = "SELECT fld.* FROM fom_lista_documentos AS fld
-                INNER JOIN contratacao_documentos AS cd on fld.id = cd.fom_lista_documento_id
+        $sql = "SELECT fld.id, fld.sigla, fld.documento, tc.tipo_contratacao, cd.anexo
+                FROM capac_new.contratacao_documentos AS cd
+                INNER JOIN capac_new.fom_lista_documentos AS fld ON fld.id = cd.fom_lista_documento_id
+                INNER JOIN capac_new.tipos_contratacoes AS tc ON cd.tipo_contratacao_id = tc.id
                 WHERE cd.tipo_contratacao_id = '$tipo_contratacao_id'";
         $arquivos = DbModel::consultaSimples($sql);
 

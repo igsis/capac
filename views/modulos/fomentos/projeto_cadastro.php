@@ -58,11 +58,14 @@ if ($id) {
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label for="site">Site: *</label>
-                                    <input type="text" class="form-control" id="site" name="site" value="<?= $projeto['site'] ?? null ?>" required>
+                                    <input type="text" class="form-control" id="site" name="site"
+                                           value="<?= $projeto['site'] ?? null ?>" required>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="valor_projeto">Valor do projeto: *</label>
-                                    <input type="text" class="form-control" id="valor_projeto" name="valor_projeto" value="<?= isset($projeto['valor_projeto']) ? $projeto['valor_projeto'] : null ?>" required>
+                                    <input type="text" class="form-control" id="valor_projeto" name="valor_projeto"
+                                           value="<?= isset($projeto['valor_projeto']) ? $objProjeto->dinheiroParaBr($projeto['valor_projeto']) : null ?>"
+                                           onKeyPress="return(moeda(this,'.',',',event))" required>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="duracao">Duração: (em meses) *</label>

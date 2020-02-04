@@ -97,12 +97,13 @@ class ArquivoController extends ArquivoModel
     }
 
     public function enviarArquivo($origem_id, $pagina) {
+        $fomentos = $pagina == "fomentos/anexos" ? true : false;
         unset($_POST['pagina']);
         $origem_id = MainModel::decryption($origem_id);
         foreach ($_FILES as $key => $arquivo){
             $_FILES[$key]['lista_documento_id'] = $_POST[$key];
         }
-        $erros = ArquivoModel::enviaArquivos($_FILES, $origem_id,6, true);
+        $erros = ArquivoModel::enviaArquivos($_FILES, $origem_id,6, true, $fomentos);
         $erro = MainModel::in_array_r(true, $erros, true);
 
         if ($erro) {

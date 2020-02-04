@@ -4,7 +4,7 @@ $arquivosObj = new ArquivoController();
 
 $edital_id = $_SESSION['edital_c'];
 
-$proponente_id = $_SESSION['origem_id_c'];
+$projeto_id = $_SESSION['projeto_c'];
 
 $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($edital_id)->fetchAll(PDO::FETCH_COLUMN);
 ?>
@@ -58,19 +58,19 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($edital_id)->fetch
                         <form class="formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/arquivosAjax.php"
                               data-form="save" enctype="multipart/form-data">
                             <input type="hidden" name="_method" value="enviarArquivo">
-                            <input type="hidden" name="origem_id" value="<?= $proponente_id ?>">
-                            <input type="hidden" name="pagina" value="jovemMonitor/anexos_proponente">
+                            <input type="hidden" name="origem_id" value="<?= $projeto_id ?>">
+                            <input type="hidden" name="pagina" value="<?= $_GET['views'] ?>">
                             <table class="table table-striped">
                                 <tbody>
                                 <?php
                                 $cont = 0;
                                 $arquivos = $arquivosObj->listarArquivosFomento($edital_id)->fetchAll(PDO::FETCH_OBJ);
                                 foreach ($arquivos as $arquivo) {
-                                    if (!($arquivosObj->consultaArquivoFomentoEnviado($arquivo->id, $proponente_id))) {
+                                    if (!($arquivosObj->consultaArquivoFomentoEnviado($arquivo->id, $projeto_id))) {
                                         ?>
                                         <tr>
                                             <td>
-                                                <label for=""><?= $arquivo->documento ?></label>
+                                                <label for=""><?= "$arquivo->anexo - $arquivo->documento" ?></label>
                                             </td>
                                             <td>
                                                 <input type="hidden" name="<?= $arquivo->sigla ?>"
@@ -84,16 +84,13 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($edital_id)->fetch
                                     }
                                 }
 
-                                if ($cont == 0){
-                                    ?>
+                                if ($cont == 0): ?>
                                     <tr>
                                         <td colspan="2">
                                             Todos os arquivos já foram enviados!
                                         </td>
                                     </tr>
-                                <?php
-                                }
-                                ?>
+                                <?php endif; ?>
                                 </tbody>
                             </table>
                             <input type="submit" class="btn btn-success btn-md btn-block" name="enviar" value='Enviar'>
@@ -127,7 +124,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($edital_id)->fetch
 <!--                            Comentado aguardando lista de documentos-->
 <!--                            <tbody>-->
 <!--                            --><?php
-//                            $arquivosEnviados = $arquivosObj->listarArquivosFomentosEnviados($proponente_id, $lista_documento_ids)->fetchAll(PDO::FETCH_OBJ);
+//                            $arquivosEnviados = $arquivosObj->listarArquivosFomentosEnviados($projeto_id, $lista_documento_ids)->fetchAll(PDO::FETCH_OBJ);
 //                            if (count($arquivosEnviados) != 0) {
 //                                foreach ($arquivosEnviados as $arquivo) {
 //                                    ?>
