@@ -1,4 +1,6 @@
 <?php
+require_once "./controllers/FomentoController.php";
+
 unset($_SESSION['origem_id_c']);
 unset($_SESSION['projeto_c']);
 if (isset($_GET['modulo'])) {
@@ -7,6 +9,9 @@ if (isset($_GET['modulo'])) {
 if (isset($_GET['edital'])){
     $_SESSION['edital_c'] = $_GET['edital'];
 }
+
+
+$nomeEdital = (new FomentoController())->recuperaNomeEdital($_SESSION['edital_c'])
 ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -33,7 +38,7 @@ if (isset($_GET['edital'])){
                     <div class="card-header">
                         <h3 class="card-title">
                             <i class="fas fa-edit"></i>
-                            Cadastro de jovem monitor
+                            Cadastro no edital: <?= $nomeEdital ?>
                         </h3>
                     </div>
                     <div class="card-body">
