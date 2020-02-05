@@ -5,7 +5,7 @@
     </a>
 </li>
 <li class="nav-item">
-    <a href="<?= SERVERURL ?>fomentos/proponente" class="nav-link" id="proponente">
+    <a href="<?= SERVERURL ?>fomentos/proponente" class="nav-link">
         <i class="fas fa-search-plus nav-icon"></i>
         <p>Busca</p>
     </a>

@@ -106,3 +106,9 @@ if ($id) {
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
+<script type="application/javascript">
+    $(document).ready(function () {
+        $('.nav-link').removeClass('active');
+        $('#projeto').addClass('active');
+    })
+</script>

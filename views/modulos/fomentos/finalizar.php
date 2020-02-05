@@ -123,3 +123,9 @@ if ($projeto['data_inscricao']) {
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
+<script type="application/javascript">
+    $(document).ready(function () {
+        $('.nav-link').removeClass('active');
+        $('#finalizar').addClass('active');
+    })
+</script>

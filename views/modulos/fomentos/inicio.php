@@ -55,3 +55,9 @@ if (isset($_GET['edital'])){
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
+<script type="application/javascript">
+    $(document).ready(function () {
+        $('.nav-link').removeClass('active');
+        $('#fomentos_inicio').addClass('active');
+    })
+</script>

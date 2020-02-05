@@ -108,3 +108,9 @@ $projetos = $projetoObj->listaProjetos($_SESSION['origem_id_c'], $_SESSION['edit
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
+<script type="application/javascript">
+    $(document).ready(function () {
+        $('.nav-link').removeClass('active');
+        $('#projeto').addClass('active');
+    })
+</script>

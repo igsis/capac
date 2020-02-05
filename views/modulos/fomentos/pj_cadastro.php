@@ -304,4 +304,9 @@ if (isset($_POST['pj_cnpj'])){
             })
         });
     });
+
+    $(document).ready(function () {
+        $('.nav-link').removeClass('active');
+        $('#proponente').addClass('active');
+    });
 </script>

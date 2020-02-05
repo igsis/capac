@@ -197,6 +197,6 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($edital_id, true)-
     $(document).ready(function () {
         $('.nav-link').removeClass('active');
         $('#itens-proponente').addClass('menu-open');
-        $('#anexos-proponente').addClass('active');
+        $('#anexos').addClass('active');
     })
 </script>
