@@ -1,11 +1,13 @@
 <?php
 if ($pedidoAjax) {
     require_once "../models/MainModel.php";
+    require_once "../models/ProjetoModel.php";
 } else {
     require_once "./models/MainModel.php";
+    require_once "./models/ProjetoModel.php";
 }
 
-class ProjetoController extends MainModel
+class ProjetoController extends ProjetoModel
 {
     public function listaProjetos($usuario_id, $edital_id){
         $usuario_id = MainModel::decryption($usuario_id);
@@ -135,18 +137,18 @@ class ProjetoController extends MainModel
         if ($update->rowCount() >= 1 || DbModel::connection()->errorCode() == 0) {
             $alerta = [
                 'alerta' => 'sucesso',
-                'titulo' => 'Projeto Atualizado',
-                'texto' => 'Projeto editado com sucesso!',
+                'titulo' => 'Projeto Enviado',
+                'texto' => 'Projeto enviado com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL.'fomentos/projeto_cadastro&id='.MainModel::encryption($id)
+                'location' => SERVERURL.'fomentos/finalizar'
             ];
         } else {
             $alerta = [
                 'alerta' => 'simples',
                 'titulo' => 'Erro!',
-                'texto' => 'Erro ao salvar!',
+                'texto' => 'Erro ao enviar o projeto!',
                 'tipo' => 'error',
-                'location' => SERVERURL.'fomentos/projeto_cadastro&id='.MainModel::encryption($id)
+                'location' => SERVERURL.'fomentos/finalizar'
             ];
         }
         return MainModel::sweetAlert($alerta);
@@ -172,5 +174,13 @@ class ProjetoController extends MainModel
         }
         return MainModel::sweetAlert($alerta);
     }
+    public function validaProjeto($idProjeto){
+        $id = MainModel::decryption($idProjeto);
+        $projeto = ProjetoModel::validaProjetoModal($id);
+
+        return $projeto;
+    }
+
+
 
 }
