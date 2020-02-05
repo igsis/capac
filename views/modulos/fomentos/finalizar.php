@@ -137,14 +137,12 @@ if ($projeto['data_inscricao']) {
                                 <input type="hidden" name="_method" value="finalizar_fom">
                                 <input type="hidden" name="id" value="<?= $projeto['id'] ?>">
                                 <input type="hidden">
-                                <button type="submit" id="enviar" class="btn btn-success btn-lg">Clique aqui para
-                                    enviar
-                                    seu projeto
+                                <button type="submit" id="enviar" class="btn btn-success btn-lg">Clique aqui para enviar seu projeto
                                 </button>
+                                <div class="resposta-ajax"></div>
                             </form>
                         </div>
                     <?php endif; ?>
-                    <div class="resposta-ajax"></div>
                 </div>
                 <!-- /.card -->
             </div>

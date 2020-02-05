@@ -146,8 +146,7 @@ class ProjetoController extends ProjetoModel
                 'alerta' => 'simples',
                 'titulo' => 'Erro!',
                 'texto' => 'Erro ao enviar o projeto!',
-                'tipo' => 'error',
-                'location' => SERVERURL.'fomentos/finalizar'
+                'tipo' => 'error'
             ];
         }
         return MainModel::sweetAlert($alerta);
