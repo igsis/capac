@@ -51,7 +51,9 @@ if (isset($_POST['pj_cnpj'])){
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/pessoaJuridicaAjax.php" role="form" data-form="<?= ($id) ? "update" : "save" ?>">
+                    <form class="form-horizontal formulario-ajax" method="POST"
+                          action="<?= SERVERURL ?>ajax/pessoaJuridicaAjax.php" role="form"
+                          data-form="<?= ($id) ? "update" : "save" ?>">
                         <input type="hidden" name="_method" value="<?= ($id) ? "editar" : "cadastrar" ?>">
                         <input type="hidden" name="ultima_atualizacao" value="<?= date('Y-m-d H-i-s') ?>">
                         <input type="hidden" name="pagina" value="fomentos">
@@ -172,7 +174,9 @@ if (isset($_POST['pj_cnpj'])){
                                                 <td><?= $rep1['cpf'] ?></td>
                                                 <td>
                                                     <div class="row">
-                                                        <form class="form-horizontal mr-2" method="POST" action="<?= SERVERURL ?>fomentos/representante_cadastro&idPj=<?= $id ?>&id=<?= MainModel::encryption($rep1['id']) ?>" role="form">
+                                                        <form class="form-horizontal mr-2" method="POST"
+                                                              action="<?= SERVERURL ?>fomentos/representante_cadastro&idPj=<?= $id ?>&id=<?= MainModel::encryption($rep1['id']) ?>"
+                                                              role="form" >
                                                             <input type="hidden" name="representante" value="1">
                                                             <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</button>
                                                         </form>
@@ -245,7 +249,8 @@ if (isset($_POST['pj_cnpj'])){
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/representanteAjax.php" role="form" data-form="update">
+            <form class="form-horizontal formulario-ajax" method="POST"
+                  action="<?= SERVERURL ?>ajax/representanteAjax.php" role="form" data-form="delete">
                 <input type="hidden" name="_method" value="remover">
                 <input type="hidden" name="idPj" value="<?= $id ?>">
                 <input type="hidden" name="pagina" value="fomentos">
