@@ -284,7 +284,10 @@ class MainModel extends DbModel
                             ); 
                         </script>
                         ";
+
+
         } elseif ($dados['alerta'] == "sucesso") {
+            $redireciona = isset($dados['redirecionamento']) ? "window.open('{$dados['redirecionamento']}','_blank')":'';
             $alerta = "
                     <script>
                         Swal.fire({
@@ -296,7 +299,8 @@ class MainModel extends DbModel
                             showCancelButton: false,
                           confirmButtonText: 'Confirmar'
                         }).then(function() {
-                          window.location.href = '{$dados['location']}';
+                            {$redireciona};
+                            window.location.href = '{$dados['location']}';
                         });
                     </script>
                 ";
