@@ -1,22 +1,14 @@
 <?php
 $url = 'http://' . $_SERVER['HTTP_HOST'] . '/capac/api/verificadorEmail.php';
 ?>
-<div class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-10">
-                <h1 class="m-0 text-dark">CAPAC - Cadastro de Artistas e Profissionais de Arte e Cultura</h1>
-            </div>
-            <div class="col-sm-2">
-                <img src="<?= SERVERURL ?>views/dist/img/CULTURA_HORIZONTAL_pb_positivo.png" alt="logo cultura">
-            </div>
-        </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
-</div>
-<!-- /.content-header -->
 <div class="login-page">
-
     <div class="card">
+        <div class="card-header bg-dark">
+            <a href="<?= SERVERURL ?>inicio" class="brand-link">
+                <img src="<?= SERVERURL ?>views/dist/img/AdminLTELogo.png" alt="CAPAC Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <span class="brand-text font-weight-light"><?= NOMESIS ?> - Cadastro de Artistas e Profissionais de Arte e Cultura</span>
+            </a>
+        </div>
         <div class="card-body register-card-body">
             <h5 class="login-box-msg">Efetue seu Cadastro</h5>
             <p class="card-text"><span style="text-align: justify; display:block;"> Confira seus dados antes de clicar no botão "Cadastrar".</span></p>
@@ -88,10 +80,12 @@ $url = 'http://' . $_SERVER['HTTP_HOST'] . '/capac/api/verificadorEmail.php';
             </form>
 
             <div class="mb-0 text-center">
-                <a href="login" class="text-center">Já possuo Cadastro</a>
+                <a href="index" class="text-center">Já possuo Cadastro</a>
             </div>
         </div>
-        <!-- /.form-box -->
+        <div class="card-footer bg-light-gradient text-center">
+            <img src="<?= SERVERURL ?>views/dist/img/CULTURA_HORIZONTAL_pb_positivo.png" alt="logo cultura">
+        </div>
     </div><!-- /.card -->
 </div>
 
