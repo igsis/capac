@@ -13,6 +13,10 @@ class FomentoController extends MainModel
     }
 
     public function recuperaTipoContratacao($edital_id) {
+        $tipo = gettype($edital_id);
+        if ($tipo == "string") {
+            $edital_id = MainModel::decryption($edital_id);
+        }
         $sql = "SELECT tipo_contratacao_id FROM fom_editais WHERE id = '$edital_id'";
         return DbModel::consultaSimples($sql)->fetchColumn();
     }

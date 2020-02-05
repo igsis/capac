@@ -138,7 +138,8 @@ $validacaoArquivos = $projetoObj->validaProjeto($idProj, $_SESSION['edital_c']);
                                 <input type="hidden" name="_method" value="finalizar_fom">
                                 <input type="hidden" name="id" value="<?= $projeto['id'] ?>">
                                 <input type="hidden">
-                                <button type="submit" id="enviar" class="btn btn-success btn-lg">Clique aqui para enviar seu projeto
+                                <button type="submit" id="btnEnviar" class="btn btn-success btn-lg">
+                                    Clique aqui para enviar seu projeto
                                 </button>
                                 <div class="resposta-ajax"></div>
                             </form>
@@ -153,11 +154,11 @@ $validacaoArquivos = $projetoObj->validaProjeto($idProj, $_SESSION['edital_c']);
 </div>
 <!-- /.content -->
 <script>
-    $(document).read(function () {
+    $(document).ready(function () {
         if ($('.erro-validacao').length) {
-            $('#enviar').attr('disabled', true);
+            $('#btnEnviar').attr('disabled', true);
         } else {
-            $('#enviar').attr('disabled', false);
+            $('#btnEnviar').attr('disabled', false);
         }
     })
 </script>

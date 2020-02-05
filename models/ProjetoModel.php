@@ -29,7 +29,7 @@ class ProjetoModel extends ValidacaoModel
     }
 
     protected function validaArquivosProjeto($projeto_id, $edital_id) {
-        $tipo_contratacao_id = (new FomentoController)->recuperaTipoContratacao($edital_id);
+        $tipo_contratacao_id = (new FomentoController)->recuperaTipoContratacao((int) $edital_id);
         $validaArquivos = ValidacaoModel::validaArquivosFomentos($projeto_id, $tipo_contratacao_id);
         if ($validaArquivos) {
             if (!isset($erros) || $erros == false) { $erros = []; }

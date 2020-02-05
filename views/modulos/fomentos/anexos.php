@@ -1,10 +1,13 @@
 <?php
 require_once "./controllers/ArquivoController.php";
+require_once "./controllers/FomentoController.php";
 $arquivosObj = new ArquivoController();
+$fomentoObj = new FomentoController();
 
 $edital_id = $_SESSION['edital_c'];
-
 $projeto_id = $_SESSION['projeto_c'];
+
+$tipo_contratacao_id = $fomentoObj->recuperaTipoContratacao((string) $edital_id);
 
 $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($edital_id, true)->fetchAll(PDO::FETCH_COLUMN);
 ?>
@@ -71,7 +74,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($edital_id, true)-
                                         <tr>
                                             <td colspan="2">
                                                 <div class="callout callout-success text-center">
-                                                    Arquivo <strong><?= $arquivo->documento ?></strong> já enviado!
+                                                    Arquivo <strong><?="$arquivo->anexo - $arquivo->documento" ?></strong> já enviado!
                                                 </div>
                                             </td>
                                         </tr>
@@ -129,15 +132,14 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($edital_id, true)-
                                 <th style="width: 10%">Ação</th>
                             </tr>
                             </thead>
-<!-- Comentado aguardando lista de documentos -->
                             <tbody>
                             <?php
-                            $arquivosEnviados = $arquivosObj->listarArquivosEnviados($projeto_id, $lista_documento_ids, true)->fetchAll(PDO::FETCH_OBJ);
+                            $arquivosEnviados = $arquivosObj->listarArquivosEnviados($projeto_id, $lista_documento_ids, $tipo_contratacao_id)->fetchAll(PDO::FETCH_OBJ);
                             if (count($arquivosEnviados) != 0) {
                                 foreach ($arquivosEnviados as $arquivo) {
                                     ?>
                                     <tr>
-                                        <td><?= $arquivo->documento ?></td>
+                                        <td><?= "$arquivo->anexo - $arquivo->documento" ?></td>
                                         <td><a href="<?= SERVERURL . "uploads/" . $arquivo->arquivo ?>"
                                                target="_blank"><?= mb_strimwidth($arquivo->arquivo, '15', '25', '...') ?></a>
                                         </td>

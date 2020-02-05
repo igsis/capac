@@ -15,7 +15,8 @@ class ArquivoController extends ArquivoModel
         if (!$fomento) {
             $sql = "SELECT id FROM lista_documentos WHERE tipo_documento_id = '$tipo_documento_id'";
         } else {
-            $tipo_documento_id = (new FomentoController())->recuperaTipoContratacao($tipo_documento_id);
+            $tipo_documento_id = MainModel::decryption($tipo_documento_id);
+            $tipo_documento_id = (new FomentoController())->recuperaTipoContratacao((int) $tipo_documento_id);
             $sql = "SELECT fld.id FROM fom_lista_documentos AS fld
                 INNER JOIN contratacao_documentos AS cd on fld.id = cd.fom_lista_documento_id
                 WHERE cd.tipo_contratacao_id = '$tipo_documento_id'";
@@ -90,9 +91,13 @@ class ArquivoController extends ArquivoModel
                     INNER JOIN lista_documentos AS ld on a.lista_documento_id = ld.id
                     WHERE `origem_id` = '$origem_id' AND lista_documento_id IN ($documentos) AND a.publicado = '1'";
         } else {
-            $sql = "SELECT fa.id, fa.arquivo, fa.data, fld.documento FROM fom_arquivos AS fa
+            $sql = "SELECT fa.id, fa.arquivo, fa.data, fld.documento, cd.anexo FROM fom_arquivos AS fa
                     INNER JOIN fom_lista_documentos AS fld on fa.fom_lista_documento_id = fld.id
-                    WHERE `fom_projeto_id` = '$origem_id' AND fom_lista_documento_id IN ($documentos) AND fa.publicado = '1'";
+                    INNER JOIN contratacao_documentos AS cd on cd.fom_lista_documento_id = fa.fom_lista_documento_id
+                    WHERE `fom_projeto_id` = '$origem_id'
+                      AND fa.fom_lista_documento_id IN ($documentos)
+                      AND fa.publicado = '1'
+                      AND cd.tipo_contratacao_id = '$fomentos'";
         }
         return DbModel::consultaSimples($sql);
     }
