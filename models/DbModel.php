@@ -118,7 +118,7 @@ class DbModel
     }
 
     // Lista publicados
-    protected function listaPublicado($table,$id) {
+    protected function listaPublicado($table,$id = null) {
         if(!empty($id)){
             $filtro_id = "AND id = :id";
         }

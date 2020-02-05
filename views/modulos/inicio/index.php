@@ -5,20 +5,6 @@
         echo $login->iniciaSessao();
     }
 ?>
-<!-- Content Header (Page header) -->
-
-<div class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-1">
-            <div class="col-sm-10">
-                <h1 class="m-0 text-dark"><b>CAPAC - Cadastro de Artistas e Profissionais de Arte e Cultura</b></h1>
-            </div>
-            <div class="col-sm-2" align="right">
-                <img src="<?= SERVERURL ?>views/dist/img/CULTURA_HORIZONTAL_pb_positivo.png" alt="logo cultura">
-            </div>
-        </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
-</div>
 <!-- /.content-header -->
 <div class="login-page">
     <!-- Main content -->
@@ -27,6 +13,12 @@
             <div class="row">
                 <div class="offset-1 col-lg-10">
                     <div class="card">
+                        <div class="card-header bg-dark">
+                            <a href="<?= SERVERURL ?>inicio" class="brand-link">
+                                <img src="<?= SERVERURL ?>views/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                                <span class="brand-text font-weight-light"><?= NOMESIS ?> - Cadastro de Artistas e Profissionais de Arte e Cultura</span>
+                            </a>
+                        </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-5">
@@ -115,6 +107,9 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="card-footer bg-light-gradient text-center">
+                            <img src="<?= SERVERURL ?>views/dist/img/CULTURA_HORIZONTAL_pb_positivo.png" alt="logo cultura">
                         </div>
                     </div>
                 </div>

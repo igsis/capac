@@ -1,5 +1,6 @@
 <?php
 unset($_SESSION['origem_id_c']);
+unset($_SESSION['projeto_c']);
 if (isset($_GET['modulo'])) {
     $_SESSION['modulo_c'] = $_GET['modulo'];
 }
@@ -54,3 +55,9 @@ if (isset($_GET['edital'])){
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
+<script type="application/javascript">
+    $(document).ready(function () {
+        $('.nav-link').removeClass('active');
+        $('#fomentos_inicio').addClass('active');
+    })
+</script>

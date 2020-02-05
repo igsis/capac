@@ -54,6 +54,7 @@ class ViewsModel
             'produtor_cadastro',
             'programa',
             'projeto_cadastro',
+            'projeto_lista',
             'proponente',
             'proponente_lista',
             'representante',

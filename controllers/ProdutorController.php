@@ -98,20 +98,6 @@ class ProdutorController extends MainModel
 
     public function recuperaProdutor($id) {
         $id = MainModel::decryption($id);
-        $produtor = DbModel::getInfo('produtores',$id);
-        return $produtor;
+        return DbModel::getInfo('produtores',$id);
     }
 }
-
-//if(isset($_POST['cadastrar'])){
-//    $dados = $_POST;
-//    $produtor = new ProdutorController();
-//    $produtor -> insereProdutor($dados);
-//}
-//
-//if(isset($_POST['editar'])){
-//    $dados = $_POST;
-//    $id = $_POST['id'];
-//    $produtor = new ProdutorController();
-//    $produtor -> editaProdutor($dados, $id);
-//}

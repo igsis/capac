@@ -7,6 +7,16 @@ if ($pedidoAjax) {
 
 class ProjetoController extends MainModel
 {
+    public function listaProjetos($usuario_id, $edital_id){
+        $usuario_id = MainModel::decryption($usuario_id);
+        $edital_id = MainModel::decryption($edital_id);
+        $sql = "SELECT fe.titulo, fp.* FROM capac_new.fom_projetos AS fp
+                INNER JOIN  capac_new.fom_editais AS fe ON fp.fom_edital_id = fe.id
+                WHERE fom_edital_id = '$edital_id' AND usuario_id = '$usuario_id' AND fp.publicado = 1";
+        $consultaEvento = DbModel::consultaSimples($sql);
+        return $consultaEvento->fetchAll(PDO::FETCH_OBJ);
+    }
+
     public function insereProjeto($post){
         session_start(['name' => 'cpc']);
         /* executa limpeza nos campos */
@@ -24,6 +34,7 @@ class ProjetoController extends MainModel
                 $dados[$campo] = MainModel::limparString($valor);
             }
         }
+        $dados['data_inscricao'] = date("Y-m-d h:i:sa");
         /* ./limpeza */
 
         /* cadastro */
@@ -141,5 +152,25 @@ class ProjetoController extends MainModel
         return MainModel::sweetAlert($alerta);
     }
 
+    public function apagaProjeto($id){
+        $apaga = DbModel::apaga("fom_projetos", $id);
+        if ($apaga){
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Projeto',
+                'texto' => 'Projeto apagado com sucesso!',
+                'tipo' => 'danger',
+                'location' => SERVERURL.'fomentos/projeto_lista'
+            ];
+        }else {
+            $alerta = [
+                'alerta' => 'simples',
+                'titulo' => 'Oops! Algo deu Errado!',
+                'texto' => 'Falha ao salvar os dados no servidor, tente novamente mais tarde',
+                'tipo' => 'error',
+            ];
+        }
+        return MainModel::sweetAlert($alerta);
+    }
 
 }
