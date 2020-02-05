@@ -217,21 +217,7 @@ class EventoController extends EventoModel
             }
         }
 
-        $erro = MainModel::in_array_r(true, $erros, true);
-        if ($erro) {
-            foreach ($erros as $key => $erro) {
-                if ($erro != false) {
-                    foreach ($erro as $item) {
-                        if ($item['bol']) {
-                            $validacao[$key][] = $item['motivo'];
-                        }
-                    }
-                }
-            }
-            return $validacao;
-        } else {
-            return false;
-        }
+        return MainModel::formataValidacaoErros($erros);
     }
 
     public function listaPublicoEvento($id)

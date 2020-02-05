@@ -12,8 +12,8 @@ class ProjetoController extends ProjetoModel
     public function listaProjetos($usuario_id, $edital_id){
         $usuario_id = MainModel::decryption($usuario_id);
         $edital_id = MainModel::decryption($edital_id);
-        $sql = "SELECT fe.titulo, fp.* FROM capac_new.fom_projetos AS fp
-                INNER JOIN  capac_new.fom_editais AS fe ON fp.fom_edital_id = fe.id
+        $sql = "SELECT fe.titulo, fp.* FROM fom_projetos AS fp
+                INNER JOIN  fom_editais AS fe ON fp.fom_edital_id = fe.id
                 WHERE fom_edital_id = '$edital_id' AND usuario_id = '$usuario_id' AND fp.publicado = 1";
         $consultaEvento = DbModel::consultaSimples($sql);
         return $consultaEvento->fetchAll(PDO::FETCH_OBJ);
@@ -172,11 +172,13 @@ class ProjetoController extends ProjetoModel
         }
         return MainModel::sweetAlert($alerta);
     }
-    public function validaProjeto($idProjeto){
-        $id = MainModel::decryption($idProjeto);
-        $projeto = ProjetoModel::validaProjetoModal($id);
+    public function validaProjeto($projeto_id, $edital_id){
+        $edital_id = MainModel::decryption($edital_id);
+        $projeto_id = MainModel::decryption($projeto_id);
 
-        return $projeto;
+       $erros['arquivos'] = ProjetoModel::validaArquivosProjeto($projeto_id, $edital_id);
+
+       return MainModel::formataValidacaoErros($erros);
     }
 
 
