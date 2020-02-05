@@ -1,11 +1,15 @@
 <?php
-$id = isset($_GET['id']) ? $_GET['id'] : null;
+if (isset($_GET['id'])) {
+    $_SESSION['projeto_c'] = $id = $_GET['id'];
+} elseif (isset($_SESSION['projeto_c'])){
+    $id = $_SESSION['projeto_c'];
+} else {
+    $id = null;
+}
+
 require_once "./controllers/ProjetoController.php";
 $objProjeto = new ProjetoController();
 
-if (isset($_SESSION['projeto_c'])){
-    $id = $_SESSION['projeto_c'];
-}
 if ($id) {
     $projeto = $objProjeto->recuperaProjeto($id);
 }
