@@ -142,7 +142,13 @@ class ValidacaoModel extends MainModel
             'nome_evento' => "Nome do evento não preenchido",
             'sinopse' => "Sinopse do evento não preenchida",
             'representante_legal1_id' => "Empresa não possui Representante Legal cadastrado",
-            'produtor_id' => "Atração não possui Produtor cadastrado"
+            'produtor_id' => "Atração não possui Produtor cadastrado",
+            'instituicao' => "Instituição não foi preenchido",
+            'site' => "Site não foi preenchido",
+            'valor_projeto' => "Valor do projeto não foi preenchido",
+            'duracao' => "Duração não foi preenchido",
+            'nucleo_artistico' => "Nucleo Artistico não foi preenchido",
+            'representante_nucleo' => "Representante do Nucleo Artistico não foi preenchido"
         ];
 
         if ($camposNaoObrigatorios) {
