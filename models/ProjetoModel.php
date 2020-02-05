@@ -1,9 +1,10 @@
 <?php
-
 if ($pedidoAjax) {
     require_once "../models/ValidacaoModel.php";
+    require_once "../controllers/FomentoController.php";
 } else {
     require_once "./models/ValidacaoModel.php";
+    require_once "./controllers/FomentoController.php";
 }
 
 
@@ -27,4 +28,18 @@ class ProjetoModel extends ValidacaoModel
         }
     }
 
+    protected function validaArquivosProjeto($projeto_id, $edital_id) {
+        $tipo_contratacao_id = (new FomentoController)->recuperaTipoContratacao($edital_id);
+        $validaArquivos = ValidacaoModel::validaArquivosFomentos($projeto_id, $tipo_contratacao_id);
+        if ($validaArquivos) {
+            if (!isset($erros) || $erros == false) { $erros = []; }
+            $erros = array_merge($erros, $validaArquivos);
+        }
+
+        if (isset($erros)){
+            return $erros;
+        } else {
+            return false;
+        }
+    }
 }

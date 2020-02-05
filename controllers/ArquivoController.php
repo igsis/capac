@@ -15,7 +15,6 @@ class ArquivoController extends ArquivoModel
         if (!$fomento) {
             $sql = "SELECT id FROM lista_documentos WHERE tipo_documento_id = '$tipo_documento_id'";
         } else {
-            $tipo_documento_id = MainModel::decryption($tipo_documento_id);
             $tipo_documento_id = (new FomentoController())->recuperaTipoContratacao($tipo_documento_id);
             $sql = "SELECT fld.id FROM fom_lista_documentos AS fld
                 INNER JOIN contratacao_documentos AS cd on fld.id = cd.fom_lista_documento_id

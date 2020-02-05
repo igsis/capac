@@ -27,6 +27,7 @@ if ($projeto['data_inscricao']) {
     $dataEnvio = MainModel::dataHora($projeto['data_inscricao']);
 }
 
+$validacaoArquivos = $projetoObj->validaProjeto($idProj, $_SESSION['edital_c']);
 ?>
 
 <!-- Content Header (Page header) -->
@@ -38,10 +39,10 @@ if ($projeto['data_inscricao']) {
             </div><!-- /.col -->
         </div><!-- /.row -->
         <?php
-        if (isset($validaArquivos)) {
+        if ($validacaoArquivos) {
             ?>
             <div class="row erro-validacao">
-                <?php foreach ($validaArquivos as $titulo => $erros): ?>
+                <?php foreach ($validacaoArquivos as $titulo => $erros): ?>
                     <div class="col-md-4">
                         <div class="card bg-danger">
                             <div class="card-header">
