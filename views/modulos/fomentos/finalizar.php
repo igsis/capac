@@ -64,7 +64,7 @@ if ($projeto['data_inscricao']) {
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content-header -->
-<?= var_dump($projeto) ?>
+
 <!-- Main content -->
 <div class="content">
     <div class="container-fluid">
