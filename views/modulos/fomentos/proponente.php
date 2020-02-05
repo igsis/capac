@@ -1,5 +1,6 @@
 <?php
 unset($_SESSION['origem_id_c']);
+unset($_SESSION['projeto_c']);
 ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
