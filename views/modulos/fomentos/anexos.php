@@ -6,7 +6,7 @@ $edital_id = $_SESSION['edital_c'];
 
 $projeto_id = $_SESSION['projeto_c'];
 
-$lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($edital_id)->fetchAll(PDO::FETCH_COLUMN);
+$lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($edital_id, true)->fetchAll(PDO::FETCH_COLUMN);
 ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -66,7 +66,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($edital_id)->fetch
                                 $cont = 0;
                                 $arquivos = $arquivosObj->listarArquivosFomento($edital_id)->fetchAll(PDO::FETCH_OBJ);
                                 foreach ($arquivos as $arquivo) {
-                                    if ($arquivosObj->consultaArquivoFomentoEnviado($arquivo->id, $projeto_id)) {
+                                    if ($arquivosObj->consultaArquivoEnviado($arquivo->id, $projeto_id, true)) {
                                         ?>
                                         <tr>
                                             <td colspan="2">
@@ -129,10 +129,10 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($edital_id)->fetch
                                 <th style="width: 10%">Ação</th>
                             </tr>
                             </thead>
-<!--                            Comentado aguardando lista de documentos-->
+<!-- Comentado aguardando lista de documentos -->
                             <tbody>
                             <?php
-                            $arquivosEnviados = $arquivosObj->listarArquivosFomentosEnviados($projeto_id, $lista_documento_ids)->fetchAll(PDO::FETCH_OBJ);
+                            $arquivosEnviados = $arquivosObj->listarArquivosEnviados($projeto_id, $lista_documento_ids, true)->fetchAll(PDO::FETCH_OBJ);
                             if (count($arquivosEnviados) != 0) {
                                 foreach ($arquivosEnviados as $arquivo) {
                                     ?>

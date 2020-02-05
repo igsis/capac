@@ -1,5 +1,6 @@
 <?php
 unset($_SESSION['origem_id_c']);
+unset($_SESSION['projeto_c']);
 if (isset($_GET['modulo'])) {
     $_SESSION['modulo_c'] = $_GET['modulo'];
 }
