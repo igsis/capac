@@ -36,7 +36,6 @@ class ProjetoController extends ProjetoModel
                 $dados[$campo] = MainModel::limparString($valor);
             }
         }
-        $dados['data_inscricao'] = date("Y-m-d h:i:sa");
         /* ./limpeza */
 
         /* cadastro */
