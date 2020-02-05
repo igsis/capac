@@ -51,10 +51,10 @@ $projetos = $projetoObj->listaProjetos($_SESSION['origem_id_c'], $_SESSION['edit
                                 <?php foreach ($projetos as $projeto):
                                     $enviado = $projeto->protocolo == null ? false : true?>
                                 <tr>
-                                    <td><?=$enviado ? $projeto->protocolo : "Envie para obter seu protocolo"?></td>
+                                    <td><?=$enviado ? $projeto->protocolo : "Envie o projeto para obter seu protocolo"?></td>
                                     <td><?=$projeto->instituicao?></td>
                                     <td><?=$fomentoObj->dinheiroParaBr($projeto->valor_projeto)?></td>
-                                    <td><?=$projetoObj->dataHora($projeto->data_inscricao)?></td>
+                                    <td><?=$enviado ? $projetoObj->dataHora($projeto->data_inscricao) : "Projeto não enviado" ?></td>
                                     <td><?=$enviado ? "Sim" : "Não"?></td>
                                     <td>
                                         <div class="row">
