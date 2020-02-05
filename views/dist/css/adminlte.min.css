@@ -21933,6 +21933,13 @@ html.maximized-card {
     margin-top: 10px
 }
 
+.background {
+    background-image: url("../img/sao-paulo.jpg");
+    background-attachment: fixed;
+    min-height: 100vh;
+    justify-content: center
+}
+
 .login-logo, .register-logo {
     font-size: 2.1rem;
     font-weight: 300;
