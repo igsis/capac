@@ -2,16 +2,18 @@
 if ($pedidoAjax) {
     require_once "../models/MainModel.php";
     require_once "../models/ProjetoModel.php";
+    require_once '../controllers/PessoaJuridicaController.php';
 } else {
     require_once "./models/MainModel.php";
     require_once "./models/ProjetoModel.php";
+    require_once './controllers/PessoaJuridicaController.php';
 }
 
 class ProjetoController extends ProjetoModel
 {
-    public function listaProjetos($usuario_id, $edital_id){
-        $usuario_id = MainModel::decryption($usuario_id);
-        $edital_id = MainModel::decryption($edital_id);
+    public function listaProjetos(){
+        $usuario_id = $_SESSION['usuario_id_c'];
+        $edital_id = MainModel::decryption($_SESSION['edital_c']);
         $sql = "SELECT fe.titulo, fp.* FROM fom_projetos AS fp
                 INNER JOIN  fom_editais AS fe ON fp.fom_edital_id = fe.id
                 WHERE fom_edital_id = '$edital_id' AND usuario_id = '$usuario_id' AND fp.publicado = 1";
@@ -26,7 +28,7 @@ class ProjetoController extends ProjetoModel
         unset($post['modulo']);
         unset($post['pagina']);
         $dados['fom_edital_id'] = MainModel::decryption($_SESSION['edital_c']);
-        $dados['pessoa_juridica_id'] = MainModel::decryption($_SESSION['origem_id_c']);
+        //$dados['pessoa_juridica_id'] = MainModel::decryption($_SESSION['origem_id_c']);
         $dados['fom_status_id'] = 1;
         foreach ($post as $campo => $valor) {
             if ($campo != "modulo") {
@@ -37,7 +39,6 @@ class ProjetoController extends ProjetoModel
             }
         }
         /* ./limpeza */
-
         /* cadastro */
         $insere = DbModel::insert('fom_projetos', $dados);
         if ($insere->rowCount() >= 1) {
@@ -99,6 +100,54 @@ class ProjetoController extends ProjetoModel
         }
         return MainModel::sweetAlert($alerta);
     }
+
+    public function inserePjProjeto()
+    {
+        if (isset($_SESSION['origem_id_c'])){
+            PessoaJuridicaController::inserePessoaJuridica("",true);
+            $projeto = ProjetoModel::updatePjProjeto();
+            if ($projeto) {
+                $alerta = [
+                    'alerta' => 'sucesso',
+                    'titulo' => 'Pessoa Jurídica',
+                    'texto' => 'Cadastrada com sucesso!',
+                    'tipo' => 'success',
+                    'location' => SERVERURL.'fomentos/pj_cadastro'
+                ];
+            } else{
+                $alerta = [
+                    'alerta' => 'simples',
+                    'titulo' => 'Erro!',
+                    'texto' => 'Erro ao salvar!',
+                    'tipo' => 'error',
+                    'location' => SERVERURL.'fomentos/pj_cadastro'
+                ];
+            }
+        } else {
+            $idPj = MainModel::decryption($_SESSION['origem_id_c']);
+            PessoaJuridicaController::editaPessoaJuridica($idPj,"",true);
+            $projeto = ProjetoModel::updatePjProjeto();
+            if ($projeto) {
+                $alerta = [
+                    'alerta' => 'sucesso',
+                    'titulo' => 'Pessoa Jurídica',
+                    'texto' => 'Cadastrada com sucesso!',
+                    'tipo' => 'success',
+                    'location' => SERVERURL.'fomentos/pj_cadastro'
+                ];
+            } else {
+                $alerta = [
+                    'alerta' => 'simples',
+                    'titulo' => 'Erro!',
+                    'texto' => 'Erro ao salvar!',
+                    'tipo' => 'error',
+                    'location' => SERVERURL . 'fomentos/pj_cadastro'
+                ];
+            }
+        }
+        return MainModel::sweetAlert($alerta);
+    }
+
     public function recuperaProjeto($id) {
         $id = MainModel::decryption($id);
         return DbModel::getInfo('fom_projetos',$id)->fetch(PDO::FETCH_ASSOC);

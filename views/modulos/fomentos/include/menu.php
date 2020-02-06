@@ -1,13 +1,13 @@
 <li class="nav-item">
     <a href="<?= SERVERURL ?>fomentos/inicio" class="nav-link" id="fomentos_inicio">
         <i class="fa fa-info nav-icon"></i>
-        <p>Início</p>
+        <p>Projetos</p>
     </a>
 </li>
 <li class="nav-item">
     <a href="<?= SERVERURL ?>fomentos/proponente" class="nav-link">
         <i class="fas fa-search-plus nav-icon"></i>
-        <p>Busca</p>
+        <p>Buscar empresa</p>
     </a>
 </li>
 <hr/>

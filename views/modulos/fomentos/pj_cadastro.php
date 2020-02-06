@@ -52,9 +52,9 @@ if (isset($_POST['pj_cnpj'])){
                     <!-- /.card-header -->
                     <!-- form start -->
                     <form class="form-horizontal formulario-ajax" method="POST"
-                          action="<?= SERVERURL ?>ajax/pessoaJuridicaAjax.php" role="form"
+                          action="<?= SERVERURL ?>ajax/projetoAjax.php" role="form"
                           data-form="<?= ($id) ? "update" : "save" ?>">
-                        <input type="hidden" name="_method" value="<?= ($id) ? "editar" : "cadastrar" ?>">
+                        <input type="hidden" name="_method" value="cadastrarPj">
                         <input type="hidden" name="ultima_atualizacao" value="<?= date('Y-m-d H-i-s') ?>">
                         <input type="hidden" name="pagina" value="fomentos">
                         <?php if ($id): ?>

@@ -10,6 +10,16 @@ if ($pedidoAjax) {
 
 class ProjetoModel extends ValidacaoModel
 {
+    public function updatePjProjeto()
+    {
+        $idProjeto = MainModel::decryption($_SESSION['projeto_c']);
+        $idPj = MainModel::decryption($_SESSION['origem_id_c']);
+        $dados = [
+            "pessoa_juridica_id" => $idPj
+        ];
+        MainModel::updateEspecial("fom_projetos","$dados","id",$idProjeto);
+    }
+
     protected function validaProjetoModal($idProjeto){
         $proj = DbModel::getInfo('fom_projetos',$idProjeto)->fetchObject();
         $naoObrigados = [
