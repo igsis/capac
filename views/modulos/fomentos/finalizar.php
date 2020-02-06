@@ -101,9 +101,9 @@ $validacaoArquivos = $projetoObj->validaProjeto($idProj, $_SESSION['edital_c']);
                                     class="subtitulos mr-2">Razão social: </span><?= $pj['razao_social'] ?>
                             <span class="ml-5 subtitulos mr-2">CNPJ: </span> <?= $pj['cnpj'] ?> </li>
                         <li class="my-2"><span
-                                    class="subtitulos mr-2">Representante Legal da empresa: </span> <?= $repre['nome'] ?>
-                            <span class="ml-5 subtitulos mr-2">RG: </span> <?= $repre['rg'] ?> <span
-                                    class="ml-5 subtitulos mr-2">CPF: </span> <?= $repre['cpf'] ?></li>
+                                    class="subtitulos mr-2">Representante Legal da empresa: </span> <?= $repre['nome'] ?? '' ?>
+                            <span class="ml-5 subtitulos mr-2">RG: </span> <?= $repre['rg'] ?? '' ?> <span
+                                    class="ml-5 subtitulos mr-2">CPF: </span> <?= $repre['cpf'] ?? '' ?></li>
                         <li class="my-2"><span class="subtitulos mr-2">E-mail: </span> teste@test.com <span
                                     class="ml-5 subtitulos mr-2">Telefone: </span> (11) 99999-9999
                         </li>

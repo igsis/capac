@@ -1,4 +1,6 @@
 <?php
+require_once "./controllers/PessoaJuridicaController.php";
+
 if (isset($_GET['id'])) {
     $_SESSION['origem_id_c'] = $id = $_GET['id'];
 } elseif (isset($_SESSION['origem_id_c'])){
@@ -7,7 +9,6 @@ if (isset($_GET['id'])) {
     $id = null;
 }
 
-require_once "./controllers/PessoaJuridicaController.php";
 $insPessoaJuridica = new PessoaJuridicaController();
 
 if ($id) {
@@ -18,8 +19,8 @@ if ($id) {
 if (isset($_POST['pj_cnpj'])){
     $pj = $insPessoaJuridica->getCNPJ($_POST['pj_cnpj'])->fetch();
     if ($pj){
-        $_SESSION['origem_id_c'] = $id = MainModel::encryption($pj['id']);
         $pj = $insPessoaJuridica->recuperaPessoaJuridica($id);
+
         $cnpj = $pj['cnpj'];
     }
     else{

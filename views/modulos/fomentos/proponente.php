@@ -54,6 +54,6 @@
 <script type="application/javascript">
     $(document).ready(function () {
         $('.nav-link').removeClass('active');
-        $('#proponente').addClass('active');
+        $('#buscaProponente').addClass('active');
     })
 </script>

@@ -17,7 +17,13 @@ class ProjetoModel extends ValidacaoModel
         $dados = [
             "pessoa_juridica_id" => $idPj
         ];
-        MainModel::updateEspecial("fom_projetos","$dados","id",$idProjeto);
+        $projeto = MainModel::update('fom_projetos', $dados, $idProjeto);
+        if ($projeto) {
+            return true;
+        } else {
+            return false;
+        }
+//        MainModel::updateEspecial("fom_projetos","$dados","id",$idProjeto);
     }
 
     protected function validaProjetoModal($idProjeto){

@@ -103,24 +103,36 @@ class ProjetoController extends ProjetoModel
 
     public function inserePjProjeto()
     {
-        if (isset($_SESSION['origem_id_c'])){
-            PessoaJuridicaController::inserePessoaJuridica("",true);
-            $projeto = ProjetoModel::updatePjProjeto();
-            if ($projeto) {
-                $alerta = [
-                    'alerta' => 'sucesso',
-                    'titulo' => 'Pessoa Jurídica',
-                    'texto' => 'Cadastrada com sucesso!',
-                    'tipo' => 'success',
-                    'location' => SERVERURL.'fomentos/pj_cadastro'
-                ];
-            } else{
+        session_start(['name' => 'cpc']);
+        if (!isset($_SESSION['origem_id_c'])){
+            $pessoa_juridica_id = (new PessoaJuridicaController)->inserePessoaJuridica("",true);
+            if ($pessoa_juridica_id) {
+                $_SESSION['origem_id_c'] = MainModel::encryption($pessoa_juridica_id);
+                $projeto = ProjetoModel::updatePjProjeto();
+                if ($projeto) {
+                    $alerta = [
+                        'alerta' => 'sucesso',
+                        'titulo' => 'Pessoa Jurídica',
+                        'texto' => 'Cadastrada com sucesso!',
+                        'tipo' => 'success',
+                        'location' => SERVERURL . "fomentos/pj_cadastro&id={$_SESSION['origem_id_c']}"
+                    ];
+                } else {
+                    $alerta = [
+                        'alerta' => 'simples',
+                        'titulo' => 'Erro!',
+                        'texto' => 'Erro ao salvar!',
+                        'tipo' => 'error',
+                        'location' => SERVERURL . 'fomentos/pj_cadastro'
+                    ];
+                }
+            } else {
                 $alerta = [
                     'alerta' => 'simples',
                     'titulo' => 'Erro!',
                     'texto' => 'Erro ao salvar!',
                     'tipo' => 'error',
-                    'location' => SERVERURL.'fomentos/pj_cadastro'
+                    'location' => SERVERURL . 'fomentos/pj_cadastro'
                 ];
             }
         } else {
@@ -133,7 +145,7 @@ class ProjetoController extends ProjetoModel
                     'titulo' => 'Pessoa Jurídica',
                     'texto' => 'Cadastrada com sucesso!',
                     'tipo' => 'success',
-                    'location' => SERVERURL.'fomentos/pj_cadastro'
+                    'location' => SERVERURL."fomentos/pj_cadastro&id={$_SESSION['origem_id_c']}"
                 ];
             } else {
                 $alerta = [
