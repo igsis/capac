@@ -2,6 +2,7 @@
 require_once "./controllers/ProjetoController.php";
 require_once "./controllers/FomentoController.php";
 unset($_SESSION['projeto_c']);
+unset($_SESSION['origem_id_c']);
 
 $fomentoObj = new FomentoController();
 $projetoObj = new ProjetoController();
@@ -111,6 +112,6 @@ $projetos = $projetoObj->listaProjetos();
 <script type="application/javascript">
     $(document).ready(function () {
         $('.nav-link').removeClass('active');
-        $('#projeto').addClass('active');
+        $('#fomentos_inicio').addClass('active');
     })
 </script>

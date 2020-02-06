@@ -27,9 +27,7 @@ class ArquivoController extends ArquivoModel
 
     public function listarArquivos($tipo_documento_id) {
         $sql = "SELECT * FROM lista_documentos WHERE tipo_documento_id = '$tipo_documento_id' AND publicado = '1'";
-        $arquivos = DbModel::consultaSimples($sql);
-
-        return $arquivos;
+        return DbModel::consultaSimples($sql);
     }
 
     public function listarArquivosFomento($edital_id){
@@ -99,13 +97,6 @@ class ArquivoController extends ArquivoModel
                       AND fa.publicado = '1'
                       AND cd.tipo_contratacao_id = '$fomentos'";
         }
-        return DbModel::consultaSimples($sql);
-    }
-
-    public function listarArquivosFomentosEnviados($origem_id, $lista_documentos_ids) {
-        $origem_id = MainModel::decryption($origem_id);
-        $documentos = implode(", ", $lista_documentos_ids);
-        $sql = "SELECT fa.id, fa.arquivo, fa.data, fld.documento FROM fom_arquivos AS fa INNER JOIN fom_lista_documentos AS fld on fa.fom_lista_documento_id = fld.id WHERE `fom_projeto_id` = '$origem_id' AND fom_lista_documento_id IN ($documentos) AND fa.publicado = '1'";
         return DbModel::consultaSimples($sql);
     }
 
