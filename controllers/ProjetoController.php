@@ -105,9 +105,14 @@ class ProjetoController extends ProjetoModel
     {
         session_start(['name' => 'cpc']);
         if (!isset($_SESSION['origem_id_c'])){
-            $pessoa_juridica_id = (new PessoaJuridicaController)->inserePessoaJuridica("",true);
-            if ($pessoa_juridica_id) {
-                $_SESSION['origem_id_c'] = MainModel::encryption($pessoa_juridica_id);
+            if (isset($_POST['id'])) {
+                $idPj = $_POST['id'];
+                $idPj = PessoaJuridicaController::editaPessoaJuridica($idPj,"",true);
+            } else {
+                $idPj = (new PessoaJuridicaController)->inserePessoaJuridica("", true);
+            }
+            if ($idPj) {
+                $_SESSION['origem_id_c'] = MainModel::encryption($idPj);
                 $projeto = ProjetoModel::updatePjProjeto();
                 if ($projeto) {
                     $alerta = [
@@ -138,15 +143,25 @@ class ProjetoController extends ProjetoModel
         } else {
             $idPj = MainModel::decryption($_SESSION['origem_id_c']);
             PessoaJuridicaController::editaPessoaJuridica($idPj,"",true);
-            $projeto = ProjetoModel::updatePjProjeto();
-            if ($projeto) {
-                $alerta = [
-                    'alerta' => 'sucesso',
-                    'titulo' => 'Pessoa Jurídica',
-                    'texto' => 'Cadastrada com sucesso!',
-                    'tipo' => 'success',
-                    'location' => SERVERURL."fomentos/pj_cadastro&id={$_SESSION['origem_id_c']}"
-                ];
+            if ($idPj) {
+                $projeto = ProjetoModel::updatePjProjeto();
+                if ($projeto) {
+                    $alerta = [
+                        'alerta' => 'sucesso',
+                        'titulo' => 'Pessoa Jurídica',
+                        'texto' => 'Cadastrada com sucesso!',
+                        'tipo' => 'success',
+                        'location' => SERVERURL . "fomentos/pj_cadastro&id={$_SESSION['origem_id_c']}"
+                    ];
+                } else {
+                    $alerta = [
+                        'alerta' => 'simples',
+                        'titulo' => 'Erro!',
+                        'texto' => 'Erro ao salvar!',
+                        'tipo' => 'error',
+                        'location' => SERVERURL . 'fomentos/pj_cadastro'
+                    ];
+                }
             } else {
                 $alerta = [
                     'alerta' => 'simples',
@@ -162,7 +177,18 @@ class ProjetoController extends ProjetoModel
 
     public function recuperaProjeto($id) {
         $id = MainModel::decryption($id);
-        return DbModel::getInfo('fom_projetos',$id)->fetch(PDO::FETCH_ASSOC);
+
+        $projeto = DbModel::getInfo('fom_projetos',$id)->fetch(PDO::FETCH_ASSOC);
+        if ($projeto['pessoa_tipo_id'] == 1) {
+            if ($projeto['pessoa_fisica_id'] != null) {
+                $_SESSION['origem_id_c'] = MainModel::encryption($projeto['pessoa_fisica_id']);
+            }
+        } elseif ($projeto['pessoa_tipo_id'] == 2) {
+            if ($projeto['pessoa_juridica_id'] != null) {
+                $_SESSION['origem_id_c'] = MainModel::encryption($projeto['pessoa_juridica_id']);
+            }
+        }
+        return $projeto;
     }
 
     public function recuperaProjetoCompleto($id) {

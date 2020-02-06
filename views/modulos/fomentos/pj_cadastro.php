@@ -1,5 +1,6 @@
 <?php
 require_once "./controllers/PessoaJuridicaController.php";
+require_once "./controllers/PessoaJuridicaController.php";
 
 if (isset($_GET['id'])) {
     $_SESSION['origem_id_c'] = $id = $_GET['id'];
@@ -17,10 +18,10 @@ if ($id) {
 }
 
 if (isset($_POST['pj_cnpj'])){
-    $pj = $insPessoaJuridica->getCNPJ($_POST['pj_cnpj'])->fetch();
+    $pj = $insPessoaJuridica->getCNPJ($_POST['pj_cnpj'])->fetch(PDO::FETCH_ASSOC);
     if ($pj){
+        $id = $insPessoaJuridica->encryption($pj['id']);
         $pj = $insPessoaJuridica->recuperaPessoaJuridica($id);
-
         $cnpj = $pj['cnpj'];
     }
     else{
