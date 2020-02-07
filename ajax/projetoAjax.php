@@ -17,6 +17,8 @@ if (isset($_POST['_method'])) {
         echo $insProjeto->finalizarProjeto($_POST['id']);
     } elseif ($_POST['_method'] == "cadastrarPj") {
         echo $insProjeto->inserePjProjeto();
+    } elseif ($_POST['_method'] == "removerPj") {
+        echo $insProjeto->removePjProjeto();
     }
 } else {
     include_once "../config/destroySession.php";

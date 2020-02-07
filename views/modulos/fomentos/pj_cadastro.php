@@ -36,6 +36,15 @@ if (isset($_POST['pj_cnpj'])){
             <div class="col-sm-6">
                 <h1 class="m-0 text-dark">Pessoa Jurídica</h1>
             </div><!-- /.col -->
+            <?php
+            if ($id) {
+                ?>
+                <div class="col-sm-6">
+                    <button type="submit" data-toggle="modal" data-target="#modal-troca" class="btn btn-secondary float-right">Trocar a empresa</button>
+                </div><!-- /.col -->
+                <?php
+            }
+            ?>
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
 </div>
@@ -259,6 +268,34 @@ if (isset($_POST['pj_cnpj'])){
                 <input type="hidden" name="representante" id="representanteEx">
                 <div class="modal-body">
                     <p>Realmente deseja remover o represente legal?</p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Não</button>
+                    <button type="submit" class="btn btn-default">Sim</button>
+                </div>
+                <div class="resposta-ajax"></div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!--.modal-->
+<div class="modal fade" id="modal-troca">
+    <div class="modal-dialog">
+        <div class="modal-content bg-warning">
+            <div class="modal-header">
+                <h4 class="modal-title">Trocar a empresa do projeto</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/projetoAjax.php" role="form" data-form="delete">
+                <input type="hidden" name="_method" value="removerPj">
+                <div class="modal-body">
+                    <p>Realmente deseja remover a empresa <?= $pj['razao_social'] ?? '' ?> deste projeto?</p>
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Não</button>

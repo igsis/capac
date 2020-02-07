@@ -6,12 +6,14 @@
 </li>
 <hr/>
 <?php if (isset($_SESSION['projeto_c'])): ?>
-    <li class="nav-item">
-        <a href="<?= SERVERURL ?>fomentos/proponente" class="nav-link" id="buscaProponente">
-            <i class="fas fa-search-plus nav-icon"></i>
-            <p>Buscar empresa</p>
-        </a>
-    </li>
+    <?php if (!isset($_SESSION['origem_id_c'])): ?>
+        <li class="nav-item">
+            <a href="<?= SERVERURL ?>fomentos/proponente" class="nav-link" id="buscaProponente">
+                <i class="fas fa-search-plus nav-icon"></i>
+                <p>Buscar empresa</p>
+            </a>
+        </li>
+    <?php endif; ?>
     <?php if (isset($_SESSION['origem_id_c'])): ?>
         <li class="nav-item">
             <a href="<?= SERVERURL ?>fomentos/pj_cadastro&id=<?= $_SESSION['origem_id_c'] ?>" class="nav-link"
