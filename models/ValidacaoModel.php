@@ -208,7 +208,7 @@ class ValidacaoModel extends MainModel
         foreach ($arquivos as $arquivo) {
             if ($arquivo->arquivo == null) {
                 $erros[$arquivo->documento]['bol'] = true;
-                $erros[$arquivo->documento]['motivo'] = $arquivo->documento." não enviado";
+                $erros[$arquivo->documento]['motivo'] = "$arquivo->anexo - $arquivo->documento não enviado";
             }
         }
 

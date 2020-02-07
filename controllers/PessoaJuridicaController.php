@@ -176,8 +176,12 @@ class PessoaJuridicaController extends PessoaJuridicaModel
         return $consulta_cnpj;
     }
 
+    /**
+     * @param $pessoa_juridica_id
+     * <p>Recebe o ID do proponente PJ já decriptado</p>
+     * @return array|bool
+     */
     public function validaPj($pessoa_juridica_id) {
-        $pj = PessoaJuridicaModel::validaPjModel($pessoa_juridica_id);
-        return $pj;
+        return PessoaJuridicaModel::validaPjModel($pessoa_juridica_id);
     }
 }
