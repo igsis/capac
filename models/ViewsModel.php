@@ -54,6 +54,7 @@ class ViewsModel
             'produtor_cadastro',
             'programa',
             'projeto_cadastro',
+            'projeto_lista',
             'proponente',
             'proponente_lista',
             'representante',
@@ -89,7 +90,8 @@ class ViewsModel
             if (is_file("./views/modulos/$modulo/include/menu.php")) {
                 $menu = "./views/modulos/$modulo/include/menu.php";
             } else {
-                $menu = "./views/template/menuExemplo.php";
+                /** @TODO: Encontrar forma para que a edição de conta retorne ao módulo correto */
+                $menu = "./views/modulos/fomentos/include/menu.php";
             }
         } else {
             $menu = "./views/template/menuExemplo.php";

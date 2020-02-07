@@ -284,7 +284,10 @@ class MainModel extends DbModel
                             ); 
                         </script>
                         ";
+
+
         } elseif ($dados['alerta'] == "sucesso") {
+            $redireciona = isset($dados['redirecionamento']) ? "window.open('{$dados['redirecionamento']}','_blank')":'';
             $alerta = "
                     <script>
                         Swal.fire({
@@ -296,7 +299,8 @@ class MainModel extends DbModel
                             showCancelButton: false,
                           confirmButtonText: 'Confirmar'
                         }).then(function() {
-                          window.location.href = '{$dados['location']}';
+                            {$redireciona};
+                            window.location.href = '{$dados['location']}';
                         });
                     </script>
                 ";
@@ -466,5 +470,23 @@ class MainModel extends DbModel
     public function gerarProtocolo($id,$edital){
         $edit = $this->decryption($edital);
         return date("Ymd").".".$id."-".$edit;
+    }
+
+    public function formataValidacaoErros($erros) {
+        $erro = MainModel::in_array_r(true, $erros, true);
+        if ($erro) {
+            foreach ($erros as $key => $erro) {
+                if ($erro != false) {
+                    foreach ($erro as $item) {
+                        if ($item['bol']) {
+                            $validacao[$key][] = $item['motivo'];
+                        }
+                    }
+                }
+            }
+            return $validacao;
+        } else {
+            return false;
+        }
     }
 }

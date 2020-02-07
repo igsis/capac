@@ -7,16 +7,16 @@ $representante = $insRepresentante->recuperaRepresentante($id)->fetch();
 $idPj = isset($_POST['idPj']) ? $_POST['idPj'] : $_GET['idPj'];
 
 if ($id) {
-    $representante = $insRepresentante->recuperaRepresentante($id)->fetch();
+    $representante = $insRepresentante->recuperaRepresentante($id)->fetch(PDO::FETCH_ASSOC);
     $documento = $representante['cpf'];
 }
 
 if (isset($_POST['cpf'])){
     $documento = $_POST['cpf'];
-    $representante = $insRepresentante->getCPF($documento)->fetch();
+    $representante = $insRepresentante->getCPF($documento)->fetch(PDO::FETCH_ASSOC);
     if ($representante){
         $id = MainModel::encryption($representante['id']);
-        $representante = $insRepresentante->recuperaRepresentante($id)->fetch();
+        $representante = $insRepresentante->recuperaRepresentante($id)->fetch(PDO::FETCH_ASSOC);
         $documento = $representante['cpf'];
     }
 }
@@ -49,9 +49,8 @@ if (isset($_POST['cpf'])){
                         <input type="hidden" name="_method" value="<?= ($id) ? "editar" : "cadastrar" ?>">
                         <input type="hidden" name="idPj" value="<?= $idPj ?>">
                         <input type="hidden" name="pagina" value="fomentos">
-                        <?php if (isset($_POST['representante'])): ?>
-                            <input type="hidden" name="representante" value="<?= $_POST['representante'] ?>">
-                        <?php endif; ?>
+
+                        <input type="hidden" name="representante" value="1">
                         <?php if ($id): ?>
                             <input type="hidden" name="id" value="<?= $id ?>">
                         <?php endif; ?>

@@ -142,7 +142,13 @@ class ValidacaoModel extends MainModel
             'nome_evento' => "Nome do evento não preenchido",
             'sinopse' => "Sinopse do evento não preenchida",
             'representante_legal1_id' => "Empresa não possui Representante Legal cadastrado",
-            'produtor_id' => "Atração não possui Produtor cadastrado"
+            'produtor_id' => "Atração não possui Produtor cadastrado",
+            'instituicao' => "Instituição não foi preenchido",
+            'site' => "Site não foi preenchido",
+            'valor_projeto' => "Valor do projeto não foi preenchido",
+            'duracao' => "Duração não foi preenchido",
+            'nucleo_artistico' => "Nucleo Artistico não foi preenchido",
+            'representante_nucleo' => "Representante do Nucleo Artistico não foi preenchido"
         ];
 
         if ($camposNaoObrigatorios) {
@@ -176,6 +182,27 @@ class ValidacaoModel extends MainModel
                 FROM lista_documentos AS ld
                 LEFT JOIN (SELECT * FROM arquivos WHERE publicado = 1 AND origem_id = '$origem_id') AS a on ld.id = a.lista_documento_id
                 WHERE ld.tipo_documento_id = '$tipoDocumento' AND ld.publicado = '1'";
+        $arquivos = DbModel::consultaSimples($sql)->fetchAll(PDO::FETCH_OBJ);
+
+        foreach ($arquivos as $arquivo) {
+            if ($arquivo->arquivo == null) {
+                $erros[$arquivo->documento]['bol'] = true;
+                $erros[$arquivo->documento]['motivo'] = $arquivo->documento." não enviado";
+            }
+        }
+
+        if (isset($erros)){
+            return $erros;
+        } else {
+            return false;
+        }
+    }
+
+    protected function validaArquivosFomentos($projeto_id, $tipo_contratacao_id){
+        $sql = "SELECT * FROM capac_new.contratacao_documentos AS cd
+                INNER JOIN capac_new.fom_lista_documentos AS fld ON cd.fom_lista_documento_id = fld.id
+                LEFT JOIN (SELECT fom_lista_documento_id, arquivo FROM capac_new.fom_arquivos WHERE publicado = 1 AND fom_projeto_id = '$projeto_id') as fa ON fld.id = fa.fom_lista_documento_id
+                WHERE tipo_contratacao_id = '$tipo_contratacao_id';";
         $arquivos = DbModel::consultaSimples($sql)->fetchAll(PDO::FETCH_OBJ);
 
         foreach ($arquivos as $arquivo) {

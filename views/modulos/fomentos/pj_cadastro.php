@@ -1,6 +1,15 @@
 <?php
-$id = isset($_GET['id']) ? $_GET['id'] : null;
 require_once "./controllers/PessoaJuridicaController.php";
+require_once "./controllers/PessoaJuridicaController.php";
+
+if (isset($_GET['id'])) {
+    $_SESSION['origem_id_c'] = $id = $_GET['id'];
+} elseif (isset($_SESSION['origem_id_c'])){
+    $id = $_SESSION['origem_id_c'];
+} else {
+    $id = null;
+}
+
 $insPessoaJuridica = new PessoaJuridicaController();
 
 if ($id) {
@@ -9,9 +18,9 @@ if ($id) {
 }
 
 if (isset($_POST['pj_cnpj'])){
-    $pj = $insPessoaJuridica->getCNPJ($_POST['pj_cnpj'])->fetch();
+    $pj = $insPessoaJuridica->getCNPJ($_POST['pj_cnpj'])->fetch(PDO::FETCH_ASSOC);
     if ($pj){
-        $id = MainModel::encryption($pj['id']);
+        $id = $insPessoaJuridica->encryption($pj['id']);
         $pj = $insPessoaJuridica->recuperaPessoaJuridica($id);
         $cnpj = $pj['cnpj'];
     }
@@ -27,6 +36,15 @@ if (isset($_POST['pj_cnpj'])){
             <div class="col-sm-6">
                 <h1 class="m-0 text-dark">Pessoa Jurídica</h1>
             </div><!-- /.col -->
+            <?php
+            if ($id) {
+                ?>
+                <div class="col-sm-6">
+                    <button type="submit" data-toggle="modal" data-target="#modal-troca" class="btn btn-secondary float-right">Trocar a empresa</button>
+                </div><!-- /.col -->
+                <?php
+            }
+            ?>
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
 </div>
@@ -44,8 +62,10 @@ if (isset($_POST['pj_cnpj'])){
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/pessoaJuridicaAjax.php" role="form" data-form="<?= ($id) ? "update" : "save" ?>">
-                        <input type="hidden" name="_method" value="<?= ($id) ? "editar" : "cadastrar" ?>">
+                    <form class="form-horizontal formulario-ajax" method="POST"
+                          action="<?= SERVERURL ?>ajax/projetoAjax.php" role="form"
+                          data-form="<?= ($id) ? "update" : "save" ?>">
+                        <input type="hidden" name="_method" value="cadastrarPj">
                         <input type="hidden" name="ultima_atualizacao" value="<?= date('Y-m-d H-i-s') ?>">
                         <input type="hidden" name="pagina" value="fomentos">
                         <?php if ($id): ?>
@@ -165,7 +185,9 @@ if (isset($_POST['pj_cnpj'])){
                                                 <td><?= $rep1['cpf'] ?></td>
                                                 <td>
                                                     <div class="row">
-                                                        <form class="form-horizontal mr-2" method="POST" action="<?= SERVERURL ?>fomentos/representante_cadastro&idPj=<?= $id ?>&id=<?= MainModel::encryption($rep1['id']) ?>" role="form">
+                                                        <form class="form-horizontal mr-2" method="POST"
+                                                              action="<?= SERVERURL ?>fomentos/representante_cadastro&idPj=<?= $id ?>&id=<?= MainModel::encryption($rep1['id']) ?>"
+                                                              role="form" >
                                                             <input type="hidden" name="representante" value="1">
                                                             <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</button>
                                                         </form>
@@ -238,13 +260,42 @@ if (isset($_POST['pj_cnpj'])){
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/representanteAjax.php" role="form" data-form="update">
+            <form class="form-horizontal formulario-ajax" method="POST"
+                  action="<?= SERVERURL ?>ajax/representanteAjax.php" role="form" data-form="delete">
                 <input type="hidden" name="_method" value="remover">
                 <input type="hidden" name="idPj" value="<?= $id ?>">
                 <input type="hidden" name="pagina" value="fomentos">
                 <input type="hidden" name="representante" id="representanteEx">
                 <div class="modal-body">
                     <p>Realmente deseja remover o represente legal?</p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Não</button>
+                    <button type="submit" class="btn btn-default">Sim</button>
+                </div>
+                <div class="resposta-ajax"></div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!--.modal-->
+<div class="modal fade" id="modal-troca">
+    <div class="modal-dialog">
+        <div class="modal-content bg-warning">
+            <div class="modal-header">
+                <h4 class="modal-title">Trocar a empresa do projeto</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/projetoAjax.php" role="form" data-form="delete">
+                <input type="hidden" name="_method" value="removerPj">
+                <div class="modal-body">
+                    <p>Realmente deseja remover a empresa <?= $pj['razao_social'] ?? '' ?> deste projeto?</p>
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Não</button>
@@ -296,5 +347,10 @@ if (isset($_POST['pj_cnpj'])){
                 title: 'Em caso de alteração, pressione o botão Gravar para confirmar os dados'
             })
         });
+    });
+
+    $(document).ready(function () {
+        $('.nav-link').removeClass('active');
+        $('#proponente').addClass('active');
     });
 </script>

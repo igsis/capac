@@ -1,12 +1,15 @@
 <?php
 require_once "./controllers/ArquivoController.php";
+require_once "./controllers/FomentoController.php";
 $arquivosObj = new ArquivoController();
+$fomentoObj = new FomentoController();
 
 $edital_id = $_SESSION['edital_c'];
+$projeto_id = $_SESSION['projeto_c'];
 
-$proponente_id = $_SESSION['origem_id_c'];
+$tipo_contratacao_id = $fomentoObj->recuperaTipoContratacao((string) $edital_id);
 
-$lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($edital_id)->fetchAll(PDO::FETCH_COLUMN);
+$lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($edital_id, true)->fetchAll(PDO::FETCH_COLUMN);
 ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -58,19 +61,27 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($edital_id)->fetch
                         <form class="formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/arquivosAjax.php"
                               data-form="save" enctype="multipart/form-data">
                             <input type="hidden" name="_method" value="enviarArquivo">
-                            <input type="hidden" name="origem_id" value="<?= $proponente_id ?>">
-                            <input type="hidden" name="pagina" value="jovemMonitor/anexos_proponente">
+                            <input type="hidden" name="origem_id" value="<?= $projeto_id ?>">
+                            <input type="hidden" name="pagina" value="<?= $_GET['views'] ?>">
                             <table class="table table-striped">
                                 <tbody>
                                 <?php
                                 $cont = 0;
                                 $arquivos = $arquivosObj->listarArquivosFomento($edital_id)->fetchAll(PDO::FETCH_OBJ);
                                 foreach ($arquivos as $arquivo) {
-                                    if (!($arquivosObj->consultaArquivoFomentoEnviado($arquivo->id, $proponente_id))) {
+                                    if ($arquivosObj->consultaArquivoEnviado($arquivo->id, $projeto_id, true)) {
                                         ?>
                                         <tr>
+                                            <td colspan="2">
+                                                <div class="callout callout-success text-center">
+                                                    Arquivo <strong><?="$arquivo->anexo - $arquivo->documento" ?></strong> já enviado!
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php } else { ?>
+                                        <tr>
                                             <td>
-                                                <label for=""><?= $arquivo->documento ?></label>
+                                                <label for=""><?= "$arquivo->anexo - $arquivo->documento" ?></label>
                                             </td>
                                             <td>
                                                 <input type="hidden" name="<?= $arquivo->sigla ?>"
@@ -84,16 +95,13 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($edital_id)->fetch
                                     }
                                 }
 
-                                if ($cont == 0){
-                                    ?>
+                                if ($cont == 0): ?>
                                     <tr>
                                         <td colspan="2">
                                             Todos os arquivos já foram enviados!
                                         </td>
                                     </tr>
-                                <?php
-                                }
-                                ?>
+                                <?php endif; ?>
                                 </tbody>
                             </table>
                             <input type="submit" class="btn btn-success btn-md btn-block" name="enviar" value='Enviar'>
@@ -124,42 +132,41 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($edital_id)->fetch
                                 <th style="width: 10%">Ação</th>
                             </tr>
                             </thead>
-<!--                            Comentado aguardando lista de documentos-->
-<!--                            <tbody>-->
-<!--                            --><?php
-//                            $arquivosEnviados = $arquivosObj->listarArquivosFomentosEnviados($proponente_id, $lista_documento_ids)->fetchAll(PDO::FETCH_OBJ);
-//                            if (count($arquivosEnviados) != 0) {
-//                                foreach ($arquivosEnviados as $arquivo) {
-//                                    ?>
-<!--                                    <tr>-->
-<!--                                        <td>--><?//= $arquivo->documento ?><!--</td>-->
-<!--                                        <td><a href="--><?//= SERVERURL . "uploads/" . $arquivo->arquivo ?><!--"-->
-<!--                                               target="_blank">--><?//= mb_strimwidth($arquivo->arquivo, '15', '25', '...') ?><!--</a>-->
-<!--                                        </td>-->
-<!--                                        <td>--><?//= $arquivosObj->dataParaBR($arquivo->data) ?><!--</td>-->
-<!--                                        <td>-->
-<!--                                            <form class="formulario-ajax" action="--><?//= SERVERURL ?><!--ajax/arquivosAjax.php"-->
-<!--                                                  method="POST" data-form="delete">-->
-<!--                                                <input type="hidden" name="_method" value="removerArquivo">-->
-<!--                                                <input type="hidden" name="pagina" value="--><?//= $_GET['views'] ?><!--">-->
-<!--                                                <input type="hidden" name="arquivo_id"-->
-<!--                                                       value="--><?//= $arquivosObj->encryption($arquivo->id) ?><!--">-->
-<!--                                                <button type="submit" class="btn btn-sm btn-danger">Apagar</button>-->
-<!--                                                <div class="resposta-ajax"></div>-->
-<!--                                            </form>-->
-<!--                                        </td>-->
-<!--                                    </tr>-->
-<!--                                    --><?php
-//                                }
-//                            } else {
-//                                ?>
-<!--                                <tr>-->
-<!--                                    <td class="text-center" colspan="4">Nenhum arquivo enviado</td>-->
-<!--                                </tr>-->
-<!--                                --><?php
-//                            }
-//                            ?>
-<!--                            </tbody>-->
+                            <tbody>
+                            <?php
+                            $arquivosEnviados = $arquivosObj->listarArquivosEnviados($projeto_id, $lista_documento_ids, $tipo_contratacao_id)->fetchAll(PDO::FETCH_OBJ);
+                            if (count($arquivosEnviados) != 0) {
+                                foreach ($arquivosEnviados as $arquivo) {
+                                    ?>
+                                    <tr>
+                                        <td><?= "$arquivo->anexo - $arquivo->documento" ?></td>
+                                        <td><a href="<?= SERVERURL . "uploads/" . $arquivo->arquivo ?>"
+                                               target="_blank"><?= mb_strimwidth($arquivo->arquivo, '15', '25', '...') ?></a>
+                                        </td>
+                                        <td><?= $arquivosObj->dataParaBR($arquivo->data) ?></td>
+                                        <td>
+                                            <form class="formulario-ajax" action="<?= SERVERURL ?>ajax/arquivosAjax.php"
+                                                  method="POST" data-form="delete">
+                                                <input type="hidden" name="_method" value="removerArquivo">
+                                                <input type="hidden" name="pagina" value="<?= $_GET['views'] ?>">
+                                                <input type="hidden" name="arquivo_id"
+                                                       value="<?= $arquivosObj->encryption($arquivo->id) ?>">
+                                                <button type="submit" class="btn btn-sm btn-danger">Apagar</button>
+                                                <div class="resposta-ajax"></div>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
+                            } else {
+                                ?>
+                                <tr>
+                                    <td class="text-center" colspan="4">Nenhum arquivo enviado</td>
+                                </tr>
+                                <?php
+                            }
+                            ?>
+                            </tbody>
                         </table>
                     </div>
 
@@ -192,6 +199,6 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($edital_id)->fetch
     $(document).ready(function () {
         $('.nav-link').removeClass('active');
         $('#itens-proponente').addClass('menu-open');
-        $('#anexos-proponente').addClass('active');
+        $('#anexos').addClass('active');
     })
 </script>
