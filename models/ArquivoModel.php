@@ -97,7 +97,7 @@ class ArquivoModel extends MainModel
                 FROM contratacao_documentos AS cd
                 INNER JOIN fom_lista_documentos AS fld ON fld.id = cd.fom_lista_documento_id
                 INNER JOIN tipos_contratacoes AS tc ON cd.tipo_contratacao_id = tc.id
-                WHERE cd.tipo_contratacao_id = '$tipo_contratacao_id'";
+                WHERE cd.tipo_contratacao_id = '$tipo_contratacao_id' AND fld.publicado = 1";
         $arquivos = DbModel::consultaSimples($sql);
 
         return $arquivos;
