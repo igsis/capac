@@ -95,7 +95,8 @@ class ArquivoController extends ArquivoModel
                     WHERE `fom_projeto_id` = '$origem_id'
                       AND fa.fom_lista_documento_id IN ($documentos)
                       AND fa.publicado = '1'
-                      AND cd.tipo_contratacao_id = '$fomentos'";
+                      AND cd.tipo_contratacao_id = '$fomentos'
+                      ORDER BY ordem";
         }
         return DbModel::consultaSimples($sql);
     }
