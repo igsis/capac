@@ -2,24 +2,24 @@
 //CONFIGS
 require_once "./config/configAPP.php";
 
-
 //CONTROLLERS
 require_once "./controllers/ProjetoController.php";
 require_once "./controllers/PessoaJuridicaController.php";
 require_once "./controllers/RepresentanteController.php";
 require_once "./controllers/UsuarioController.php";
 
+$projetoObj = new ProjetoController();
+$pjObj = new PessoaJuridicaController();
+$repObj = new RepresentanteController();
+
 //Projeto
 $idProj = $_SESSION['projeto_c'];
-$projetoObj = new ProjetoController();
 $projeto = $projetoObj->recuperaProjeto($idProj);
 
 //Pessoa Juridica
-$pjObj = new PessoaJuridicaController();
 $pj = $pjObj->recuperaPessoaJuridica(MainModel::encryption($projeto['pessoa_juridica_id']));
 
 //Representante
-$repObj = new RepresentanteController();
 $repre = $repObj->recuperaRepresentante(MainModel::encryption($pj['representante_legal1_id']))->fetch(PDO::FETCH_ASSOC);
 
 $status = $projetoObj->recuperaStatusProjeto($projeto['fom_status_id']);

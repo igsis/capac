@@ -58,4 +58,63 @@ class ProjetoModel extends ValidacaoModel
             return false;
         }
     }
+
+    private function validaPj($pessoa_juridica_id)
+    {
+        $pj = DbModel::getInfo('pessoa_juridicas', $pessoa_juridica_id)->fetchObject();
+        $naoObrigatorios = [
+            'ccm',
+            'representante_legal2_id'
+        ];
+
+        $erros = ValidacaoModel::retornaMensagem($pj, $naoObrigatorios);
+
+        $validaEndereco = ValidacaoModel::validaEndereco(2, $pessoa_juridica_id);
+        $validaTelefone = ValidacaoModel::validaTelefone(2, $pessoa_juridica_id);
+
+        if ($validaEndereco) {
+            if (!isset($erros) || $erros == false) { $erros = []; }
+            $erros = array_merge($erros, $validaEndereco);
+        }
+        if ($validaTelefone) {
+            if (!isset($erros) || $erros == false) { $erros = []; }
+            $erros = array_merge($erros, $validaTelefone);
+        }
+
+
+        if ($pj->representante_legal1_id != null){
+            $representanteLegal1 = ValidacaoModel::validaRepresentante($pj->representante_legal1_id);
+            if ($representanteLegal1) {
+                if (!isset($erros) || $erros == false) { $erros = []; }
+                $erros = array_merge($erros, $representanteLegal1);
+            }
+        }
+
+        if ($pj->representante_legal2_id != null){
+            $representanteLegal2 = ValidacaoModel::validaRepresentante($pj->representante_legal2_id);
+            if ($representanteLegal2) {
+                if (!isset($erros) || $erros == false) { $erros = []; }
+                $erros = array_merge($erros, $representanteLegal2);
+            }
+        }
+
+        if (isset($erros)){
+            return $erros;
+        } else {
+            return false;
+        }
+    }
+
+    protected function validaProponenteProjeto($projeto_id) {
+        $projeto = DbModel::getInfo('fom_projetos', $projeto_id)->fetchObject();
+
+        if ($projeto->pessoa_tipo_id == 1) {
+            $proponente = DbModel::getInfo('pessoa_fisicas', $projeto->pessoa_fisica_id)->fetchObject();
+        } else {
+            $proponente = DbModel::getInfo('pessoa_juridicas', $projeto->pessoa_juridica_id)->fetchObject();
+            $erros = self::validaPj($proponente->id);
+        }
+
+        return $erros;
+    }
 }
