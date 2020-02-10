@@ -38,6 +38,8 @@ $('.formulario-ajax').submit(function(e){
         textoAlerta="Os dados serão eliminados do sistema";
     }else if(tipo==="update"){
         textoAlerta="Os dados serão atualizados no sistema";
+    }else if(tipo==="recover"){
+        textoAlerta="O email está correto?";
     }else{
         textoAlerta="Deseja realmente realizar a operação";
     }

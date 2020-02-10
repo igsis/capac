@@ -48,6 +48,8 @@ elseif ($view == 'cadastro'):
     require_once "./views/modulos/inicio/cadastro.php";
 elseif ($view == 'fomento_edital'):
     require_once "./views/modulos/inicio/fomento_edital.php";
+elseif ($view == 'recupera_senha'):
+    require_once "./views/modulos/inicio/recupera_senha.php";
 else:
     session_start(['name' => 'cpc']);
     require_once "./controllers/UsuarioController.php";
