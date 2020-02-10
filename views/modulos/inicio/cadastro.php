@@ -80,7 +80,7 @@ $url = 'http://' . $_SERVER['HTTP_HOST'] . '/capac/api/verificadorEmail.php';
             </form>
 
             <div class="mb-0 text-center">
-                <a href="index" class="text-center">Já possuo Cadastro</a>
+                <a href="<?= SERVERURL ?>" class="text-center">Já possuo Cadastro</a>
             </div>
         </div>
         <div class="card-footer bg-light-gradient text-center">

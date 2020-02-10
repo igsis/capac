@@ -1,11 +1,17 @@
 <li class="nav-item">
     <a href="<?= SERVERURL ?>fomentos/inicio" class="nav-link" id="fomentos_inicio">
         <i class="fa fa-info nav-icon"></i>
-        <p>Projetos</p>
+        <p>Lista Projetos</p>
     </a>
 </li>
 <hr/>
 <?php if (isset($_SESSION['projeto_c'])): ?>
+    <li class="nav-item">
+        <a href="<?= SERVERURL ?>fomentos/projeto_cadastro" class="nav-link" id="projeto">
+            <i class="far fa-circle nav-icon"></i>
+            <p>Projeto</p>
+        </a>
+    </li>
     <?php if (!isset($_SESSION['origem_id_c'])): ?>
         <li class="nav-item">
             <a href="<?= SERVERURL ?>fomentos/proponente" class="nav-link" id="buscaProponente">

@@ -1,10 +1,8 @@
 <?php
 if ($pedidoAjax) {
-    require_once "../models/MainModel.php";
     require_once "../models/ProjetoModel.php";
     require_once '../controllers/PessoaJuridicaController.php';
 } else {
-    require_once "./models/MainModel.php";
     require_once "./models/ProjetoModel.php";
     require_once './controllers/PessoaJuridicaController.php';
 }
@@ -107,7 +105,7 @@ class ProjetoController extends ProjetoModel
         if (!isset($_SESSION['origem_id_c'])){
             if (isset($_POST['id'])) {
                 $idPj = $_POST['id'];
-                $idPj = PessoaJuridicaController::editaPessoaJuridica($idPj,"",true);
+                $idPj = (new PessoaJuridicaController)->editaPessoaJuridica($idPj,"",true);
             } else {
                 $idPj = (new PessoaJuridicaController)->inserePessoaJuridica("", true);
             }
@@ -142,7 +140,7 @@ class ProjetoController extends ProjetoModel
             }
         } else {
             $idPj = MainModel::decryption($_SESSION['origem_id_c']);
-            PessoaJuridicaController::editaPessoaJuridica($idPj,"",true);
+            (new PessoaJuridicaController)->editaPessoaJuridica($idPj,"",true);
             if ($idPj) {
                 $projeto = ProjetoModel::updatePjProjeto();
                 if ($projeto) {
@@ -245,7 +243,7 @@ class ProjetoController extends ProjetoModel
         $projetoId = MainModel::encryption($id);
         $projeto = $this->recuperaProjeto($projetoId);
         $projeto['protocolo'] = MainModel::gerarProtocolo($id,$_SESSION['edital_c']);
-        $projeto['data_inscricao'] = date("Y-m-d h:i:sa");
+        $projeto['data_inscricao'] = date("Y-m-d H:i:s");
         $projeto['fom_status_id'] = 2;
 
         $update = DbModel::update('fom_projetos',$projeto,$id);
@@ -289,15 +287,14 @@ class ProjetoController extends ProjetoModel
         }
         return MainModel::sweetAlert($alerta);
     }
-    public function validaProjeto($projeto_id, $edital_id){
+
+    public function validaProjeto($projeto_id, $edital_id) {
         $edital_id = MainModel::decryption($edital_id);
         $projeto_id = MainModel::decryption($projeto_id);
 
-       $erros['arquivos'] = ProjetoModel::validaArquivosProjeto($projeto_id, $edital_id);
+        $erros['Proponente'] = ProjetoModel::validaProponenteProjeto($projeto_id);
+        $erros['Arquivos'] = ProjetoModel::validaArquivosProjeto($projeto_id, $edital_id);
 
-       return MainModel::formataValidacaoErros($erros);
+        return MainModel::formataValidacaoErros($erros);
     }
-
-
-
 }

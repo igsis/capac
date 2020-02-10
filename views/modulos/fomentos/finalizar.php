@@ -2,30 +2,34 @@
 //CONFIGS
 require_once "./config/configAPP.php";
 
-
 //CONTROLLERS
 require_once "./controllers/ProjetoController.php";
+require_once "./controllers/FomentoController.php";
 require_once "./controllers/PessoaJuridicaController.php";
 require_once "./controllers/RepresentanteController.php";
 require_once "./controllers/UsuarioController.php";
 
+$projetoObj = new ProjetoController();
+$fomentoObj = new FomentoController();
+$pjObj = new PessoaJuridicaController();
+$repObj = new RepresentanteController();
+
 //Projeto
 $idProj = $_SESSION['projeto_c'];
-$projetoObj = new ProjetoController();
 $projeto = $projetoObj->recuperaProjeto($idProj);
 
 //Pessoa Juridica
-$pjObj = new PessoaJuridicaController();
 $pj = $pjObj->recuperaPessoaJuridica(MainModel::encryption($projeto['pessoa_juridica_id']));
 
 //Representante
-$repObj = new RepresentanteController();
 $repre = $repObj->recuperaRepresentante(MainModel::encryption($pj['representante_legal1_id']))->fetch(PDO::FETCH_ASSOC);
 
 $status = $projetoObj->recuperaStatusProjeto($projeto['fom_status_id']);
 if ($projeto['data_inscricao']) {
     $dataEnvio = MainModel::dataHora($projeto['data_inscricao']);
 }
+
+$nomeEdital = $fomentoObj->recuperaNomeEdital($_SESSION['edital_c']);
 
 $validacaoArquivos = $projetoObj->validaProjeto($idProj, $_SESSION['edital_c']);
 ?>
@@ -116,17 +120,17 @@ $validacaoArquivos = $projetoObj->validaProjeto($idProj, $_SESSION['edital_c']);
                         <li class="my-2"><span class="subtitulos mr-2">Valor do projeto:</span> <span
                                     id="dinheiro"><?= $projeto['valor_projeto'] ?></span></li>
                         <li class="my-2"><span
-                                    class="subtitulos mr-2">Duração do projeto em meses: </span> <?= $projeto['duracao'] ?>
+                                    class="subtitulos mr-2">Duração do projeto em meses: </span><?= $projeto['duracao'] ?>
                             meses
                         </li>
                         <li class="my-2"><span
-                                    class="subtitulos mr-2">Núcleo artístico: </span> <?= $projeto['nucleo_artistico'] ?>
+                                    class="subtitulos mr-2">Núcleo artístico: </span><?= $projeto['nucleo_artistico'] ?>
                         </li>
                         <li class="my-2"><span
-                                    class="subtitulos mr-2">Representante do núcleo: </span> <?= $projeto['representante_nucleo'] ?>
+                                    class="subtitulos mr-2">Representante do núcleo: </span><?= $projeto['representante_nucleo'] ?>
                         </li>
-                        <li class="my-2"><span class="subtitulos mr-2">Status: </span> <?= $status ?> </li>
-                        <li class="my-2"><span class="subtitulos mr-2">Edição: </span> Edição</li>
+                        <li class="my-2"><span class="subtitulos mr-2">Status: </span><?= $status ?> </li>
+                        <li class="my-2"><span class="subtitulos mr-2">Fomento: </span><?= $nomeEdital ?></li>
                         <?= $projeto['data_inscricao'] ? "<li class=\"my-2\"><span class=\"subtitulos mr-2\">Data de Envio: </span> {$dataEnvio} </li>" : '' ?>
                     </ul>
                     <?php if ($projeto['protocolo'] == null && $projeto['data_inscricao'] == null): ?>
