@@ -243,7 +243,7 @@ class ProjetoController extends ProjetoModel
         $projetoId = MainModel::encryption($id);
         $projeto = $this->recuperaProjeto($projetoId);
         $projeto['protocolo'] = MainModel::gerarProtocolo($id,$_SESSION['edital_c']);
-        $projeto['data_inscricao'] = date("Y-m-d h:i:sa");
+        $projeto['data_inscricao'] = date("Y-m-d H:i:s");
         $projeto['fom_status_id'] = 2;
 
         $update = DbModel::update('fom_projetos',$projeto,$id);

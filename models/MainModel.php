@@ -468,8 +468,9 @@ class MainModel extends DbModel
     }
 
     public function gerarProtocolo($id,$edital){
-        $edit = $this->decryption($edital);
-        return date("Ymd").".".$id."-".$edit;
+        $edital = $this->decryption($edital);
+        $preencheZeros = str_pad($id, 5, '0', STR_PAD_LEFT);
+        return date("Ymd").".".$preencheZeros."-".$edital;
     }
 
     public function formataValidacaoErros($erros) {
