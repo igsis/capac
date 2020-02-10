@@ -261,15 +261,17 @@ function testaCnpj(cnpj) {
 }
 
 $('#formularioPj').submit(function (event) {
-    var strCnpj = document.querySelector('#cnpj').value
+    var campoCnpj = document.querySelector('#cnpj');
+    var strCnpj = campoCnpj.value;
 
     if(strCnpj != ''){
-        strCnpj = strCnpj.replace(/[^0-9]/g, '')
+        strCnpj = strCnpj.replace(/[^0-9]/g, '');
 
         var validado = testaCnpj(strCnpj);
 
         if(!validado){
-            event.preventDefault()
+            event.preventDefault();
+            campoCnpj.classList.add('is-invalid');
             $('#dialogErrorCnpj').show()
         }
     }
