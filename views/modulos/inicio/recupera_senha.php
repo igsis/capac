@@ -25,14 +25,21 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-8">
+                    </div>
                     <!-- /.col -->
-                    <div class="col-12">
+                    <div class="col-4">
                         <button type="submit" class="btn btn-primary btn-block btn-flat">Enviar</button>
                     </div>
                     <!-- /.col -->
                 </div>
                 <div class="resposta-ajax"></div>
             </form>
+            <div class="mb-0 text-left">
+                <p class="mb-1">
+                    <a href="<?= SERVERURL ?>">Voltar a Tela de Login</a>
+                </p>
+            </div>
         </div>
         <div class="card-footer bg-light-gradient text-center">
             <img src="<?= SERVERURL ?>views/dist/img/CULTURA_HORIZONTAL_pb_positivo.png" alt="logo cultura">
