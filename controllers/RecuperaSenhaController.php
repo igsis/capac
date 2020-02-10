@@ -25,18 +25,7 @@ class RecuperaSenhaController extends RecuperaSenhaModel
                 'email' => $email,
                 'token' => $token,
             );
-                if ($this->enviarEmail($dados)):
-                    $alert = [
-                        'alerta' => 'sucesso',
-                        'titulo' => 'Resete enviado por e-mail',
-                        'texto' => "Enviamos um email para <b>{$email}</b> para a reiniciarmos sua senha. <br>
-                    Por favor acesse seu email e clique no link recebido para cadastrar uma nova senha! (Lembre-se de verificar o spam)",
-                        'tipo' => 'success',
-                        'location' => SERVERURL . 'recupera_senha'
-                    ];
-                else:
-
-                endif;
+            $enviado = $this->enviarEmail($dados);
 
         } else {
             $alert = [
@@ -58,19 +47,28 @@ class RecuperaSenhaController extends RecuperaSenhaModel
 
     public function enviarEmail($dados)
     {
-            // Send email to user with the token in a link they can click on
-            $destinatario = $dados['email'];
-            $subject = "CAPAC - Recuperação de Senha";
-            $email = $this->geraEmail($dados['token']);
+        // Send email to user with the token in a link they can click on
+        $destinatario = $dados['email'];
+        $subject = "CAPAC - Recuperação de Senha";
+        $email = $this->geraEmail($dados['token']);
 
-            // To send HTML mail, the Content-type header must be set
-            $headers = 'MIME-Version: 1.0' . "\r\n";
-            $headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
+        // To send HTML mail, the Content-type header must be set
+        $headers = 'MIME-Version: 1.0' . "\r\n";
+        $headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
 
-            // Create email headers
-            $headers .= 'From: no.reply.smcsistemas@gmail.com' . "\r\n";
+        // Create email headers
+        $headers .= 'From: no.reply.smcsistemas@gmail.com' . "\r\n";
 
-            return mail($destinatario, $subject, $email, $headers);
+        $alert = [
+            'alerta' => 'sucesso',
+            'titulo' => 'Resete enviado por e-mail',
+            'texto' => "Enviamos um email para <b>{$email}</b> para a reiniciarmos sua senha. <br>
+            Por favor acesse seu email e clique no link recebido para cadastrar uma nova senha! (Lembre-se de verificar o spam)",
+            'tipo' => 'success',
+            'location' => SERVERURL . 'recupera_senha'
+        ];
+
+        mail($destinatario, $subject, $email, $headers);
     }
 
     public function geraEmail($token)
