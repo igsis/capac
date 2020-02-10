@@ -4,11 +4,13 @@ require_once "./config/configAPP.php";
 
 //CONTROLLERS
 require_once "./controllers/ProjetoController.php";
+require_once "./controllers/FomentoController.php";
 require_once "./controllers/PessoaJuridicaController.php";
 require_once "./controllers/RepresentanteController.php";
 require_once "./controllers/UsuarioController.php";
 
 $projetoObj = new ProjetoController();
+$fomentoObj = new FomentoController();
 $pjObj = new PessoaJuridicaController();
 $repObj = new RepresentanteController();
 
