@@ -33,8 +33,8 @@ $fomentoObj = new FomentoController();
             <div class="row">
                 <div class="offset-1 col-10">
                     <div class="card card-dark card-outline collapsed-card elevation-5">
-                        <div class="card-header">
-                            <h5 class="m-0"><?= $fomento['titulo'] ?></h5>
+                        <div class="card-header" data-card-widget="collapse" style="cursor: pointer;">
+                            <h3 class="card-title"><?= $fomento['titulo'] ?></h3>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
                                 </button>
@@ -44,7 +44,7 @@ $fomentoObj = new FomentoController();
                             <?= nl2br($fomento['descricao']) ?>
                         </div>
                         <div class="card-footer">
-                            <a href="login&modulo=8&edital=<?= MainModel::encryption($fomento['id']) ?>" class="small-box-footer">
+                            <a href="login&modulo=8&edital=<?= $fomentoObj->encryption($fomento['id']) ?>" class="small-box-footer">
                                 Inscreva-se <i class="fas fa-arrow-circle-right"></i>
                             </a>
                         </div>

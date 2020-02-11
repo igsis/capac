@@ -29,12 +29,10 @@ class RecuperaSenhaController extends RecuperaSenhaModel
             if ($this->setToken($email,$token)) {
                 $this->enviarEmail($dados);
                 $alert = [
-                    'alerta' => 'sucesso',
+                    'alerta' => 'simples',
                     'titulo' => 'Resete enviado por e-mail',
-                    'texto' => "Enviamos um email para <b>{$email}</b> para a reiniciarmos sua senha. <br>
-                                Por favor acesse seu email e clique no link recebido para cadastrar uma nova senha! (Lembre-se de verificar o spam)",
+                    'texto' => "Enviamos um email para <b>$email</b> para a reiniciarmos sua senha. <br> Por favor acesse seu email e clique no link recebido para cadastrar uma nova senha! (Lembre-se de verificar o spam)",
                     'tipo' => 'success',
-                    'location' => SERVERURL . 'recupera_senha'
                 ];
             } else {
                 $alert = [
@@ -42,7 +40,6 @@ class RecuperaSenhaController extends RecuperaSenhaModel
                     'titulo' => 'Erro',
                     'texto' => "Erro ao tentar enviar e-mail, por favor tente novamente.",
                     'tipo' => 'error',
-                    'location' => SERVERURL . 'recupera_senha'
                 ];
             }
         } else {
@@ -51,7 +48,6 @@ class RecuperaSenhaController extends RecuperaSenhaModel
                 'titulo' => 'Não tem email',
                 'texto' => "E-mail não encontrado em nossa base de dados.",
                 'tipo' => 'error',
-                'location' => SERVERURL . 'recupera_senha'
             ];
         }
 

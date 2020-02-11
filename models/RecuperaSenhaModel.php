@@ -22,15 +22,11 @@ class RecuperaSenhaModel extends MainModel
         );
         $verifica = $this->tokenExiste($email);
         if ($verifica->rowCount() == 0) {
-            $insert = DbModel::insert('resete_senhas', $dados);
-            return $insert;
+            return DbModel::insert('resete_senhas', $dados);
         } else {
-            $resultado = $verifica->fetchAll();
-            $update = DbModel::update('resete_senhas', $dados, $resultado['id']);
-            return $update;
+            $resultado = $verifica->fetch(PDO::FETCH_ASSOC);
+            return DbModel::update('resete_senhas', $dados, $resultado['id']);
         }
-
-        return false;
     }
 
     protected function getToken($email)
