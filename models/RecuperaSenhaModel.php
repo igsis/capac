@@ -11,8 +11,7 @@ class RecuperaSenhaModel extends MainModel
     protected function tokenExiste($email)
     {
         $query = "SELECT * FROM resete_senhas WHERE email = '$email'";
-        $reset = DbModel::consultaSimple($query);
-        return $reset;
+        return DbModel::consultaSimples($query);
     }
 
     protected function setToken($email, $token)
@@ -37,7 +36,7 @@ class RecuperaSenhaModel extends MainModel
     protected function getToken($email)
     {
 
-        
+
 
     }
 

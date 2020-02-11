@@ -25,12 +25,9 @@ class RecuperaSenhaController extends RecuperaSenhaModel
                 'email' => $email,
                 'token' => $token,
             );
-            $enviado = $this->enviarEmail($dados);
 
-            if ($enviado) {
-
-                $this->setToken($email,$token);
-
+            if ($this->setToken($email,$token)) {
+                $this->enviarEmail($dados);
                 $alert = [
                     'alerta' => 'sucesso',
                     'titulo' => 'Resete enviado por e-mail',
