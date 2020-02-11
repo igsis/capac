@@ -81,7 +81,7 @@ class RecuperaSenhaController extends RecuperaSenhaModel
 
     public function geraEmail($token)
     {
-        $endereco = SERVERURL . "reset.php?token=$token";
+        $endereco = SERVERURL . "reset.php&tk=$token";
         $html = "<!DOCTYPE html>
         <html style=\"padding: 0px; margin: 0px;\" lang=\"pt_br\">
            <head> 

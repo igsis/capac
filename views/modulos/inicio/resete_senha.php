@@ -1,8 +1,3 @@
-<?php
-
-echo $_GET['id'];
-
-?>
 <div class="login-page">
     <div class="card">
         <div class="card-header bg-dark">
@@ -16,6 +11,7 @@ echo $_GET['id'];
             <p><?= isset($message) ? $message : '' ?></p>
             <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/recuperaSenhaAjax.php" role="form"
                   data-form="recover">
+                <input type="hidden" name="_token" value="<?= $_GET['tk'] ?>">
                 <input type="hidden" name="_method" value="check">
                 <div class="row">
                     <label>Nova senha:</label>
