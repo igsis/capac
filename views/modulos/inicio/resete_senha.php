@@ -1,5 +1,7 @@
 <?php
 
+echo $_GET['id'];
+
 ?>
 <div class="login-page">
     <div class="card">
@@ -10,7 +12,7 @@
             </a>
         </div>
         <div class="card-body register-card-body">
-            <p class="card-text"><span style="text-align: justify; display:block;"> Para recuperar senha digite o e-mail usado no cadastro.</span></p>
+            <p class="card-text"><span style="text-align: justify; display:block;"> Escolha uma nova senha.</span></p>
             <p><?= isset($message) ? $message : '' ?></p>
             <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/recuperaSenhaAjax.php" role="form"
                   data-form="recover">
@@ -18,7 +20,7 @@
                 <div class="row">
                     <label>Nova senha:</label>
                     <div class="input-group mb-3">
-                        <input name="senha" type="password" class="form-control" placeholder="Digite">
+                        <input name="senha" type="password" class="form-control" placeholder="Digite a nova senha">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -29,7 +31,7 @@
                 <div class="row">
                     <label>Repita a senha:</label>
                     <div class="input-group mb-3">
-                        <input name="senha" type="password" class="form-control" placeholder="Digite">
+                        <input name="senha" type="password" class="form-control" placeholder="Digite novamente a senha">
                         <div class=
                              "input-group-append">
                             <div class="input-group-text">
