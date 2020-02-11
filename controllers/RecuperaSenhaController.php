@@ -25,8 +25,26 @@ class RecuperaSenhaController extends RecuperaSenhaModel
                 'email' => $email,
                 'token' => $token,
             );
-            $enviado = $this->enviarEmail($dados);
 
+            if ($this->setToken($email,$token)) {
+                $this->enviarEmail($dados);
+                $alert = [
+                    'alerta' => 'sucesso',
+                    'titulo' => 'Resete enviado por e-mail',
+                    'texto' => "Enviamos um email para <b>{$email}</b> para a reiniciarmos sua senha. <br>
+                                Por favor acesse seu email e clique no link recebido para cadastrar uma nova senha! (Lembre-se de verificar o spam)",
+                    'tipo' => 'success',
+                    'location' => SERVERURL . 'recupera_senha'
+                ];
+            } else {
+                $alert = [
+                    'alerta' => 'simples',
+                    'titulo' => 'Erro',
+                    'texto' => "Erro ao tentar enviar e-mail, por favor tente novamente.",
+                    'tipo' => 'error',
+                    'location' => SERVERURL . 'recupera_senha'
+                ];
+            }
         } else {
             $alert = [
                 'alerta' => 'simples',
@@ -58,17 +76,11 @@ class RecuperaSenhaController extends RecuperaSenhaModel
 
         // Create email headers
         $headers .= 'From: no.reply.smcsistemas@gmail.com' . "\r\n";
+        if(mail($destinatario, $subject, $email, $headers))
+            return true;
 
-        $alert = [
-            'alerta' => 'sucesso',
-            'titulo' => 'Resete enviado por e-mail',
-            'texto' => "Enviamos um email para <b>{$email}</b> para a reiniciarmos sua senha. <br>
-            Por favor acesse seu email e clique no link recebido para cadastrar uma nova senha! (Lembre-se de verificar o spam)",
-            'tipo' => 'success',
-            'location' => SERVERURL . 'recupera_senha'
-        ];
+        return false;
 
-        mail($destinatario, $subject, $email, $headers);
     }
 
     public function geraEmail($token)
