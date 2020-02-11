@@ -312,5 +312,9 @@ class RecuperaSenhaController extends RecuperaSenhaModel
         return $html;
     }
 
+    public function novaSenha($senha,$token){
+        
+    }
+
 
 }
