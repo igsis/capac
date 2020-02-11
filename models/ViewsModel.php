@@ -60,6 +60,7 @@ class ViewsModel
             'representante',
             'representante_cadastro',
             'recupera_senha',
+            'resete_senha'
         ];
         if (self::verificaModulo($modulo)) {
             if (in_array($view, $whitelist)) {
@@ -79,8 +80,10 @@ class ViewsModel
             $conteudo = "login";
         } elseif ($modulo == "fomento_edital") {
             $conteudo = "fomento_edital";
-        } elseif ($modulo == "recupera_senha"){
+        } elseif ($modulo == "recupera_senha") {
             $conteudo = "recupera_senha";
+        } elseif ($modulo == "resete_senha") {
+            $conteudo = "resete_senha";
         }
         else {
             $conteudo = "login";

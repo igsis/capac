@@ -1,6 +1,4 @@
-<?php
 
-?>
 <div class="login-page">
     <div class="card">
         <div class="card-header bg-dark">
