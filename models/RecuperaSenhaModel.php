@@ -37,6 +37,8 @@ class RecuperaSenhaModel extends MainModel
     protected function getToken($email)
     {
 
+        
+
     }
 
     protected function validaToken()
