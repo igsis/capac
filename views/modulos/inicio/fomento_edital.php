@@ -7,6 +7,7 @@ if (isset($_SESSION)) {
 }
 require_once "./controllers/FomentoController.php";
 $fomentoObj = new FomentoController();
+$now = date('Y-m-d H:i:s');
 ?>
 <div class="background">
 <div class="content-header bg-dark mb-5 elevation-5">
@@ -44,9 +45,19 @@ $fomentoObj = new FomentoController();
                             <?= nl2br($fomento['descricao']) ?>
                         </div>
                         <div class="card-footer">
-                            <a href="login&modulo=8&edital=<?= $fomentoObj->encryption($fomento['id']) ?>" class="small-box-footer">
-                                Inscreva-se <i class="fas fa-arrow-circle-right"></i>
-                            </a>
+                            <?php
+                            if ($fomento['data_abertura'] <= $now && $now <= $fomento['data_encerramento']){
+                                ?>
+                                <a href="login&modulo=8&edital=<?= $fomentoObj->encryption($fomento['id']) ?>"
+                                   class="small-box-footer">
+                                    Inscreva-se <i class="fas fa-arrow-circle-right"></i>
+                                </a>
+                                <?php
+                            }
+                            else{
+                                echo "<b>Inscrição não disponível</b>";
+                            }
+                            ?>
                         </div>
 
                     </div>
