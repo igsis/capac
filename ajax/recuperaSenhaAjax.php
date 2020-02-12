@@ -12,7 +12,7 @@ if (isset($_POST['_method'])){
             echo $recupera->verificaEmail($_POST['email']);
             break;
         case 'reset':
-            echo $recupera->novaSenha($_POST['senha'],$_POST['token']);
+            echo $recupera->novaSenha($_POST['senha'],$_POST['_token']);
             break;
         default:
             $message = 'Não foi nada';

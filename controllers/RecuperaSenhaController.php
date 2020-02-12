@@ -21,13 +21,14 @@ class RecuperaSenhaController extends RecuperaSenhaModel
         if ($emailBD->rowCount() == 1) {
 
             $token = $this->gerarToken();
+
             $dados = array(
                 'email' => $email,
                 'token' => $token,
             );
 
-            if ($this->setToken($email,$token)) {
-                $this->enviarEmail($dados);
+            if ($this->setToken($email, $token)) {
+                $this->enviarEmail($email,$token);
                 $alert = [
                     'alerta' => 'simples',
                     'titulo' => 'Resete enviado por e-mail',
@@ -59,12 +60,12 @@ class RecuperaSenhaController extends RecuperaSenhaModel
         return MainModel::encryption(random_bytes(50));
     }
 
-    public function enviarEmail($dados)
+    public function enviarEmail($endEmail,$token)
     {
         // Send email to user with the token in a link they can click on
-        $destinatario = $dados['email'];
+        $destinatario = $endEmail;
         $subject = "CAPAC - Recuperação de Senha";
-        $email = $this->geraEmail($dados['token']);
+        $email = $this->geraEmail($token);
 
         // To send HTML mail, the Content-type header must be set
         $headers = 'MIME-Version: 1.0' . "\r\n";
@@ -72,7 +73,7 @@ class RecuperaSenhaController extends RecuperaSenhaModel
 
         // Create email headers
         $headers .= 'From: no.reply.smcsistemas@gmail.com' . "\r\n";
-        if(mail($destinatario, $subject, $email, $headers))
+        if (mail($destinatario, $subject, $email, $headers))
             return true;
 
         return false;
@@ -81,7 +82,7 @@ class RecuperaSenhaController extends RecuperaSenhaModel
 
     public function geraEmail($token)
     {
-        $endereco = SERVERURL . "reset.php&tk=$token";
+        $endereco = SERVERURL . "resete_senha&tk=".$token;
         $html = "<!DOCTYPE html>
         <html style=\"padding: 0px; margin: 0px;\" lang=\"pt_br\">
            <head> 
@@ -191,7 +192,7 @@ class RecuperaSenhaController extends RecuperaSenhaModel
                                                center;\">
                                                <table style=\"border-collapse:
                                                   collapse; border-spacing: 0; background-color:
-                                                  rgb(32,178,170); border-radius: 10px; color:
+                                                  rgb(0,123,255); border-radius: 10px; color:
                                                   rgb(255,255,255); display: inline-block;
                                                   font-family: Arial; font-size: 15px; font-weight:
                                                   bold; text-align: center;\">
@@ -200,7 +201,7 @@ class RecuperaSenhaController extends RecuperaSenhaModel
                                                      <tr style=\"display:
                                                         inline-block;\">
                                                         <td align=\"center\" style=\"border-collapse: collapse; display:
-                                                           inline-block; padding: 15px 20px;\"><a target=\"_blank\" href=\"$endereco\" style=\"display: inline-block;
+                                                           inline-block; padding: 15px 20px;\"><a target=\"_blank\" href='".$endereco."' style=\"display: inline-block;
                                                            text-decoration: none; box-sizing: border-box;
                                                            font-family: arial; color: #fff; font-size: 15px;
                                                            font-weight: bold; margin: 0px; padding: 0px;
@@ -312,8 +313,46 @@ class RecuperaSenhaController extends RecuperaSenhaModel
         return $html;
     }
 
-    public function novaSenha($senha,$token){
-        
+    public function novaSenha($senha, $token)
+    {
+        $query = "SELECT `email` FROM `capac_new`.`resete_senhas` WHERE token = '".$token."'";
+        $resultado = DbModel::consultaSimples($query);
+        if ($resultado->rowCount() == 1) {
+            $email = $resultado->fetch(PDO::FETCH_COLUMN);
+            $dado = array('senha' => MainModel::encryption($senha));
+            DbModel::updateEspecial('usuarios', $dado, 'email', $email);
+            if (DbModel::connection()->errorCode() == 0) {
+                DbModel::deleteEspecial('resete_senhas', 'token', $token);
+                if (DbModel::connection()->errorCode() == 0) {
+                    $alert = [
+                        'alerta' => 'sucesso',
+                        'titulo' => 'Sucesso!',
+                        'texto' => 'Senha altera com sucesso!',
+                        'tipo' => 'success',
+                        'location' => SERVERURL
+                    ];
+                } else {
+                    $alert = $this->erroToken();
+                }
+
+            } else {
+                $alert = $this->erroToken();
+            }
+        } else {
+            $alert = $this->erroToken();
+        }
+
+        return MainModel::sweetAlert($alert);
+    }
+
+    private function erroToken()
+    {
+        return [
+            'alerta' => 'simples',
+            'titulo' => 'Erro',
+            'texto' => "Erro ao tentar trocar senha. Tente novamente.",
+            'tipo' => 'error',
+        ];
     }
 
 
