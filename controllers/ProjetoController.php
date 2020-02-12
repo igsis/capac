@@ -237,6 +237,12 @@ class ProjetoController extends ProjetoModel
         WHERE id = '$id'")->fetchColumn();
     }
 
+    public function recuperaValorMax()
+    {
+        $idEdital = MainModel::decryption($_SESSION['edital_c']);
+        return DbModel::consultaSimples("SELECT valor_max_projeto FROM fom_editais WHERE id = '$idEdital'")->fetchColumn();
+    }
+
     public function finalizarProjeto($id){
         session_start(['name' => 'cpc']);
 
