@@ -339,18 +339,18 @@ class RecuperaSenhaController extends RecuperaSenhaModel
                 $alert = $this->erroToken();
             }
         } else {
-            $alert = $this->erroToken();
+            $alert = $this->erroToken('Esse link já foi utilizado para trocar senha.<br>Faça uma nova solicitação para trocar senha.');
         }
 
         return MainModel::sweetAlert($alert);
     }
 
-    private function erroToken()
+    private function erroToken($textErro = 'Erro ao tentar trocar senha. Tente novamente.')
     {
         return [
             'alerta' => 'simples',
             'titulo' => 'Erro',
-            'texto' => "Erro ao tentar trocar senha. Tente novamente.",
+            'texto' => $textErro,
             'tipo' => 'error',
         ];
     }
