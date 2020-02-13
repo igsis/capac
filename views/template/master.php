@@ -32,7 +32,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <!-- jQuery -->
     <script src="<?= SERVERURL ?>views/plugins/jquery/jquery.min.js"></script>
-
+    <link rel="shortcut icon" href="<?= SERVERURL ?>views/dist/img/AdminLTELogo.png" />
 
 </head>
 <!--<body class="hold-transition login-page">-->
