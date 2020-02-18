@@ -28,6 +28,7 @@
                                         Uma vez cadastrados, esses artistas poderão atualizar suas informações e enviar a documentação necessária para o processo de contratação. Como o sistema possui ligação direta com o sistema da programação, a medida que o cadastro do artista no CAPAC encontra-se atualizado, o processo de contratação consequentemente é agilizado.</span></p>
                                     <p class="card-text">Podem se cadastrar artistas ou grupos artísticos, como pessoa física ou jurídica.</p>
                                     <p class="card-text">Dúvidas entre em contato com o setor responsável por sua contratação.</p>
+                                    <a href="http://smcsistemas.prefeitura.sp.gov.br/manual/capac" target="_blank" class="btn btn-danger btn-block">Manual de Uso e Dúvidas Frequentes</a>
                                 </div>
                                 <div class="col-md-1"></div>
                                 <div class="col-md-6">
