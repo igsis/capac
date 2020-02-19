@@ -46,8 +46,7 @@
                                                     </a>
                                                 </div>
                                                 <div class="col-6">
-                                                    <a href="http://<?= $_SERVER['HTTP_HOST'] ?>/igsiscapac"
-                                                       target="_blank">
+                                                    <a href="http://<?= $_SERVER['HTTP_HOST'] ?>/igsiscapac">
                                                         <div class="info-box bg-cyan">
                                                             <span class="info-box-icon"><i class="fas fa-users"></i></span>
                                                             <div class="card-body">
@@ -60,8 +59,7 @@
 
                                             <div class="row">
                                                 <div class="col-6">
-                                                    <a href="http://<?= $_SERVER['HTTP_HOST'] ?>/igsiscapac"
-                                                       target="_blank">
+                                                    <a href="http://<?= $_SERVER['HTTP_HOST'] ?>/igsiscapac">
                                                         <div class="info-box bg-olive">
                                                             <span class="info-box-icon"><i class="fas fa-thumbs-up"></i></span>
                                                             <div class="card-body">
@@ -84,8 +82,7 @@
 
                                             <div class="row">
                                                 <div class="col-6">
-                                                    <a href="http://<?= $_SERVER['HTTP_HOST'] ?>/igsiscapac"
-                                                       target="_blank">
+                                                    <a href="http://<?= $_SERVER['HTTP_HOST'] ?>/igsiscapac">
                                                         <div class="info-box bg-orange">
                                                             <span class="info-box-icon"><i class="fas fa-guitar"></i></span>
                                                             <div class="card-body">
@@ -95,12 +92,14 @@
                                                     </a>
                                                 </div>
                                                 <div class="col-6">
-                                                    <div class="btn info-box bg-teal" id="formacao">
-                                                        <span class="info-box-icon"><i class="fas fa-child"></i></span>
-                                                        <div class="card-body">
-                                                            <span class="info-box-number">Formação</span>
+                                                    <a href="http://<?= $_SERVER['HTTP_HOST'] ?>/igsiscapac">
+                                                        <div class="btn info-box bg-teal" id="formacao">
+                                                            <span class="info-box-icon"><i class="fas fa-child"></i></span>
+                                                            <div class="card-body">
+                                                                <span class="info-box-number">Formação</span>
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
