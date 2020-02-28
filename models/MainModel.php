@@ -57,7 +57,7 @@ class MainModel extends DbModel
 
     public function dataHora($data) {
         $novaData = new DateTime($data);
-        return $novaData->format('d/m/Y H:m:s');
+        return $novaData->format('d/m/Y H:i:s');
     }
 
     public function dataParaSQL($data) {

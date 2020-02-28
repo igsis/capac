@@ -50,9 +50,9 @@ class ArquivoModel extends MainModel
 
                 $dataAtual = date("Y-m-d H:i:s");
                 $novoNome = date('YmdHis')."_".MainModel::retiraAcentos($nomeArquivo);
-                $maximoPermitido = ($tamanhoMaximo*1000)*1000;
+                $maximoPermitido = $tamanhoMaximo*1048576;
 
-                if ($tamanhoArquivo < $maximoPermitido) {
+                if ($tamanhoArquivo <= $maximoPermitido) {
                     if (move_uploaded_file($arquivoTemp, UPLOADDIR . $novoNome)) {
                         if (!$fomento) {
                             $tabela = "arquivos";

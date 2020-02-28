@@ -40,7 +40,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($edital_id, true)-
                     <div class="card-body">
                         <ul>
                             <li><strong>Formato Permitido:</strong> PDF</li>
-                            <li><strong>Tamanho Máximo:</strong> 6Mb</li>
+                            <li><strong>Tamanho Máximo:</strong> 5Mb</li>
                             <li>Clique nos arquivos após efetuar o upload e confira a exibição do documento!</li>
                         </ul>
                     </div>
