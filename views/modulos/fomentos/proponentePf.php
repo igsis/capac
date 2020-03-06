@@ -18,19 +18,19 @@
                 <!-- Horizontal Form -->
                 <div class="card card-info">
                     <div class="card-header">
-                        <h3 class="card-title">Pessoa Jurídica</h3>
+                        <h3 class="card-title">Pessoa Física</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>fomentos/pj_cadastro"
+                    <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>fomentos/pf_cadastro"
                           role="form" id="formularioPj">
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-12">
-                                    <label for="cnpj">CNPJ:</label>
-                                    <input type="text" onkeypress="mask(this,'##.###.###/####-##')" class="form-control"
-                                           id="cnpj" name="pj_cnpj" maxlength="18" required>
-                                    <div id="dialogErrorCnpj" class="invalid-feedback">CNPJ inválido</div>
+                                    <label for="CPF">CPF:</label>
+                                    <input type="text" onkeypress="mask(this,'###.###.###-##')" class="form-control"
+                                           id="cpf" name="pf_cpf" maxlength="14" required>
+                                    <div id="dialogErrorCpf" class="invalid-feedback">CPF inválido</div>
                                 </div>
                             </div>
 
