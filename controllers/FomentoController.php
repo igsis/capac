@@ -26,4 +26,10 @@ class FomentoController extends MainModel
         $edital = DbModel::getInfo('fom_editais', $edital_id)->fetchObject();
         return $edital->titulo;
     }
+
+    public function recuperaTipoPessoaEdital($edital_id) {
+        $edital_id = MainModel::decryption($edital_id);
+        $edital = DbModel::getInfo('fom_editais', $edital_id)->fetchObject();
+        return $edital->pessoa_tipos_id;
+    }
 }

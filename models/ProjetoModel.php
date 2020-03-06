@@ -8,7 +8,7 @@ if ($pedidoAjax) {
 }
 
 
-class ProjetoModel extends ValidacaoModel
+class   ProjetoModel extends ValidacaoModel
 {
     public function updatePjProjeto()
     {
