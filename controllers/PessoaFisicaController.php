@@ -248,8 +248,18 @@ class PessoaFisicaController extends PessoaFisicaModel
         return $pf;
     }
 
-    public function getCPF($cpf){
+    public function getCPFFom($cpf){
         $consulta_pf_cpf = DbModel::consultaSimples("SELECT id, cpf FROM pessoa_fisicas WHERE cpf = '$cpf'");
+        $consulta_pf_cpf = $consulta_pf_cpf->fetch(PDO::FETCH_ASSOC);
+
+        if ($consulta_pf_cpf){
+            $telefones = DbModel::consultaSimples("SELECT * FROM pf_telefones WHERE pessoa_fisica_id = '{$consulta_pf_cpf['id']}'")->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach ($telefones as $key => $telefone) {
+                $pf['telefones']['tel_' . $key] = $telefone['telefone'];
+            }
+        }
+
         return $consulta_pf_cpf;
     }
 
