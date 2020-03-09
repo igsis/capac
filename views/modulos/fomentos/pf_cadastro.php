@@ -3,13 +3,19 @@ require_once "./controllers/PessoaFisicaController.php";
 
 $pfObjeto =  new PessoaFisicaController();
 
-if($pfObjeto->getCPFFom($_POST['pf_cpf'])){
-    $pf = $pfObjeto->getCPFFom($_POST['pf_cpf']);
+if (isset($_GET['id'])) {
+    $_SESSION['origem_id_c'] = $id = $_GET['id'];
+} elseif (isset($_SESSION['origem_id_c'])){
+    $id = $_SESSION['origem_id_c'];
+} else {
+    $id = null;
 }
 
-
-
-
+if (isset($_POST['pf_cpf'])) {
+    if($pfObjeto->getCPFFom($_POST['pf_cpf'])){
+        $pf = $pfObjeto->getCPFFom($_POST['pf_cpf']);
+    }
+}
 
 ?>
 <!-- Content Header (Page header) -->
@@ -142,7 +148,7 @@ if($pfObjeto->getCPFFom($_POST['pf_cpf'])){
                                     <label for="subprefeitura">Subprefeitura</label>
                                     <select name="genero" id="genero" class="form-control">
                                         <option value="">Selecione uma opção...</option>
-                                        <?php $pfObjeto->geraOpcao('subprefeitura',isset($pf) ? $pf['subprefeitura_id']: '') ?>
+                                        <?php $pfObjeto->geraOpcao('subprefeituras',isset($pf) ? $pf['subprefeitura_id']: '') ?>
                                     </select>
                                 </div>
                             </div>
