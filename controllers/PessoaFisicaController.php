@@ -65,6 +65,13 @@ class PessoaFisicaController extends PessoaFisicaModel
                 }
             }
 
+            if(isset($dadosLimpos['fm'])){
+                if (count($dadosLimpos['fm']) > 0) {
+                    $dadosLimpos['fm']['pessoa_fisica_id'] = $id;
+                    DbModel::insert('fom_pf_dados', $dadosLimpos['fm']);
+                }
+            }
+
             if ($_SESSION['modulo_c'] == 6 || $_SESSION['modulo_c'] == 7){ //formação ou jovem monitor
                 $_SESSION['origem_id_c'] = MainModel::encryption($id);
             }
@@ -190,6 +197,19 @@ class PessoaFisicaController extends PessoaFisicaModel
                     }
                 }
             }
+
+            if (isset($dadosLimpos['fm'])) {
+                if (count($dadosLimpos['fm']) > 0) {
+                    $banco_existe = DbModel::consultaSimples("SELECT * FROM fom_pf_dados WHERE pessoa_fisicas_id = '$idDecryp'");
+                    if ($banco_existe->rowCount() > 0) {
+                        DbModel::updateEspecial('fom_pf_dados', $dadosLimpos['fm'], "pessoa_fisicas_id", $idDecryp);
+                    } else {
+                        $dadosLimpos['fm']['pessoa_fisica_id'] = $idDecryp;
+                        DbModel::insert('fom_pf_dados', $dadosLimpos['bc']);
+                    }
+                }
+            }
+
 
             if ($_SESSION['modulo_c'] == 6 || $_SESSION['modulo_c'] == 7){ //formação ou jovem monitor
                 $_SESSION['origem_id_c'] = $id;

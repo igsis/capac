@@ -58,6 +58,10 @@ class PessoaFisicaModel extends ValidacaoModel
                         $campo = substr($campo, 3);
                         $dadosLimpos['dt'][$campo] = MainModel::limparString($post);
                         break;
+                    case "fm":
+                        $campo = substr($campo, 3);
+                        $dadosLimpos['fm'][$campo] = MainModel::limparString($post);
+                        break;
                 }
             }
         }

@@ -20,7 +20,7 @@ if (isset($_POST['_method'])) {
     } elseif ($_POST['_method'] == "removerPj") {
         echo $insProjeto->removePjProjeto();
     } elseif ($_POST['_method'] == "cadastrarPf") {
-        echo $insProjeto->inserePessoaFisica('fomentos');
+        echo $insProjeto->inserePfProjeto();
     }
 } else {
     include_once "../config/destroySession.php";

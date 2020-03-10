@@ -54,7 +54,7 @@ if (isset($_POST['pf_cpf'])){
                     <form class="form-horizontal formulario-ajax" method="POST"
                           action="<?= SERVERURL ?>ajax/projetoAjax.php" role="form"
                           data-form="<?= ($id) ? "update" : "save" ?>">
-                        <input type="hidden" name="_method" value="cadastrarPj">
+                        <input type="hidden" name="_method" value="cadastrarPf">
                         <input type="hidden" name="pf_ultima_atualizacao" value="<?= date('Y-m-d H-i-s') ?>">
                         <input type="hidden" name="pagina" value="<?= $_GET['views'] ?>">
                         <?php if ($id): ?>
@@ -66,11 +66,11 @@ if (isset($_POST['pf_cpf'])){
                             <div class="row mb-2">
                                 <div class="col">
                                     <label for="nome">Nome Completo:</label>
-                                    <input type="text" class="form-control" name="pf_nome" id="nome">
+                                    <input type="text" class="form-control" name="pf_nome" id="nome" value="<?= $pf['nome'] ?? '' ?>">
                                 </div>
                                 <div class="col">
                                     <label for="nomeColetivo">Nome do Coletivo/Grupo</label>
-                                    <input type="text" class="form-control" name="fm_nome_grupo" id="nomeColetivo">
+                                    <input type="text" class="form-control" name="fm_nome_grupo" id="nomeColetivo" value="<?= $pf['nome_grupo'] ?? '' ?>">
                                 </div>
                                 <div class="col">
                                     <label for="cpf">CPF:</label>
