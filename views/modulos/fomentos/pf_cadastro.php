@@ -11,9 +11,18 @@ if (isset($_GET['id'])) {
     $id = null;
 }
 
-if (isset($_POST['pf_cpf'])) {
-    if($pfObjeto->getCPFFom($_POST['pf_cpf'])){
-        $pf = $pfObjeto->getCPFFom($_POST['pf_cpf']);
+if ($id) {
+    $pf = $insPessoaFisica->recuperaPessoaFisicaFom($id);
+    $documento = $pf['cpf'];
+}
+
+if (isset($_POST['pf_cpf'])){
+    $documento = $_POST['pf_cpf'];
+    $pf = $insPessoaFisica->getCPF($documento)->fetch();
+    if ($pf){
+        $id = (new MainModel)->encryption($pf['id']);
+        $pf = $insPessoaFisica->recuperaPessoaFisica($id);
+        $documento = $pf['cpf'];
     }
 }
 
@@ -44,11 +53,11 @@ if (isset($_POST['pf_cpf'])) {
                     <!-- form start -->
                     <form class="form-horizontal formulario-ajax" method="POST"
                           action="<?= SERVERURL ?>ajax/projetoAjax.php" role="form"
-                          data-form="<?= isset($pf) ? "update" : "save" ?>">
+                          data-form="<?= ($id) ? "update" : "save" ?>">
                         <input type="hidden" name="_method" value="cadastrarPj">
                         <input type="hidden" name="ultima_atualizacao" value="<?= date('Y-m-d H-i-s') ?>">
                         <input type="hidden" name="pagina" value="fomentos">
-                        <?php if (isset($pf)): ?>
+                        <?php if ($id): ?>
                             <input type="hidden" name="id" value="<?= $pf['id'] ?>">
                             <button class="btn swalDefaultWarning">
                             </button>

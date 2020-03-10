@@ -248,24 +248,17 @@ class PessoaFisicaController extends PessoaFisicaModel
         return $pf;
     }
 
-    public function getCPFFom($cpf){
-        $consulta_pf_cpf = DbModel::consultaSimples("SELECT id, cpf FROM pessoa_fisicas WHERE cpf = '$cpf'");
-        $consulta_pf_cpf = $consulta_pf_cpf->fetch(PDO::FETCH_ASSOC);
-
-        if ($consulta_pf_cpf){
-            $telefones = DbModel::consultaSimples("SELECT * FROM pf_telefones WHERE pessoa_fisica_id = '{$consulta_pf_cpf['id']}'")->fetchAll(PDO::FETCH_ASSOC);
-
-            foreach ($telefones as $key => $telefone) {
-                $pf['telefones']['tel_' . $key] = $telefone['telefone'];
-            }
-        }
-
-        return $consulta_pf_cpf;
+    public function getCPF($cpf){
+        return DbModel::consultaSimples("SELECT id, cpf FROM pessoa_fisicas WHERE cpf = '$cpf'");
     }
 
     public function getPassaporte($passaporte){
-        $consulta_pf_pass = DbModel::consultaSimples("SELECT id, passaporte FROM pessoa_fisicas WHERE passaporte = '$passaporte'");
-        return $consulta_pf_pass;
+        return DbModel::consultaSimples("SELECT id, passaporte FROM pessoa_fisicas WHERE passaporte = '$passaporte'");
+    }
+
+    public function recuperaPessoaFisicaFom($id) {
+        $id = MainModel::decryption($id);
+        return parent::getFomDados($id);
     }
 
     /**
@@ -279,7 +272,6 @@ class PessoaFisicaController extends PessoaFisicaModel
         if ($tipo == "string") {
             $pessoa_fisica_id = MainModel::decryption($pessoa_fisica_id);
         }
-        $pf = PessoaFisicaModel::validaPfModel($pessoa_fisica_id, $validacaoTipo, $evento_id,$tipo_documentos);
-        return $pf;
+        return PessoaFisicaModel::validaPfModel($pessoa_fisica_id, $validacaoTipo, $evento_id,$tipo_documentos);
     }
 }

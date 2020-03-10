@@ -9,6 +9,16 @@ ALTER TABLE `fom_editais`
 	ADD INDEX `fk_fom_editais_pessoa_tipos1_idx` (`pessoa_tipos_id`),
 	ADD CONSTRAINT `fk_fom_editais_pessoa_tipos1` FOREIGN KEY (`pessoa_tipos_id`) REFERENCES `pessoa_tipos` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION;
 
+ALTER TABLE `grau_instrucoes`
+    ALTER `grau_instrucao` DROP DEFAULT;
+ALTER TABLE `grau_instrucoes`
+    CHANGE COLUMN `grau_instrucao` `grau_instrucao` VARCHAR(33) NOT NULL AFTER `id`;
+
+UPDATE `capac_new`.`grau_instrucoes` SET `grau_instrucao`='Não concluiu nenhum ciclo escolar' WHERE `id`=6;
+INSERT INTO `grau_instrucoes` (`grau_instrucao`) VALUES ('Fundamental');
+INSERT INTO `grau_instrucoes` (`grau_instrucao`) VALUES ('Especialização');
+INSERT INTO `grau_instrucoes` (`grau_instrucao`) VALUES ('Doutorado');
+
 CREATE TABLE `generos` (
                            `id` INT(11) NOT NULL AUTO_INCREMENT,
                            `genero` VARCHAR(13) NOT NULL,
@@ -65,18 +75,18 @@ CREATE TABLE `fom_pf_dados` (
                                 `pessoa_fisicas_id` INT(11) NOT NULL,
                                 `nome_grupo` VARCHAR(240) NOT NULL,
                                 `genero_id` INT(11) NOT NULL,
-                                `subbprefeitura_id` INT(11) NOT NULL,
+                                `subprefeitura_id` INT(11) NOT NULL,
                                 `etnias_id` TINYINT(1) NOT NULL,
                                 `grau_instrucoes_id` TINYINT(1) NOT NULL,
                                 `rede_social` VARCHAR(120) NULL DEFAULT NULL,
                                 PRIMARY KEY (`pessoa_fisicas_id`),
                                 INDEX `fk_fom_pf_dados_genero1_idx` (`genero_id`),
-                                INDEX `fk_fom_pf_dados_subbprefeitura1_idx` (`subbprefeitura_id`),
+                                INDEX `fk_fom_pf_dados_subbprefeitura1_idx` (`subprefeitura_id`),
                                 INDEX `fk_fom_pf_dados_etnias1_idx` (`etnias_id`),
                                 INDEX `fk_fom_pf_dados_grau_instrucoes1_idx` (`grau_instrucoes_id`),
                                 CONSTRAINT `fk_fom_pf_dados_etnias1` FOREIGN KEY (`etnias_id`) REFERENCES `etnias` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION,
                                 CONSTRAINT `fk_fom_pf_dados_genero1` FOREIGN KEY (`genero_id`) REFERENCES `generos` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION,
                                 CONSTRAINT `fk_fom_pf_dados_grau_instrucoes1` FOREIGN KEY (`grau_instrucoes_id`) REFERENCES `grau_instrucoes` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION,
                                 CONSTRAINT `fk_fom_pf_dados_pessoa_fisicas1` FOREIGN KEY (`pessoa_fisicas_id`) REFERENCES `pessoa_fisicas` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION,
-                                CONSTRAINT `fk_fom_pf_dados_subbprefeitura1` FOREIGN KEY (`subbprefeitura_id`) REFERENCES `subprefeituras` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION
+                                CONSTRAINT `fk_fom_pf_dados_subbprefeitura1` FOREIGN KEY (`subprefeitura_id`) REFERENCES `subprefeituras` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION
 );

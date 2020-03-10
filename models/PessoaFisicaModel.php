@@ -64,6 +64,41 @@ class PessoaFisicaModel extends ValidacaoModel
 
         return $dadosLimpos;
     }
+
+    protected function getFomDados($id) {
+        $sql = "SELECT
+                    pf.id,
+                    pf.nome,
+                    pf.rg,
+                    pf.cpf,
+                    pf.data_nascimento,
+                    pf.email,
+                    pe.*,
+                    fpd.nome_grupo,
+                    fpd.rede_social,
+                    s.subprefeitura,
+                    g.genero,
+                    e.descricao AS 'etnia',
+                    gi.grau_instrucao
+                FROM pessoa_fisicas AS pf
+                LEFT JOIN pf_enderecos pe on pf.id = pe.pessoa_fisica_id
+                LEFT JOIN fom_pf_dados AS fpd on pf.id = fpd.pessoa_fisicas_id
+                LEFT JOIN subprefeituras AS s ON fpd.subprefeitura_id = s.id
+                LEFT JOIN generos AS g ON fpd.genero_id = g.id
+                LEFT JOIN etnias AS e ON fpd.etnias_id = e.id
+                LEFT JOIN grau_instrucoes AS gi ON fpd.grau_instrucoes_id = gi.id
+                WHERE pf.id = '$id'";
+
+        $dados = DbModel::consultaSimples($sql)->fetch(PDO::FETCH_ASSOC);
+
+        $telefones = DbModel::consultaSimples("SELECT * FROM pf_telefones WHERE pessoa_fisica_id = '$id'")->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($telefones as $key => $telefone) {
+            $dados['telefones']['tel_'.$key] = $telefone['telefone'];
+        }
+
+        return $dados;
+    }
     
     /**
      * @param int $pessoa_fisica_id
