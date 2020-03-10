@@ -130,7 +130,7 @@ class ProjetoController extends ProjetoModel
                 if ($projeto) {
                     $alerta = [
                         'alerta' => 'sucesso',
-                        'titulo' => 'Pessoa Jurídica',
+                        'titulo' => 'Pessoa Física',
                         'texto' => 'Cadastrada com sucesso!',
                         'tipo' => 'success',
                         'location' => SERVERURL . "fomentos/pf_cadastro&id={$_SESSION['origem_id_c']}"
@@ -155,13 +155,13 @@ class ProjetoController extends ProjetoModel
             }
         } else {
             $idPf = MainModel::decryption($_SESSION['origem_id_c']);
-            (new PessoaFisicaController)->editaPessoaFisica($idPf,"",true);
+            (new PessoaFisicaController)->editaPessoaFisica($_SESSION['origem_id_c'],"",true);
             if ($idPf) {
                 $projeto = ProjetoModel::updatePjProjeto(1);
                 if ($projeto) {
                     $alerta = [
                         'alerta' => 'sucesso',
-                        'titulo' => 'Pessoa Jurídica',
+                        'titulo' => 'Pessoa Física',
                         'texto' => 'Cadastrada com sucesso!',
                         'tipo' => 'success',
                         'location' => SERVERURL . "fomentos/pf_cadastro&id={$_SESSION['origem_id_c']}"

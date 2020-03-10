@@ -90,7 +90,7 @@ $projetos = $projetoObj->listaProjetos();
                             <tfoot>
                             <tr>
                                 <th>Protocolo</th>
-                                <th>Instituição</th>
+<!--                                <th>Instituição</th>-->
                                 <th>Valor do Projeto</th>
                                 <th>Data cadastro/envio</th>
                                 <th>Enviado</th>

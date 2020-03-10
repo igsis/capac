@@ -105,7 +105,7 @@ class PessoaFisicaController extends PessoaFisicaModel
 
     /* edita */
     public function editaPessoaFisica($id,$pagina,$retornaId = false){
-        $idDecryp = MainModel::decryption($_POST['id']);
+        $idDecryp = MainModel::decryption($id);
 
         $dadosLimpos = PessoaFisicaModel::limparStringPF($_POST);
 
@@ -204,8 +204,8 @@ class PessoaFisicaController extends PessoaFisicaModel
                     if ($banco_existe->rowCount() > 0) {
                         DbModel::updateEspecial('fom_pf_dados', $dadosLimpos['fm'], "pessoa_fisicas_id", $idDecryp);
                     } else {
-                        $dadosLimpos['fm']['pessoa_fisica_id'] = $idDecryp;
-                        DbModel::insert('fom_pf_dados', $dadosLimpos['bc']);
+                        $dadosLimpos['fm']['pessoa_fisicas_id'] = $idDecryp;
+                        DbModel::insert('fom_pf_dados', $dadosLimpos['fm']);
                     }
                 }
             }

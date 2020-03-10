@@ -40,6 +40,15 @@
             </a>
         </li>
     <?php endif; ?>
+    <?php if (isset($_SESSION['origem_id_c']) && $_SESSION['tipo_pessoa'] == 1): ?>
+        <li class="nav-item">
+            <a href="<?= SERVERURL ?>fomentos/pf_cadastro&id=<?= $_SESSION['origem_id_c'] ?>" class="nav-link"
+               id="proponente">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Pessoa Física</p>
+            </a>
+        </li>
+    <?php endif ?>
     <?php if (isset($_SESSION['origem_id_c'])): ?>
         <li class="nav-item">
             <a href="<?= SERVERURL ?>fomentos/anexos" class="nav-link" id="anexos">
