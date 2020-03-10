@@ -2,9 +2,6 @@ USE capac_new;
 
 INSERT INTO `tipos_contratacoes` (`id`, `tipo_contratacao`) VALUES ('11', 'Fomentos');
 
-ALTER TABLE `tipos_contratacoes`
-    CHANGE COLUMN `id` `id` TINYINT(1) NOT NULL AUTO_INCREMENT FIRST;
-
 ALTER TABLE `fom_editais`
 	ADD COLUMN `pessoa_tipos_id` TINYINT(1) NOT NULL AFTER `tipo_contratacao_id`;
 
