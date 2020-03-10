@@ -55,8 +55,8 @@ if (isset($_POST['pf_cpf'])){
                           action="<?= SERVERURL ?>ajax/projetoAjax.php" role="form"
                           data-form="<?= ($id) ? "update" : "save" ?>">
                         <input type="hidden" name="_method" value="cadastrarPj">
-                        <input type="hidden" name="ultima_atualizacao" value="<?= date('Y-m-d H-i-s') ?>">
-                        <input type="hidden" name="pagina" value="fomentos">
+                        <input type="hidden" name="pf_ultima_atualizacao" value="<?= date('Y-m-d H-i-s') ?>">
+                        <input type="hidden" name="pagina" value="<?= $_GET['views'] ?>">
                         <?php if ($id): ?>
                             <input type="hidden" name="id" value="<?= $pf['id'] ?>">
                             <button class="btn swalDefaultWarning">
@@ -66,45 +66,51 @@ if (isset($_POST['pf_cpf'])){
                             <div class="row mb-2">
                                 <div class="col">
                                     <label for="nome">Nome Completo:</label>
-                                    <input type="text" class="form-control" name="nome" id="nome">
+                                    <input type="text" class="form-control" name="pf_nome" id="nome">
                                 </div>
                                 <div class="col">
                                     <label for="nomeColetivo">Nome do Coletivo/Grupo</label>
-                                    <input type="text" class="form-control" name="nomeColetivo" id="nomeColetivo">
+                                    <input type="text" class="form-control" name="fm_nome_grupo" id="nomeColetivo">
                                 </div>
                                 <div class="col">
                                     <label for="cpf">CPF:</label>
-                                    <input type="text" class="form-control" name="cpf" readonly
+                                    <input type="text" class="form-control" name="pf_cpf" readonly
                                            value="<?= isset($_POST['pf_cpf']) ? $_POST['pf_cpf'] : $pf['cpf'] ?>">
                                 </div>
                             </div>
                             <div class="row my-1">
                                 <div class="col">
                                     <label for="genero">Gênero:</label>
-                                    <select name="genero" id="genero" class="form-control">
+                                    <select name="fm_genero_id" id="genero" class="form-control">
                                         <option value="">Selecione uma opção...</option>
                                         <?php $pfObjeto->geraOpcao('generos',$pf['generos_id'] ?? '') ?>
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <label for="etinia">Etnia:</label>
-                                    <select name="etnia" id="etnia" class="form-control">
+                                    <label for="etnia">Etnia:</label>
+                                    <select name="fm_etnia_id" id="etnia" class="form-control">
                                         <option value="">Selecione uma opção...</option>
                                         <?php $pfObjeto->geraOpcao('etnias',$pf['etnias_id'] ?? '') ?>
                                     </select>
                                 </div>
+                                <div class="col">
+                                    <label for="data_nascimento">Data de Nascimento:</label>
+                                    <input type="date" name="pf_data_nascimento" id="data_nascimento" class="form-control"
+                                           onkeyup="barraData(this);"
+                                           value="<?= $pf['data_nascimento'] ?? '' ?>">
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-6">
-                                    <label for="redeSocial">Rede Social:</label>
-                                    <input type="text" class="form-control" name="redeSocial" id="redeSocial"
+                                    <label for="fm_rede_social">Rede Social:</label>
+                                    <input type="text" class="form-control" name="fm_rede_social" id="redeSocial"
                                            value="<?= $pf['rede_social'] ?? '' ?>">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
                                     <label for="email">E-mail: *</label>
-                                    <input type="email" name="email" class="form-control" maxlength="60"
+                                    <input type="email" name="pf_email" class="form-control" maxlength="60"
                                            placeholder="Digite o E-mail" required value="<?= $pf['email'] ?? '' ?>">
                                 </div>
                                 <div class="col">
@@ -175,7 +181,7 @@ if (isset($_POST['pf_cpf'])){
                             <div class="row">
                                 <div class="col">
                                     <label for="subprefeitura">Subprefeitura</label>
-                                    <select name="genero" id="genero" class="form-control">
+                                    <select name="fm_subprefeitura_id" id="genero" class="form-control">
                                         <option value="">Selecione uma opção...</option>
                                         <?php $pfObjeto->geraOpcao('subprefeituras',$pf['subprefeitura_id'] ?? '') ?>
                                     </select>

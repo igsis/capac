@@ -8,9 +8,9 @@ if ($pedidoAjax) {
 }
 
 
-class   ProjetoModel extends ValidacaoModel
+class ProjetoModel extends ValidacaoModel
 {
-    public function updatePjProjeto()
+    public function updatePjProjeto($pessoa_tipo_id)
     {
         $idProjeto = MainModel::decryption($_SESSION['projeto_c']);
         $idPj = MainModel::decryption($_SESSION['origem_id_c']);
@@ -116,5 +116,9 @@ class   ProjetoModel extends ValidacaoModel
         }
 
         return $erros;
+    }
+
+    protected function getTipoPessoa($edital_id) {
+        return DbModel::consultaSimples("SELECT pessoa_tipos_id FROM fom_editais WHERE id = '$edital_id'")->fetchColumn();
     }
 }
