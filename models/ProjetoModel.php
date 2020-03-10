@@ -13,10 +13,16 @@ class ProjetoModel extends ValidacaoModel
     public function updatePjProjeto($pessoa_tipo_id)
     {
         $idProjeto = MainModel::decryption($_SESSION['projeto_c']);
-        $idPj = MainModel::decryption($_SESSION['origem_id_c']);
-        $dados = [
-            "pessoa_juridica_id" => $idPj
-        ];
+        $id_pessoa = MainModel::decryption($_SESSION['origem_id_c']);
+        if ($pessoa_tipo_id == 2) {
+            $dados = [
+                "pessoa_juridica_id" => $id_pessoa
+            ];
+        } else {
+            $dados = [
+                "pessoa_fisica_id" => $id_pessoa
+            ];
+        }
         $projeto = MainModel::update('fom_projetos', $dados, $idProjeto);
         if ($projeto) {
             return true;

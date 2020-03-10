@@ -23,7 +23,7 @@ class ProjetoController extends ProjetoModel
             }
             if ($idPj) {
                 $_SESSION['origem_id_c'] = MainModel::encryption($idPj);
-                $projeto = ProjetoModel::updatePjProjeto();
+                $projeto = ProjetoModel::updatePjProjeto(2);
                 if ($projeto) {
                     $alerta = [
                         'alerta' => 'sucesso',
@@ -54,7 +54,7 @@ class ProjetoController extends ProjetoModel
             $idPj = MainModel::decryption($_SESSION['origem_id_c']);
             (new PessoaJuridicaController)->editaPessoaJuridica($idPj,"",true);
             if ($idPj) {
-                $projeto = ProjetoModel::updatePjProjeto();
+                $projeto = ProjetoModel::updatePjProjeto(2);
                 if ($projeto) {
                     $alerta = [
                         'alerta' => 'sucesso',
@@ -126,7 +126,7 @@ class ProjetoController extends ProjetoModel
             }
             if ($idPf) {
                 $_SESSION['origem_id_c'] = MainModel::encryption($idPf);
-                $projeto = ProjetoModel::updatePjProjeto();
+                $projeto = ProjetoModel::updatePjProjeto(1);
                 if ($projeto) {
                     $alerta = [
                         'alerta' => 'sucesso',
@@ -157,7 +157,7 @@ class ProjetoController extends ProjetoModel
             $idPf = MainModel::decryption($_SESSION['origem_id_c']);
             (new PessoaFisicaController)->editaPessoaFisica($idPf,"",true);
             if ($idPf) {
-                $projeto = ProjetoModel::updatePjProjeto();
+                $projeto = ProjetoModel::updatePjProjeto(1);
                 if ($projeto) {
                     $alerta = [
                         'alerta' => 'sucesso',
