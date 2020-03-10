@@ -213,8 +213,10 @@ class PessoaFisicaController extends PessoaFisicaModel
             }
 
 
-            if ($_SESSION['modulo_c'] == 6 || $_SESSION['modulo_c'] == 7){ //formação ou jovem monitor
-                $_SESSION['origem_id_c'] = $id;
+            if (isset($_SESSION['modulo_c'])) {
+                if ($_SESSION['modulo_c'] == 6 || $_SESSION['modulo_c'] == 7) { //formação ou jovem monitor
+                    $_SESSION['origem_id_c'] = $id;
+                }
             }
 
             if($retornaId){

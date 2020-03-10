@@ -21,7 +21,7 @@ if (isset($_POST['pf_cpf'])){
     $pf = $pfObjeto->getCPF($documento)->fetch();
     if ($pf){
         $id = (new MainModel)->encryption($pf['id']);
-        $pf = $pfObjeto->recuperaPessoaFisica($id);
+        $pf = $pfObjeto->recuperaPessoaFisicaFom($id);
         $documento = $pf['cpf'];
     }
 }
@@ -34,6 +34,15 @@ if (isset($_POST['pf_cpf'])){
             <div class="col-sm-6">
                 <h1 class="m-0 text-dark">Pessoa Física</h1>
             </div><!-- /.col -->
+            <?php
+            if ($id) {
+                ?>
+                <div class="col-sm-6">
+                    <button type="submit" data-toggle="modal" data-target="#modal-troca" class="btn btn-secondary float-right">Trocar Pessoa Física</button>
+                </div><!-- /.col -->
+                <?php
+            }
+            ?>
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
 </div>
@@ -58,7 +67,7 @@ if (isset($_POST['pf_cpf'])){
                         <input type="hidden" name="pf_ultima_atualizacao" value="<?= date('Y-m-d H-i-s') ?>">
                         <input type="hidden" name="pagina" value="<?= $_GET['views'] ?>">
                         <?php if ($id): ?>
-                            <input type="hidden" name="id" value="<?= $pf['id'] ?>">
+                            <input type="hidden" name="id" value="<?= $id ?>">
                             <button class="btn swalDefaultWarning">
                             </button>
                         <?php endif; ?>
@@ -216,6 +225,34 @@ if (isset($_POST['pf_cpf'])){
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
+
+<!--.modal-->
+<div class="modal fade" id="modal-troca">
+    <div class="modal-dialog">
+        <div class="modal-content bg-warning">
+            <div class="modal-header">
+                <h4 class="modal-title">Trocar inscrito do projeto</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/projetoAjax.php" role="form" data-form="delete">
+                <input type="hidden" name="_method" value="removerPf">
+                <div class="modal-body">
+                    <p>Realmente deseja remover o inscrito <?= $pf['nome'] ?? '' ?> deste projeto?</p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Não</button>
+                    <button type="submit" class="btn btn-default">Sim</button>
+                </div>
+                <div class="resposta-ajax"></div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
 <script src="../views/dist/js/cep_api.js"></script>
 

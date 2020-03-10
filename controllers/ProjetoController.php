@@ -188,6 +188,35 @@ class ProjetoController extends ProjetoModel
         return MainModel::sweetAlert($alerta);
     }
 
+    public function removePfProjeto()
+    {
+        session_start(['name' => 'cpc']);
+        $id = MainModel::decryption($_SESSION['projeto_c']);
+        $dados = [
+            'pessoa_fisica_id' => NULL
+        ];
+        $projeto = DbModel::update("fom_projetos",$dados,$id);
+        if ($projeto) {
+            unset($_SESSION['origem_id_c']);
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Pessoa Física',
+                'texto' => 'Inscrito removido com sucesso!',
+                'tipo' => 'success',
+                'location' => SERVERURL . "fomentos/proponente"
+            ];
+        } else {
+            $alerta = [
+                'alerta' => 'simples',
+                'titulo' => 'Erro!',
+                'texto' => 'Erro ao remover!',
+                'tipo' => 'error',
+                'location' => SERVERURL . 'fomentos/pf_cadastro'
+            ];
+        }
+        return MainModel::sweetAlert($alerta);
+    }
+
     public function listaProjetos(){
         $usuario_id = $_SESSION['usuario_id_c'];
         $edital_id = MainModel::decryption($_SESSION['edital_c']);
