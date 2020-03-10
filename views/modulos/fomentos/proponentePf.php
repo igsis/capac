@@ -23,14 +23,14 @@
                     <!-- /.card-header -->
                     <!-- form start -->
                     <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>fomentos/pf_cadastro"
-                          role="form" id="formularioPj">
+                          role="form" id="formularioPf">
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-12">
-                                    <label for="CPF">CPF:</label>
-                                    <input type="text" onkeypress="mask(this,'###.###.###-##')" class="form-control"
-                                           id="cpf" name="pf_cpf" maxlength="14" required>
-                                    <div id="dialogErrorCpf" class="invalid-feedback">CPF inválido</div>
+                                    <label for="cpf">CPF:</label>
+                                    <input type="text" class="form-control" id="cpf" name="pf_cpf" maxlength="14"
+                                           required onkeypress="mask(this, '999.999.999-99')" minlength="14">
+                                    <div id="dialogError" class="invalid-feedback">CPF inválido</div>
                                 </div>
                             </div>
 
@@ -54,5 +54,5 @@
     $(document).ready(function () {
         $('.nav-link').removeClass('active');
         $('#buscaProponente').addClass('active');
-    })
+    });
 </script>

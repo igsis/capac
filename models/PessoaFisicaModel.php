@@ -77,15 +77,13 @@ class PessoaFisicaModel extends ValidacaoModel
                     fpd.nome_grupo,
                     fpd.rede_social,
                     s.subprefeitura,
-                    g.genero,
-                    e.descricao AS 'etnia',
+                    fpd.genero_id,
+                    fpd.etnias_id,
                     gi.grau_instrucao
                 FROM pessoa_fisicas AS pf
                 LEFT JOIN pf_enderecos pe on pf.id = pe.pessoa_fisica_id
                 LEFT JOIN fom_pf_dados AS fpd on pf.id = fpd.pessoa_fisicas_id
                 LEFT JOIN subprefeituras AS s ON fpd.subprefeitura_id = s.id
-                LEFT JOIN generos AS g ON fpd.genero_id = g.id
-                LEFT JOIN etnias AS e ON fpd.etnias_id = e.id
                 LEFT JOIN grau_instrucoes AS gi ON fpd.grau_instrucoes_id = gi.id
                 WHERE pf.id = '$id'";
 

@@ -12,16 +12,16 @@ if (isset($_GET['id'])) {
 }
 
 if ($id) {
-    $pf = $insPessoaFisica->recuperaPessoaFisicaFom($id);
+    $pf = $pfObjeto->recuperaPessoaFisicaFom($id);
     $documento = $pf['cpf'];
 }
 
 if (isset($_POST['pf_cpf'])){
     $documento = $_POST['pf_cpf'];
-    $pf = $insPessoaFisica->getCPF($documento)->fetch();
+    $pf = $pfObjeto->getCPF($documento)->fetch();
     if ($pf){
         $id = (new MainModel)->encryption($pf['id']);
-        $pf = $insPessoaFisica->recuperaPessoaFisica($id);
+        $pf = $pfObjeto->recuperaPessoaFisica($id);
         $documento = $pf['cpf'];
     }
 }
@@ -74,7 +74,8 @@ if (isset($_POST['pf_cpf'])){
                                 </div>
                                 <div class="col">
                                     <label for="cpf">CPF:</label>
-                                    <input type="text" class="form-control" name="cpf" readonly value="<?= $_POST['pf_cpf']?>">
+                                    <input type="text" class="form-control" name="cpf" readonly
+                                           value="<?= isset($_POST['pf_cpf']) ? $_POST['pf_cpf'] : $pf['cpf'] ?>">
                                 </div>
                             </div>
                             <div class="row my-1">
@@ -82,42 +83,52 @@ if (isset($_POST['pf_cpf'])){
                                     <label for="genero">Gênero:</label>
                                     <select name="genero" id="genero" class="form-control">
                                         <option value="">Selecione uma opção...</option>
-                                        <?php $pfObjeto->geraOpcao('generos',isset($pf) ? $pf['generos_id']: '') ?>
+                                        <?php $pfObjeto->geraOpcao('generos',$pf['generos_id'] ?? '') ?>
                                     </select>
                                 </div>
                                 <div class="col">
                                     <label for="etinia">Etnia:</label>
                                     <select name="etnia" id="etnia" class="form-control">
                                         <option value="">Selecione uma opção...</option>
-                                        <?php $pfObjeto->geraOpcao('etnias',isset($pf) ? $pf['etnias_id']: '','',false) ?>
+                                        <?php $pfObjeto->geraOpcao('etnias',$pf['etnias_id'] ?? '') ?>
                                     </select>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-6">
                                     <label for="redeSocial">Rede Social:</label>
-                                    <input type="text" class="form-control" name="redeSocial" id="redeSocial">
+                                    <input type="text" class="form-control" name="redeSocial" id="redeSocial"
+                                           value="<?= $pf['rede_social'] ?? '' ?>">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
                                     <label for="email">E-mail: *</label>
-                                    <input type="email" name="email" class="form-control" maxlength="60" placeholder="Digite o E-mail" required>
+                                    <input type="email" name="email" class="form-control" maxlength="60"
+                                           placeholder="Digite o E-mail" required value="<?= $pf['email'] ?? '' ?>">
                                 </div>
                                 <div class="col">
                                     <label for="telefone">Telefone #1: *</label>
-                                    <input type="text" id="telefone" name="te_telefone_1" onkeyup="mascara( this, mtel );"  class="form-control" placeholder="Digite o telefone" required maxlength="15">
+                                    <input type="text" id="telefone" name="te_telefone_1"
+                                           onkeyup="mascara( this, mtel );"  class="form-control"
+                                           placeholder="Digite o telefone" required maxlength="15"
+                                           value="<?= $pf['telefones']['tel_0'] ?? '' ?>">
                                 </div>
                                 <div class="col">
                                     <label for="telefone">Telefone #2: *</label>
-                                    <input type="text" id="telefone1" name="te_telefone_2" onkeyup="mascara( this, mtel );"  class="form-control" placeholder="Digite o telefone" required maxlength="15">
+                                    <input type="text" id="telefone1" name="te_telefone_2"
+                                           onkeyup="mascara( this, mtel );"  class="form-control"
+                                           placeholder="Digite o telefone" required maxlength="15"
+                                           value="<?= $pf['telefones']['tel_1'] ?? "" ?>">
                                 </div>
                             </div>
                             <hr>
                             <div class="row mt-2">
                                 <div class="form-group col-5">
                                     <label for="cep">CEP: *</label>
-                                    <input type="text" class="form-control" name="en_cep" id="cep" onkeypress="mask(this, '#####-###')" maxlength="9" placeholder="Digite o CEP" required value="<?= $pj['cep'] ?? '' ?>" >
+                                    <input type="text" class="form-control" name="en_cep" id="cep"
+                                           onkeypress="mask(this, '#####-###')" maxlength="9"
+                                           placeholder="Digite o CEP" required value="<?= $pf['cep'] ?? '' ?>" >
                                 </div>
                                 <div class="form-group col-2">
                                     <label>&nbsp;</label><br>
@@ -127,29 +138,38 @@ if (isset($_POST['pf_cpf'])){
                             <div class="row">
                                 <div class="form-group col-6">
                                     <label for="rua">Rua: *</label>
-                                    <input type="text" class="form-control" name="en_logradouro" id="rua" placeholder="Digite a rua" maxlength="2   00" value="<?= $pj['logradouro'] ?? '' ?>" readonly>
+                                    <input type="text" class="form-control" name="en_logradouro" id="rua"
+                                           placeholder="Digite a rua" maxlength="200"
+                                           value="<?= $pf['logradouro'] ?? '' ?>" readonly>
                                 </div>
                                 <div class="form-group col-2">
                                     <label for="numero">Número: *</label>
-                                    <input type="number" name="en_numero" class="form-control" placeholder="Ex.: 10" value="<?= $pj['numero'] ?? '' ?>" required>
+                                    <input type="number" name="en_numero" class="form-control"
+                                           placeholder="Ex.: 10" value="<?= $pf['numero'] ?? '' ?>" required>
                                 </div>
                                 <div class="form-group col">
                                     <label for="complemento">Complemento:</label>
-                                    <input type="text" name="en_complemento" class="form-control" maxlength="20" placeholder="Digite o complemento" value="<?= $pj['complemento'] ?? '' ?>">
+                                    <input type="text" name="en_complemento" class="form-control" maxlength="20"
+                                           placeholder="Digite o complemento" value="<?= $pf['complemento'] ?? '' ?>">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col">
                                     <label for="bairro">Bairro: *</label>
-                                    <input type="text" class="form-control" name="en_bairro" id="bairro" placeholder="Digite o Bairro" maxlength="80" value="<?= $pj['bairro'] ?? '' ?>" readonly>
+                                    <input type="text" class="form-control" name="en_bairro" id="bairro"
+                                           placeholder="Digite o Bairro" maxlength="80"
+                                           value="<?= $pf['bairro'] ?? '' ?>" readonly>
                                 </div>
                                 <div class="form-group col">
                                     <label for="cidade">Cidade: *</label>
-                                    <input type="text" class="form-control" name="en_cidade" id="cidade" placeholder="Digite a cidade" maxlength="50" value="<?= $pj['cidade'] ?? '' ?>" readonly>
+                                    <input type="text" class="form-control" name="en_cidade" id="cidade"
+                                           placeholder="Digite a cidade" maxlength="50"
+                                           value="<?= $pf['cidade'] ?? '' ?>" readonly>
                                 </div>
                                 <div class="form-group col">
                                     <label for="estado">Estado: *</label>
-                                    <input type="text" class="form-control" name="en_uf" id="estado" maxlength="2" placeholder="Ex.: SP" value="<?= $pj['uf'] ?? '' ?>" readonly>
+                                    <input type="text" class="form-control" name="en_uf" id="estado" maxlength="2"
+                                           placeholder="Ex.: SP" value="<?= $pf['uf'] ?? '' ?>" readonly>
                                 </div>
                             </div>
                             <div class="row">
@@ -157,7 +177,7 @@ if (isset($_POST['pf_cpf'])){
                                     <label for="subprefeitura">Subprefeitura</label>
                                     <select name="genero" id="genero" class="form-control">
                                         <option value="">Selecione uma opção...</option>
-                                        <?php $pfObjeto->geraOpcao('subprefeituras',isset($pf) ? $pf['subprefeitura_id']: '') ?>
+                                        <?php $pfObjeto->geraOpcao('subprefeituras',$pf['subprefeitura_id'] ?? '') ?>
                                     </select>
                                 </div>
                             </div>
@@ -181,12 +201,6 @@ if (isset($_POST['pf_cpf'])){
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
-
-
-
-<script>
-
-</script>
 
 <script src="../views/dist/js/cep_api.js"></script>
 
