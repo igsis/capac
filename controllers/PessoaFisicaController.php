@@ -67,13 +67,15 @@ class PessoaFisicaController extends PessoaFisicaModel
 
             if(isset($dadosLimpos['fm'])){
                 if (count($dadosLimpos['fm']) > 0) {
-                    $dadosLimpos['fm']['pessoa_fisica_id'] = $id;
+                    $dadosLimpos['fm']['pessoa_fisicas_id'] = $id;
                     DbModel::insert('fom_pf_dados', $dadosLimpos['fm']);
                 }
             }
 
-            if ($_SESSION['modulo_c'] == 6 || $_SESSION['modulo_c'] == 7){ //formação ou jovem monitor
-                $_SESSION['origem_id_c'] = MainModel::encryption($id);
+            if (isset($_SESSION['modulo_c'])) {
+                if ($_SESSION['modulo_c'] == 6 || $_SESSION['modulo_c'] == 7) { //formação ou jovem monitor
+                    $_SESSION['origem_id_c'] = MainModel::encryption($id);
+                }
             }
 
             if($retornaId){

@@ -69,6 +69,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($edital_id, true)-
                                 $cont = 0;
                                 $arquivos = $arquivosObj->listarArquivosFomento($edital_id)->fetchAll(PDO::FETCH_OBJ);
                                 foreach ($arquivos as $arquivo) {
+                                    $obrigatorio = $arquivo->obrigatorio == 0 ? "[Opcional]" : "*";
                                     if ($arquivosObj->consultaArquivoEnviado($arquivo->id, $projeto_id, true)) {
                                         ?>
                                         <tr>
@@ -81,7 +82,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($edital_id, true)-
                                     <?php } else { ?>
                                         <tr>
                                             <td>
-                                                <label for=""><?= "$arquivo->anexo - $arquivo->documento" ?></label>
+                                                <label for=""><?= "$arquivo->anexo - $arquivo->documento $obrigatorio" ?></label>
                                             </td>
                                             <td>
                                                 <input type="hidden" name="<?= $arquivo->sigla ?>"

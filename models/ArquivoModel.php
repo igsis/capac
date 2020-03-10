@@ -93,7 +93,7 @@ class ArquivoModel extends MainModel
     }
 
     protected function listaArquivosFomentos($tipo_contratacao_id) {
-        $sql = "SELECT fld.id, fld.sigla, fld.documento, tc.tipo_contratacao, cd.anexo
+        $sql = "SELECT fld.id, fld.sigla, fld.documento, tc.tipo_contratacao, cd.anexo, cd.obrigatorio
                 FROM contratacao_documentos AS cd
                 INNER JOIN fom_lista_documentos AS fld ON fld.id = cd.fom_lista_documento_id
                 INNER JOIN tipos_contratacoes AS tc ON cd.tipo_contratacao_id = tc.id
