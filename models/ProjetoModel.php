@@ -65,6 +65,38 @@ class ProjetoModel extends ValidacaoModel
         }
     }
 
+    private function validaPf($pessoa_fisica_id)
+    {
+        $pf = DbModel::getInfo('pessoa_fisicas', $pessoa_fisica_id)->fetchObject();
+        $naoObrigatorios = [
+            'nome_artistico',
+            'rg',
+            'passaporte',
+            'ccm',
+            'nacionalidade_id',
+        ];
+
+        $erros = ValidacaoModel::retornaMensagem($pf, $naoObrigatorios);
+
+        $validaEndereco = ValidacaoModel::validaEndereco(1, $pessoa_fisica_id);
+        $validaTelefone = ValidacaoModel::validaTelefone(1, $pessoa_fisica_id);
+
+        if ($validaEndereco) {
+            if (!isset($erros) || $erros == false) { $erros = []; }
+            $erros = array_merge($erros, $validaEndereco);
+        }
+        if ($validaTelefone) {
+            if (!isset($erros) || $erros == false) { $erros = []; }
+            $erros = array_merge($erros, $validaTelefone);
+        }
+
+        if (isset($erros)){
+            return $erros;
+        } else {
+            return false;
+        }
+    }
+
     private function validaPj($pessoa_juridica_id)
     {
         $pj = DbModel::getInfo('pessoa_juridicas', $pessoa_juridica_id)->fetchObject();
@@ -116,6 +148,7 @@ class ProjetoModel extends ValidacaoModel
 
         if ($projeto->pessoa_tipo_id == 1) {
             $proponente = DbModel::getInfo('pessoa_fisicas', $projeto->pessoa_fisica_id)->fetchObject();
+            $erros = self::validaPf($proponente->id);
         } else {
             $proponente = DbModel::getInfo('pessoa_juridicas', $projeto->pessoa_juridica_id)->fetchObject();
             $erros = self::validaPj($proponente->id);
