@@ -28,29 +28,16 @@
                         <input type="hidden" name="_method" value="<?= ($id) ? "editar" : "cadastrar" ?>">
                         <input type="hidden" name="pagina" value="fomentos">
                         <input type="hidden" name="usuario_id" value="<?= $_SESSION['usuario_id_c'] ?>">
-                        <input type="hidden" name="pessoa_tipo_id" value="2">
+                        <input type="hidden" name="pessoa_tipo_id" value="1">
                         <?php if ($id): ?>
                             <input type="hidden" name="id" value="<?= $id ?>">
                         <?php endif; ?>
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="instituicao">Instituição responsável: *</label>
-                                    <input type="text" class="form-control" id="instituicao" name="instituicao"
-                                           maxlength="80" value="<?= $projeto['instituicao'] ?? null ?>" required>
-                                </div>
-                                <div class="form-group col-md-6">
                                     <label for="usuario_nome">Responsável pela inscrição: *</label>
                                     <input type="text" class="form-control" id="usuario_nome" name="usuario_nome"
                                            value="<?= $_SESSION['nome_c'] ?>" disabled>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="site">Site: *</label>
-                                    <input type="text" class="form-control" id="site" name="site"
-                                           value="<?= $projeto['site'] ?? null ?>" required>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="valor_projeto">Valor do projeto: *</label>
@@ -62,24 +49,6 @@
                                     <label for="duracao">Duração: (em meses) *</label>
                                     <input type="number" class="form-control" id="duracao" name="duracao"
                                            value="<?= $projeto['duracao'] ?? null ?>" min="0" required>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="form-group col-md">
-                                    <label for="nucleo_artistico">Núcleo artístico: *</label>
-                                    <textarea class="form-control" rows="5" id="nucleo_artistico"
-                                              name="nucleo_artistico"
-                                              required><?= $projeto['nucleo_artistico'] ?? null ?></textarea>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="form-group col-md">
-                                    <label for="representante_nucleo">Representante do núcleo: *</label>
-                                    <input type="text" class="form-control" id="representante_nucleo"
-                                           name="representante_nucleo" maxlength="100"
-                                           value="<?= $projeto['representante_nucleo'] ?? null ?>" required>
                                 </div>
                             </div>
                         </div>

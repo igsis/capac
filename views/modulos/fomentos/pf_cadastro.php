@@ -95,7 +95,8 @@ if (isset($_POST['pf_cpf'])){
                                 </div>
                                 <div class="col">
                                     <label for="data_nascimento">Data de Nascimento:</label>
-                                    <input type="date" name="pf_data_nascimento" id="data_nascimento" class="form-control"
+                                    <input type="date" name="pf_data_nascimento" id="data_nascimento"
+                                           class="form-control"
                                            onkeyup="barraData(this);"
                                            value="<?= $pf['data_nascimento'] ?? '' ?>">
                                 </div>

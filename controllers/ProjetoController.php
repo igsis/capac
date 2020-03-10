@@ -206,7 +206,6 @@ class ProjetoController extends ProjetoModel
         unset($post['pagina']);
         $edital_id = MainModel::decryption($_SESSION['edital_c']);
         $dados['fom_edital_id'] = $edital_id;
-        $dados['pessoa_tipos_id'] = parent::getTipoPessoa($edital_id);
         //$dados['pessoa_juridica_id'] = MainModel::decryption($_SESSION['origem_id_c']);
         $dados['fom_status_id'] = 1;
         foreach ($post as $campo => $valor) {

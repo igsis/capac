@@ -9,6 +9,13 @@ ALTER TABLE `fom_editais`
 	ADD INDEX `fk_fom_editais_pessoa_tipos1_idx` (`pessoa_tipos_id`),
 	ADD CONSTRAINT `fk_fom_editais_pessoa_tipos1` FOREIGN KEY (`pessoa_tipos_id`) REFERENCES `pessoa_tipos` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION;
 
+ALTER TABLE `fom_projetos`
+    CHANGE COLUMN `instituicao` `instituicao` VARCHAR(80) NULL DEFAULT NULL AFTER `protocolo`,
+    CHANGE COLUMN `site` `site` VARCHAR(50) NULL DEFAULT NULL AFTER `pessoa_fisica_id`,
+    CHANGE COLUMN `nucleo_artistico` `nucleo_artistico` LONGTEXT NULL DEFAULT NULL AFTER `duracao`,
+    CHANGE COLUMN `representante_nucleo` `representante_nucleo` VARCHAR(100) NULL DEFAULT NULL AFTER `nucleo_artistico`;
+
+
 ALTER TABLE `grau_instrucoes`
     ALTER `grau_instrucao` DROP DEFAULT;
 ALTER TABLE `grau_instrucoes`
