@@ -98,7 +98,7 @@ $validacaoArquivos = $projetoObj->validaProjeto($idProj, $_SESSION['edital_c']);
                             <span class="ml-5 subtitulos mr-2">RG: </span> <?= $repre['rg'] ?? '' ?> <span
                                     class="ml-5 subtitulos mr-2">CPF: </span> <?= $repre['cpf'] ?? '' ?></li>
                         <li class="my-2"><span class="subtitulos mr-2">E-mail: </span> teste@test.com <span
-                                    class="ml-5 subtitulos mr-2">Telefone: </span> (11) 99999-9999
+                                    class="ml-5 subtitulos mr-2">Telefone: </span> <?= isset($pf['telefones']) ? implode(" | ", $pf['telefones']) : "" ?>
                         </li>
                         <li class="my-2"><span
                                     class="subtitulos mr-2">Endereço: </span> <?= "{$pj['logradouro']}, {$pj['numero']}  {$pj['complemento']} - {$pj['bairro']}, {$pj['cidade']} - {$pj['uf']}, {$pj['cep']}" ?>

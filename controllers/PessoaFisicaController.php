@@ -285,6 +285,11 @@ class PessoaFisicaController extends PessoaFisicaModel
         return parent::getFomDados($id);
     }
 
+    public function dadosAdcFom($dados){
+        return parent::getDadosAdcFom($dados);
+    }
+
+
     /**
      * @param int|string $pessoa_fisica_id
      * @param int $validacaoTipo <p>Deve conter o valor 1 para validação de pessoa física e 2 para validação de líder</p>

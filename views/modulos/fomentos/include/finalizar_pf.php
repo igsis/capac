@@ -12,6 +12,10 @@ $projeto = $projetoObj->recuperaProjeto($idProj);
 
 //Pessoa Física
 $pf = $pfObj->recuperaPessoaFisicaFom(MainModel::encryption($projeto['pessoa_fisica_id']));
+$genero = $pfObj->dadosAdcFom(['genero',$pf['genero_id']]);
+$etnia = $pfObj->dadosAdcFom(['descricao','etnias',$pf['etnia_id']]);
+$grau_inst = $pfObj->dadosAdcFom(['grau_instrucao','grau_instrucoes',$pf['etnia_id']]);
+$subpref = $pfObj->dadosAdcFom(['subprefeitura',$pf['subprefeitura_id']]);
 
 $status = $projetoObj->recuperaStatusProjeto($projeto['fom_status_id']);
 if ($projeto['data_inscricao']) {
@@ -89,16 +93,28 @@ $validacaoArquivos = $projetoObj->validaProjeto($idProj, $_SESSION['edital_c']);
                         </li>
                         <li class="my-2">
                             <span class="subtitulos mr-2">Nome: </span><?= $pf['nome'] ?>
-                            <span class="ml-5 subtitulos mr-2">CPF: </span> <?= $pf['cpf'] ?> </li>
+                            <span class="ml-5 subtitulos mr-2">CPF: </span> <?= $pf['cpf'] ?>
+                        </li>
+                        <li class="my-2">
+                            <span class="subtitulos mr-2">Etnia: </span><?= $etnia ?>
+                            <span class="ml-5 subtitulos mr-2">Gênero: </span> <?= $genero ?>
+                        </li>
+                        <li class="my-2">
+                            <span class="subtitulos mr-2">Grau de Instrução: </span><?= $grau_inst ?>
+                        </li>
+
                         <li class="my-2">
                             <span class="subtitulos mr-2">E-mail: </span><?= $pf['email'] ?>
-                            <span class="ml-5 subtitulos mr-2">Telefone: </span> (11) 99999-9999
+                            <span class="ml-5 subtitulos mr-2">Telefones: </span> <?= isset($pf['telefones']) ? implode(" | ", $pf['telefones']) : "" ?>
                         </li>
                         <li class="my-2">
                             <span class="subtitulos mr-2">Endereço: </span> <?= "{$pf['logradouro']}, {$pf['numero']}  {$pf['complemento']} - {$pf['bairro']}, {$pf['cidade']} - {$pf['uf']}, {$pf['cep']}" ?>
                         </li>
                         <li class="my-2">
-                            <span class="subtitulos mr-2">Site:</span> <a href="<?= "http://{$pf['rede_social']}" ?>"
+                            <span class="subtitulos mr-2">Subprefeitura: </span> <?= $subpref ?>
+                        </li>
+                        <li class="my-2">
+                            <span class="subtitulos mr-2">Rede Social:</span> <a href="<?= "http://{$pf['rede_social']}" ?>"
                                                                           target="_blank"><?= $pf['rede_social'] ?></a>
                         </li>
                         <li class="my-2">
