@@ -365,7 +365,7 @@ class ProjetoController extends ProjetoModel
                 'titulo' => 'Projeto Enviado',
                 'texto' => 'Projeto enviado com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL.'fomentos/finalizar',
+                'location' => SERVERURL.'fomentos/inicio',
                 'redirecionamento' => SERVERURL.'pdf/resumo_fomento.php?id='.$projetoId
             ];
         } else {

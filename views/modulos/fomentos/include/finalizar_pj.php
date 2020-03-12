@@ -90,18 +90,20 @@ $validacaoArquivos = $projetoObj->validaProjeto($idProj, $_SESSION['edital_c']);
                         <li class="my-2"><span
                                     class="subtitulos mr-2">Responsável pela inscrição: </span> <?= $_SESSION['nome_c'] ?>
                         </li>
-                        <li class="my-2"><span
-                                    class="subtitulos mr-2">Razão social: </span><?= $pj['razao_social'] ?>
-                            <span class="ml-5 subtitulos mr-2">CNPJ: </span> <?= $pj['cnpj'] ?> </li>
-                        <li class="my-2"><span
-                                    class="subtitulos mr-2">Representante Legal da empresa: </span> <?= $repre['nome'] ?? '' ?>
-                            <span class="ml-5 subtitulos mr-2">RG: </span> <?= $repre['rg'] ?? '' ?> <span
-                                    class="ml-5 subtitulos mr-2">CPF: </span> <?= $repre['cpf'] ?? '' ?></li>
-                        <li class="my-2"><span class="subtitulos mr-2">E-mail: </span> teste@test.com <span
-                                    class="ml-5 subtitulos mr-2">Telefone: </span> <?= isset($pf['telefones']) ? implode(" | ", $pf['telefones']) : "" ?>
+                        <li class="my-2">
+                            <span class="subtitulos mr-2">Razão social: </span><?= $pj['razao_social'] ?>
+                            <span class="ml-5 subtitulos mr-2">CNPJ: </span> <?= $pj['cnpj'] ?>
                         </li>
-                        <li class="my-2"><span
-                                    class="subtitulos mr-2">Endereço: </span> <?= "{$pj['logradouro']}, {$pj['numero']}  {$pj['complemento']} - {$pj['bairro']}, {$pj['cidade']} - {$pj['uf']}, {$pj['cep']}" ?>
+                        <li class="my-2">
+                            <span class="subtitulos mr-2">E-mail: </span> <?= $pj['email'] ?? '' ?>
+                            <span class="ml-5 subtitulos mr-2">Telefone: </span> <?= isset($pj['telefones']) ? implode(" | ", $pj['telefones']) : "" ?>
+                        </li>
+                        <li class="my-2">
+                            <span class="subtitulos mr-2">Endereço: </span> <?= "{$pj['logradouro']}, {$pj['numero']}  {$pj['complemento']} - {$pj['bairro']}, {$pj['cidade']} - {$pj['uf']}, {$pj['cep']}" ?>
+                        </li>
+                        <li class="my-2">
+                            <span class="subtitulos mr-2">Representante Legal da empresa: </span> <?= $repre['nome'] ?? '' ?>
+                            <span class="ml-5 subtitulos mr-2">RG: </span> <?= $repre['rg'] ?? '' ?> <span class="ml-5 subtitulos mr-2">CPF: </span> <?= $repre['cpf'] ?? '' ?>
                         </li>
                         <li class="my-2"><span class="subtitulos mr-2">Site:</span> <a
                                     href="<?= "http://{$projeto['site']}" ?>"
