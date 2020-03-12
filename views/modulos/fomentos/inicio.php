@@ -41,7 +41,7 @@ $projetos = $projetoObj->listaProjetos();
                             <thead>
                             <tr>
                                 <th>Protocolo</th>
-                                <th>Instituição</th>
+<!--                                <th>Instituição</th>-->
                                 <th>Valor do Projeto</th>
                                 <th>Data cadastro/envio</th>
                                 <th>Enviado</th>
@@ -53,7 +53,7 @@ $projetos = $projetoObj->listaProjetos();
                                 $enviado = $projeto->protocolo == null ? false : true?>
                                 <tr>
                                     <td><?=$enviado ? $projeto->protocolo : "Envie o projeto para obter seu protocolo"?></td>
-                                    <td><?=$projeto->instituicao?></td>
+<!--                                    --><?php //echo "<td>$projeto->instituicao</td>" ?>
                                     <td><?=$fomentoObj->dinheiroParaBr($projeto->valor_projeto)?></td>
                                     <td><?=$enviado ? $projetoObj->dataHora($projeto->data_inscricao) : "Projeto não enviado" ?></td>
                                     <td><?=$enviado ? "Sim" : "Não"?></td>
@@ -90,7 +90,7 @@ $projetos = $projetoObj->listaProjetos();
                             <tfoot>
                             <tr>
                                 <th>Protocolo</th>
-                                <th>Instituição</th>
+<!--                                <th>Instituição</th>-->
                                 <th>Valor do Projeto</th>
                                 <th>Data cadastro/envio</th>
                                 <th>Enviado</th>

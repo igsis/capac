@@ -40,7 +40,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($edital_id, true)-
                     <div class="card-body">
                         <ul>
                             <li><strong>Formato Permitido:</strong> PDF</li>
-                            <li><strong>Tamanho Máximo:</strong> 6Mb</li>
+                            <li><strong>Tamanho Máximo:</strong> 5Mb</li>
                             <li>Clique nos arquivos após efetuar o upload e confira a exibição do documento!</li>
                         </ul>
                     </div>
@@ -69,6 +69,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($edital_id, true)-
                                 $cont = 0;
                                 $arquivos = $arquivosObj->listarArquivosFomento($edital_id)->fetchAll(PDO::FETCH_OBJ);
                                 foreach ($arquivos as $arquivo) {
+                                    $obrigatorio = $arquivo->obrigatorio == 0 ? "[Opcional]" : "*";
                                     if ($arquivosObj->consultaArquivoEnviado($arquivo->id, $projeto_id, true)) {
                                         ?>
                                         <tr>
@@ -81,7 +82,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($edital_id, true)-
                                     <?php } else { ?>
                                         <tr>
                                             <td>
-                                                <label for=""><?= "$arquivo->anexo - $arquivo->documento" ?></label>
+                                                <label for=""><?= "$arquivo->anexo - $arquivo->documento $obrigatorio" ?></label>
                                             </td>
                                             <td>
                                                 <input type="hidden" name="<?= $arquivo->sigla ?>"

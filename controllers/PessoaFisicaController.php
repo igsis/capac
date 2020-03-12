@@ -65,8 +65,17 @@ class PessoaFisicaController extends PessoaFisicaModel
                 }
             }
 
-            if ($_SESSION['modulo_c'] == 6 || $_SESSION['modulo_c'] == 7){ //formação ou jovem monitor
-                $_SESSION['origem_id_c'] = MainModel::encryption($id);
+            if(isset($dadosLimpos['fm'])){
+                if (count($dadosLimpos['fm']) > 0) {
+                    $dadosLimpos['fm']['pessoa_fisicas_id'] = $id;
+                    DbModel::insert('fom_pf_dados', $dadosLimpos['fm']);
+                }
+            }
+
+            if (isset($_SESSION['modulo_c'])) {
+                if ($_SESSION['modulo_c'] == 6 || $_SESSION['modulo_c'] == 7) { //formação ou jovem monitor
+                    $_SESSION['origem_id_c'] = MainModel::encryption($id);
+                }
             }
 
             if($retornaId){
@@ -98,7 +107,7 @@ class PessoaFisicaController extends PessoaFisicaModel
 
     /* edita */
     public function editaPessoaFisica($id,$pagina,$retornaId = false){
-        $idDecryp = MainModel::decryption($_POST['id']);
+        $idDecryp = MainModel::decryption($id);
 
         $dadosLimpos = PessoaFisicaModel::limparStringPF($_POST);
 
@@ -191,8 +200,23 @@ class PessoaFisicaController extends PessoaFisicaModel
                 }
             }
 
-            if ($_SESSION['modulo_c'] == 6 || $_SESSION['modulo_c'] == 7){ //formação ou jovem monitor
-                $_SESSION['origem_id_c'] = $id;
+            if (isset($dadosLimpos['fm'])) {
+                if (count($dadosLimpos['fm']) > 0) {
+                    $banco_existe = DbModel::consultaSimples("SELECT * FROM fom_pf_dados WHERE pessoa_fisicas_id = '$idDecryp'");
+                    if ($banco_existe->rowCount() > 0) {
+                        DbModel::updateEspecial('fom_pf_dados', $dadosLimpos['fm'], "pessoa_fisicas_id", $idDecryp);
+                    } else {
+                        $dadosLimpos['fm']['pessoa_fisicas_id'] = $idDecryp;
+                        DbModel::insert('fom_pf_dados', $dadosLimpos['fm']);
+                    }
+                }
+            }
+
+
+            if (isset($_SESSION['modulo_c'])) {
+                if ($_SESSION['modulo_c'] == 6 || $_SESSION['modulo_c'] == 7) { //formação ou jovem monitor
+                    $_SESSION['origem_id_c'] = $id;
+                }
             }
 
             if($retornaId){
@@ -249,14 +273,22 @@ class PessoaFisicaController extends PessoaFisicaModel
     }
 
     public function getCPF($cpf){
-        $consulta_pf_cpf = DbModel::consultaSimples("SELECT id, cpf FROM pessoa_fisicas WHERE cpf = '$cpf'");
-        return $consulta_pf_cpf;
+        return DbModel::consultaSimples("SELECT id, cpf FROM pessoa_fisicas WHERE cpf = '$cpf'");
     }
 
     public function getPassaporte($passaporte){
-        $consulta_pf_pass = DbModel::consultaSimples("SELECT id, passaporte FROM pessoa_fisicas WHERE passaporte = '$passaporte'");
-        return $consulta_pf_pass;
+        return DbModel::consultaSimples("SELECT id, passaporte FROM pessoa_fisicas WHERE passaporte = '$passaporte'");
     }
+
+    public function recuperaPessoaFisicaFom($id) {
+        $id = MainModel::decryption($id);
+        return parent::getFomDados($id);
+    }
+
+    public function dadosAdcFom($dados){
+        return parent::getDadosAdcFom($dados);
+    }
+
 
     /**
      * @param int|string $pessoa_fisica_id
@@ -269,7 +301,6 @@ class PessoaFisicaController extends PessoaFisicaModel
         if ($tipo == "string") {
             $pessoa_fisica_id = MainModel::decryption($pessoa_fisica_id);
         }
-        $pf = PessoaFisicaModel::validaPfModel($pessoa_fisica_id, $validacaoTipo, $evento_id,$tipo_documentos);
-        return $pf;
+        return PessoaFisicaModel::validaPfModel($pessoa_fisica_id, $validacaoTipo, $evento_id,$tipo_documentos);
     }
 }

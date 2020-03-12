@@ -202,7 +202,8 @@ class ValidacaoModel extends MainModel
         $sql = "SELECT * FROM capac_new.contratacao_documentos AS cd
                 INNER JOIN capac_new.fom_lista_documentos AS fld ON cd.fom_lista_documento_id = fld.id
                 LEFT JOIN (SELECT fom_lista_documento_id, arquivo FROM capac_new.fom_arquivos WHERE publicado = 1 AND fom_projeto_id = '$projeto_id') as fa ON fld.id = fa.fom_lista_documento_id
-                WHERE tipo_contratacao_id = '$tipo_contratacao_id';";
+                WHERE tipo_contratacao_id = '$tipo_contratacao_id' AND cd.obrigatorio = '1'
+                ORDER BY cd.ordem";
         $arquivos = DbModel::consultaSimples($sql)->fetchAll(PDO::FETCH_OBJ);
 
         foreach ($arquivos as $arquivo) {

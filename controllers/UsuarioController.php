@@ -2,9 +2,12 @@
 
 if ($pedidoAjax) {
     require_once "../models/UsuarioModel.php";
+    require_once "../controllers/FomentoController.php";
 } else {
     require_once "./models/UsuarioModel.php";
+    require_once "./controllers/FomentoController.php";
 }
+
 
 class UsuarioController extends UsuarioModel
 {
@@ -38,6 +41,9 @@ class UsuarioController extends UsuarioModel
                 } else {
                     if ($modulo == 8) {
                         $_SESSION['edital_c'] = $edital;
+
+                        $EditalObj = new FomentoController();
+                        $_SESSION['tipo_pessoa'] = $EditalObj->recuperaTipoPessoaEdital($edital);
                         return $urlLocation = "<script> window.location='fomentos/inicio&modulo=$modulo' </script>";
                     }
                 }

@@ -50,9 +50,9 @@ class ArquivoModel extends MainModel
 
                 $dataAtual = date("Y-m-d H:i:s");
                 $novoNome = date('YmdHis')."_".MainModel::retiraAcentos($nomeArquivo);
-                $maximoPermitido = ($tamanhoMaximo*1000)*1000;
+                $maximoPermitido = $tamanhoMaximo*1048576;
 
-                if ($tamanhoArquivo < $maximoPermitido) {
+                if ($tamanhoArquivo <= $maximoPermitido) {
                     if (move_uploaded_file($arquivoTemp, UPLOADDIR . $novoNome)) {
                         if (!$fomento) {
                             $tabela = "arquivos";
@@ -93,7 +93,7 @@ class ArquivoModel extends MainModel
     }
 
     protected function listaArquivosFomentos($tipo_contratacao_id) {
-        $sql = "SELECT fld.id, fld.sigla, fld.documento, tc.tipo_contratacao, cd.anexo
+        $sql = "SELECT fld.id, fld.sigla, fld.documento, tc.tipo_contratacao, cd.anexo, cd.obrigatorio
                 FROM contratacao_documentos AS cd
                 INNER JOIN fom_lista_documentos AS fld ON fld.id = cd.fom_lista_documento_id
                 INNER JOIN tipos_contratacoes AS tc ON cd.tipo_contratacao_id = tc.id

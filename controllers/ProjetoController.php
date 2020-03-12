@@ -2,19 +2,227 @@
 if ($pedidoAjax) {
     require_once "../models/ProjetoModel.php";
     require_once '../controllers/PessoaJuridicaController.php';
+    require_once '../controllers/PessoaFisicaController.php';
 } else {
     require_once "./models/ProjetoModel.php";
     require_once './controllers/PessoaJuridicaController.php';
+    require_once './controllers/PessoaFisicaController.php';
 }
 
 class ProjetoController extends ProjetoModel
 {
+    public function inserePjProjeto()
+    {
+        session_start(['name' => 'cpc']);
+        if (!isset($_SESSION['origem_id_c'])){
+            if (isset($_POST['id'])) {
+                $idPj = $_POST['id'];
+                $idPj = (new PessoaJuridicaController)->editaPessoaJuridica($idPj,"",true);
+            } else {
+                $idPj = (new PessoaJuridicaController)->inserePessoaJuridica("", true);
+            }
+            if ($idPj) {
+                $_SESSION['origem_id_c'] = MainModel::encryption($idPj);
+                $projeto = ProjetoModel::updatePjProjeto(2);
+                if ($projeto) {
+                    $alerta = [
+                        'alerta' => 'sucesso',
+                        'titulo' => 'Pessoa Jurídica',
+                        'texto' => 'Cadastrada com sucesso!',
+                        'tipo' => 'success',
+                        'location' => SERVERURL . "fomentos/pj_cadastro&id={$_SESSION['origem_id_c']}"
+                    ];
+                } else {
+                    $alerta = [
+                        'alerta' => 'simples',
+                        'titulo' => 'Erro!',
+                        'texto' => 'Erro ao salvar!',
+                        'tipo' => 'error',
+                        'location' => SERVERURL . 'fomentos/pj_cadastro'
+                    ];
+                }
+            } else {
+                $alerta = [
+                    'alerta' => 'simples',
+                    'titulo' => 'Erro!',
+                    'texto' => 'Erro ao salvar!',
+                    'tipo' => 'error',
+                    'location' => SERVERURL . 'fomentos/pj_cadastro'
+                ];
+            }
+        } else {
+            $idPj = MainModel::decryption($_SESSION['origem_id_c']);
+            (new PessoaJuridicaController)->editaPessoaJuridica($idPj,"",true);
+            if ($idPj) {
+                $projeto = ProjetoModel::updatePjProjeto(2);
+                if ($projeto) {
+                    $alerta = [
+                        'alerta' => 'sucesso',
+                        'titulo' => 'Pessoa Jurídica',
+                        'texto' => 'Cadastrada com sucesso!',
+                        'tipo' => 'success',
+                        'location' => SERVERURL . "fomentos/pj_cadastro&id={$_SESSION['origem_id_c']}"
+                    ];
+                } else {
+                    $alerta = [
+                        'alerta' => 'simples',
+                        'titulo' => 'Erro!',
+                        'texto' => 'Erro ao salvar!',
+                        'tipo' => 'error',
+                        'location' => SERVERURL . 'fomentos/pj_cadastro'
+                    ];
+                }
+            } else {
+                $alerta = [
+                    'alerta' => 'simples',
+                    'titulo' => 'Erro!',
+                    'texto' => 'Erro ao salvar!',
+                    'tipo' => 'error',
+                    'location' => SERVERURL . 'fomentos/pj_cadastro'
+                ];
+            }
+        }
+        return MainModel::sweetAlert($alerta);
+    }
+
+    public function removePjProjeto()
+    {
+        session_start(['name' => 'cpc']);
+        $id = MainModel::decryption($_SESSION['projeto_c']);
+        $dados = [
+            'pessoa_juridica_id' => NULL
+        ];
+        $projeto = DbModel::update("fom_projetos",$dados,$id);
+        if ($projeto) {
+            unset($_SESSION['origem_id_c']);
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Pessoa Jurídica',
+                'texto' => 'Empresa removida com sucesso!',
+                'tipo' => 'success',
+                'location' => SERVERURL . "fomentos/proponente"
+            ];
+        } else {
+            $alerta = [
+                'alerta' => 'simples',
+                'titulo' => 'Erro!',
+                'texto' => 'Erro ao remover!',
+                'tipo' => 'error',
+                'location' => SERVERURL . 'fomentos/pj_cadastro'
+            ];
+        }
+        return MainModel::sweetAlert($alerta);
+    }
+
+    public function inserePfProjeto()
+    {
+        session_start(['name' => 'cpc']);
+        if (!isset($_SESSION['origem_id_c'])){
+            if (isset($_POST['id'])) {
+                $idPf = $_POST['id'];
+                $idPf = (new PessoaFisicaController)->editaPessoaFisica($idPf,"",true);
+            } else {
+                $idPf = (new PessoaFisicaController)->inserePessoaFisica("", true);
+            }
+            if ($idPf) {
+                $_SESSION['origem_id_c'] = MainModel::encryption($idPf);
+                $projeto = ProjetoModel::updatePjProjeto(1);
+                if ($projeto) {
+                    $alerta = [
+                        'alerta' => 'sucesso',
+                        'titulo' => 'Pessoa Física',
+                        'texto' => 'Cadastrada com sucesso!',
+                        'tipo' => 'success',
+                        'location' => SERVERURL . "fomentos/pf_cadastro&id={$_SESSION['origem_id_c']}"
+                    ];
+                } else {
+                    $alerta = [
+                        'alerta' => 'simples',
+                        'titulo' => 'Erro!',
+                        'texto' => 'Erro ao salvar!',
+                        'tipo' => 'error',
+                        'location' => SERVERURL . 'fomentos/pf_cadastro'
+                    ];
+                }
+            } else {
+                $alerta = [
+                    'alerta' => 'simples',
+                    'titulo' => 'Erro!',
+                    'texto' => 'Erro ao salvar!',
+                    'tipo' => 'error',
+                    'location' => SERVERURL . 'fomentos/pf_cadastro'
+                ];
+            }
+        } else {
+            $idPf = MainModel::decryption($_SESSION['origem_id_c']);
+            (new PessoaFisicaController)->editaPessoaFisica($_SESSION['origem_id_c'],"",true);
+            if ($idPf) {
+                $projeto = ProjetoModel::updatePjProjeto(1);
+                if ($projeto) {
+                    $alerta = [
+                        'alerta' => 'sucesso',
+                        'titulo' => 'Pessoa Física',
+                        'texto' => 'Cadastrada com sucesso!',
+                        'tipo' => 'success',
+                        'location' => SERVERURL . "fomentos/pf_cadastro&id={$_SESSION['origem_id_c']}"
+                    ];
+                } else {
+                    $alerta = [
+                        'alerta' => 'simples',
+                        'titulo' => 'Erro!',
+                        'texto' => 'Erro ao salvar!',
+                        'tipo' => 'error',
+                        'location' => SERVERURL . 'fomentos/pf_cadastro'
+                    ];
+                }
+            } else {
+                $alerta = [
+                    'alerta' => 'simples',
+                    'titulo' => 'Erro!',
+                    'texto' => 'Erro ao salvar!',
+                    'tipo' => 'error',
+                    'location' => SERVERURL . 'fomentos/pf_cadastro'
+                ];
+            }
+        }
+        return MainModel::sweetAlert($alerta);
+    }
+
+    public function removePfProjeto()
+    {
+        session_start(['name' => 'cpc']);
+        $id = MainModel::decryption($_SESSION['projeto_c']);
+        $dados = [
+            'pessoa_fisica_id' => NULL
+        ];
+        $projeto = DbModel::update("fom_projetos",$dados,$id);
+        if ($projeto) {
+            unset($_SESSION['origem_id_c']);
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Pessoa Física',
+                'texto' => 'Inscrito removido com sucesso!',
+                'tipo' => 'success',
+                'location' => SERVERURL . "fomentos/proponente"
+            ];
+        } else {
+            $alerta = [
+                'alerta' => 'simples',
+                'titulo' => 'Erro!',
+                'texto' => 'Erro ao remover!',
+                'tipo' => 'error',
+                'location' => SERVERURL . 'fomentos/pf_cadastro'
+            ];
+        }
+        return MainModel::sweetAlert($alerta);
+    }
+
     public function listaProjetos(){
         $usuario_id = $_SESSION['usuario_id_c'];
         $edital_id = MainModel::decryption($_SESSION['edital_c']);
         $sql = "SELECT fe.titulo, fp.* FROM fom_projetos AS fp
                 INNER JOIN  fom_editais AS fe ON fp.fom_edital_id = fe.id
-                WHERE fom_edital_id = '$edital_id' AND usuario_id = '$usuario_id' AND fp.publicado = 1";
+                WHERE fom_edital_id = '$edital_id' AND usuario_id = '$usuario_id' AND fp.publicado = 1 OR fp.publicado = 2 OR fp.publicado = 3";
         $consultaEvento = DbModel::consultaSimples($sql);
         return $consultaEvento->fetchAll(PDO::FETCH_OBJ);
     }
@@ -25,7 +233,8 @@ class ProjetoController extends ProjetoModel
         unset($post['_method']);
         unset($post['modulo']);
         unset($post['pagina']);
-        $dados['fom_edital_id'] = MainModel::decryption($_SESSION['edital_c']);
+        $edital_id = MainModel::decryption($_SESSION['edital_c']);
+        $dados['fom_edital_id'] = $edital_id;
         //$dados['pessoa_juridica_id'] = MainModel::decryption($_SESSION['origem_id_c']);
         $dados['fom_status_id'] = 1;
         foreach ($post as $campo => $valor) {
@@ -99,109 +308,6 @@ class ProjetoController extends ProjetoModel
         return MainModel::sweetAlert($alerta);
     }
 
-    public function inserePjProjeto()
-    {
-        session_start(['name' => 'cpc']);
-        if (!isset($_SESSION['origem_id_c'])){
-            if (isset($_POST['id'])) {
-                $idPj = $_POST['id'];
-                $idPj = (new PessoaJuridicaController)->editaPessoaJuridica($idPj,"",true);
-            } else {
-                $idPj = (new PessoaJuridicaController)->inserePessoaJuridica("", true);
-            }
-            if ($idPj) {
-                $_SESSION['origem_id_c'] = MainModel::encryption($idPj);
-                $projeto = ProjetoModel::updatePjProjeto();
-                if ($projeto) {
-                    $alerta = [
-                        'alerta' => 'sucesso',
-                        'titulo' => 'Pessoa Jurídica',
-                        'texto' => 'Cadastrada com sucesso!',
-                        'tipo' => 'success',
-                        'location' => SERVERURL . "fomentos/pj_cadastro&id={$_SESSION['origem_id_c']}"
-                    ];
-                } else {
-                    $alerta = [
-                        'alerta' => 'simples',
-                        'titulo' => 'Erro!',
-                        'texto' => 'Erro ao salvar!',
-                        'tipo' => 'error',
-                        'location' => SERVERURL . 'fomentos/pj_cadastro'
-                    ];
-                }
-            } else {
-                $alerta = [
-                    'alerta' => 'simples',
-                    'titulo' => 'Erro!',
-                    'texto' => 'Erro ao salvar!',
-                    'tipo' => 'error',
-                    'location' => SERVERURL . 'fomentos/pj_cadastro'
-                ];
-            }
-        } else {
-            $idPj = MainModel::decryption($_SESSION['origem_id_c']);
-            (new PessoaJuridicaController)->editaPessoaJuridica($idPj,"",true);
-            if ($idPj) {
-                $projeto = ProjetoModel::updatePjProjeto();
-                if ($projeto) {
-                    $alerta = [
-                        'alerta' => 'sucesso',
-                        'titulo' => 'Pessoa Jurídica',
-                        'texto' => 'Cadastrada com sucesso!',
-                        'tipo' => 'success',
-                        'location' => SERVERURL . "fomentos/pj_cadastro&id={$_SESSION['origem_id_c']}"
-                    ];
-                } else {
-                    $alerta = [
-                        'alerta' => 'simples',
-                        'titulo' => 'Erro!',
-                        'texto' => 'Erro ao salvar!',
-                        'tipo' => 'error',
-                        'location' => SERVERURL . 'fomentos/pj_cadastro'
-                    ];
-                }
-            } else {
-                $alerta = [
-                    'alerta' => 'simples',
-                    'titulo' => 'Erro!',
-                    'texto' => 'Erro ao salvar!',
-                    'tipo' => 'error',
-                    'location' => SERVERURL . 'fomentos/pj_cadastro'
-                ];
-            }
-        }
-        return MainModel::sweetAlert($alerta);
-    }
-
-    public function removePjProjeto()
-    {
-        session_start(['name' => 'cpc']);
-        $id = MainModel::decryption($_SESSION['projeto_c']);
-        $dados = [
-            'pessoa_juridica_id' => NULL
-        ];
-        $projeto = DbModel::update("fom_projetos",$dados,$id);
-        if ($projeto) {
-            unset($_SESSION['origem_id_c']);
-            $alerta = [
-                'alerta' => 'sucesso',
-                'titulo' => 'Pessoa Jurídica',
-                'texto' => 'Empresa removida com sucesso!',
-                'tipo' => 'success',
-                'location' => SERVERURL . "fomentos/proponente"
-            ];
-        } else {
-            $alerta = [
-                'alerta' => 'simples',
-                'titulo' => 'Erro!',
-                'texto' => 'Erro ao remover!',
-                'tipo' => 'error',
-                'location' => SERVERURL . 'fomentos/pj_cadastro'
-            ];
-        }
-        return MainModel::sweetAlert($alerta);
-    }
-
     public function recuperaProjeto($id) {
         $id = MainModel::decryption($id);
 
@@ -237,6 +343,12 @@ class ProjetoController extends ProjetoModel
         WHERE id = '$id'")->fetchColumn();
     }
 
+    public function recuperaValorMax()
+    {
+        $idEdital = MainModel::decryption($_SESSION['edital_c']);
+        return DbModel::consultaSimples("SELECT valor_max_projeto FROM fom_editais WHERE id = '$idEdital'")->fetchColumn();
+    }
+
     public function finalizarProjeto($id){
         session_start(['name' => 'cpc']);
 
@@ -253,7 +365,7 @@ class ProjetoController extends ProjetoModel
                 'titulo' => 'Projeto Enviado',
                 'texto' => 'Projeto enviado com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL.'fomentos/finalizar',
+                'location' => SERVERURL.'fomentos/inicio',
                 'redirecionamento' => SERVERURL.'pdf/resumo_fomento.php?id='.$projetoId
             ];
         } else {

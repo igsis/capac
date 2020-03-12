@@ -29,16 +29,13 @@ class RecuperaSenhaModel extends MainModel
         }
     }
 
-    protected function getToken($email)
+    protected function validaToken($__token)
     {
-
-
 
     }
 
-    protected function validaToken()
-    {
-
+    protected function limpezaToken($token){
+        return str_replace("==","",$token);
     }
 
 }
