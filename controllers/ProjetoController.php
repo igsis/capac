@@ -222,7 +222,7 @@ class ProjetoController extends ProjetoModel
         $edital_id = MainModel::decryption($_SESSION['edital_c']);
         $sql = "SELECT fe.titulo, fp.* FROM fom_projetos AS fp
                 INNER JOIN  fom_editais AS fe ON fp.fom_edital_id = fe.id
-                WHERE fom_edital_id = '$edital_id' AND usuario_id = '$usuario_id' AND fp.publicado = 1 OR fp.publicado = 2 OR fp.publicado = 3";
+                WHERE fom_edital_id = '$edital_id' AND usuario_id = '$usuario_id' AND (fp.publicado = 1 OR fp.publicado = 2 OR fp.publicado = 3)";
         $consultaEvento = DbModel::consultaSimples($sql);
         return $consultaEvento->fetchAll(PDO::FETCH_OBJ);
     }
