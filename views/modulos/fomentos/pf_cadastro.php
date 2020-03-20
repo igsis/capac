@@ -93,14 +93,14 @@ if (isset($_POST['pf_cpf'])){
                                     <label for="genero">Gênero *:</label>
                                     <select name="fm_genero_id" id="genero" class="form-control" required>
                                         <option value="">Selecione uma opção...</option>
-                                        <?php $pfObjeto->geraOpcao('generos',$pf['genero_id'] ?? '') ?>
+                                        <?php $pfObjeto->geraOpcao('generos',$pf['genero_id'] ?? '', true) ?>
                                     </select>
                                 </div>
                                 <div class="col form-group">
-                                    <label for="etnia">Etnia *:</label>
+                                    <label for="etnia">Raça ou Cor *:</label>
                                     <select name="fm_etnia_id" id="etnia" class="form-control" required>
                                         <option value="">Selecione uma opção...</option>
-                                        <?php $pfObjeto->geraOpcao('etnias',$pf['etnia_id'] ?? '') ?>
+                                        <?php $pfObjeto->geraOpcao('etnias',$pf['etnia_id'] ?? '', true) ?>
                                     </select>
                                 </div>
                                 <div class="col form-group">
@@ -121,7 +121,7 @@ if (isset($_POST['pf_cpf'])){
                                     <label for="subprefeitura">Escolaridade *</label>
                                     <select name="fm_grau_instrucao_id" id="grau_instrucao" class="form-control" required>
                                         <option value="">Selecione uma opção...</option>
-                                        <?php $pfObjeto->geraOpcao('grau_instrucoes',$pf['grau_instrucao_id'] ?? '') ?>
+                                        <?php $pfObjeto->geraOpcao('grau_instrucoes',$pf['grau_instrucao_id'] ?? '', false, false, true) ?>
                                     </select>
                                 </div>
                             </div>
