@@ -211,7 +211,7 @@ class MainModel extends DbModel
             $where[] = "publicado = 1";
         }
         if ($fomento) {
-            $where[] = "fomento = 1";
+            $where[] = "fomentos = 1";
         }
 
         if (count($where) > 0) {
