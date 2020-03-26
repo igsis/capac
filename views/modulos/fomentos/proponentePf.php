@@ -29,7 +29,7 @@
                                 <div class="form-group col-md-12">
                                     <label for="cpf">CPF:</label>
                                     <input type="text" class="form-control" id="cpf" name="pf_cpf" maxlength="14"
-                                           required onkeypress="mask(this, '999.999.999-99')" minlength="14">
+                                           required onkeypress="mask(this, '999.999.999-99')" minlength="14"  minlength="14">
                                     <div id="dialogError" class="invalid-feedback">CPF inválido</div>
                                 </div>
                             </div>
