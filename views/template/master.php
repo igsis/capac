@@ -33,7 +33,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- jQuery -->
     <script src="<?= SERVERURL ?>views/plugins/jquery/jquery.min.js"></script>
     <link rel="shortcut icon" href="<?= SERVERURL ?>views/dist/img/AdminLTELogo.png" />
-
+    <script src="//code.jivosite.com/widget/yCSBr2eVP4" async></script>
 </head>
 <!--<body class="hold-transition login-page">-->
 <body class="hold-transition sidebar-mini">
