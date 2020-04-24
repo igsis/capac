@@ -61,7 +61,8 @@ class ViewsModel
             'representante',
             'representante_cadastro',
             'recupera_senha',
-            'resete_senha'
+            'resete_senha',
+            'nucleo_artistico'
         ];
         if (self::verificaModulo($modulo)) {
             if (in_array($view, $whitelist)) {

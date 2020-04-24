@@ -13,6 +13,12 @@
         </a>
     </li>
 
+    <li class="nav-item">
+        <a href="<?= SERVERURL ?>fomentos/nucleo_artistico" class="nav-link" id="nucleo_artistico">
+            <i class="far fa-circle nav-icon"></i>
+            <p>Núcleo artístico</p>
+        </a>
+    </li>
     <?php
 
     if (!isset($_SESSION['origem_id_c']) && $_SESSION['tipo_pessoa'] == 2): ?>
