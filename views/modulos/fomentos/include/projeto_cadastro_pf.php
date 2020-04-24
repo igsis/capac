@@ -34,6 +34,12 @@
                         <?php endif; ?>
                         <div class="card-body">
                             <div class="row">
+                                <div class="form-group col-md">
+                                    <label for="nome_projeto">Nome do projeto: *</label>
+                                    <input type="text" class="form-control" id="nome_projeto" name="nome_projeto"  maxlength="80" value="<?= $projeto['nome_projeto'] ?? null ?>" required>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="form-group col-md-6">
                                     <label for="usuario_nome">Responsável pela inscrição: *</label>
                                     <input type="text" class="form-control" id="usuario_nome" name="usuario_nome"
@@ -49,6 +55,46 @@
                                     <label for="duracao">Duração: (em meses) *</label>
                                     <input type="number" class="form-control" id="duracao" name="duracao"
                                            value="<?= $projeto['duracao'] ?? null ?>" min="0" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label>Há representante do núcleo?  <a href="" class="btn btn-sm btn-primary"><i class="fas fa-info"></i></a></label>
+                                    <br>
+                                    <div class="form-check-inline">
+                                        <input name="ev_espaco_publico" class="form-check-input" type="radio" value="1" >
+                                        <label class="form-check-label">Sim</label>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <input name="ev_espaco_publico" class="form-check-input" type="radio" value="0">
+                                        <label class="form-check-label">Não</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md">
+                                    <label for="representante_nucleo">Nome do representante do núcleo: *</label>
+                                    <input type="text" class="form-control" id="representante_nucleo"
+                                           name="representante_nucleo" maxlength="100" placeholder="não se aplica" disabled
+                                           value="<?= $projeto['representante_nucleo'] ?? null ?>" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label>Há coletivo/produtor independente? <a href="" class="btn btn-sm btn-primary"><i class="fas fa-info"></i></a></label>
+                                    <br>
+                                    <div class="form-check-inline">
+                                        <input name="coletivo" class="form-check-input" type="radio" value="1" >
+                                        <label class="form-check-label">Sim</label>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <input name="coletivo" class="form-check-input" type="radio" value="0">
+                                        <label class="form-check-label">Não</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md">
+                                    <label for="representante_nucleo">Nome do coletivo/produtor independente: *</label>
+                                    <input type="text" class="form-control" id="representante_nucleo"
+                                           name="representante_nucleo" maxlength="100" placeholder="não se aplica" disabled
+                                           value="<?= $projeto['representante_nucleo'] ?? null ?>" required>
                                 </div>
                             </div>
                         </div>
