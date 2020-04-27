@@ -29,7 +29,7 @@
                                 <div class="form-group col-md-12">
                                     <label for="cnpj">CNPJ:</label>
                                     <input type="text" onkeypress="mask(this,'##.###.###/####-##')" class="form-control"
-                                           id="cnpj" name="pj_cnpj" maxlength="18" minlength="18" required>
+                                           id="cnpj" name="pj_cnpj" maxlength="18" required>
                                     <div id="dialogErrorCnpj" class="invalid-feedback">CNPJ inválido</div>
                                 </div>
                             </div>
