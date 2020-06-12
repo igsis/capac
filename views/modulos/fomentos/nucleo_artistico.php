@@ -13,7 +13,7 @@ $projetos = $projetoObj->listaProjetos();
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-9">
-                <h1 class="m-0 text-dark">Núcleo artístico <a href="" class="btn btn-sm btn-primary"><i class="fas fa-info"></i></a></h1>
+                <h1 class="m-0 text-dark">Núcleo artístico <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-nucleo-art"> <i class="fas fa-info"></i></button></h1>
             </div><!-- /.col -->
             <div class="col-sm-3">
                 <a href="<?= SERVERURL ?>fomentos/projeto_cadastro"><button class="btn btn-success btn-block">Adicionar</button></a>
@@ -64,27 +64,6 @@ $projetos = $projetoObj->listaProjetos();
                                         </div>
                                     </div>
                                 </td>
-
-                            </tr>
-                            <tr>
-                                <td>Qwerty da Silva Rodrigues Siqueira</td>
-                                <td>11.111.111-1</td>
-                                <td>111.111.111-11</td>
-                                <td>
-                                    <div class="row">
-                                        <div class="col">
-                                            <a href="" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</a>
-                                        </div>
-                                        <div class="col">
-                                            <form class="form-horizontal formulario-ajax" method="POST" action="" role="form" data-form="delete">
-                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i>
-                                                    Apagar
-                                                </button>
-                                                <div class="resposta-ajax"></div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </td>
                             </tr>
                             </tbody>
                             <tfoot>
@@ -107,6 +86,25 @@ $projetos = $projetoObj->listaProjetos();
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
+
+<div class="modal fade" id="modal-nucleo-art">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Núcleo artístico</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="text-justify">São os artistas e técnicos que se responsabilizem pela fundamentação e execução do projeto, constituindo uma base organizativa de caráter continuado.</p>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
 <script type="application/javascript">
     $(document).ready(function () {
         $('.nav-link').removeClass('active');

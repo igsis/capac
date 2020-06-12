@@ -165,7 +165,7 @@ $pessoa_tipos_id = $objFomento->recuperaEdital($_SESSION['edital_c'])->pessoa_ti
                 </button>
             </div>
             <div class="modal-body">
-                <p>Entende-se que o responsável legal é o membro do Núcleo ou Coletivo que assinará o Termo de Fomento junto à Secretaria Municipal de Cultura.</p>
+                <p class="text-justify">Entende-se que o responsável legal é o membro do Núcleo ou Coletivo que assinará o Termo de Fomento junto à Secretaria Municipal de Cultura.</p>
             </div>
         </div>
         <!-- /.modal-content -->
@@ -183,7 +183,7 @@ $pessoa_tipos_id = $objFomento->recuperaEdital($_SESSION['edital_c'])->pessoa_ti
                 </button>
             </div>
             <div class="modal-body">
-                <p>São articulações de individuos que se organizam para a execução de atividades artísticas ou culturais em torno de uma linguem e/ou temática. Os coletivos se mantêm autônomos e independentes mesmo quando articulados em uma rede. Um coletivo deve ser composto por pelo menos 3 pessoas.</p>
+                <p class="text-justify">São articulações de individuos que se organizam para a execução de atividades artísticas ou culturais em torno de uma linguem e/ou temática. Os coletivos se mantêm autônomos e independentes mesmo quando articulados em uma rede. Um coletivo deve ser composto por pelo menos 3 pessoas.</p>
             </div>
         </div>
         <!-- /.modal-content -->
