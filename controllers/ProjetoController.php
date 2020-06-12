@@ -409,4 +409,10 @@ class ProjetoController extends ProjetoModel
 
         return MainModel::formataValidacaoErros($erros);
     }
+
+    public function listaNucleo($projeto_id)
+    {
+        $projeto_id = MainModel::decryption($projeto_id);
+        return DbModel::consultaSimples("SELECT fna.id, fna.nome, fna.rg, fna.cpf FROM fom_projeto_nucleo_artistico fpna INNER JOIN fom_nucleo_artisticos fna ON fpna.fom_nucleo_artistico_id = fna.id WHERE fpna.fom_projeto_id = '$projeto_id'")->fetchAll(PDO::FETCH_OBJ);
+    }
 }

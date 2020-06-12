@@ -58,7 +58,7 @@ $pessoa_tipos_id = $objFomento->recuperaEdital($_SESSION['edital_c'])->pessoa_ti
                             <div class="row">
                                 <div class="form-group col-md">
                                     <label for="nome_projeto">Nome do projeto: *</label>
-                                    <input type="text" class="form-control" id="nome_projeto" name="nome_projeto"  maxlength="80" value="<?= $projeto['nome_projeto'] ?? null ?>" required>
+                                    <input type="text" class="form-control" id="nome_projeto" name="nome_projeto"  maxlength="70" value="<?= $projeto['nome_projeto'] ?? null ?>" required>
                                 </div>
                             </div>
                             <?php

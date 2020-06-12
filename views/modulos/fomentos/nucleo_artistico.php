@@ -1,12 +1,8 @@
 <?php
 require_once "./controllers/ProjetoController.php";
-require_once "./controllers/FomentoController.php";
-
-$fomentoObj = new FomentoController();
 $projetoObj = new ProjetoController();
 
-$nomeEdital = $fomentoObj->recuperaNomeEdital($_SESSION['edital_c']);
-$projetos = $projetoObj->listaProjetos();
+$nucleos = $projetoObj->listaNucleo($_SESSION['projeto_c']);
 ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -45,26 +41,21 @@ $projetos = $projetoObj->listaProjetos();
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>Lorelei Gabriele Castro Lourenço</td>
-                                <td>00.000.000-0</td>
-                                <td>000.0000.000-00</td>
-                                <td>
-                                    <div class="row">
-                                        <div class="col">
-                                            <a href="" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</a>
-                                        </div>
-                                        <div class="col">
-                                            <form class="form-horizontal formulario-ajax" method="POST" action="" role="form" data-form="delete">
-                                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i>
-                                                    Apagar
-                                                </button>
-                                                <div class="resposta-ajax"></div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
+                            <?php
+                            foreach ($nucleos as $nucleo):
+                            ?>
+                                <tr>
+                                    <td><?= $nucleo->nome ?></td>
+                                    <td><?= $nucleo->rg ?></td>
+                                    <td><?= $nucleo->cpf ?></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</button>
+                                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Apagar</button>
+                                    </td>
+                                </tr>
+                            <?php
+                            endforeach;
+                            ?>
                             </tbody>
                             <tfoot>
                             <tr>
