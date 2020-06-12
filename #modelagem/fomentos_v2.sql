@@ -1,0 +1,31 @@
+CREATE TABLE `fom_projeto_dados` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `fom_projeto_id` INT NOT NULL,
+    `instituicao` VARCHAR(80) NULL DEFAULT NULL,
+    `site` VARCHAR(50) NULL DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    INDEX `fom_projeto_id` (`fom_projeto_id`),
+    CONSTRAINT `fk_fom_projeto_dados_fom_projetos` FOREIGN KEY (`fom_projeto_id`) REFERENCES `fom_projetos` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+INSERT INTO fom_projeto_dados (fom_projeto_id, instituicao, site) SELECT id, instituicao, site FROM fom_projetos WHERE instituicao IS NOT NULL AND site IS NOT NULL;
+
+CREATE TABLE `fom_nucleo_artisticos` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `nome` VARCHAR(70) NOT NULL,
+    `rg` VARCHAR(20) NOT NULL,
+    `cpf` CHAR(14) NOT NULL,
+    PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `fom_projeto_nucleo_artistico` (
+    `fom_projeto_id` INT NOT NULL,
+    `fom_nucleo_artistico_id` INT NOT NULL,
+    INDEX `fom_projeto_id_fom_nucleo_artistico_id` (`fom_projeto_id`, `fom_nucleo_artistico_id`),
+    CONSTRAINT `fk_projeto` FOREIGN KEY (`fom_projeto_id`) REFERENCES `fom_projetos` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION,
+    CONSTRAINT `fk_nucleo_artistico` FOREIGN KEY (`fom_nucleo_artistico_id`) REFERENCES `fom_nucleo_artisticos` (`id`) ON UPDATE NO ACTION
+);
+
+ALTER TABLE `fom_projetos`
+    DROP COLUMN `instituicao`,
+    DROP COLUMN `site`;
