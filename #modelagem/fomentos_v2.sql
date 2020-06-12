@@ -27,5 +27,6 @@ CREATE TABLE `fom_projeto_nucleo_artistico` (
 );
 
 ALTER TABLE `fom_projetos`
+    ADD COLUMN `nome_projeto` VARCHAR(70) NULL DEFAULT NULL AFTER `valor_projeto`,
     DROP COLUMN `instituicao`,
     DROP COLUMN `site`;
