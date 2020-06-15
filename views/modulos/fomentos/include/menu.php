@@ -14,7 +14,7 @@
     </li>
 
     <li class="nav-item">
-        <a href="<?= SERVERURL ?>fomentos/nucleo_artistico" class="nav-link" id="nucleo_artistico">
+        <a href="<?= SERVERURL ?>fomentos/nucleo_artistico_lista" class="nav-link" id="nucleo_artistico">
             <i class="far fa-circle nav-icon"></i>
             <p>Núcleo artístico</p>
         </a>
