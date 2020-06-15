@@ -12,7 +12,7 @@ $nucleos = $projetoObj->listaNucleo($_SESSION['projeto_c']);
                 <h1 class="m-0 text-dark">Núcleo artístico <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-nucleo-art"> <i class="fas fa-info"></i></button></h1>
             </div><!-- /.col -->
             <div class="col-sm-3">
-                <a href="<?= SERVERURL ?>fomentos/projeto_cadastro"><button class="btn btn-success btn-block">Adicionar</button></a>
+                <button type="button" class="btn btn-sm btn-success btn-block" data-toggle="modal" data-target="#modal-busca-cpf"> Adicionar</button>
             </div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
@@ -90,6 +90,41 @@ $nucleos = $projetoObj->listaNucleo($_SESSION['projeto_c']);
             <div class="modal-body">
                 <p class="text-justify">São os artistas e técnicos que se responsabilizem pela fundamentação e execução do projeto, constituindo uma base organizativa de caráter continuado.</p>
             </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="modal-busca-cpf">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Busca por CPF</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+            <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>fomentos/pf_cadastro" role="form" id="formularioPf">
+                <div class="modal-body">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label for="cpf">CPF:</label>
+                                <input type="text" class="form-control" id="cpf" name="pf_cpf" maxlength="14"
+                                       required onkeypress="mask(this, '999.999.999-99')" minlength="14">
+                                <div id="dialogError" class="invalid-feedback">CPF inválido</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-info float-right">Pesquisar</button>
+                    </div>
+                    <!-- /.card-footer -->
+                </div>
+            </form>
         </div>
         <!-- /.modal-content -->
     </div>
