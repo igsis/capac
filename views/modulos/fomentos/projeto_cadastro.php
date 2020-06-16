@@ -262,40 +262,4 @@ $pessoa_tipos_id = $objFomento->recuperaEdital($_SESSION['edital_c'])->pessoa_ti
 
     $(document).ready(coletivoCheck());
     $(document).ready(representanteCheck());
-
-    // $(document).ready(function () {
-    //     let coletivoCheck = $('#coletivo');
-    //
-    //     coletivoCheck.on('change', function () {
-    //         let coletivo = $('#coletivo_produtor');
-    //
-    //         if (coletivoCheck.is(':checked')) {
-    //             coletivo.attr('readonly', false);
-    //             coletivo.attr('required', true);
-    //             coletivo.removeAttr('placeholder');
-    //         } else {
-    //             coletivo.attr('readonly', true);
-    //             coletivo.attr('required', false);
-    //             coletivo.attr('placeholder', 'Não se aplica');
-    //             coletivo.val('Não se aplica');
-    //         }
-    //     });
-    //
-    //     let representanteCheck = $('#representante');
-    //
-    //     representanteCheck.on('change', function () {
-    //         let representante = $('#representante_nucleo');
-    //
-    //         if (representanteCheck.is(':checked')) {
-    //             representante.attr('readonly', false);
-    //             representante.attr('required', true);
-    //             representante.removeAttr('placeholder');
-    //         } else {
-    //             representante.attr('readonly', true);
-    //             representante.attr('required', false);
-    //             representante.attr('placeholder', 'Não se aplica');
-    //             representante.val('Não se aplica');
-    //         }
-    //     })
-    // });
 </script>
