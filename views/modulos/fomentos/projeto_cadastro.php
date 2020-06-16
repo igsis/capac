@@ -51,9 +51,11 @@ $pessoa_tipos_id = $objFomento->recuperaEdital($_SESSION['edital_c'])->pessoa_ti
                         <input type="hidden" name="pagina" value="fomentos">
                         <input type="hidden" name="usuario_id" value="<?= $_SESSION['usuario_id_c'] ?>">
                         <input type="hidden" name="pessoa_tipo_id" value="<?= $pessoa_tipos_id ?>">
+
                         <?php if ($id): ?>
                             <input type="hidden" name="id" value="<?= $id ?>">
                         <?php endif; ?>
+
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md">
@@ -61,9 +63,8 @@ $pessoa_tipos_id = $objFomento->recuperaEdital($_SESSION['edital_c'])->pessoa_ti
                                     <input type="text" class="form-control" id="nome_projeto" name="nome_projeto"  maxlength="70" value="<?= $projeto['nome_projeto'] ?? null ?>" required>
                                 </div>
                             </div>
-                            <?php
-                            if ($pessoa_tipos_id == 2) :
-                            ?>
+
+                            <?php if ($pessoa_tipos_id == 2) : ?>
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label for="instituicao">Instituição responsável: *</label>
@@ -75,9 +76,7 @@ $pessoa_tipos_id = $objFomento->recuperaEdital($_SESSION['edital_c'])->pessoa_ti
                                         <input type="text" class="form-control" id="site" name="site" value="<?= $projeto['site'] ?? null ?>">
                                     </div>
                                 </div>
-                            <?php
-                            endif;
-                            ?>
+                            <?php endif; ?>
 
                             <div class="row">
                                 <div class="form-group col-md-6">
@@ -100,41 +99,30 @@ $pessoa_tipos_id = $objFomento->recuperaEdital($_SESSION['edital_c'])->pessoa_ti
 
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label>Há representante do núcleo?  <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-rep-nucleo"> <i class="fas fa-info"></i></button></label>
                                     <br>
-                                    <div class="form-check-inline">
-                                        <input name="ev_espaco_publico" class="form-check-input" type="radio" value="1" >
-                                        <label class="form-check-label">Sim</label>
-                                    </div>
-                                    <div class="form-check-inline">
-                                        <input name="ev_espaco_publico" class="form-check-input" type="radio" value="0">
-                                        <label class="form-check-label">Não</label>
+                                    <div class="custom-control custom-checkbox mt-2">
+                                        <input class="custom-control-input" type="checkbox" id="representante">
+                                        <label for="representante" class="custom-control-label">Há representante do núcleo <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-rep-nucleo"> <i class="fas fa-info"></i></button></label>
                                     </div>
                                 </div>
                                 <div class="form-group col-md">
                                     <label for="representante_nucleo">Nome do representante do núcleo: *</label>
                                     <input type="text" class="form-control" id="representante_nucleo"
-                                           name="representante_nucleo" maxlength="100" placeholder="não se aplica" disabled
+                                           name="representante_nucleo" maxlength="100" placeholder="Não se aplica" disabled
                                            value="<?= $projeto['representante_nucleo'] ?? null ?>" required>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label>Há coletivo/produtor independente? <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-coletivo"> <i class="fas fa-info"></i></button></label>
-                                    <br>
-                                    <div class="form-check-inline">
-                                        <input name="coletivo" class="form-check-input" type="radio" value="1" >
-                                        <label class="form-check-label">Sim</label>
-                                    </div>
-                                    <div class="form-check-inline">
-                                        <input name="coletivo" class="form-check-input" type="radio" value="0">
-                                        <label class="form-check-label">Não</label>
+                                    <div class="custom-control custom-checkbox mt-4">
+                                        <input class="custom-control-input" type="checkbox" id="coletivo">
+                                        <label for="coletivo" class="custom-control-label">Há coletivo/produtor independente <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-coletivo"> <i class="fas fa-info"></i></button></label>
                                     </div>
                                 </div>
                                 <div class="form-group col-md">
-                                    <label for="representante_nucleo">Nome do coletivo/produtor independente: *</label>
-                                    <input type="text" class="form-control" id="representante_nucleo"
-                                           name="representante_nucleo" maxlength="100" placeholder="não se aplica" disabled
+                                    <label for="coletivo_produtor">Nome do coletivo/produtor independente: *</label>
+                                    <input type="text" class="form-control" id="coletivo_produtor"
+                                           name="coletivo_produtor" maxlength="100" placeholder="Não se aplica" disabled
                                            value="<?= $projeto['representante_nucleo'] ?? null ?>" required>
                                 </div>
                             </div>
@@ -222,7 +210,6 @@ $pessoa_tipos_id = $objFomento->recuperaEdital($_SESSION['edital_c'])->pessoa_ti
 
     });
 
-
     function converteValor(valor) {
         let ValorNovo = '';
         let valores = valor.split('.');
@@ -235,5 +222,35 @@ $pessoa_tipos_id = $objFomento->recuperaEdital($_SESSION['edital_c'])->pessoa_ti
         return parseFloat(ValorNovo).toFixed(2);
     }
 
+    let coletivo = $('#coletivo');
 
+    coletivo.on('change', function () {
+        let responsavel = $('#coletivo_produtor');
+
+        if (coletivo.is(':checked')) {
+            responsavel.attr('disabled', false);
+            responsavel.attr('required', true);
+            responsavel.removeAttr('placeholder')
+        } else {
+            responsavel.attr('disabled', true);
+            responsavel.attr('required', false);
+            responsavel.attr('placeholder', 'Não se aplica');
+        }
+    });
+
+    let representante = $('#representante');
+
+    representante.on('change', function () {
+        let responsavel = $('#representante_nucleo');
+
+        if (representante.is(':checked')) {
+            responsavel.attr('disabled', false);
+            responsavel.attr('required', true);
+            responsavel.removeAttr('placeholder')
+        } else {
+            responsavel.attr('disabled', true);
+            responsavel.attr('required', false);
+            responsavel.attr('placeholder', 'Não se aplica');
+        }
+    });
 </script>
