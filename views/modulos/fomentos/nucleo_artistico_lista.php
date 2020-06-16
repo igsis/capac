@@ -106,24 +106,22 @@ $nucleos = $projetoObj->listaNucleo($_SESSION['projeto_c']);
                 </button>
             </div>
 
-            <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>fomentos/pf_cadastro" role="form" id="formularioPf">
+            <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>fomentos/nucleo_artistico_cadastro" role="form" id="formularioPf">
                 <div class="modal-body">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="form-group col-md-12">
-                                <label for="cpf">CPF:</label>
-                                <input type="text" class="form-control" id="cpf" name="pf_cpf" maxlength="14"
-                                       required onkeypress="mask(this, '999.999.999-99')" minlength="14">
-                                <div id="dialogError" class="invalid-feedback">CPF inválido</div>
-                            </div>
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label for="cpf">CPF:</label>
+                            <input type="text" class="form-control" id="cpf" name="pf_cpf" maxlength="14"
+                                   required onkeypress="mask(this, '999.999.999-99')" minlength="14">
+                            <div id="dialogError" class="invalid-feedback">CPF inválido</div>
                         </div>
                     </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-info float-right">Pesquisar</button>
-                    </div>
-                    <!-- /.card-footer -->
                 </div>
+                <!-- /.modal-body -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info float-right">Pesquisar</button>
+                </div>
+                <!-- /.card-footer -->
             </form>
         </div>
         <!-- /.modal-content -->
