@@ -289,22 +289,36 @@ class ProjetoController extends ProjetoModel
     /* edita */
     public function editaProjeto($post, $id){
         $id = MainModel::decryption($id);
+
         unset($post['_method']);
         unset($post['modulo']);
         unset($post['id']);
         unset($post['pagina']);
         $dados = [];
+
+        $camposComp = ['instituicao', 'site'];
+        $dadosComp = [];
+
         foreach ($post as $campo => $valor) {
             if ($campo != "pagina") {
                 if ($campo == 'valor_projeto'){
                     $valor = MainModel::dinheiroDeBr($valor);
                 }
-                $dados[$campo] = MainModel::limparString($valor);
+                $dado = MainModel::limparString($valor);
+                if (in_array($campo, $camposComp)) {
+                    $dadosComp[$campo] = $dado;
+                } else {
+                    $dados[$campo] = $dado;
+                }
             }
         }
 
         $edita = DbModel::update('fom_projetos', $dados, $id);
         if ($edita->rowCount() >= 1 || DbModel::connection()->errorCode() == 0) {
+            if (count($dadosComp)) {
+                $dadosComp['fom_projeto_id'] = $id;
+                DbModel::updateEspecial('fom_projeto_dados', $dadosComp, 'fom_projeto_id', $id);
+            }
             $alerta = [
                 'alerta' => 'sucesso',
                 'titulo' => 'Projeto Atualizado',
