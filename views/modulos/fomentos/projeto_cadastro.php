@@ -15,6 +15,8 @@ $objFomento = new FomentoController();
 
 if ($id) {
     $projeto = $objProjeto->recuperaProjeto($id);
+    $nucleo = $projeto['representante_nucleo'] != "Não se aplica" ? 'checked' : '';
+    $coletivo = $projeto['coletivo_produtor'] != "Não se aplica" ? 'checked' : '';
 }
 
 $pessoa_tipos_id = $objFomento->recuperaEdital($_SESSION['edital_c'])->pessoa_tipos_id;
@@ -101,29 +103,31 @@ $pessoa_tipos_id = $objFomento->recuperaEdital($_SESSION['edital_c'])->pessoa_ti
                                 <div class="form-group col-md-4">
                                     <br>
                                     <div class="custom-control custom-checkbox mt-2">
-                                        <input class="custom-control-input" type="checkbox" id="representante">
+                                        <input class="custom-control-input" type="checkbox" id="representante"
+                                            onchange="representanteCheck()" <?= $nucleo ?? ''?>>
                                         <label for="representante" class="custom-control-label">Há representante do núcleo <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-rep-nucleo"> <i class="fas fa-info"></i></button></label>
                                     </div>
                                 </div>
                                 <div class="form-group col-md">
                                     <label for="representante_nucleo">Nome do representante do núcleo: *</label>
                                     <input type="text" class="form-control" id="representante_nucleo"
-                                           name="representante_nucleo" maxlength="100" placeholder="Não se aplica" disabled
-                                           value="<?= $projeto['representante_nucleo'] ?? null ?>" required>
+                                           name="representante_nucleo" maxlength="100" placeholder="Não se aplica"
+                                           value="<?= $projeto['representante_nucleo'] ?? null ?>" required readonly>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <div class="custom-control custom-checkbox mt-4">
-                                        <input class="custom-control-input" type="checkbox" id="coletivo">
+                                        <input class="custom-control-input" type="checkbox" id="coletivo"
+                                            onchange="coletivoCheck()" <?= $coletivo ?? ''?>>
                                         <label for="coletivo" class="custom-control-label">Há coletivo/produtor independente <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-coletivo"> <i class="fas fa-info"></i></button></label>
                                     </div>
                                 </div>
                                 <div class="form-group col-md">
                                     <label for="coletivo_produtor">Nome do coletivo/produtor independente: *</label>
                                     <input type="text" class="form-control" id="coletivo_produtor"
-                                           name="coletivo_produtor" maxlength="100" placeholder="Não se aplica" disabled
-                                           value="<?= $projeto['representante_nucleo'] ?? null ?>" required>
+                                           name="coletivo_produtor" maxlength="100" placeholder="Não se aplica" readonly
+                                           value="<?= $projeto['coletivo_produtor'] ?? null ?>" required>
                                 </div>
                             </div>
                         </div>
@@ -222,35 +226,76 @@ $pessoa_tipos_id = $objFomento->recuperaEdital($_SESSION['edital_c'])->pessoa_ti
         return parseFloat(ValorNovo).toFixed(2);
     }
 
-    let coletivo = $('#coletivo');
+    function coletivoCheck() {
+        let coletivoCheck = $('#coletivo');
 
-    coletivo.on('change', function () {
-        let responsavel = $('#coletivo_produtor');
+        let coletivo = $('#coletivo_produtor');
 
-        if (coletivo.is(':checked')) {
-            responsavel.attr('disabled', false);
-            responsavel.attr('required', true);
-            responsavel.removeAttr('placeholder')
+        if (coletivoCheck.is(':checked')) {
+            coletivo.attr('readonly', false);
+            coletivo.attr('required', true);
+            coletivo.removeAttr('placeholder');
         } else {
-            responsavel.attr('disabled', true);
-            responsavel.attr('required', false);
-            responsavel.attr('placeholder', 'Não se aplica');
+            coletivo.attr('readonly', true);
+            coletivo.attr('required', false);
+            coletivo.attr('placeholder', 'Não se aplica');
+            coletivo.val('Não se aplica');
         }
-    });
+    }
 
-    let representante = $('#representante');
+    function representanteCheck() {
+        let representanteCheck = $('#representante');
 
-    representante.on('change', function () {
-        let responsavel = $('#representante_nucleo');
+        let representante = $('#representante_nucleo');
 
-        if (representante.is(':checked')) {
-            responsavel.attr('disabled', false);
-            responsavel.attr('required', true);
-            responsavel.removeAttr('placeholder')
+        if (representanteCheck.is(':checked')) {
+            representante.attr('readonly', false);
+            representante.attr('required', true);
+            representante.removeAttr('placeholder');
         } else {
-            responsavel.attr('disabled', true);
-            responsavel.attr('required', false);
-            responsavel.attr('placeholder', 'Não se aplica');
+            representante.attr('readonly', true);
+            representante.attr('required', false);
+            representante.attr('placeholder', 'Não se aplica');
+            representante.val('Não se aplica');
         }
-    });
+    }
+
+    $(document).ready(coletivoCheck());
+    $(document).ready(representanteCheck());
+
+    // $(document).ready(function () {
+    //     let coletivoCheck = $('#coletivo');
+    //
+    //     coletivoCheck.on('change', function () {
+    //         let coletivo = $('#coletivo_produtor');
+    //
+    //         if (coletivoCheck.is(':checked')) {
+    //             coletivo.attr('readonly', false);
+    //             coletivo.attr('required', true);
+    //             coletivo.removeAttr('placeholder');
+    //         } else {
+    //             coletivo.attr('readonly', true);
+    //             coletivo.attr('required', false);
+    //             coletivo.attr('placeholder', 'Não se aplica');
+    //             coletivo.val('Não se aplica');
+    //         }
+    //     });
+    //
+    //     let representanteCheck = $('#representante');
+    //
+    //     representanteCheck.on('change', function () {
+    //         let representante = $('#representante_nucleo');
+    //
+    //         if (representanteCheck.is(':checked')) {
+    //             representante.attr('readonly', false);
+    //             representante.attr('required', true);
+    //             representante.removeAttr('placeholder');
+    //         } else {
+    //             representante.attr('readonly', true);
+    //             representante.attr('required', false);
+    //             representante.attr('placeholder', 'Não se aplica');
+    //             representante.val('Não se aplica');
+    //         }
+    //     })
+    // });
 </script>
