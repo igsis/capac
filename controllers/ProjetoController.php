@@ -229,20 +229,30 @@ class ProjetoController extends ProjetoModel
 
     public function insereProjeto($post){
         session_start(['name' => 'cpc']);
+
         /* executa limpeza nos campos */
         unset($post['_method']);
         unset($post['modulo']);
         unset($post['pagina']);
+
         $edital_id = MainModel::decryption($_SESSION['edital_c']);
         $dados['fom_edital_id'] = $edital_id;
-        //$dados['pessoa_juridica_id'] = MainModel::decryption($_SESSION['origem_id_c']);
         $dados['fom_status_id'] = 1;
+
+        $camposComp = ['instituicao', 'site'];
+        $dadosComp = [];
+
         foreach ($post as $campo => $valor) {
             if ($campo != "modulo") {
                 if ($campo == 'valor_projeto'){
                     $valor = MainModel::dinheiroDeBr($valor);
                 }
-                $dados[$campo] = MainModel::limparString($valor);
+                $dado = MainModel::limparString($valor);
+                if (in_array($campo, $camposComp)) {
+                    $dadosComp[$campo] = $dado;
+                } else {
+                    $dados[$campo] = $dado;
+                }
             }
         }
         /* ./limpeza */
@@ -250,6 +260,12 @@ class ProjetoController extends ProjetoModel
         $insere = DbModel::insert('fom_projetos', $dados);
         if ($insere->rowCount() >= 1) {
             $projeto_id = DbModel::connection()->lastInsertId();
+
+            if (count($dadosComp)) {
+                $dadosComp['fom_projeto_id'] = $projeto_id;
+                DbModel::insert('fom_projeto_dados', $dadosComp);
+            }
+
             $_SESSION['projeto_c'] = MainModel::encryption($projeto_id);
             $alerta = [
                 'alerta' => 'sucesso',
@@ -311,7 +327,11 @@ class ProjetoController extends ProjetoModel
     public function recuperaProjeto($id) {
         $id = MainModel::decryption($id);
 
-        $projeto = DbModel::getInfo('fom_projetos',$id)->fetch(PDO::FETCH_ASSOC);
+        $sql = "SELECT fp.*, fpd.instituicao, fpd.site FROM fom_projetos AS fp
+                LEFT JOIN fom_projeto_dados fpd on fp.id = fpd.fom_projeto_id
+                WHERE fp.id = '$id'";
+        $projeto = DbModel::consultaSimples($sql)->fetch(PDO::FETCH_ASSOC);
+
         if ($projeto['pessoa_tipo_id'] == 1) {
             if ($projeto['pessoa_fisica_id'] != null) {
                 $_SESSION['origem_id_c'] = MainModel::encryption($projeto['pessoa_fisica_id']);
