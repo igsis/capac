@@ -1,8 +1,8 @@
 <?php
-require_once "./controllers/ProjetoController.php";
-$projetoObj = new ProjetoController();
+require_once "./controllers/NucleoArtisticoController.php";
+$nucleoObj = new NucleoArtisticoController();
 
-$nucleos = $projetoObj->listaNucleo($_SESSION['projeto_c']);
+$nucleos = $nucleoObj->listaNucleo($_SESSION['projeto_c']);
 ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
