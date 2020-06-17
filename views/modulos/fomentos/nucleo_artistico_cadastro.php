@@ -26,17 +26,8 @@ if (isset($_POST['pf_cpf'])){
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Pessoa Física</h1>
+                <h1 class="m-0 text-dark">Novo integrante do núcleo artístico</h1>
             </div><!-- /.col -->
-            <?php
-            if ($id) {
-                ?>
-                <div class="col-sm-6">
-                    <button type="submit" data-toggle="modal" data-target="#modal-troca" class="btn btn-secondary float-right">Trocar Pessoa Física</button>
-                </div><!-- /.col -->
-                <?php
-            }
-            ?>
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
 </div>
