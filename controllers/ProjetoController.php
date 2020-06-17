@@ -531,6 +531,38 @@ class ProjetoController extends ProjetoModel
 
     public function apagaNucleo($id)
     {
-        
+        $idDecryp = MainModel::decryption($id);
+        $delete = DbModel::deleteEspecial("fom_nucleo_artisticos","id",$idDecryp);
+        if ($delete->rowCount() >= 1 || DbModel::connection()->errorCode() == 0) {
+            $deleteNucleo = DbModel::deleteEspecial("fom_projeto_nucleo_artistico","fom_nucleo_artistico_id",$idDecryp);
+            if ($deleteNucleo->rowCount() >= 1 || DbModel::connection()->errorCode() == 0) {
+                $alerta = [
+                    'alerta' => 'sucesso',
+                    'titulo' => 'Núcleo artístico',
+                    'texto' => 'Integrante excluído com sucesso!',
+                    'tipo' => 'success',
+                    'location' => SERVERURL.'fomentos/nucleo_artistico_lista'
+                ];
+            }
+            else {
+                $alerta = [
+                    'alerta' => 'simples',
+                    'titulo' => 'Erro!',
+                    'texto' => 'Erro ao salvar!',
+                    'tipo' => 'error',
+                    'location' => SERVERURL.'fomentos/nucleo_artistico_cadastro&id='.MainModel::encryption($idDecryp)
+                ];
+            }
+        }
+        else {
+            $alerta = [
+                'alerta' => 'simples',
+                'titulo' => 'Erro!',
+                'texto' => 'Erro ao salvar!',
+                'tipo' => 'error',
+                'location' => SERVERURL.'fomentos/nucleo_artistico_cadastro&id='.MainModel::encryption($idDecryp)
+            ];
+        }
+        return MainModel::sweetAlert($alerta);
     }
 }
