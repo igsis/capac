@@ -1,22 +1,19 @@
 <?php
-require_once "./controllers/PessoaFisicaController.php";
+require_once "./controllers/IntegranteController.php";
 
-$pfObjeto =  new PessoaFisicaController();
+$integranteObj =  new IntegranteController();
 
 $id = isset($_GET['id']) ? $_GET['id'] : null;
 
 if ($id) {
-    $pf = $pfObjeto->recuperaPessoaFisicaFom($id);
-    $documento = $pf['cpf'];
+    $pf = $integranteObj->recuperaIntegrante($id);
 }
 
-if (isset($_POST['pf_cpf'])){
-    $documento = $_POST['pf_cpf'];
-    $pf = $pfObjeto->getCPF($documento)->fetch();
-    if ($pf){
+if (isset($_POST['cpf'])){
+    $cpf = $_POST['cpf'];
+    $pf = $integranteObj->recuperaIntegranteCpf($cpf);
+    if ($pf) {
         $id = (new MainModel)->encryption($pf['id']);
-        $pf = $pfObjeto->recuperaPessoaFisicaFom($id);
-        $documento = $pf['cpf'];
     }
 }
 
@@ -46,9 +43,9 @@ if (isset($_POST['pf_cpf'])){
                     <!-- /.card-header -->
                     <!-- form start -->
                     <form class="form-horizontal formulario-ajax" method="POST"
-                          action="<?= SERVERURL ?>ajax/projetoAjax.php" role="form"
+                          action="<?= SERVERURL ?>ajax/integranteAjax.php" role="form"
                           data-form="<?= ($id) ? "update" : "save" ?>">
-                        <input type="hidden" name="_method" value="cadastrarPf">
+                        <input type="hidden" name="_method" value="<?= ($id) ? "editaIntegranteFomento" : "cadastraIntegranteFomento" ?>">
                         <?php if ($id): ?>
                             <input type="hidden" name="id" value="<?= $id ?>">
                         <?php endif; ?>
@@ -60,11 +57,11 @@ if (isset($_POST['pf_cpf'])){
                                 </div>
                                 <div class="col form-group">
                                     <label for="cpf">CPF:</label>
-                                    <input type="text" class="form-control" name="cpf" readonly value="<?= isset($_POST['cpf']) ?? $_POST['cpf'] ?>">
+                                    <input type="text" class="form-control" name="cpf" readonly value="<?= $pf['cpf'] ?? $_POST['cpf'] ?>">
                                 </div>
                                 <div class="col form-group">
                                     <label for="rg">RG:</label>
-                                    <input type="text" class="form-control" name="rg" value="<?= isset($_POST['rg']) ?? '' ?>">
+                                    <input type="text" class="form-control" name="rg" value="<?= $pf['rg'] ?? '' ?>">
                                 </div>
                             </div>
                         </div>
@@ -72,6 +69,7 @@ if (isset($_POST['pf_cpf'])){
                         <!-- /.card-body -->
                         <div class="card-footer">
                             <button type="submit" class="btn btn-info float-right">Gravar</button>
+                            <a href="<?=SERVERURL?>fomentos/nucleo_artistico_lista" class="btn btn-default float-left">Voltar</a>
                         </div>
                         <!-- /.card-footer -->
                         <div class="resposta-ajax"></div>
@@ -85,7 +83,6 @@ if (isset($_POST['pf_cpf'])){
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
-
 
 <script type="text/javascript">
     $(document).ready(function () {

@@ -106,12 +106,33 @@ class DbModel
         return $statement;
     }
 
-    // Método para pegar a informação
+    /**
+     * Método para pegar a informação
+     * @param $table
+     * @param $id
+     * @return bool|PDOStatement
+     */
     protected function getInfo($table, $id){
         $pdo = self::connection();
         $sql = "SELECT * FROM $table WHERE id = :id";
         $statement = $pdo->prepare($sql);
         $statement->bindValue(":id", $id);
+        $statement->execute();
+
+        return $statement;
+    }
+
+    /**
+     * Método para pegar a informação declarando o campo para busca
+     * @param $table
+     * @param $id
+     * @return bool|PDOStatement
+     */
+    protected function getInfoEspecial($table, $campo, $campo_id){
+        $pdo = self::connection();
+        $sql = "SELECT * FROM $table WHERE $campo = :campo_id";
+        $statement = $pdo->prepare($sql);
+        $statement->bindValue(":campo_id", $campo_id);
         $statement->execute();
 
         return $statement;

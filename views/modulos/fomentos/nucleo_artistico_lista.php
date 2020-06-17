@@ -1,8 +1,8 @@
 <?php
 require_once "./controllers/IntegranteController.php";
-$nucleoObj = new IntegranteController();
+$integranteObj = new IntegranteController();
 
-$nucleos = $nucleoObj->listaNucleo($_SESSION['projeto_c']);
+$instegrantes = $integranteObj->listaNucleo($_SESSION['projeto_c']);
 ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -42,14 +42,15 @@ $nucleos = $nucleoObj->listaNucleo($_SESSION['projeto_c']);
                             </thead>
                             <tbody>
                             <?php
-                            foreach ($nucleos as $nucleo):
+                            foreach ($instegrantes as $integrante):
                             ?>
                                 <tr>
-                                    <td><?= $nucleo->nome ?></td>
-                                    <td><?= $nucleo->rg ?></td>
-                                    <td><?= $nucleo->cpf ?></td>
+                                    <td><?= $integrante->nome ?></td>
+                                    <td><?= $integrante->rg ?></td>
+                                    <td><?= $integrante->cpf ?></td>
                                     <td>
-                                        <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</button>
+                                        <a href="<?=SERVERURL?>fomentos/nucleo_artistico_cadastro&id=<?=$integranteObj->encryption($integrante->id)?>"
+                                           class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</a>
                                         <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Apagar</button>
                                     </td>
                                 </tr>
@@ -111,7 +112,7 @@ $nucleos = $nucleoObj->listaNucleo($_SESSION['projeto_c']);
                     <div class="row">
                         <div class="form-group col-md-12">
                             <label for="cpf">CPF:</label>
-                            <input type="text" class="form-control" id="cpf" name="pf_cpf" maxlength="14"
+                            <input type="text" class="form-control" id="cpf" name="cpf" maxlength="14"
                                    required onkeypress="mask(this, '999.999.999-99')" minlength="14">
                             <div id="dialogError" class="invalid-feedback">CPF inválido</div>
                         </div>
