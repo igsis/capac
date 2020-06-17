@@ -5,19 +5,19 @@ if ($pedidoAjax) {
     require_once "./models/MainModel.php";
 }
 
-class nucleoArtisticoController extends MainModel
+class IntegranteController extends MainModel
 {
     public function listaNucleo($projeto_id)
     {
         $projeto_id = MainModel::decryption($projeto_id);
-        return DbModel::consultaSimples("SELECT fna.id, fna.nome, fna.rg, fna.cpf FROM fom_projeto_nucleo_artistico fpna INNER JOIN fom_nucleo_artisticos fna ON fpna.fom_nucleo_artistico_id = fna.id WHERE fpna.fom_projeto_id = '$projeto_id'")->fetchAll(PDO::FETCH_OBJ);
+        return DbModel::consultaSimples("SELECT fna.id, fna.nome, fna.rg, fna.cpf FROM fom_projeto_nucleo_artistico fpna INNER JOIN integrantes fna ON fpna.fom_nucleo_artistico_id = fna.id WHERE fpna.fom_projeto_id = '$projeto_id'")->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function validaCpfNucleo()
     {
         $cpf = $_POST['cpf'];
         /* valida cpf */
-        $consulta = DbModel::consultaSimples("SELECT * FROM fom_nucleo_artisticos WHERE cpf = '$cpf'");
+        $consulta = DbModel::consultaSimples("SELECT * FROM integrantes WHERE cpf = '$cpf'");
     }
 
     public function cadastraNucleo()
@@ -29,7 +29,7 @@ class nucleoArtisticoController extends MainModel
         foreach ($_POST as $campo => $post) {
             $dados[$campo] = MainModel::limparString($post);
         }
-        $insere = DbModel::insert("fom_nucleo_artisticos",$dados);
+        $insere = DbModel::insert("integrantes",$dados);
         if ($insere->rowCount() >= 1 || DbModel::connection()->errorCode() == 0) {
             $id = DbModel::connection()->lastInsertId();
             $nucleo['projeto'] = $projeto_id;
@@ -77,7 +77,7 @@ class nucleoArtisticoController extends MainModel
             $dados[$campo] = MainModel::limparString($post);
         }
 
-        $edita = DbModel::update('fom_nucleo_artisticos', $dados, $idDecryp);
+        $edita = DbModel::update('integrantes', $dados, $idDecryp);
         if ($edita->rowCount() >= 1 || DbModel::connection()->errorCode() == 0) {
             $alerta = [
                 'alerta' => 'sucesso',
@@ -102,7 +102,7 @@ class nucleoArtisticoController extends MainModel
     public function apagaNucleo($id)
     {
         $idDecryp = MainModel::decryption($id);
-        $delete = DbModel::deleteEspecial("fom_nucleo_artisticos","id",$idDecryp);
+        $delete = DbModel::deleteEspecial("integrantes","id",$idDecryp);
         if ($delete->rowCount() >= 1 || DbModel::connection()->errorCode() == 0) {
             $deleteNucleo = DbModel::deleteEspecial("fom_projeto_nucleo_artistico","fom_nucleo_artistico_id",$idDecryp);
             if ($deleteNucleo->rowCount() >= 1 || DbModel::connection()->errorCode() == 0) {
