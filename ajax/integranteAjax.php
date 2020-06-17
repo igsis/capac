@@ -11,6 +11,8 @@ if (isset($_POST['_method'])) {
         echo $integranteObj->cadastraIntegrante(true);
     }elseif ($_POST['_method'] == "editaIntegranteFomento") {
         echo $integranteObj->editaIntegrante($_POST['id'], true);
+    }elseif ($_POST['_method'] == "apagaIntegranteFomento") {
+        echo $integranteObj->apagaIntegrante($_POST['id'], true);
     }
 } else {
     include_once "../config/destroySession.php";

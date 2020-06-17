@@ -10,14 +10,14 @@ class IntegranteController extends MainModel
     private function cadastraIntegranteProjeto($integrante_id)
     {
         $projeto_id = MainModel::decryption($_SESSION['projeto_c']);
-        $relacionamento = MainModel::atualizaRelacionamento('fom_projeto_nucleo_artistico', 'fom_projeto_id', $projeto_id, 'fom_nucleo_artistico_id', $integrante_id);
+        $relacionamento = MainModel::atualizaRelacionamento('fom_projeto_nucleo_artistico', 'fom_projeto_id', $projeto_id, 'integrante_id', $integrante_id);
         if ($relacionamento) {
             $alerta = [
                 'alerta' => 'sucesso',
                 'titulo' => 'Núcleo artístico',
                 'texto' => 'Integrante cadastrado com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL.'fomentos/nucleo_artistico_cadastro&id='.MainModel::encryption($integrante_id)
+                'location' => SERVERURL.'fomentos/nucleo_artistico_lista'
             ];
         } else {
             $alerta = [
@@ -25,7 +25,7 @@ class IntegranteController extends MainModel
                 'titulo' => 'Erro!',
                 'texto' => 'Erro ao salvar!',
                 'tipo' => 'error',
-                'location' => SERVERURL.'/fomentos/nucleo_artistico_lista'
+                'location' => SERVERURL.'fomentos/nucleo_artistico_lista'
             ];
         }
 
@@ -46,7 +46,7 @@ class IntegranteController extends MainModel
     public function listaNucleo($projeto_id)
     {
         $projeto_id = MainModel::decryption($projeto_id);
-        return DbModel::consultaSimples("SELECT fna.id, fna.nome, fna.rg, fna.cpf FROM fom_projeto_nucleo_artistico fpna INNER JOIN integrantes fna ON fpna.fom_nucleo_artistico_id = fna.id WHERE fpna.fom_projeto_id = '$projeto_id'")->fetchAll(PDO::FETCH_OBJ);
+        return DbModel::consultaSimples("SELECT fna.id, fna.nome, fna.rg, fna.cpf FROM fom_projeto_nucleo_artistico fpna INNER JOIN integrantes fna ON fpna.integrante_id = fna.id WHERE fpna.fom_projeto_id = '$projeto_id'")->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function cadastraIntegrante($fomentos = false)
@@ -104,38 +104,35 @@ class IntegranteController extends MainModel
         return MainModel::sweetAlert($alerta);
     }
 
-    public function apagaNucleo($id)
+    public function apagaIntegrante($id, $fomentos = false)
     {
-        $idDecryp = MainModel::decryption($id);
-        $delete = DbModel::deleteEspecial("integrantes","id",$idDecryp);
-        if ($delete->rowCount() >= 1 || DbModel::connection()->errorCode() == 0) {
-            $deleteNucleo = DbModel::deleteEspecial("fom_projeto_nucleo_artistico","fom_nucleo_artistico_id",$idDecryp);
-            if ($deleteNucleo->rowCount() >= 1 || DbModel::connection()->errorCode() == 0) {
-                $alerta = [
-                    'alerta' => 'sucesso',
-                    'titulo' => 'Núcleo artístico',
-                    'texto' => 'Integrante excluído com sucesso!',
-                    'tipo' => 'success',
-                    'location' => SERVERURL.'fomentos/nucleo_artistico_lista'
-                ];
-            }
-            else {
-                $alerta = [
-                    'alerta' => 'simples',
-                    'titulo' => 'Erro!',
-                    'texto' => 'Erro ao salvar!',
-                    'tipo' => 'error',
-                    'location' => SERVERURL.'fomentos/nucleo_artistico_cadastro&id='.MainModel::encryption($idDecryp)
-                ];
-            }
+        $integrante_id = MainModel::decryption($id);
+
+        if ($fomentos) {
+            $tabela = 'fom_projeto_nucleo_artistico';
+            $coluna = 'fom_projeto_id';
+            $origem_id = MainModel::decryption($_SESSION['projeto_c']);
+            $pagina = 'fomentos/nucleo_artistico_lista';
         }
-        else {
+
+        $sql = "DELETE FROM $tabela WHERE $coluna = '$origem_id' AND integrante_id = '$integrante_id'";
+
+        $delete = DbModel::consultaSimples($sql);
+        if ($delete->rowCount() >= 1 || DbModel::connection()->errorCode() == 0) {
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Núcleo artístico',
+                'texto' => 'Integrante excluído com sucesso!',
+                'tipo' => 'success',
+                'location' => SERVERURL.$pagina
+            ];
+        } else {
             $alerta = [
                 'alerta' => 'simples',
                 'titulo' => 'Erro!',
                 'texto' => 'Erro ao salvar!',
                 'tipo' => 'error',
-                'location' => SERVERURL.'fomentos/nucleo_artistico_cadastro&id='.MainModel::encryption($idDecryp)
+                'location' => SERVERURL.$pagina
             ];
         }
         return MainModel::sweetAlert($alerta);

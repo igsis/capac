@@ -50,8 +50,16 @@ $instegrantes = $integranteObj->listaNucleo($_SESSION['projeto_c']);
                                     <td><?= $integrante->cpf ?></td>
                                     <td>
                                         <a href="<?=SERVERURL?>fomentos/nucleo_artistico_cadastro&id=<?=$integranteObj->encryption($integrante->id)?>"
-                                           class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</a>
-                                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Apagar</button>
+                                           class="btn btn-sm btn-primary float-left mr-2"><i class="fas fa-edit"></i> Editar</a>
+                                        <form class="formulario-ajax" action="<?=SERVERURL?>ajax/integranteAjax.php"
+                                              method="post" data-form="delete">
+                                            <input type="hidden" name="_method" value="apagaIntegranteFomento">
+                                            <input type="hidden" name="id" value="<?=$integranteObj->encryption($integrante->id)?>">
+                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                <i class="fas fa-trash"></i> Apagar
+                                            </button>
+                                            <div class="resposta-ajax"></div>
+                                        </form>
                                     </td>
                                 </tr>
                             <?php

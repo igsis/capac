@@ -20,10 +20,10 @@ CREATE TABLE `integrantes` (
 
 CREATE TABLE `fom_projeto_nucleo_artistico` (
     `fom_projeto_id` INT NOT NULL,
-    `fom_nucleo_artistico_id` INT NOT NULL,
-    INDEX `fom_projeto_id_fom_nucleo_artistico_id` (`fom_projeto_id`, `fom_nucleo_artistico_id`),
+    `integrante_id` INT NOT NULL,
+    INDEX `fom_projeto_id_integrante_id` (`fom_projeto_id`, `integrante_id`),
     CONSTRAINT `fk_projeto` FOREIGN KEY (`fom_projeto_id`) REFERENCES `fom_projetos` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION,
-    CONSTRAINT `fk_nucleo_artistico` FOREIGN KEY (`fom_nucleo_artistico_id`) REFERENCES `integrantes` (`id`) ON UPDATE NO ACTION
+    CONSTRAINT `fk_nucleo_artistico` FOREIGN KEY (`integrante_id`) REFERENCES `integrantes` (`id`) ON UPDATE NO ACTION
 );
 
 ALTER TABLE `fom_projetos`
