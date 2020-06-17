@@ -3,13 +3,7 @@ require_once "./controllers/PessoaFisicaController.php";
 
 $pfObjeto =  new PessoaFisicaController();
 
-if (isset($_GET['id'])) {
-    $_SESSION['origem_id_c'] = $id = $_GET['id'];
-} elseif (isset($_SESSION['origem_id_c'])){
-    $id = $_SESSION['origem_id_c'];
-} else {
-    $id = null;
-}
+$id = isset($_GET['id']) ? $_GET['id'] : null;
 
 if ($id) {
     $pf = $pfObjeto->recuperaPessoaFisicaFom($id);
@@ -105,6 +99,6 @@ if (isset($_POST['pf_cpf'])){
 <script type="text/javascript">
     $(document).ready(function () {
         $('.nav-link').removeClass('active');
-        $('#proponente').addClass('active');
+        $('#nucleo_artistico').addClass('active');
     });
 </script>

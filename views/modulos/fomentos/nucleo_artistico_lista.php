@@ -1,6 +1,6 @@
 <?php
 require_once "./controllers/NucleoArtisticoController.php";
-$nucleoObj = new NucleoArtisticoController();
+$nucleoObj = new IntegranteController();
 
 $nucleos = $nucleoObj->listaNucleo($_SESSION['projeto_c']);
 ?>
