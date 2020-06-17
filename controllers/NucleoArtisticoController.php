@@ -13,6 +13,13 @@ class nucleoArtisticoController extends MainModel
         return DbModel::consultaSimples("SELECT fna.id, fna.nome, fna.rg, fna.cpf FROM fom_projeto_nucleo_artistico fpna INNER JOIN fom_nucleo_artisticos fna ON fpna.fom_nucleo_artistico_id = fna.id WHERE fpna.fom_projeto_id = '$projeto_id'")->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function validaCpfNucleo()
+    {
+        $cpf = $_POST['cpf'];
+        /* valida cpf */
+        $consulta = DbModel::consultaSimples("SELECT * FROM fom_nucleo_artisticos WHERE cpf = '$cpf'");
+    }
+
     public function cadastraNucleo()
     {
         $dados=[];
