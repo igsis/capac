@@ -1,37 +1,12 @@
 <?php
 if ($pedidoAjax) {
-    require_once "../models/MainModel.php";
+    require_once "../models/IntegranteModel.php";
 } else {
-    require_once "./models/MainModel.php";
+    require_once "./models/IntegranteModel.php";
 }
 
-class IntegranteController extends MainModel
+class IntegranteController extends IntegranteModel
 {
-    private function cadastraIntegranteProjeto($integrante_id)
-    {
-        $projeto_id = MainModel::decryption($_SESSION['projeto_c']);
-        $relacionamento = MainModel::atualizaRelacionamento('fom_projeto_nucleo_artistico', 'fom_projeto_id', $projeto_id, 'integrante_id', $integrante_id);
-        if ($relacionamento) {
-            $alerta = [
-                'alerta' => 'sucesso',
-                'titulo' => 'Núcleo artístico',
-                'texto' => 'Integrante cadastrado com sucesso!',
-                'tipo' => 'success',
-                'location' => SERVERURL.'fomentos/nucleo_artistico_lista'
-            ];
-        } else {
-            $alerta = [
-                'alerta' => 'simples',
-                'titulo' => 'Erro!',
-                'texto' => 'Erro ao salvar!',
-                'tipo' => 'error',
-                'location' => SERVERURL.'fomentos/nucleo_artistico_lista'
-            ];
-        }
-
-        return $alerta;
-    }
-
     public function recuperaIntegranteCpf($cpf)
     {
         return DbModel::getInfoEspecial('integrantes', 'cpf', $cpf)->fetch();
@@ -62,7 +37,7 @@ class IntegranteController extends MainModel
         if ($insere->rowCount() >= 1) {
             $integrante_id = DbModel::connection()->lastInsertId();
             if($fomentos) {
-                $alerta = $this->cadastraIntegranteProjeto($integrante_id);
+                $alerta = parent::cadastraIntegranteProjeto($integrante_id);
             }
         } else {
             $alerta = [
@@ -70,7 +45,6 @@ class IntegranteController extends MainModel
                 'titulo' => 'Erro!',
                 'texto' => 'Erro ao salvar!',
                 'tipo' => 'error',
-                'location' => SERVERURL.'/fomentos/nucleo_artistico_lista'
             ];
         }
         return MainModel::sweetAlert($alerta);
@@ -90,7 +64,7 @@ class IntegranteController extends MainModel
         $edita = DbModel::update('integrantes', $dados, $integrante_id);
         if ($edita->rowCount() >= 1 || DbModel::connection()->errorCode() == 0) {
             if($fomentos) {
-                $alerta = $this->cadastraIntegranteProjeto($integrante_id);
+                $alerta = parent::cadastraIntegranteProjeto($integrante_id);
             }
         } else {
             $alerta = [
@@ -119,6 +93,9 @@ class IntegranteController extends MainModel
 
         $delete = DbModel::consultaSimples($sql);
         if ($delete->rowCount() >= 1 || DbModel::connection()->errorCode() == 0) {
+            if ($fomentos) {
+                parent::atualizaColunaNucleo($origem_id);
+            }
             $alerta = [
                 'alerta' => 'sucesso',
                 'titulo' => 'Núcleo artístico',
