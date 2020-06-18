@@ -9,7 +9,7 @@ class IntegranteModel extends MainModel
 {
     protected function atualizaColunaNucleo($projeto_id)
     {
-        $sql = "SELECT fna.nome, fna.rg, fna.cpf FROM fom_projeto_nucleo_artistico fpna INNER JOIN integrantes fna ON fpna.integrante_id = fna.id WHERE fpna.fom_projeto_id = '$projeto_id'";
+        $sql = "SELECT fna.nome, fna.rg, fna.cpf FROM fom_projeto_nucleo_artistico fpna INNER JOIN integrantes fna ON fpna.integrante_id = fna.id WHERE fpna.fom_projeto_id = '$projeto_id' ORDER BY fna.nome";
         $integrantes = DbModel::consultaSimples($sql);
 
         if ($integrantes->rowCount() > 0) {

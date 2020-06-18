@@ -159,7 +159,8 @@ $validacaoArquivos = $projetoObj->validaProjeto($idProj, $_SESSION['edital_c']);
                             meses
                         </li>
                         <li class="my-2"><span
-                                class="subtitulos mr-2">Núcleo artístico: </span><?= $projeto['nucleo_artistico'] ?>
+                                class="subtitulos mr-2">Núcleo artístico: </span>
+                            <?= nl2br($projeto['nucleo_artistico']) ?>
                         </li>
                         <li class="my-2"><span
                                 class="subtitulos mr-2">Nome do representante do núcleo: </span><?= $projeto['representante_nucleo'] ?>
