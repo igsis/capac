@@ -155,12 +155,17 @@ $pessoa_tipos_id = $objFomento->recuperaEdital($_SESSION['edital_c'])->pessoa_ti
     <div class="modal-dialog modal-md">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Representante do núcleo ou coletivo</h4>
+                <h4 class="modal-title">Núcleo artístico</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
             <div class="modal-body">
+                <p class="text-justify">Entende-se por núcleo artístico os artistas e técnicos que se responsabilizem pela fundamentação e execução do projeto, constituindo uma
+                    base organizativa de caráter continuado.</p>
+                <br>
+                <h4 class="modal-title">Representante do núcleo ou coletivo</h4>
+                <hr>
                 <p class="text-justify">Entende-se que o responsável legal é o membro do Núcleo ou Coletivo que assinará o Termo de Fomento junto à Secretaria Municipal de Cultura.</p>
             </div>
         </div>
@@ -179,7 +184,7 @@ $pessoa_tipos_id = $objFomento->recuperaEdital($_SESSION['edital_c'])->pessoa_ti
                 </button>
             </div>
             <div class="modal-body">
-                <p class="text-justify">São articulações de individuos que se organizam para a execução de atividades artísticas ou culturais em torno de uma linguem e/ou temática. Os coletivos se mantêm autônomos e independentes mesmo quando articulados em uma rede. Um coletivo deve ser composto por pelo menos 3 pessoas.</p>
+                <p class="text-justify">Entende-se por produtor independente o artista, diretor e/ou produtor profissionais diretamente responsáveis pela criação, consecução e/ou viabilização do projeto. Os demais profissionais envolvidos, sejam artistas ou técnicos, integram a ficha técnica do projeto.</p>
             </div>
         </div>
         <!-- /.modal-content -->
