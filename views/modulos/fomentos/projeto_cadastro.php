@@ -64,10 +64,6 @@ $pessoa_tipos_id = $objFomento->recuperaEdital($_SESSION['edital_c'])->pessoa_ti
                                     <label for="nome_projeto">Nome do projeto: *</label>
                                     <input type="text" class="form-control" id="nome_projeto" name="nome_projeto"  maxlength="70" value="<?= $projeto['nome_projeto'] ?? null ?>" required>
                                 </div>
-                                <div class="form-group col-md">
-                                    <label for="nome_nucleo"> Nome do Núcleo Artístico/Coletivo Artístico: *</label>
-                                    <input type="text" class="form-control" id="nome_nucleo" name="nome_nucleo"  maxlength="70" value="<?= $projeto['nome_nucleo'] ?? null ?>" required>
-                                </div>
                             </div>
 
                             <?php if ($pessoa_tipos_id == 2) : ?>
@@ -109,8 +105,12 @@ $pessoa_tipos_id = $objFomento->recuperaEdital($_SESSION['edital_c'])->pessoa_ti
                                     <div class="custom-control custom-checkbox mt-2">
                                         <input class="custom-control-input" type="checkbox" id="representante"
                                             onchange="representanteCheck()" <?= $nucleo ?? ''?>>
-                                        <label for="representante" class="custom-control-label">Há representante do núcleo <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-rep-nucleo"> <i class="fas fa-info"></i></button></label>
+                                        <label for="representante" class="custom-control-label">Caso seja núcleo/coletivo artístico <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-rep-nucleo"> <i class="fas fa-info"></i></button></label>
                                     </div>
+                                </div>
+                                <div class="form-group col-md">
+                                    <label for="nome_nucleo"> Nome do núcleo artístico/coletivo artístico: *</label>
+                                    <input type="text" class="form-control" id="nome_nucleo" name="nome_nucleo"  maxlength="70" value="<?= $projeto['nome_nucleo'] ?? null ?>" required readonly>
                                 </div>
                                 <div class="form-group col-md">
                                     <label for="representante_nucleo">Nome do representante do núcleo: *</label>
@@ -124,7 +124,7 @@ $pessoa_tipos_id = $objFomento->recuperaEdital($_SESSION['edital_c'])->pessoa_ti
                                     <div class="custom-control custom-checkbox mt-4">
                                         <input class="custom-control-input" type="checkbox" id="coletivo"
                                             onchange="coletivoCheck()" <?= $coletivo ?? ''?>>
-                                        <label for="coletivo" class="custom-control-label">Produtor independente <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-coletivo"> <i class="fas fa-info"></i></button></label>
+                                        <label for="coletivo" class="custom-control-label">Caso seja produtor independente <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-coletivo"> <i class="fas fa-info"></i></button></label>
                                     </div>
                                 </div>
                                 <div class="form-group col-md">
