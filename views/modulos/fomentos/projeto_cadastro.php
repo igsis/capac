@@ -110,7 +110,8 @@ $pessoa_tipos_id = $objFomento->recuperaEdital($_SESSION['edital_c'])->pessoa_ti
                                 </div>
                                 <div class="form-group col-md">
                                     <label for="nome_nucleo"> Nome do núcleo artístico/coletivo artístico: *</label>
-                                    <input type="text" class="form-control" id="nome_nucleo" name="nome_nucleo"  maxlength="70" value="<?= $projeto['nome_nucleo'] ?? null ?>" required readonly>
+                                    <input type="text" class="form-control" id="nome_nucleo" name="nome_nucleo"
+                                           maxlength="70" value="<?= $projeto['nome_nucleo'] ?? null ?>" required readonly>
                                 </div>
                                 <div class="form-group col-md">
                                     <label for="representante_nucleo">Nome do representante do núcleo: *</label>
@@ -256,16 +257,24 @@ $pessoa_tipos_id = $objFomento->recuperaEdital($_SESSION['edital_c'])->pessoa_ti
         let representanteCheck = $('#representante');
 
         let representante = $('#representante_nucleo');
+        let nomeNucleo = $('#nome_nucleo');
 
         if (representanteCheck.is(':checked')) {
             representante.attr('readonly', false);
             representante.attr('required', true);
             representante.removeAttr('placeholder');
+            nomeNucleo.attr('readonly', false);
+            nomeNucleo.attr('required', true);
+            nomeNucleo.removeAttr('placeholder');
         } else {
             representante.attr('readonly', true);
             representante.attr('required', false);
             representante.attr('placeholder', 'Não se aplica');
             representante.val('Não se aplica');
+            nomeNucleo.attr('readonly', true);
+            nomeNucleo.attr('required', false);
+            nomeNucleo.attr('placeholder', 'Não se aplica');
+            nomeNucleo.val('Não se aplica');
         }
     }
 
