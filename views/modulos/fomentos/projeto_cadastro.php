@@ -64,6 +64,10 @@ $pessoa_tipos_id = $objFomento->recuperaEdital($_SESSION['edital_c'])->pessoa_ti
                                     <label for="nome_projeto">Nome do projeto: *</label>
                                     <input type="text" class="form-control" id="nome_projeto" name="nome_projeto"  maxlength="70" value="<?= $projeto['nome_projeto'] ?? null ?>" required>
                                 </div>
+                                <div class="form-group col-md">
+                                    <label for="nome_nucleo"> Nome do Núcleo Artístico/Coletivo Artístico: *</label>
+                                    <input type="text" class="form-control" id="nome_nucleo" name="nome_nucleo"  maxlength="70" value="<?= $projeto['nome_nucleo'] ?? null ?>" required>
+                                </div>
                             </div>
 
                             <?php if ($pessoa_tipos_id == 2) : ?>
@@ -120,11 +124,11 @@ $pessoa_tipos_id = $objFomento->recuperaEdital($_SESSION['edital_c'])->pessoa_ti
                                     <div class="custom-control custom-checkbox mt-4">
                                         <input class="custom-control-input" type="checkbox" id="coletivo"
                                             onchange="coletivoCheck()" <?= $coletivo ?? ''?>>
-                                        <label for="coletivo" class="custom-control-label">Há coletivo/produtor independente <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-coletivo"> <i class="fas fa-info"></i></button></label>
+                                        <label for="coletivo" class="custom-control-label">Produtor independente <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-coletivo"> <i class="fas fa-info"></i></button></label>
                                     </div>
                                 </div>
                                 <div class="form-group col-md">
-                                    <label for="coletivo_produtor">Nome do coletivo/produtor independente: *</label>
+                                    <label for="coletivo_produtor">Nome do produtor independente: *</label>
                                     <input type="text" class="form-control" id="coletivo_produtor"
                                            name="coletivo_produtor" maxlength="100" placeholder="Não se aplica" readonly
                                            value="<?= $projeto['coletivo_produtor'] ?? null ?>" required>
@@ -169,7 +173,7 @@ $pessoa_tipos_id = $objFomento->recuperaEdital($_SESSION['edital_c'])->pessoa_ti
     <div class="modal-dialog modal-md">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Coletivo</h4>
+                <h4 class="modal-title">Produtor independente</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
