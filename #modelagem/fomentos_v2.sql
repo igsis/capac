@@ -1,3 +1,5 @@
+USE capac_new;
+
 CREATE TABLE `fom_projeto_dados` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `fom_projeto_id` INT NOT NULL,
@@ -32,3 +34,6 @@ ALTER TABLE `fom_projetos`
     ADD COLUMN `coletivo_produtor` VARCHAR(100) NULL DEFAULT NULL AFTER `representante_nucleo`,
     DROP COLUMN `instituicao`,
     DROP COLUMN `site`;
+
+INSERT INTO `generos` (`genero`) VALUES ('Não Declarar');
+UPDATE `etnias` SET `descricao`='Não Declarar', `publicado`='1' WHERE `id`=1;

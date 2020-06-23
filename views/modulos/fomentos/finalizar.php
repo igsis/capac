@@ -158,9 +158,14 @@ $validacaoArquivos = $projetoObj->validaProjeto($idProj, $_SESSION['edital_c']);
                                 class="subtitulos mr-2">Duração do projeto em meses: </span><?= $projeto['duracao'] ?>
                             meses
                         </li>
+                        <?php if ($projeto['representante_nucleo'] != "Não se aplica"): ?>
+                            <li class="my-2"><span
+                                        class="subtitulos mr-2">Núcleo artístico: </span>
+                                <?= nl2br($projeto['nucleo_artistico']) ?>
+                            </li>
+                        <?php endif ?>
                         <li class="my-2"><span
-                                class="subtitulos mr-2">Núcleo artístico: </span>
-                            <?= nl2br($projeto['nucleo_artistico']) ?>
+                                    class="subtitulos mr-2">Nome do núcleo artístico/coletivo artístico: </span><?= $projeto['nome_nucleo'] ?>
                         </li>
                         <li class="my-2"><span
                                 class="subtitulos mr-2">Nome do representante do núcleo: </span><?= $projeto['representante_nucleo'] ?>
