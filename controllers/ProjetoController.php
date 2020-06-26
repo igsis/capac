@@ -364,6 +364,7 @@ class ProjetoController extends ProjetoModel
             FROM fom_projetos fp
             INNER JOIN fom_editais fe on fp.fom_edital_id = fe.id
             INNER JOIN fom_status fs on fp.fom_status_id = fs.id
+            LEFT JOIN fom_projeto_dados fpd on fp.id = fpd.fom_projeto_id
             LEFT JOIN pessoa_juridicas pj on fp.pessoa_juridica_id = pj.id
             LEFT JOIN pessoa_fisicas pf on fp.pessoa_fisica_id = pf.id
             INNER JOIN usuarios u on fp.usuario_id = u.id
