@@ -77,7 +77,7 @@ if (isset($_POST['pf_cpf'])){
                                     <label for="nome">Nome Completo:</label>
                                     <input type="text" class="form-control" name="pf_nome" id="nome" value="<?= $pf['nome'] ?? '' ?>">
                                 </div>
-                                <div class="col-md-4 form-group">
+                                <div class="col form-group">
                                     <label for="cpf">CPF:</label>
                                     <input type="text" class="form-control" name="pf_cpf" readonly
                                            value="<?= isset($_POST['pf_cpf']) ? $_POST['pf_cpf'] : $pf['cpf'] ?>">

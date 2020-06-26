@@ -35,5 +35,12 @@ ALTER TABLE `fom_projetos`
     DROP COLUMN `instituicao`,
     DROP COLUMN `site`;
 
+UPDATE `fom_projetos` AS fp
+    INNER JOIN `fom_pf_dados` AS fpd ON fp.pessoa_fisica_id = fpd.pessoa_fisicas_id
+    SET fp.nome_nucleo = fpd.nome_grupo;
+
+ALTER TABLE `fom_pf_dados`
+    DROP COLUMN `nome_grupo`;
+
 INSERT INTO `generos` (`genero`) VALUES ('Não Declarar');
 UPDATE `etnias` SET `descricao`='Não Declarar', `publicado`='1' WHERE `id`=1;
