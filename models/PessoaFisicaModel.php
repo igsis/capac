@@ -91,7 +91,6 @@ class PessoaFisicaModel extends ValidacaoModel
                     pf.data_nascimento,
                     pf.email,
                     pe.*,
-                    fpd.nome_grupo,
                     fpd.rede_social,
                     fpd.subprefeitura_id,
                     fpd.genero_id,

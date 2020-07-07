@@ -78,11 +78,6 @@ if (isset($_POST['pf_cpf'])){
                                     <input type="text" class="form-control" name="pf_nome" id="nome" value="<?= $pf['nome'] ?? '' ?>">
                                 </div>
                                 <div class="col form-group">
-                                    <label for="nomeColetivo">Nome do Coletivo/Grupo *</label>
-                                    <input type="text" class="form-control" name="fm_nome_grupo" id="nomeColetivo"
-                                           value="<?= $pf['nome_grupo'] ?? '' ?>" required>
-                                </div>
-                                <div class="col form-group">
                                     <label for="cpf">CPF:</label>
                                     <input type="text" class="form-control" name="pf_cpf" readonly
                                            value="<?= isset($_POST['pf_cpf']) ? $_POST['pf_cpf'] : $pf['cpf'] ?>">
