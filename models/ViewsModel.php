@@ -43,6 +43,7 @@ class ViewsModel
             'evento_lista',
             'finalizar',
             'fomento_edital',
+            'formacao_edital',
             'informacoes_complementares_cadastro',
             'inicio',
             'lider',
@@ -83,6 +84,8 @@ class ViewsModel
             $conteudo = "login";
         } elseif ($modulo == "fomento_edital") {
             $conteudo = "fomento_edital";
+        } elseif ($modulo == "formacao_edital") {
+            $conteudo = "formacao_edital";
         } elseif ($modulo == "recupera_senha") {
             $conteudo = "recupera_senha";
         } elseif ($modulo == "resete_senha") {

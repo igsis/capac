@@ -46,6 +46,9 @@ class UsuarioController extends UsuarioModel
                         $_SESSION['tipo_pessoa'] = $EditalObj->recuperaTipoPessoaEdital($edital);
                         return $urlLocation = "<script> window.location='fomentos/inicio&modulo=$modulo' </script>";
                     }
+                    if ($modulo == 6) {
+                        return $urlLocation = "<script> window.location='formacao/inicio&modulo=$modulo' </script>";
+                    }
                 }
             } else {
                 $alerta = [
