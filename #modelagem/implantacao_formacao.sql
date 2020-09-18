@@ -14,3 +14,15 @@ INSERT INTO `capac_modulos` (`id`, `modulo`) VALUES
 (5, 'Formação (Piá e Vocacional)'),
 (6, 'Fomentos');
 
+create table form_aberturas
+(
+    id tinyint auto_increment,
+    titulo varchar(100) null,
+    descricao longtext null,
+    data_publicacao datetime null,
+    data_abertura datetime null,
+    data_encerramento datetime null,
+    publicado tinyint default 1 null,
+    constraint form_aberturas_pk
+        primary key (id)
+);
