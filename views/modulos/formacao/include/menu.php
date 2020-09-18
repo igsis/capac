@@ -10,18 +10,15 @@ if (isset($_SESSION['origem_id_c'])){
     }
 }
 ?>
-<li class="nav-item">
-    <a href="<?= SERVERURL ?>formacao/inicio" class="nav-link" id="evento_cc_inicio">
-        <i class="fa fa-info nav-icon"></i>
-        <p>Dados necessários</p>
-    </a>
-</li>
-<li class="nav-item">
-    <a href="<?= SERVERURL ?>formacao/proponente" class="nav-link" id="proponente">
-        <i class="fa fa-search nav-icon"></i>
-        <p>Cadastro</p>
-    </a>
-</li>
+<?php if (!isset($_SESSION['origem_id_c'])): ?>
+    <li class="nav-item">
+        <a href="<?= SERVERURL ?>formacao/busca_pf" class="nav-link" id="busca_pf">
+            <i class="fa fa-search nav-icon"></i>
+            <p>Buscar pessoa física</p>
+        </a>
+    </li>
+<?php endif; ?>
+
 <?php if (isset($_SESSION['origem_id_c'])){ ?>
     <li class="nav-item">
         <a href="<?= SERVERURL ?>formacao/pf_cadastro<?= $idPf ? '&id='.$idPf : NULL ?>" class="nav-link" id="dados_cadastrais">
