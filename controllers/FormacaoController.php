@@ -83,6 +83,11 @@ class FormacaoController extends MainModel
         return MainModel::sweetAlert($alerta);
     }
 
+    public function listaFormacao($idUsuario)
+    {
+        return MainModel::consultaSimples("SELECT fc.*, pf.nome,fp.programa, fl.linguagem FROM form_cadastros fc INNER JOIN pessoa_fisicas pf on fc.pessoa_fisica_id = pf.id INNER JOIN form_programas fp ON fc.programa_id = fp.id INNER JOIN form_linguagens fl on fc.linguagem_id = fl.id WHERE fc.usuario_id = '$idUsuario'")->fetchAll(PDO::FETCH_OBJ);
+    }
+
     public function recuperaFormacao($idPf)
     {
         $idPf = MainModel::decryption($idPf);
@@ -96,12 +101,6 @@ class FormacaoController extends MainModel
             LEFT JOIN form_cargos fc on form_cadastros.form_cargo_id = fc.id
             WHERE pessoa_fisica_id = '$idPf'
         ");
-        return $formacao;
-    }
-
-    public function validaForm($idPf){
-        $idPf = MainModel::decryption($idPf);
-        $formacao = ValidacaoModel::validaFormacao($idPf);
         return $formacao;
     }
 }

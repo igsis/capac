@@ -26,3 +26,5 @@ create table form_aberturas
     constraint form_aberturas_pk
         primary key (id)
 );
+
+ALTER TABLE `form_cadastros` ADD `data_envio` DATETIME NOT NULL AFTER `usuario_id`;
