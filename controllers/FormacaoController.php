@@ -1,14 +1,18 @@
 <?php
 if ($pedidoAjax) {
-    require_once "../models/ValidacaoModel.php";
+    require_once "../models/MainModel.php";
     require_once "../controllers/PessoaFisicaController.php";
 } else {
-    require_once "./models/ValidacaoModel.php";
+    require_once "./models/MainModel.php";
     require_once "./controllers/PessoaFisicaController.php";
 }
 
-class FormacaoController extends ValidacaoModel
+class FormacaoController extends MainModel
 {
+    public function listaAbertura()
+    {
+        return MainModel::consultaSimples("SELECT * FROM form_aberturas WHERE publicado = 1 ORDER BY data_publicacao DESC;")->fetchAll(PDO::FETCH_OBJ);
+    }
     public function insereFormacao()
     {
         /* executa limpeza nos campos */

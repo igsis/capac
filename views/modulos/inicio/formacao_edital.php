@@ -5,10 +5,10 @@ if (isset($_SESSION)) {
     unset($_SESSION['modulo_c']);
     unset($_SESSION['edital_c']);
 }
-require_once "./controllers/FomentoController.php";
-$fomentoObj = new FomentoController();
+require_once "./controllers/FormacaoController.php";
+$formacaoObj = new FormacaoController();
 $now = date('Y-m-d H:i:s');
-$fomentos = $fomentoObj->listaFomentos();
+$formacaos = $formacaoObj->listaAbertura();
 ?>
 <div class="background">
     <div class="content-header bg-dark mb-5 elevation-5">
@@ -29,30 +29,27 @@ $fomentos = $fomentoObj->listaFomentos();
     <!-- /.content-header -->
     <div class="content">
         <div class="container-fluid">
-            <?php //if (count($fomentos)): ?>
-                <?php //foreach ($fomentos as $fomento): ?>
+            <?php if (count($formacaos)): ?>
+                <?php foreach ($formacaos as $formacao): ?>
                     <div class="row">
                         <div class="offset-1 col-10">
                             <div class="card card-dark card-outline elevation-5">
                                 <div class="card-header" data-card-widget="collapse" style="cursor: pointer;">
-                                    <h3 class="card-title"><?//= $fomento['titulo'] ?></h3>
+                                    <h3 class="card-title"><?= $formacao->titulo ?></h3>
                                     <div class="card-tools">
                                         <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
                                         </button>
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <a href="login&modulo=6">Inscreva-se</a>
-                                    <?//= nl2br($fomento['descricao']) ?>
+                                    <?= nl2br($formacao->descricao) ?>
                                 </div>
                                 <div class="card-footer">
-                                    <?php if ($fomento['data_abertura'] <= $now && $now <= $fomento['data_encerramento']): ?>
-                                        <a href="login&modulo=8&edital=<?= $fomentoObj->encryption($fomento['id']) ?>"
+                                    <?php if ($formacao->data_abertura <= $now && $now <= $formacao->data_encerramento): ?>
+                                        <a href="login&modulo=5&edital=<?= $formacaoObj->encryption($formacao->id) ?>"
                                            class="small-box-footer">
                                             Inscreva-se <i class="fas fa-arrow-circle-right"></i>
                                         </a>
-                                    <?php else: ?>
-                                        <b>Inscrição não disponível</b>";
                                     <?php endif; ?>
                                 </div>
                             </div>
@@ -60,8 +57,8 @@ $fomentos = $fomentoObj->listaFomentos();
                         <!-- /.col-md-6 -->
                     </div>
                     <!-- /.row -->
-                <?php //endforeach; ?>
-            <?php //else: ?>
+                <?php endforeach; ?>
+            <?php else: ?>
                 <div class="row">
                     <div class="offset-1 col-10">
                         <div class="card card-dark card-outline collapsed-card elevation-5">
@@ -73,7 +70,7 @@ $fomentos = $fomentoObj->listaFomentos();
                     <!-- /.col-md-6 -->
                 </div>
                 <!-- /.row -->
-            <?php// endif; ?>
+            <?php endif; ?>
         </div>
         <!-- /.container-fluid -->
     </div>

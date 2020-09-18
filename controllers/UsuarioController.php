@@ -39,15 +39,17 @@ class UsuarioController extends UsuarioModel
                 if (!$modulo) {
                     return $urlLocation = "<script> window.location='inicio/inicio' </script>";
                 } else {
-                    if ($modulo == 8) {
-                        $_SESSION['edital_c'] = $edital;
+                    switch ($modulo){
+                        case 5:
+                            return $urlLocation = "<script> window.location='formacao/inicio&modulo=$modulo' </script>";
+                            break;
+                        case 6:
+                            $_SESSION['edital_c'] = $edital;
 
-                        $EditalObj = new FomentoController();
-                        $_SESSION['tipo_pessoa'] = $EditalObj->recuperaTipoPessoaEdital($edital);
-                        return $urlLocation = "<script> window.location='fomentos/inicio&modulo=$modulo' </script>";
-                    }
-                    if ($modulo == 6) {
-                        return $urlLocation = "<script> window.location='formacao/inicio&modulo=$modulo' </script>";
+                            $EditalObj = new FomentoController();
+                            $_SESSION['tipo_pessoa'] = $EditalObj->recuperaTipoPessoaEdital($edital);
+                            return $urlLocation = "<script> window.location='fomentos/inicio&modulo=$modulo' </script>";
+                            break;
                     }
                 }
             } else {

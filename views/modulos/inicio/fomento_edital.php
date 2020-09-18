@@ -46,7 +46,7 @@ $fomentos = $fomentoObj->listaFomentos();
                                 </div>
                                 <div class="card-footer">
                                     <?php if ($fomento['data_abertura'] <= $now && $now <= $fomento['data_encerramento']): ?>
-                                        <a href="login&modulo=8&edital=<?= $fomentoObj->encryption($fomento['id']) ?>"
+                                        <a href="login&modulo=6&edital=<?= $fomentoObj->encryption($fomento['id']) ?>"
                                            class="small-box-footer">
                                             Inscreva-se <i class="fas fa-arrow-circle-right"></i>
                                         </a>
