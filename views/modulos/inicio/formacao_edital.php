@@ -1,9 +1,6 @@
 <?php
 if (isset($_SESSION)) {
-    unset($_SESSION['origem_id_c']);
-    unset($_SESSION['pedido_id_c']);
-    unset($_SESSION['modulo_c']);
-    unset($_SESSION['edital_c']);
+    session_unset();
 }
 require_once "./controllers/FormacaoController.php";
 $formacaoObj = new FormacaoController();

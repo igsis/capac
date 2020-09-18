@@ -13,6 +13,31 @@ class FormacaoController extends MainModel
     {
         return MainModel::consultaSimples("SELECT * FROM form_aberturas WHERE publicado = 1 ORDER BY data_publicacao DESC;")->fetchAll(PDO::FETCH_OBJ);
     }
+
+    public function inserePfCadastro($pagina)
+    {
+        $idPf = PessoaFisicaController::inserePessoaFisica($pagina, true);
+        if ($idPf) {
+            $_SESSION['pf_form'] = MainModel::encryption($idPf);
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Pessoa Física',
+                'texto' => 'Cadastro realizado com sucesso!',
+                'tipo' => 'success',
+                'location' => SERVERURL . $pagina . '/pf_cadastro&id=' . MainModel::encryption($idPf)
+            ];
+        } else {
+            $alerta = [
+                'alerta' => 'simples',
+                'titulo' => 'Erro!',
+                'texto' => 'Erro ao salvar!',
+                'tipo' => 'error',
+                'location' => SERVERURL . $pagina . '/pf_busca'
+            ];
+        }
+        return MainModel::sweetAlert($alerta);
+    }
+
     public function insereFormacao()
     {
         /* executa limpeza nos campos */
