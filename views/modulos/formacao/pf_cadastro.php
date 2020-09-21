@@ -51,9 +51,8 @@ if (isset($_POST['pf_cpf'])){
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal formulario-ajax" method="POST"
-                          action="<?= SERVERURL ?>ajax/formacaoAjax.php" role="form"
-                          data-form="<?= ($id) ? "update" : "save" ?>">
+                    <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/formacaoAjax.php"
+                          role="form" data-form="<?= ($id) ? "update" : "save" ?>">
                         <input type="hidden" name="_method" value="cadastrarPf">
                         <input type="hidden" name="pf_ultima_atualizacao" value="<?= date('Y-m-d H-i-s') ?>">
                         <input type="hidden" name="pagina" value="<?= $_GET['views'] ?>">
@@ -61,132 +60,174 @@ if (isset($_POST['pf_cpf'])){
                             <input type="hidden" name="id" value="<?= $id ?>">
                         <?php endif; ?>
                         <div class="card-body">
-                            <div class="row mb-2">
-                                <div class="col form-group">
-                                    <label for="nome">Nome Completo:</label>
-                                    <input type="text" class="form-control" name="pf_nome" id="nome" value="<?= $pf['nome'] ?? '' ?>">
-                                </div>
-                                <div class="col form-group">
-                                    <label for="cpf">CPF:</label>
-                                    <input type="text" class="form-control" name="pf_cpf" readonly
-                                           value="<?= isset($_POST['pf_cpf']) ? $_POST['pf_cpf'] : $pf['cpf'] ?>">
-                                </div>
-                            </div>
-                            <div class="row my-1">
-                                <div class="col form-group">
-                                    <label for="genero">Gênero *:</label>
-                                    <select name="fm_genero_id" id="genero" class="form-control" required>
-                                        <option value="">Selecione uma opção...</option>
-                                        <?php $pfObjeto->geraOpcao('generos',$pf['genero_id'] ?? '', true) ?>
-                                    </select>
-                                </div>
-                                <div class="col form-group">
-                                    <label for="etnia">Raça ou Cor *:</label>
-                                    <select name="fm_etnia_id" id="etnia" class="form-control" required>
-                                        <option value="">Selecione uma opção...</option>
-                                        <?php $pfObjeto->geraOpcao('etnias',$pf['etnia_id'] ?? '', true) ?>
-                                    </select>
-                                </div>
-                                <div class="col form-group">
-                                    <label for="data_nascimento">Data de Nascimento:</label>
-                                    <input type="date" name="pf_data_nascimento" id="data_nascimento"
-                                           class="form-control"
-                                           onkeyup="barraData(this);"
-                                           value="<?= $pf['data_nascimento'] ?? '' ?>">
-                                </div>
-                            </div>
                             <div class="row">
-                                <div class="col form-group">
-                                    <label for="fm_rede_social">Rede Social:</label>
-                                    <input type="text" class="form-control" name="fm_rede_social" id="redeSocial"
-                                           value="<?= $pf['rede_social'] ?? '' ?>">
+                                <div class="form-group col-md-6">
+                                    <label for="nome">Nome: *</label>
+                                    <input type="text" class="form-control" name="pf_nome" placeholder="Digite o nome" maxlength="70" value="<?= $pf['nome'] ?? '' ?>" required>
                                 </div>
-                                <div class="col form-group">
-                                    <label for="subprefeitura">Escolaridade *</label>
-                                    <select name="fm_grau_instrucao_id" id="grau_instrucao" class="form-control" required>
+                                <div class="form-group col-md-6">
+                                    <label for="nomeArtistico">Nome Artistico:</label>
+                                    <input type="text" class="form-control" name="pf_nome_artistico" id="nomeArtistico" placeholder="Digite o nome artistico" maxlength="70" value="<?= $pf['nome_artistico'] ?? '' ?>">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-2">
+                                    <label for="rg">RG: *</label>
+                                    <input type="text" class="form-control" name="pf_rg" id="rg" placeholder="Digite o RG" maxlength="20" value="<?= $pf['rg'] ?? '' ?>" required>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="cpf">CPF: </label>
+                                    <input type="text" name="pf_cpf" class="form-control" id="cpf" value="<?= $documento ?>" readonly>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="ccm">CCM:</label>
+                                    <input type="text" id="ccm" name="pf_ccm" class="form-control" placeholder="Digite o CCM" maxlength="11" value="<?= $pf['ccm'] ?? '' ?>">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="dataNascimento">Data de Nascimento: *</label>
+                                    <input type="date" class="form-control" id="data_nascimento"
+                                           name="pf_data_nascimento" onkeyup="barraData(this);"
+                                           value="<?= $pf['data_nascimento'] ?? '' ?>" required/>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="nacionalidade">Nacionalidade: *</label>
+                                    <select class="form-control select2bs4" style="width: 100%;" id="nacionalidade" name="pf_nacionalidade_id" required>
                                         <option value="">Selecione uma opção...</option>
-                                        <?php $pfObjeto->geraOpcao('grau_instrucoes',$pf['grau_instrucao_id'] ?? '', false, false, true) ?>
+                                        <?php
+                                        $pfObjeto->geraOpcao("nacionalidades",$pf['nacionalidade_id'] ?? '');
+                                        ?>
                                     </select>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col form-group">
+                                <div class="form-group col-md-6">
                                     <label for="email">E-mail: *</label>
-                                    <input type="email" name="pf_email" class="form-control" maxlength="60"
-                                           placeholder="Digite o E-mail" required value="<?= $pf['email'] ?? '' ?>">
+                                    <input type="email" name="pf_email" class="form-control"
+                                           maxlength="60" placeholder="Digite o E-mail"
+                                           value="<?= $pf['email'] ?? '' ?>" required>
                                 </div>
-                                <div class="col form-group">
-                                    <label for="telefone">Telefone #1: *</label>
+                                <div class="form-group col-md-2">
+                                    <label>Telefone #1: *</label>
                                     <input type="text" id="telefone" name="te_telefone_1"
                                            onkeyup="mascara( this, mtel );"  class="form-control"
-                                           placeholder="Digite o telefone" required maxlength="15"
-                                           value="<?= $pf['telefones']['tel_0'] ?? '' ?>">
+                                           placeholder="Digite o telefone" required
+                                           value="<?= $pf['telefones']['tel_0'] ?? "" ?>" maxlength="15">
                                 </div>
-                                <div class="col form-group">
-                                    <label for="telefone">Telefone #2: *</label>
+                                <div class="form-group col-md-2">
+                                    <label>Telefone #2:</label>
                                     <input type="text" id="telefone1" name="te_telefone_2"
                                            onkeyup="mascara( this, mtel );"  class="form-control"
-                                           placeholder="Digite o telefone" required maxlength="15"
+                                           placeholder="Digite o telefone" maxlength="15"
                                            value="<?= $pf['telefones']['tel_1'] ?? "" ?>">
                                 </div>
+                                <div class="form-group col-md-2">
+                                    <label>Telefone #3:</label>
+                                    <input type="text" id="telefone2" name="te_telefone_3"
+                                           onkeyup="mascara( this, mtel );"  class="form-control telefone"
+                                           placeholder="Digite o telefone" maxlength="15"
+                                           value="<?= $pf['telefones']['tel_2'] ?? "" ?>">
+                                </div>
                             </div>
-                            <hr>
-                            <div class="row mt-2">
-                                <div class="form-group col-5">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="nit">NIT: *</label>
+                                    <input type="text" id="nit" name="ni_nit" class="form-control" maxlength="45"
+                                           placeholder="Digite o NIT" required value="<?= $pf['nit'] ?? '' ?>">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="drt">DRT: </label>
+                                    <input type="text" id="drt" name="dr_drt" class="form-control" maxlength="45"
+                                           placeholder="Digite o DRT em caso de artes cênicas"
+                                           value="<?= $pf['drt'] ?? '' ?>">
+                                </div>
+                            </div>
+
+                            <hr/>
+                            <div class="row">
+                                <div class="form-group col-md-4">
                                     <label for="cep">CEP: *</label>
                                     <input type="text" class="form-control" name="en_cep" id="cep"
-                                           onkeypress="mask(this, '#####-###')" maxlength="9"
-                                           placeholder="Digite o CEP" required value="<?= $pf['cep'] ?? '' ?>" >
+                                           onkeypress="mask(this, '#####-###')" maxlength="9" placeholder="Digite o CEP"
+                                           required value="<?= $pf['cep'] ?? '' ?>" >
                                 </div>
-                                <div class="form-group col-2">
+                                <div class="form-group col-md-2">
                                     <label>&nbsp;</label><br>
                                     <input type="button" class="btn btn-primary" value="Carregar">
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-6">
+                                <div class="form-group col-md-8">
                                     <label for="rua">Rua: *</label>
                                     <input type="text" class="form-control" name="en_logradouro" id="rua"
-                                           placeholder="Digite a rua" maxlength="200"
-                                           value="<?= $pf['logradouro'] ?? '' ?>" readonly>
+                                           placeholder="Digite a rua" maxlength="200" value="<?= $pf['logradouro'] ?? '' ?>"
+                                           readonly>
                                 </div>
-                                <div class="form-group col-2">
+                                <div class="form-group col-md-2">
                                     <label for="numero">Número: *</label>
-                                    <input type="number" name="en_numero" class="form-control"
-                                           placeholder="Ex.: 10" value="<?= $pf['numero'] ?? '' ?>" required>
+                                    <input type="number" name="en_numero" class="form-control" placeholder="Ex.: 10"
+                                           value="<?= $pf['numero'] ?? '' ?>" required>
                                 </div>
-                                <div class="form-group col">
+                                <div class="form-group col-md-2">
                                     <label for="complemento">Complemento:</label>
                                     <input type="text" name="en_complemento" class="form-control" maxlength="20"
                                            placeholder="Digite o complemento" value="<?= $pf['complemento'] ?? '' ?>">
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col">
+                                <div class="form-group col-md-3">
                                     <label for="bairro">Bairro: *</label>
                                     <input type="text" class="form-control" name="en_bairro" id="bairro"
                                            placeholder="Digite o Bairro" maxlength="80"
                                            value="<?= $pf['bairro'] ?? '' ?>" readonly>
                                 </div>
-                                <div class="form-group col">
+                                <div class="form-group col-md-2">
                                     <label for="cidade">Cidade: *</label>
                                     <input type="text" class="form-control" name="en_cidade" id="cidade"
                                            placeholder="Digite a cidade" maxlength="50"
                                            value="<?= $pf['cidade'] ?? '' ?>" readonly>
                                 </div>
-                                <div class="form-group col">
+                                <div class="form-group col-md-1">
                                     <label for="estado">Estado: *</label>
                                     <input type="text" class="form-control" name="en_uf" id="estado" maxlength="2"
                                            placeholder="Ex.: SP" value="<?= $pf['uf'] ?? '' ?>" readonly>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
+                                <div class="col-6">
                                     <label for="subprefeitura">Subprefeitura *</label>
-                                    <select name="fm_subprefeitura_id" id="genero" class="form-control" required>
+                                    <select name="fm_subprefeitura_id" id="genero" class="form-control select2bs4" required>
                                         <option value="">Selecione uma opção...</option>
                                         <?php $pfObjeto->geraOpcao('subprefeituras',$pf['subprefeitura_id'] ?? '') ?>
                                     </select>
+                                </div>
+                            </div>
+                            <hr/>
+                            <div class="alert alert-warning alert-dismissible">
+                                <h5><i class="icon fas fa-exclamation-triangle"></i> Atenção!</h5>
+                                Realizamos pagamentos de valores acima de R$ 5.000,00 <b>* SOMENTE COM CONTA
+                                    CORRENTE NO BANCO DO BRASIL *</b>. Não são aceitas: conta fácil, poupança e
+                                conjunta.
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label for="banco">Banco:</label>
+                                    <select required id="banco" name="bc_banco_id" class="form-control select2bs4">
+                                        <option value="">Selecione um banco...</option>
+                                        <?php
+                                        $pfObjeto->geraOpcao("bancos", $pf['banco_id']);
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="agencia">Agência: *</label>
+                                    <input type="text" id="agencia" name="bc_agencia" class="form-control"
+                                           placeholder="Digite a Agência" maxlength="12"
+                                           value="<?= $pf['agencia'] ?? '' ?>" required>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="conta">Conta: *</label>
+                                    <input type="text" id="conta" name="bc_conta" class="form-control"
+                                           placeholder="Digite a Conta" maxlength="12" value="<?= $pf['conta'] ?? '' ?>"
+                                           required>
                                 </div>
                             </div>
                         </div>
