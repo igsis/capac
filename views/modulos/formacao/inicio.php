@@ -12,7 +12,7 @@ $cadastros = $formacaoObj->listaFormacao($_SESSION['usuario_id_c']);
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-9">
-                <h1 class="m-0 text-dark">Projetos</h1>
+                <h1 class="m-0 text-dark">Lista de Cadastros</h1>
             </div><!-- /.col -->
             <div class="col-sm-3">
                 <a href="<?= SERVERURL ?>formacao/pf_busca"><button class="btn btn-success btn-block">Adicionar</button></a>
