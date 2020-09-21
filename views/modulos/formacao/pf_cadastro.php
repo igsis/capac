@@ -22,6 +22,7 @@ if (isset($_POST['pf_cpf'])){
     if ($pf){
         $id = (new MainModel)->encryption($pf['id']);
         $pf = $pfObjeto->recuperaPessoaFisicaFom($id);
+        $_SESSION['origem_id_c'] = $id;
         $documento = $pf['cpf'];
     }
 }
@@ -53,7 +54,7 @@ if (isset($_POST['pf_cpf'])){
                     <!-- form start -->
                     <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/formacaoAjax.php"
                           role="form" data-form="<?= ($id) ? "update" : "save" ?>">
-                        <input type="hidden" name="_method" value="cadastrarPf">
+                        <input type="hidden" name="_method" value="<?= ($id) ? "editarPf" : "cadastrarPf" ?>">
                         <input type="hidden" name="pf_ultima_atualizacao" value="<?= date('Y-m-d H-i-s') ?>">
                         <input type="hidden" name="pagina" value="<?= $_GET['views'] ?>">
                         <?php if ($id): ?>
@@ -157,13 +158,13 @@ if (isset($_POST['pf_cpf'])){
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-8">
+                                <div class="form-group col-md-4">
                                     <label for="rua">Rua: *</label>
                                     <input type="text" class="form-control" name="en_logradouro" id="rua"
                                            placeholder="Digite a rua" maxlength="200" value="<?= $pf['logradouro'] ?? '' ?>"
                                            readonly>
                                 </div>
-                                <div class="form-group col-md-2">
+                                <div class="form-group col-md-1">
                                     <label for="numero">Número: *</label>
                                     <input type="number" name="en_numero" class="form-control" placeholder="Ex.: 10"
                                            value="<?= $pf['numero'] ?? '' ?>" required>
@@ -173,9 +174,7 @@ if (isset($_POST['pf_cpf'])){
                                     <input type="text" name="en_complemento" class="form-control" maxlength="20"
                                            placeholder="Digite o complemento" value="<?= $pf['complemento'] ?? '' ?>">
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-3">
+                                <div class="form-group col-md-2">
                                     <label for="bairro">Bairro: *</label>
                                     <input type="text" class="form-control" name="en_bairro" id="bairro"
                                            placeholder="Digite o Bairro" maxlength="80"
@@ -191,13 +190,6 @@ if (isset($_POST['pf_cpf'])){
                                     <label for="estado">Estado: *</label>
                                     <input type="text" class="form-control" name="en_uf" id="estado" maxlength="2"
                                            placeholder="Ex.: SP" value="<?= $pf['uf'] ?? '' ?>" readonly>
-                                </div>
-                                <div class="col-6">
-                                    <label for="subprefeitura">Subprefeitura *</label>
-                                    <select name="fm_subprefeitura_id" id="genero" class="form-control select2bs4" required>
-                                        <option value="">Selecione uma opção...</option>
-                                        <?php $pfObjeto->geraOpcao('subprefeituras',$pf['subprefeitura_id'] ?? '') ?>
-                                    </select>
                                 </div>
                             </div>
                             <hr/>

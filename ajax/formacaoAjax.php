@@ -4,20 +4,23 @@ require_once "../config/configGeral.php";
 
 if (isset($_POST['_method'])) {
     session_start(['name' => 'cpc']);
-    $idPf = $_SESSION['origem_id_c'];
+    //$idPf = $_SESSION['origem_id_c'];
     require_once "../controllers/FormacaoController.php";
-    $insForm = new FormacaoController();
+    $formacaoObj = new FormacaoController();
 
     switch ($_POST['_method']) {
         case "cadastrar":
-            echo $insForm->insereFormacao();
+            echo $formacaoObj->insereFormacao();
             break;
         case "editar":
-            echo $insForm->editaFormacao($_POST['id']);
+            echo $formacaoObj->editaFormacao($_POST['id']);
             break;
-//        case "enviar":
-//            echo $insForm->envioEvento($_POST['id'], $_POST['modulo']);
-//            break;
+        case "cadastrarPf":
+            echo $formacaoObj->inserePfCadastro($_POST['pagina']);
+            break;
+        case "editarPf":
+            echo $formacaoObj->editaPfCadastro($_POST['id'],$_POST['pagina']);
+            break;
     }
 } else {
     include_once "../config/destroySession.php";
