@@ -138,15 +138,17 @@ class PessoaFisicaController extends PessoaFisicaModel
                 }
             }
 
-            if (count($dadosLimpos['telefones'])>0){
-                $telefone_existe = DbModel::consultaSimples("SELECT * FROM pf_telefones WHERE pessoa_fisica_id = '$idDecryp'");
+            if (isset($dadosLimpos['telefones'])){
+                if (count($dadosLimpos['telefones'])>0){
+                    $telefone_existe = DbModel::consultaSimples("SELECT * FROM pf_telefones WHERE pessoa_fisica_id = '$idDecryp'");
 
-                if ($telefone_existe->rowCount()>0){
-                    DbModel::deleteEspecial('pf_telefones', "pessoa_fisica_id",$idDecryp);
-                }
-                foreach ($dadosLimpos['telefones'] as $telefone){
-                    $telefone['pessoa_fisica_id'] = $idDecryp;
-                    DbModel::insert('pf_telefones', $telefone);
+                    if ($telefone_existe->rowCount()>0){
+                        DbModel::deleteEspecial('pf_telefones', "pessoa_fisica_id",$idDecryp);
+                    }
+                    foreach ($dadosLimpos['telefones'] as $telefone){
+                        $telefone['pessoa_fisica_id'] = $idDecryp;
+                        DbModel::insert('pf_telefones', $telefone);
+                    }
                 }
             }
 
@@ -209,13 +211,6 @@ class PessoaFisicaController extends PessoaFisicaModel
                         $dadosLimpos['fm']['pessoa_fisicas_id'] = $idDecryp;
                         DbModel::insert('fom_pf_dados', $dadosLimpos['fm']);
                     }
-                }
-            }
-
-
-            if (isset($_SESSION['modulo_c'])) {
-                if ($_SESSION['modulo_c'] == 5) { //formação
-                    $_SESSION['origem_id_c'] = $id;
                 }
             }
 

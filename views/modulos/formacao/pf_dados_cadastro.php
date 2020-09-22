@@ -12,7 +12,8 @@ if (isset($_GET['id'])) {
 }
 
 if ($id) {
-    $pf = $pfObjeto->recuperaPessoaFisicaFom($id);
+    $pf = $pfObjeto->recuperaPessoaFisica($id);
+    $_SESSION['origem_id_c'] = $id;
     $documento = $pf['cpf'];
 }
 
@@ -21,7 +22,7 @@ if (isset($_POST['pf_cpf'])){
     $pf = $pfObjeto->getCPF($documento)->fetch();
     if ($pf){
         $id = (new MainModel)->encryption($pf['id']);
-        $pf = $pfObjeto->recuperaPessoaFisicaFom($id);
+        $pf = $pfObjeto->recuperaPessoaFisica($id);
         $_SESSION['origem_id_c'] = $id;
         $documento = $pf['cpf'];
     }
@@ -144,84 +145,6 @@ if (isset($_POST['pf_cpf'])){
                                 </div>
                             </div>
 
-                            <hr/>
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label for="cep">CEP: *</label>
-                                    <input type="text" class="form-control" name="en_cep" id="cep"
-                                           onkeypress="mask(this, '#####-###')" maxlength="9" placeholder="Digite o CEP"
-                                           required value="<?= $pf['cep'] ?? '' ?>" >
-                                </div>
-                                <div class="form-group col-md-2">
-                                    <label>&nbsp;</label><br>
-                                    <input type="button" class="btn btn-primary" value="Carregar">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label for="rua">Rua: *</label>
-                                    <input type="text" class="form-control" name="en_logradouro" id="rua"
-                                           placeholder="Digite a rua" maxlength="200" value="<?= $pf['logradouro'] ?? '' ?>"
-                                           readonly>
-                                </div>
-                                <div class="form-group col-md-1">
-                                    <label for="numero">Número: *</label>
-                                    <input type="number" name="en_numero" class="form-control" placeholder="Ex.: 10"
-                                           value="<?= $pf['numero'] ?? '' ?>" required>
-                                </div>
-                                <div class="form-group col-md-2">
-                                    <label for="complemento">Complemento:</label>
-                                    <input type="text" name="en_complemento" class="form-control" maxlength="20"
-                                           placeholder="Digite o complemento" value="<?= $pf['complemento'] ?? '' ?>">
-                                </div>
-                                <div class="form-group col-md-2">
-                                    <label for="bairro">Bairro: *</label>
-                                    <input type="text" class="form-control" name="en_bairro" id="bairro"
-                                           placeholder="Digite o Bairro" maxlength="80"
-                                           value="<?= $pf['bairro'] ?? '' ?>" readonly>
-                                </div>
-                                <div class="form-group col-md-2">
-                                    <label for="cidade">Cidade: *</label>
-                                    <input type="text" class="form-control" name="en_cidade" id="cidade"
-                                           placeholder="Digite a cidade" maxlength="50"
-                                           value="<?= $pf['cidade'] ?? '' ?>" readonly>
-                                </div>
-                                <div class="form-group col-md-1">
-                                    <label for="estado">Estado: *</label>
-                                    <input type="text" class="form-control" name="en_uf" id="estado" maxlength="2"
-                                           placeholder="Ex.: SP" value="<?= $pf['uf'] ?? '' ?>" readonly>
-                                </div>
-                            </div>
-                            <hr/>
-                            <div class="alert alert-warning alert-dismissible">
-                                <h5><i class="icon fas fa-exclamation-triangle"></i> Atenção!</h5>
-                                Realizamos pagamentos de valores acima de R$ 5.000,00 <b>* SOMENTE COM CONTA
-                                    CORRENTE NO BANCO DO BRASIL *</b>. Não são aceitas: conta fácil, poupança e
-                                conjunta.
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label for="banco">Banco:</label>
-                                    <select required id="banco" name="bc_banco_id" class="form-control select2bs4">
-                                        <option value="">Selecione um banco...</option>
-                                        <?php
-                                        $pfObjeto->geraOpcao("bancos", $pf['banco_id']);
-                                        ?>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="agencia">Agência: *</label>
-                                    <input type="text" id="agencia" name="bc_agencia" class="form-control"
-                                           placeholder="Digite a Agência" maxlength="12"
-                                           value="<?= $pf['agencia'] ?? '' ?>" required>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="conta">Conta: *</label>
-                                    <input type="text" id="conta" name="bc_conta" class="form-control"
-                                           placeholder="Digite a Conta" maxlength="12" value="<?= $pf['conta'] ?? '' ?>"
-                                           required>
-                                </div>
-                            </div>
                         </div>
 
                         <!-- /.card-body -->
@@ -262,6 +185,6 @@ if (isset($_POST['pf_cpf'])){
 
     $(document).ready(function () {
         $('.nav-link').removeClass('active');
-        $('#proponente').addClass('active');
+        $('#dados_cadastrais').addClass('active');
     });
 </script>

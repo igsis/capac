@@ -22,7 +22,7 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>formacao/pf_cadastro"
+                    <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>formacao/pf_dados_cadastro"
                           role="form" id="formularioPf">
                         <div class="card-body">
                             <div class="row">

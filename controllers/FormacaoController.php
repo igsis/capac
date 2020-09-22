@@ -39,9 +39,9 @@ class FormacaoController extends MainModel
 
     public function editaPfCadastro($id,$pagina)
     {
-        $idDecryp = MainModel::decryption($id);
-        $idPf = (new PessoaFisicaController)->editaPessoaFisica($idDecryp,$pagina,true);
+        $idPf = (new PessoaFisicaController)->editaPessoaFisica($id,$pagina,true);
         if ($idPf) {
+            $_SESSION['origem_id_c'] = $id;
             $alerta = [
                 'alerta' => 'sucesso',
                 'titulo' => 'Pessoa Física',

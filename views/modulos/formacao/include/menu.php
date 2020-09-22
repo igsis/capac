@@ -17,20 +17,23 @@ if (isset($_SESSION['origem_id_c'])){
     </a>
 </li>
 <hr/>
-<?php /*if (!isset($_SESSION['origem_id_c'])): */?><!--
+<?php if (isset($_SESSION['origem_id_c'])){ ?>
     <li class="nav-item">
-        <a href="<?/*= SERVERURL */?>formacao/busca_pf" class="nav-link" id="busca_pf">
-            <i class="fa fa-search nav-icon"></i>
-            <p>Buscar pessoa física</p>
+        <a href="<?= SERVERURL ?>formacao/pf_dados_cadastro<?= $idPf ? '&id='.$idPf : NULL ?>" class="nav-link" id="dados_cadastrais">
+            <i class="far fa-circle nav-icon"></i>
+            <p>Dados pessoais</p>
         </a>
     </li>
---><?php /*endif; */?>
-
-<?php if (isset($_SESSION['pf_form'])){ ?>
     <li class="nav-item">
-        <a href="<?= SERVERURL ?>formacao/pf_cadastro<?= $idPf ? '&id='.$idPf : NULL ?>" class="nav-link" id="dados_cadastrais">
+        <a href="<?= SERVERURL ?>formacao/pf_endereco_cadastro<?= $idPf ? '&id='.$idPf : NULL ?>" class="nav-link" id="dados_endereco">
             <i class="far fa-circle nav-icon"></i>
-            <p>Dados cadastrais</p>
+            <p>Dados de endereço</p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="<?= SERVERURL ?>formacao/pf_banco_cadastro<?= $idPf ? '&id='.$idPf : NULL ?>" class="nav-link" id="dados_bancarios">
+            <i class="far fa-circle nav-icon"></i>
+            <p>Dados bancários</p>
         </a>
     </li>
     <li class="nav-item">
