@@ -132,16 +132,34 @@ if (isset($_POST['pf_cpf'])){
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-3">
                                     <label for="nit">NIT: *</label>
                                     <input type="text" id="nit" name="ni_nit" class="form-control" maxlength="45"
                                            placeholder="Digite o NIT" required value="<?= $pf['nit'] ?? '' ?>">
                                 </div>
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-3">
                                     <label for="drt">DRT: </label>
                                     <input type="text" id="drt" name="dr_drt" class="form-control" maxlength="45"
                                            placeholder="Digite o DRT em caso de artes cênicas"
                                            value="<?= $pf['drt'] ?? '' ?>">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="grau_instrucao">Grau de instrução: </label>
+                                    <select class="form-control select2bs4" style="width: 100%;" id="grau_instrucao" name="fr_grau_instrucao_id" required>
+                                        <option value="">Selecione uma opção...</option>
+                                        <?php
+                                        $pfObjeto->geraOpcao("grau_instrucoes",$pf['grau_instrucao_id'] ?? '');
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="etnia">Etnia: </label>
+                                    <select class="form-control select2bs4" style="width: 100%;" id="etnia" name="fr_etnia_id" required>
+                                        <option value="">Selecione uma opção...</option>
+                                        <?php
+                                        $pfObjeto->geraOpcao("etnias",$pf['etnia_id'] ?? '');
+                                        ?>
+                                    </select>
                                 </div>
                             </div>
 

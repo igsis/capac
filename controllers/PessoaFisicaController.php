@@ -72,9 +72,10 @@ class PessoaFisicaController extends PessoaFisicaModel
                 }
             }
 
-            if (isset($_SESSION['modulo_c'])) {
-                if ($_SESSION['modulo_c'] == 5) { //formação
-                    $_SESSION['origem_id_c'] = MainModel::encryption($id);
+            if (isset($dadosLimpos['fr'])) {
+                if (count($dadosLimpos['fr']) > 0) {
+                    $dadosLimpos['fr']['pessoa_fisica_id'] = $id;
+                    DbModel::insert('form_pf_dados', $dadosLimpos['fr']);
                 }
             }
 
@@ -210,6 +211,18 @@ class PessoaFisicaController extends PessoaFisicaModel
                     } else {
                         $dadosLimpos['fm']['pessoa_fisicas_id'] = $idDecryp;
                         DbModel::insert('fom_pf_dados', $dadosLimpos['fm']);
+                    }
+                }
+            }
+
+            if (isset($dadosLimpos['fr'])) {
+                if (count($dadosLimpos['fr']) > 0) {
+                    $banco_existe = DbModel::consultaSimples("SELECT * FROM form_pf_dados WHERE pessoa_fisica_id = '$idDecryp'");
+                    if ($banco_existe->rowCount() > 0) {
+                        DbModel::updateEspecial('form_pf_dados', $dadosLimpos['fr'], "pessoa_fisica_id", $idDecryp);
+                    } else {
+                        $dadosLimpos['fr']['pessoa_fisica_id'] = $idDecryp;
+                        DbModel::insert('form_pf_dados', $dadosLimpos['fr']);
                     }
                 }
             }
