@@ -147,4 +147,10 @@ class FormacaoController extends MainModel
         ");
         return $formacao;
     }
+
+    public function recuperaAnoReferenciaAtual($idEdital)
+    {
+        $idEdital = MainModel::decryption($idEdital);
+        return MainModel::consultaSimples("SELECT ano_referencia FROM form_aberturas WHERE id='$idEdital'")->fetchColumn();
+    }
 }

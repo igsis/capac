@@ -3,9 +3,11 @@
 if ($pedidoAjax) {
     require_once "../models/UsuarioModel.php";
     require_once "../controllers/FomentoController.php";
+    require_once "../controllers/FormacaoController.php";
 } else {
     require_once "./models/UsuarioModel.php";
     require_once "./controllers/FomentoController.php";
+    require_once "./controllers/FormacaoController.php";
 }
 
 
@@ -41,11 +43,12 @@ class UsuarioController extends UsuarioModel
                 } else {
                     switch ($modulo){
                         case 5:
-                            return $urlLocation = "<script> window.location='formacao/inicio&modulo=$modulo' </script>";
+                            $formacaoObj = new FormacaoController();
+                            $_SESSION['ano_c'] = $formacaoObj->recuperaAnoReferenciaAtual($edital);
+                            return $urlLocation = "<script> window.location='formacao/inicio' </script>";
                             break;
                         case 6:
                             $_SESSION['edital_c'] = $edital;
-
                             $EditalObj = new FomentoController();
                             $_SESSION['tipo_pessoa'] = $EditalObj->recuperaTipoPessoaEdital($edital);
                             return $urlLocation = "<script> window.location='fomentos/inicio&modulo=$modulo' </script>";
