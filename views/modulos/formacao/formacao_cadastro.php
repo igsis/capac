@@ -1,4 +1,6 @@
 <?php
+$url_cargos = SERVERURL.'api/api_formacao_cargos.php';
+
 $id = isset($_GET['idC']) ? $_GET['idC'] : null;
 require_once "./controllers/FormacaoController.php";
 $formObj = new FormacaoController();
@@ -51,7 +53,7 @@ $form = $formObj->recuperaFormacao($idPf)->fetch();
                                 </div>
                                 <div class="form-group col">
                                     <label for="programa_id">Programa: *</label>
-                                    <select class="form-control" id="programa_id" name="programa_id" required>
+                                    <select class="form-control" id="programa" name="programa_id" required>
                                         <option value="">Selecione uma opção...</option>
                                         <?php
                                         $formObj->geraOpcao("form_programas",$form['programa_id']);
@@ -72,15 +74,21 @@ $form = $formObj->recuperaFormacao($idPf)->fetch();
                             <div class="row">
                                 <div class="form-group col">
                                     <label for="">Função (1ª opção): *</label>
-
+                                    <select class="form-control" id="cargo1" name="form_cargo_id" required>
+                                        <option value="">Selecione o Programa...</option>
+                                    </select>
                                 </div>
                                 <div class="form-group col">
                                     <label for="">Função (2ª opção): *</label>
-
+                                    <select class="form-control" id="cargo2" name="form_cargo2_id" disabled>
+                                        <option value="">Selecione a Função 1...</option>
+                                    </select>
                                 </div>
                                 <div class="form-group col">
                                     <label for="">Função (3ª opção): *</label>
-
+                                    <select class="form-control" id="cargo3" name="form_cargo3_id" disabled>
+                                        <option value="">Selecione a Função 1...</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -100,12 +108,79 @@ $form = $formObj->recuperaFormacao($idPf)->fetch();
 </div>
 <!-- /.content -->
 
-
-<script src="../views/dist/js/cep_api.js"></script>
-
 <script type="application/javascript">
     $(document).ready(function () {
         $('.nav-link').removeClass('active');
         $('#programa').addClass('active');
     })
+
+    const url_cargos = '<?= $url_cargos ?>';
+
+    let programa = document.querySelector('#programa');
+
+    programa.addEventListener('change', async e => {
+        let idPrograma = $('#programa option:checked').val();
+        fetch(`${url_cargos}?cargo_id=${idPrograma}`)
+            .then(response => response.json())
+            .then(cargos1 => {
+                $('#cargo1 option').remove();
+                $('#cargo1').append('<option value="">Selecione uma opção...</option>');
+
+                for (const cargo1 of cargos1) {
+                    $('#cargo1').append(`<option value='${cargo1.id}'>${cargo1.cargo}</option>`).focus();
+
+                }
+
+                $('#cargo2').attr('disabled', true);
+                $('#cargo2').attr('required', false);
+                $('#cargo2 option').remove();
+                $('#cargo2').append('<option value="">Selecione a Função 1...</option>');
+
+                $('#cargo3').attr('disabled', true);
+                $('#cargo3').attr('required', false);
+                $('#cargo3 option').remove();
+                $('#cargo3').append('<option value="">Selecione a Função 1...</option>');
+            })
+    });
+
+    let cargo1 = document.querySelector('#cargo1');
+
+    cargo1.addEventListener('change', async e => {
+        let idCargo1 = $('#cargo1 option:checked').val();
+        if ((idCargo1 != 4) && (idCargo1 != 5)) {
+            fetch(`${url_cargos}?cargo1_id=${idCargo1}`)
+                .then(response => response.json())
+                .then(cargos2 => {
+                    $('#cargo2').attr('disabled', false);
+                    $('#cargo2').attr('required', true);
+                    $('#cargo2 option').remove();
+                    $('#cargo2').append('<option value="">Selecione uma opção...</option>');
+
+                    for (const cargo2 of cargos2) {
+                        $('#cargo2').append(`<option value='${cargo2.id}'>${cargo2.cargo}</option>`).focus();
+
+                    }
+
+                    $('#cargo3').attr('disabled', false);
+                    $('#cargo3').attr('required', true);
+                    $('#cargo3 option').remove();
+                    $('#cargo3').append('<option value="">Selecione uma opção...</option>');
+
+                    for (const cargo2 of cargos2) {
+                        $('#cargo3').append(`<option value='${cargo2.id}'>${cargo2.cargo}</option>`).focus();
+
+                    }
+                })
+        } else {
+            $('#cargo2').attr('disabled', true);
+            $('#cargo2').attr('required', false);
+            $('#cargo2 option').remove();
+            $('#cargo2').append('<option value="">Opção não necessária...</option>');
+
+            $('#cargo3').attr('disabled', true);
+            $('#cargo3').attr('required', false);
+            $('#cargo3 option').remove();
+            $('#cargo3').append('<option value="">Opção não necessária...</option>');
+        }
+    });
 </script>
