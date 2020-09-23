@@ -162,9 +162,6 @@ if (isset($_POST['pf_cpf'])){
                                     </select>
                                 </div>
                             </div>
-<!--    REMOVER ESSA PARTE     -->
-                            <input type="hidden" name="dt_regiao_id" value="1">
-<!--    REMOVER ESSA PARTE     -->
                         </div>
 
                         <!-- /.card-body -->

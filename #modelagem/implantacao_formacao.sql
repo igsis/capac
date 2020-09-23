@@ -28,3 +28,8 @@ create table form_aberturas
 );
 
 ALTER TABLE `form_cadastros` ADD `data_envio` DATETIME NOT NULL AFTER `usuario_id`;
+
+alter table pf_detalhes drop column curriculo;
+ALTER TABLE `pf_detalhes` DROP INDEX `fk_detalhesPessoaFisica_regioes1_idx`;
+ALTER TABLE capac_new.pf_detalhes DROP FOREIGN KEY fk_detalhesPessoaFisica_regioes1;
+ALTER TABLE `pf_detalhes` DROP `regiao_id`;
