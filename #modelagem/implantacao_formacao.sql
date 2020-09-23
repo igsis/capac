@@ -44,3 +44,12 @@ CREATE TABLE `cargo_programa` (
                                   CONSTRAINT `cargo_programa_form_cargos` FOREIGN KEY (`form_cargo_id`) REFERENCES `form_cargos` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION,
                                   CONSTRAINT `cargo_programa_form_programas` FOREIGN KEY (`form_programa_id`) REFERENCES `form_programas` (`id`) ON UPDATE NO ACTION
 );
+
+INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (1, 1);
+INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (2, 1);
+INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (3, 1);
+INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (4, 1);
+INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (1, 2);
+INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (2, 2);
+INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (3, 2);
+INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (5, 2);
