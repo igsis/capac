@@ -64,12 +64,8 @@ class FormacaoController extends MainModel
     public function insereFormacao()
     {
         /* executa limpeza nos campos */
-        $dados = [];
-        $pagina = $_POST['pagina'];
         unset($_POST['_method']);
-        unset($_POST['pagina']);
-        $pessoa_fisica_id = MainModel::decryption($_SESSION['origem_id_c']);
-        $dados['pessoa_fisica_id'] = $pessoa_fisica_id;
+        $dados['pessoa_fisica_id'] = MainModel::decryption($_SESSION['origem_id_c']);
         foreach ($_POST as $campo => $post) {
             $dados[$campo] = MainModel::limparString($post);
         }
