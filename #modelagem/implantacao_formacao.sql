@@ -28,19 +28,3 @@ create table form_aberturas
 );
 
 ALTER TABLE `form_cadastros` ADD `data_envio` DATETIME NOT NULL AFTER `usuario_id`;
-
-create table form_pf_dados
-(
-    id int auto_increment,
-    pessoa_fisica_id int not null,
-    etnia_id tinyint(1) null,
-    grau_instrucao_id tinyint(1) null,
-    constraint form_pf_dados_pk
-        primary key (id),
-    constraint form_pf_dados_etnias_id_fk
-        foreign key (etnia_id) references etnias (id),
-    constraint form_pf_dados_grau_instrucoes_id_fk
-        foreign key (grau_instrucao_id) references grau_instrucoes (id),
-    constraint form_pf_dados_pessoa_fisicas_id_fk
-        foreign key (pessoa_fisica_id) references pessoa_fisicas (id)
-);

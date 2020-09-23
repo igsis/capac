@@ -145,7 +145,7 @@ if (isset($_POST['pf_cpf'])){
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="grau_instrucao">Grau de instrução: </label>
-                                    <select class="form-control select2bs4" style="width: 100%;" id="grau_instrucao" name="fr_grau_instrucao_id" required>
+                                    <select class="form-control select2bs4" style="width: 100%;" id="grau_instrucao" name="dt_grau_instrucao_id" required>
                                         <option value="">Selecione uma opção...</option>
                                         <?php
                                         $pfObjeto->geraOpcao("grau_instrucoes",$pf['grau_instrucao_id'] ?? '');
@@ -154,7 +154,7 @@ if (isset($_POST['pf_cpf'])){
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="etnia">Etnia: </label>
-                                    <select class="form-control select2bs4" style="width: 100%;" id="etnia" name="fr_etnia_id" required>
+                                    <select class="form-control select2bs4" style="width: 100%;" id="etnia" name="dt_etnia_id" required>
                                         <option value="">Selecione uma opção...</option>
                                         <?php
                                         $pfObjeto->geraOpcao("etnias",$pf['etnia_id'] ?? '');
@@ -162,7 +162,9 @@ if (isset($_POST['pf_cpf'])){
                                     </select>
                                 </div>
                             </div>
-
+<!--    REMOVER ESSA PARTE     -->
+                            <input type="hidden" name="dt_regiao_id" value="1">
+<!--    REMOVER ESSA PARTE     -->
                         </div>
 
                         <!-- /.card-body -->

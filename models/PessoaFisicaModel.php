@@ -63,10 +63,6 @@ class PessoaFisicaModel extends ValidacaoModel
                         $campo = substr($campo, 3);
                         $dadosLimpos['fm'][$campo] = MainModel::limparString($post);
                         break;
-                    case "fr":
-                        $campo = substr($campo, 3);
-                        $dadosLimpos['fr'][$campo] = MainModel::limparString($post);
-                        break;
                 }
             }
         }
