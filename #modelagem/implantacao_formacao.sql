@@ -36,3 +36,11 @@ ALTER TABLE `pf_detalhes` DROP `regiao_id`;
 
 alter table form_aberturas
     add ano_referencia smallint(4) null after descricao;
+
+CREATE TABLE `cargo_programa` (
+                                  `form_cargo_id` TINYINT(2) NOT NULL,
+                                  `form_programa_id` TINYINT(2) NOT NULL,
+                                  INDEX `form_cargo_id_form_programa_id` (`form_cargo_id`, `form_programa_id`),
+                                  CONSTRAINT `cargo_programa_form_cargos` FOREIGN KEY (`form_cargo_id`) REFERENCES `form_cargos` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION,
+                                  CONSTRAINT `cargo_programa_form_programas` FOREIGN KEY (`form_programa_id`) REFERENCES `form_programas` (`id`) ON UPDATE NO ACTION
+);
