@@ -1,7 +1,9 @@
 <?php
 require_once "./controllers/PessoaFisicaController.php";
+require_once "./controllers/FormacaoController.php";
 
 $pfObjeto =  new PessoaFisicaController();
+$formacaoObj = new FormacaoController();
 
 if (isset($_GET['id'])) {
     $_SESSION['origem_id_c'] = $id = $_GET['id'];
@@ -13,6 +15,7 @@ if (isset($_GET['id'])) {
 
 if ($id) {
     $pf = $pfObjeto->recuperaPessoaFisica($id);
+    $_SESSION['formacao_id_c'] = $formacaoObj->recuperaFormacaoId($id, $_SESSION['ano_c']);
     $_SESSION['origem_id_c'] = $id;
     $documento = $pf['cpf'];
 }

@@ -14,18 +14,12 @@ class FormacaoController extends MainModel
         return MainModel::consultaSimples("SELECT * FROM form_aberturas WHERE publicado = 1 ORDER BY data_publicacao DESC;")->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function editarCadastro()
+    public function recuperaFormacaoId($pessoa_fisica_id, $ano)
     {
-        $idPf = MainModel::encryption($_POST['idPf']);
-        $_SESSION['formacao_id_c'] = MainModel::encryption($_POST['id']);
-        $alerta = [
-            'alerta' => 'sucesso',
-            'titulo' => 'Olá',
-            'texto' => 'Continue o preenchimento do seu cadastro',
-            'tipo' => 'success',
-            'location' => SERVERURL . 'formacao/pf_dados_cadastro&id='.$idPf
-        ];
-        return MainModel::sweetAlert($alerta);
+        $idPf = MainModel::decryption($pessoa_fisica_id);
+        $form_cadastro_id = DbModel::consultaSimples("SELECT id FROM form_cadastros WHERE pessoa_fisica_id = $idPf AND ano = $ano")->fetchColumn();
+
+        return MainModel::encryption($form_cadastro_id);
     }
 
     public function inserePfCadastro($pagina)

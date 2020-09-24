@@ -21,9 +21,6 @@ if (isset($_POST['_method'])) {
         case "editarPf":
             echo $formacaoObj->editaPfCadastro($_POST['id'],$_POST['pagina']);
             break;
-        case "editarCadastro":
-            echo $formacaoObj->editarCadastro();
-            break;
         case "apagarFormacao":
             echo $formacaoObj->apagaFormacao($_POST['id']);
             break;

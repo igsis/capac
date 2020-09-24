@@ -60,14 +60,7 @@ $cadastros = $formacaoObj->listaFormacao($_SESSION['usuario_id_c']);
                                     <div class="row">
                                         <?php if (!$cadastro->data_envio && $cadastro->ano == $_SESSION['ano_c']): ?>
                                             <div class="col">
-                                                <form class="form-horizontal formulario-ajax" method="POST"
-                                                      action="<?= SERVERURL ?>ajax/formacaoAjax.php" role="form">
-                                                    <input type="hidden" name="_method" value="editarCadastro">
-                                                    <input type="hidden" name="id" value="<?= $cadastro->id ?>">
-                                                    <input type="hidden" name="idPf" value="<?= $cadastro->pessoa_fisica_id ?>">
-                                                    <button type="submit" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</button>
-                                                    <div class="resposta-ajax"></div>
-                                                </form>
+                                                <a href="<?= SERVERURL. 'formacao/pf_dados_cadastro&id='.$formacaoObj->encryption($cadastro->pessoa_fisica_id) ?>" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</a>
                                             </div>
                                             <div class="col">
                                                 <form class="form-horizontal formulario-ajax" method="POST"
