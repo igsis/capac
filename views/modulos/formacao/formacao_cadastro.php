@@ -81,13 +81,13 @@ $form = $formObj->recuperaFormacao($idPf)->fetch();
                                 <div class="form-group col">
                                     <label for="">Função (2ª opção): *</label>
                                     <select class="form-control" id="cargo2" name="form_cargo2_id" disabled>
-                                        <option value="">Selecione a Função 1...</option>
+                                        <option value="">Selecione o Programa...</option>
                                     </select>
                                 </div>
                                 <div class="form-group col">
                                     <label for="">Função (3ª opção): *</label>
                                     <select class="form-control" id="cargo3" name="form_cargo3_id" disabled>
-                                        <option value="">Selecione a Função 1...</option>
+                                        <option value="">Selecione o Programa...</option>
                                     </select>
                                 </div>
                             </div>
@@ -120,53 +120,39 @@ $form = $formObj->recuperaFormacao($idPf)->fetch();
     let cargo1 = document.querySelector('#cargo1');
     let cargo2 = document.querySelector('#cargo2');
 
+    if (programa.value != '') {
+        let idPrograma = <?= $form['programa_id'] ?? "false" ?>;
+        let idCargo1 = <?= $form['form_cargo_id'] ?? "false" ?>;
+        let idCargo2 = <?= $form['form_cargo2_id'] ?? "false" ?>;
+        let idCargo3 = <?= $form['form_cargo3_id'] ?? "false" ?>;
+        getCargos(idPrograma, idCargo1, idCargo2, idCargo3);
+    }
+
     programa.addEventListener('change', async e => {
         let idPrograma = $('#programa option:checked').val();
-        fetch(`${url_cargos}?busca=1&programa_id=${idPrograma}`)
-            .then(response => response.json())
-            .then(cargos1 => {
-                $('#cargo1 option').remove();
-                $('#cargo1').append('<option value="">Selecione uma opção...</option>');
+        getCargo1(idPrograma);
 
-                for (const cargo1 of cargos1) {
-                    $('#cargo1').append(`<option value='${cargo1.id}'>${cargo1.cargo}</option>`).focus();
+        $('#cargo2').attr('disabled', true);
+        $('#cargo2').attr('required', false);
+        $('#cargo2 option').remove();
+        $('#cargo2').append('<option value="">Selecione a Função 1...</option>');
 
-                }
-
-                $('#cargo2').attr('disabled', true);
-                $('#cargo2').attr('required', false);
-                $('#cargo2 option').remove();
-                $('#cargo2').append('<option value="">Selecione a Função 1...</option>');
-
-                $('#cargo3').attr('disabled', true);
-                $('#cargo3').attr('required', false);
-                $('#cargo3 option').remove();
-                $('#cargo3').append('<option value="">Selecione a Função 1...</option>');
-            })
+        $('#cargo3').attr('disabled', true);
+        $('#cargo3').attr('required', false);
+        $('#cargo3 option').remove();
+        $('#cargo3').append('<option value="">Selecione a Função 1...</option>');
     });
 
     cargo1.addEventListener('change', async e => {
         let idPrograma = $('#programa option:checked').val();
         let idCargo1 = $('#cargo1 option:checked').val();
         if ((idCargo1 != 4) && (idCargo1 != 5)) {
-            fetch(`${url_cargos}?busca=2&programa_id=${idPrograma}&cargo1_id=${idCargo1}`)
-                .then(response => response.json())
-                .then(cargos2 => {
-                    $('#cargo2').attr('disabled', false);
-                    $('#cargo2').attr('required', true);
-                    $('#cargo2 option').remove();
-                    $('#cargo2').append('<option value="">Selecione uma opção...</option>');
+            getCargo2(idPrograma, idCargo1)
 
-                    for (const cargo2 of cargos2) {
-                        $('#cargo2').append(`<option value='${cargo2.id}'>${cargo2.cargo}</option>`).focus();
-
-                    }
-
-                    $('#cargo3').attr('disabled', true);
-                    $('#cargo3').attr('required', false);
-                    $('#cargo3 option').remove();
-                    $('#cargo3').append('<option value="">Selecione a Função 2...</option>');
-                })
+            $('#cargo3').attr('disabled', true);
+            $('#cargo3').attr('required', false);
+            $('#cargo3 option').remove();
+            $('#cargo3').append('<option value="">Selecione a Função 2...</option>');
         } else {
             $('#cargo2').attr('disabled', true);
             $('#cargo2').attr('required', false);
@@ -184,6 +170,74 @@ $form = $formObj->recuperaFormacao($idPf)->fetch();
         let idPrograma = $('#programa option:checked').val();
         let idCargo1 = $('#cargo1 option:checked').val();
         let idCargo2 = $('#cargo2 option:checked').val();
+
+        getCargo3(idPrograma, idCargo1, idCargo2);
+    });
+
+    function getCargos(idPrograma, idCargo1, idCargo2 = false, idCargo3 = false){
+
+        getCargo1(idPrograma, idCargo1);
+
+        if ((idCargo1 == 4) || (idCargo1 == 5)) {
+            $('#cargo2').attr('disabled', true);
+            $('#cargo2').attr('required', false);
+            $('#cargo2 option').remove();
+            $('#cargo2').append('<option value="">Opção não necessária...</option>');
+
+            $('#cargo3').attr('disabled', true);
+            $('#cargo3').attr('required', false);
+            $('#cargo3 option').remove();
+            $('#cargo3').append('<option value="">Opção não necessária...</option>');
+        }
+
+        if (idCargo2) {
+            getCargo2(idPrograma, idCargo1, idCargo2);
+        }
+
+        if (idCargo3) {
+            getCargo3(idPrograma, idCargo1, idCargo2, idCargo3);
+        }
+    }
+
+    function getCargo1(idPrograma, idCargo1 = '') {
+        fetch(`${url_cargos}?busca=1&programa_id=${idPrograma}`)
+            .then(response => response.json())
+            .then(cargos1 => {
+                $('#cargo1 option').remove();
+                $('#cargo1').append('<option value="">Selecione uma opção...</option>');
+
+                for (const cargo1 of cargos1) {
+                    if(idCargo1 == cargo1.id) {
+                        $('#cargo1').append(`<option value='${cargo1.id}' selected>${cargo1.cargo}</option>`).focus();
+                    } else {
+                        $('#cargo1').append(`<option value='${cargo1.id}'>${cargo1.cargo}</option>`).focus();
+                    }
+
+                }
+            });
+    }
+
+    function getCargo2(idPrograma, idCargo1, idCargo2 = '') {
+        fetch(`${url_cargos}?busca=2&programa_id=${idPrograma}&cargo1_id=${idCargo1}`)
+            .then(response => response.json())
+            .then(cargos2 => {
+                $('#cargo2').attr('disabled', false);
+                $('#cargo2').attr('required', true);
+                $('#cargo2 option').remove();
+                $('#cargo2').append('<option value="">Selecione uma opção...</option>');
+
+                for (const cargo2 of cargos2) {
+                    if(idCargo2 == cargo2.id) {
+                        $('#cargo2').append(`<option value='${cargo2.id}' selected>${cargo2.cargo}</option>`).focus();
+                    } else {
+                        $('#cargo2').append(`<option value='${cargo2.id}'>${cargo2.cargo}</option>`).focus();
+                    }
+
+                }
+            })
+    }
+
+    function getCargo3(idPrograma, idCargo1, idCargo2, idCargo3 = '') {
         fetch(`${url_cargos}?busca=3&programa_id=${idPrograma}&cargo1_id=${idCargo1}&cargo2_id=${idCargo2}`)
             .then(response => response.json())
             .then(cargos3 => {
@@ -192,8 +246,12 @@ $form = $formObj->recuperaFormacao($idPf)->fetch();
                 $('#cargo3 option').remove();
                 $('#cargo3').append('<option value="">Selecione uma opção...</option>');
                 for (const cargo3 of cargos3) {
-                    $('#cargo3').append(`<option value='${cargo3.id}'>${cargo3.cargo}</option>`).focus();
+                    if(idCargo3 == cargo3.id) {
+                        $('#cargo3').append(`<option value='${cargo3.id}' selected>${cargo3.cargo}</option>`).focus();
+                    } else {
+                        $('#cargo3').append(`<option value='${cargo3.id}'>${cargo3.cargo}</option>`).focus();
+                    }
                 }
             })
-    });
+    }
 </script>

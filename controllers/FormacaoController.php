@@ -167,6 +167,7 @@ class FormacaoController extends MainModel
             LEFT JOIN form_programas fp on form_cadastros.programa_id = fp.id
             LEFT JOIN form_linguagens fl on form_cadastros.linguagem_id = fl.id
             LEFT JOIN form_cargos fc on form_cadastros.form_cargo_id = fc.id
+            LEFT JOIN form_cargos_adicionais fca on fc.id = fca.form_cadastro_id
             WHERE pessoa_fisica_id = '$idPf'
         ");
         return $formacao;
