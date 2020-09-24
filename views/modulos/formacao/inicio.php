@@ -2,6 +2,7 @@
 require_once "./controllers/FormacaoController.php";
 unset($_SESSION['projeto_c']);
 unset($_SESSION['origem_id_c']);
+unset($_SESSION['formacao_id_c']);
 
 $formacaoObj = new FormacaoController();
 
