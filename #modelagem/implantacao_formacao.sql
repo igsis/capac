@@ -45,11 +45,19 @@ CREATE TABLE `cargo_programa` (
                                   CONSTRAINT `cargo_programa_form_programas` FOREIGN KEY (`form_programa_id`) REFERENCES `form_programas` (`id`) ON UPDATE NO ACTION
 );
 
+UPDATE `form_cargos` SET `cargo`='Articulador de Áreas - Comunicação' WHERE  `id`=3;
+INSERT INTO `form_cargos` (`id`, `cargo`, `justificativa`) VALUES (6, 'Articulador de Áreas - Instrumentais e Pesquisa', '');
+INSERT INTO `form_cargos` (`id`, `cargo`, `justificativa`) VALUES (7, 'Articulador de Áreas - Ações Artístico-Pedagógicas', '');
+
 INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (1, 1);
-INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (2, 1);
-INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (3, 1);
-INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (4, 1);
 INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (1, 2);
+INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (2, 1);
 INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (2, 2);
+INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (3, 1);
 INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (3, 2);
+INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (4, 1);
 INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (5, 2);
+INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (6, 1);
+INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (7, 1);
+INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (6, 2);
+INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (7, 2);
