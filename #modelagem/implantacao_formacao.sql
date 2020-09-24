@@ -62,6 +62,17 @@ INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (7, 1)
 INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (6, 2);
 INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (7, 2);
 
+ALTER TABLE `form_cadastros`
+    DROP COLUMN `projeto_id`,
+    DROP INDEX `fk_form_pre_pedidos_projetos_idx`,
+    DROP FOREIGN KEY `fk_form_pre_pedidos_projetos`;
+
+ALTER TABLE `form_cadastros`
+    ADD COLUMN `protocolo` CHAR(18) NULL DEFAULT NULL AFTER `id`,
+    CHANGE COLUMN `data_envio` `data_envio` DATETIME NULL DEFAULT NULL AFTER `usuario_id`;
+
+DROP TABLE `form_projetos`;
+
 create table form_lista_documentos
 (
     id int auto_increment,
