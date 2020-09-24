@@ -104,12 +104,13 @@ class ArquivoController extends ArquivoModel
 
     public function enviarArquivo($origem_id, $pagina) {
         $fomentos = $pagina == "fomentos/anexos" ? true : false;
+        $formacao = $pagina == "formacao/anexos" ? true : false;
         unset($_POST['pagina']);
         $origem_id = MainModel::decryption($origem_id);
         foreach ($_FILES as $key => $arquivo){
             $_FILES[$key]['lista_documento_id'] = $_POST[$key];
         }
-        $erros = ArquivoModel::enviaArquivos($_FILES, $origem_id,5, true, $fomentos);
+        $erros = ArquivoModel::enviaArquivos($_FILES, $origem_id,5, true, $fomentos,$formacao);
         $erro = MainModel::in_array_r(true, $erros, true);
 
         if ($erro) {
@@ -140,11 +141,14 @@ class ArquivoController extends ArquivoModel
 
     public function apagarArquivo ($arquivo_id, $pagina){
         $fomentos = $pagina == "fomentos/anexos" ? true : false;
+        $formacao = $pagina == "formacao/anexos" ? true : false;
         $arquivo_id = MainModel::decryption($arquivo_id);
-        if (!$fomentos) {
-            $remover = DbModel::apaga('arquivos', $arquivo_id);
-        } else {
+        if ($fomentos) {
             $remover = DbModel::apaga('fom_arquivos', $arquivo_id);
+        } elseif ($formacao){
+            $remover = DbModel::apaga('form_arquivos', $arquivo_id);
+        } else {
+            $remover = DbModel::apaga('arquivos', $arquivo_id);
         }
         if ($remover->rowCount() > 0) {
             $alerta = [

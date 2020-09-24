@@ -4,8 +4,6 @@ require_once "./controllers/FormacaoController.php";
 $arquivosObj = new ArquivoController();
 $formacaoObj = new FormacaoController();
 
-$_SESSION['formacao_id_c']=1;
-
 $idFormacao = $_SESSION['formacao_id_c'];
 ?>
 <!-- Content Header (Page header) -->
@@ -58,7 +56,7 @@ $idFormacao = $_SESSION['formacao_id_c'];
                         <form class="formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/arquivosAjax.php"
                               data-form="save" enctype="multipart/form-data">
                             <input type="hidden" name="_method" value="enviarArquivo">
-                            <input type="hidden" name="form_cadastro_id" value="<?= $idFormacao ?>">
+                            <input type="hidden" name="origem_id" value="<?= $idFormacao ?>">
                             <input type="hidden" name="pagina" value="<?= $_GET['views'] ?>">
                             <table class="table table-striped">
                                 <tbody>
@@ -137,7 +135,7 @@ $idFormacao = $_SESSION['formacao_id_c'];
                                 foreach ($arquivosEnviados as $arquivo) {
                                     ?>
                                     <tr>
-                                        <td><?= "$arquivo->anexo - $arquivo->documento" ?></td>
+                                        <td><?= "$arquivo->documento" ?></td>
                                         <td><a href="<?= SERVERURL . "uploads/" . $arquivo->arquivo ?>"
                                                target="_blank"><?= mb_strimwidth($arquivo->arquivo, '15', '25', '...') ?></a>
                                         </td>
