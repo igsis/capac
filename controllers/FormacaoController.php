@@ -14,6 +14,20 @@ class FormacaoController extends MainModel
         return MainModel::consultaSimples("SELECT * FROM form_aberturas WHERE publicado = 1 ORDER BY data_publicacao DESC;")->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function editarCadastro()
+    {
+        $idPf = MainModel::encryption($_POST['idPf']);
+        $_SESSION['formacao_id_c'] = MainModel::encryption($_POST['id']);
+        $alerta = [
+            'alerta' => 'sucesso',
+            'titulo' => 'Olá',
+            'texto' => 'Continue o preenchimento do seu cadastro',
+            'tipo' => 'success',
+            'location' => SERVERURL . 'formacao/pf_dados_cadastro&id='.$idPf
+        ];
+        return MainModel::sweetAlert($alerta);
+    }
+
     public function inserePfCadastro($pagina)
     {
         $idPf = PessoaFisicaController::inserePessoaFisica($pagina, true);
@@ -140,7 +154,7 @@ class FormacaoController extends MainModel
 
     public function listaFormacao($idUsuario)
     {
-        return MainModel::consultaSimples("SELECT fc.*, pf.nome,fp.programa, fl.linguagem FROM form_cadastros fc INNER JOIN pessoa_fisicas pf on fc.pessoa_fisica_id = pf.id INNER JOIN form_programas fp ON fc.programa_id = fp.id INNER JOIN form_linguagens fl on fc.linguagem_id = fl.id WHERE fc.usuario_id = '$idUsuario'")->fetchAll(PDO::FETCH_OBJ);
+        return MainModel::consultaSimples("SELECT fc.*, pf.nome,fp.programa, fl.linguagem FROM form_cadastros fc INNER JOIN pessoa_fisicas pf on fc.pessoa_fisica_id = pf.id INNER JOIN form_programas fp ON fc.programa_id = fp.id INNER JOIN form_linguagens fl on fc.linguagem_id = fl.id WHERE fc.usuario_id = '$idUsuario' AND fc.publicado = 1")->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function recuperaFormacao($idPf)
@@ -162,5 +176,26 @@ class FormacaoController extends MainModel
     {
         $idEdital = MainModel::decryption($idEdital);
         return MainModel::consultaSimples("SELECT ano_referencia FROM form_aberturas WHERE id='$idEdital'")->fetchColumn();
+    }
+
+    public function apagaFormacao($id){
+        $apaga = DbModel::apaga("form_cadastros", $id);
+        if ($apaga){
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Projeto',
+                'texto' => 'Projeto apagado com sucesso!',
+                'tipo' => 'danger',
+                'location' => SERVERURL.'formacao'
+            ];
+        }else {
+            $alerta = [
+                'alerta' => 'simples',
+                'titulo' => 'Oops! Algo deu Errado!',
+                'texto' => 'Falha ao salvar os dados no servidor, tente novamente mais tarde',
+                'tipo' => 'error',
+            ];
+        }
+        return MainModel::sweetAlert($alerta);
     }
 }
