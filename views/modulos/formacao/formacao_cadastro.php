@@ -117,10 +117,12 @@ $form = $formObj->recuperaFormacao($idPf)->fetch();
     const url_cargos = '<?= $url_cargos ?>';
 
     let programa = document.querySelector('#programa');
+    let cargo1 = document.querySelector('#cargo1');
+    let cargo2 = document.querySelector('#cargo2');
 
     programa.addEventListener('change', async e => {
         let idPrograma = $('#programa option:checked').val();
-        fetch(`${url_cargos}?cargo_id=${idPrograma}`)
+        fetch(`${url_cargos}?busca=1&programa_id=${idPrograma}`)
             .then(response => response.json())
             .then(cargos1 => {
                 $('#cargo1 option').remove();
@@ -143,12 +145,11 @@ $form = $formObj->recuperaFormacao($idPf)->fetch();
             })
     });
 
-    let cargo1 = document.querySelector('#cargo1');
-
     cargo1.addEventListener('change', async e => {
+        let idPrograma = $('#programa option:checked').val();
         let idCargo1 = $('#cargo1 option:checked').val();
         if ((idCargo1 != 4) && (idCargo1 != 5)) {
-            fetch(`${url_cargos}?cargo1_id=${idCargo1}`)
+            fetch(`${url_cargos}?busca=2&programa_id=${idPrograma}&cargo1_id=${idCargo1}`)
                 .then(response => response.json())
                 .then(cargos2 => {
                     $('#cargo2').attr('disabled', false);
@@ -161,15 +162,10 @@ $form = $formObj->recuperaFormacao($idPf)->fetch();
 
                     }
 
-                    $('#cargo3').attr('disabled', false);
-                    $('#cargo3').attr('required', true);
+                    $('#cargo3').attr('disabled', true);
+                    $('#cargo3').attr('required', false);
                     $('#cargo3 option').remove();
-                    $('#cargo3').append('<option value="">Selecione uma opção...</option>');
-
-                    for (const cargo2 of cargos2) {
-                        $('#cargo3').append(`<option value='${cargo2.id}'>${cargo2.cargo}</option>`).focus();
-
-                    }
+                    $('#cargo3').append('<option value="">Selecione a Função 2...</option>');
                 })
         } else {
             $('#cargo2').attr('disabled', true);
@@ -182,5 +178,22 @@ $form = $formObj->recuperaFormacao($idPf)->fetch();
             $('#cargo3 option').remove();
             $('#cargo3').append('<option value="">Opção não necessária...</option>');
         }
+    });
+
+    cargo2.addEventListener('change', async e => {
+        let idPrograma = $('#programa option:checked').val();
+        let idCargo1 = $('#cargo1 option:checked').val();
+        let idCargo2 = $('#cargo2 option:checked').val();
+        fetch(`${url_cargos}?busca=3&programa_id=${idPrograma}&cargo1_id=${idCargo1}&cargo2_id=${idCargo2}`)
+            .then(response => response.json())
+            .then(cargos3 => {
+                $('#cargo3').attr('disabled', false);
+                $('#cargo3').attr('required', true);
+                $('#cargo3 option').remove();
+                $('#cargo3').append('<option value="">Selecione uma opção...</option>');
+                for (const cargo3 of cargos3) {
+                    $('#cargo3').append(`<option value='${cargo3.id}'>${cargo3.cargo}</option>`).focus();
+                }
+            })
     });
 </script>
