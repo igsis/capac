@@ -6,7 +6,7 @@ require_once "./controllers/FormacaoController.php";
 $formObj = new FormacaoController();
 
 $idPf = $_SESSION['origem_id_c'];
-$form = $formObj->recuperaFormacao($idPf)->fetch();
+$form = $formObj->recuperaFormacao($idPf)->fetch(PDO::FETCH_ASSOC);
 ?>
 
 <!-- Content Header (Page header) -->
