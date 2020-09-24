@@ -61,3 +61,38 @@ INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (6, 1)
 INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (7, 1);
 INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (6, 2);
 INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (7, 2);
+
+create table form_lista_documentos
+(
+    id int auto_increment,
+    documento varchar(150) not null,
+    sigla varchar(10) not null,
+    ordem tinyint(2) default 0 null,
+    obrigatorio tinyint(1) default 1 null,
+    publicado tinyint(1) default 1 null,
+    constraint form_lista_documentos_pk
+        primary key (id)
+);
+
+create unique index form_lista_documentos_documento_uindex
+    on form_lista_documentos (documento);
+
+create unique index form_lista_documentos_sigla_uindex
+    on form_lista_documentos (sigla);
+
+
+create table form_arquivos
+(
+    id int auto_increment,
+    form_lista_documento_id int not null,
+    form_cadastro_id int not null,
+    arquivo varchar(100) not null,
+    data datetime not null,
+    publicado tinyint(1) default 1 null,
+    constraint form_arquivos_pk
+        primary key (id),
+    constraint form_arquivos_form_cadastros_id_fk
+        foreign key (form_cadastro_id) references form_cadastros (id),
+    constraint form_arquivos_form_lista_documentos_id_fk
+        foreign key (form_lista_documento_id) references form_lista_documentos (id)
+);
