@@ -6,6 +6,7 @@ if ($pedidoAjax) {
 } else {
     require_once "./models/ArquivoModel.php";
     require_once "./controllers/FomentoController.php";
+    require_once "./controllers/FormacaoController.php";
     define('UPLOADDIR', "./uploads/");
 }
 
@@ -172,6 +173,27 @@ class ArquivoController extends ArquivoModel
         } else {
             $sql = "SELECT * FROM fom_arquivos WHERE fom_lista_documento_id = '$lista_documento_id' AND fom_projeto_id = '$origem_id' AND publicado = '1'";
         }
+        $arquivo = DbModel::consultaSimples($sql)->rowCount();
+        return $arquivo > 0 ? true : false;
+    }
+
+    public function listarArquivosFormacao()
+    {
+        return MainModel::consultaSimples("SELECT * FROM form_lista_documentos WHERE publicado = 1 ORDER BY 'ordem'");
+    }
+
+    public function listarArquivosEnviadosFormacao($form_cadastro_id) {
+        $form_cadastro_id = MainModel::decryption($form_cadastro_id);
+        $sql = "SELECT a.id, a.arquivo, a.data, ld.documento FROM form_arquivos AS a
+                    INNER JOIN form_lista_documentos AS ld on a.form_lista_documento_id = ld.id
+                    WHERE form_cadastro_id = '$form_cadastro_id'  AND a.publicado = '1'";
+        return DbModel::consultaSimples($sql);
+    }
+
+    public function consultaArquivoEnviadoFormacao($lista_documento_id, $form_cadastro_id) {
+        $form_cadastro_id = MainModel::decryption($form_cadastro_id);
+        $sql = "SELECT * FROM form_arquivos WHERE form_lista_documento_id = '$lista_documento_id' AND form_cadastro_id = '$form_cadastro_id' AND publicado = '1'";
+
         $arquivo = DbModel::consultaSimples($sql)->rowCount();
         return $arquivo > 0 ? true : false;
     }
