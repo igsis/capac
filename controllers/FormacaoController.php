@@ -79,7 +79,7 @@ class FormacaoController extends MainModel
         DbModel::insert("form_cadastros",$dados);
         if (DbModel::connection()->errorCode() == 0) {
             $id = DbModel::connection()->lastInsertId();
-
+            $_SESSION['formacao_id_c'] = MainModel::encryption($id);
             if (isset($dadosAdicionais)) {
                 $dadosAdicionais['form_cadastro_id'] = $id;
                 DbModel::insert("form_cargos_adicionais",$dadosAdicionais);
@@ -89,7 +89,7 @@ class FormacaoController extends MainModel
                 'titulo' => 'Detalhes do programa',
                 'texto' => 'Cadastro realizado com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL . 'formacao/formacao_cadastro&idC=' . MainModel::encryption($id)
+                'location' => SERVERURL . 'formacao/formacao_cadastro&idC=' . $_SESSION['formacao_id_c']
             ];
         } else {
             $alerta = [
