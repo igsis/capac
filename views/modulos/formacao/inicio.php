@@ -54,7 +54,7 @@ $cadastros = $formacaoObj->listaFormacao($_SESSION['usuario_id_c']);
                                 <td><?= $cadastro->linguagem ?></td>
                                 <td><?= $cadastro->data_envio ? date('d/m/Y H:i:s', strtotime($cadastro->data_envio)) : "Não enviado" ?></td>
                                 <td>
-                                    <?php if (!$cadastro->data_envio): ?>
+                                    <?php if (!$cadastro->data_envio && $cadastro->ano == $_SESSION['ano_c']): ?>
                                         <div class="col">
                                             <a href="<?= SERVERURL . "formacao/pf_cadastro&id=" . $formacaoObj->encryption($cadastro->id) ?>"
                                                class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</a>
