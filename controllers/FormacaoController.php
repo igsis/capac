@@ -66,19 +66,30 @@ class FormacaoController extends MainModel
         /* executa limpeza nos campos */
         unset($_POST['_method']);
         $dados['pessoa_fisica_id'] = MainModel::decryption($_SESSION['origem_id_c']);
+        $cargosAdicionais = ['form_cargo2_id', 'form_cargo3_id'];
+
         foreach ($_POST as $campo => $post) {
-            $dados[$campo] = MainModel::limparString($post);
+            if (!in_array($campo, $cargosAdicionais)) {
+                $dados[$campo] = MainModel::limparString($post);
+            } else {
+                $dadosAdicionais[$campo] = MainModel::limparString($post);
+            }
         }
         /* ./limpeza */
         DbModel::insert("form_cadastros",$dados);
         if (DbModel::connection()->errorCode() == 0) {
             $id = DbModel::connection()->lastInsertId();
+
+            if (isset($dadosAdicionais)) {
+                $dadosAdicionais['form_cadastro_id'] = $id;
+                DbModel::insert("form_cargos_adicionais",$dadosAdicionais);
+            }
             $alerta = [
                 'alerta' => 'sucesso',
                 'titulo' => 'Detalhes do programa',
                 'texto' => 'Cadastro realizado com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL . $pagina . '&idC=' . MainModel::encryption($id)
+                'location' => SERVERURL . 'formacao/formacao_cadastro&idC=' . MainModel::encryption($id)
             ];
         } else {
             $alerta = [
@@ -141,7 +152,6 @@ class FormacaoController extends MainModel
             LEFT JOIN form_regioes_preferenciais frp on form_cadastros.regiao_preferencial_id = frp.id
             LEFT JOIN form_programas fp on form_cadastros.programa_id = fp.id
             LEFT JOIN form_linguagens fl on form_cadastros.linguagem_id = fl.id
-            LEFT JOIN form_projetos f on form_cadastros.projeto_id = f.id
             LEFT JOIN form_cargos fc on form_cadastros.form_cargo_id = fc.id
             WHERE pessoa_fisica_id = '$idPf'
         ");

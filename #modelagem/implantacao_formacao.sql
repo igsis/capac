@@ -61,3 +61,74 @@ INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (6, 1)
 INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (7, 1);
 INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (6, 2);
 INSERT INTO `cargo_programa` (`form_cargo_id`, `form_programa_id`) VALUES (7, 2);
+
+ALTER TABLE `form_cadastros`
+    DROP COLUMN `projeto_id`,
+    DROP INDEX `fk_form_pre_pedidos_projetos_idx`,
+    DROP FOREIGN KEY `fk_form_pre_pedidos_projetos`;
+
+ALTER TABLE `form_cadastros`
+    ADD COLUMN `protocolo` CHAR(18) NULL DEFAULT NULL AFTER `id`,
+    CHANGE COLUMN `data_envio` `data_envio` DATETIME NULL DEFAULT NULL AFTER `usuario_id`;
+
+DROP TABLE `form_projetos`;
+
+create table form_lista_documentos
+(
+    id int auto_increment,
+    documento varchar(150) not null,
+    sigla varchar(10) not null,
+    ordem tinyint(2) default 0 null,
+    obrigatorio tinyint(1) default 1 null,
+    publicado tinyint(1) default 1 null,
+    constraint form_lista_documentos_pk
+        primary key (id)
+);
+
+create unique index form_lista_documentos_documento_uindex
+    on form_lista_documentos (documento);
+
+create unique index form_lista_documentos_sigla_uindex
+    on form_lista_documentos (sigla);
+
+
+create table form_arquivos
+(
+    id int auto_increment,
+    form_lista_documento_id int not null,
+    form_cadastro_id int not null,
+    arquivo varchar(100) not null,
+    data datetime not null,
+    publicado tinyint(1) default 1 null,
+    constraint form_arquivos_pk
+        primary key (id),
+    constraint form_arquivos_form_cadastros_id_fk
+        foreign key (form_cadastro_id) references form_cadastros (id),
+    constraint form_arquivos_form_lista_documentos_id_fk
+        foreign key (form_lista_documento_id) references form_lista_documentos (id)
+);
+
+INSERT INTO `form_lista_documentos` (`documento`, `sigla`) VALUES
+('RG/RNE/PASSAPORTE', 'rg'),
+('CPF', 'cpf'),
+('Comprovante de residência', 'residencia'),
+('PIS/PASEP/NIT', 'pis_pasep_'),
+('Currículo', 'curriculo'),
+('DRT', 'drt'),
+('Anexos III a V (arquivo único)', 'anex3a5'),
+('Comprovante de formação 1', 'com_form1'),
+('Comprovante de formação 2', 'com_form2'),
+('Comprovante de formação 3', 'com_form3'),
+('Comprovante de formação 4', 'com_form4'),
+('Comprovante de experiência artística 1', 'com_art1'),
+('Comprovante de experiência artística 2', 'com_art2'),
+('Comprovante de experiência artística 3', 'com_art3'),
+('Comprovante de experiência artística 4', 'com_art4'),
+('Comprovante de experiência artístico-pedagógica 1', 'comartped1'),
+('Comprovante de experiência artístico-pedagógica 2', 'comartped2'),
+('Comprovante de experiência artístico-pedagógica 3', 'comartped3'),
+('Comprovante de experiência artístico-pedagógica 4', 'comartped4'),
+('Comprovante de Experiência em Articulação/Coordenação 1', 'comcoord1'),
+('Comprovante de Experiência em Articulação/Coordenação 2', 'comcoord2'),
+('Comprovante de Experiência em Articulação/Coordenação 3', 'comcoord3'),
+('Comprovante de Experiência em Articulação/Coordenação 4', 'comcoord4');
