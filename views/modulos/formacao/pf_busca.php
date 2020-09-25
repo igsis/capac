@@ -1,6 +1,3 @@
-<?php
-$url_cadastro = SERVERURL.'api/api_consulta_formacao_cadastro.php';
-?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
     <div class="container-fluid">
@@ -61,9 +58,7 @@ $url_cadastro = SERVERURL.'api/api_consulta_formacao_cadastro.php';
     });
 
     $('#formularioCPF').submit(function (event) {
-        const url_cadastro = '<?= $url_cadastro ?>';
         var cpf = document.querySelector('#cpf').value
-        var ano = <?= $_SESSION['ano_c'] ?>
 
         if (cpf != '') {
             var strCpf = cpf.replace(/[^0-9]/g, '');

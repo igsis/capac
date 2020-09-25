@@ -15,7 +15,10 @@ if (isset($_GET['id'])) {
 
 if ($id) {
     $pf = $pfObjeto->recuperaPessoaFisica($id);
-    $_SESSION['formacao_id_c'] = $formacaoObj->recuperaFormacaoId($id, $_SESSION['ano_c']);
+    $formacao_id = $formacaoObj->recuperaFormacaoId($id, $_SESSION['ano_c']);
+    if ($formacao_id) {
+        $_SESSION['formacao_id_c'] = $formacao_id;
+    }
     $_SESSION['origem_id_c'] = $id;
     $documento = $pf['cpf'];
 }

@@ -14,17 +14,26 @@ class FormacaoController extends MainModel
         return MainModel::consultaSimples("SELECT * FROM form_aberturas WHERE publicado = 1 ORDER BY data_publicacao DESC;")->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function verificaCadastroNoAno($usuario_id, $ano)
+    {
+        return DbModel::consultaSimples("SELECT id FROM form_cadastros WHERE usuario_id = '$usuario_id' AND ano = '$ano' AND publicado = '1'")->rowCount();
+    }
+
     public function recuperaFormacaoId($pessoa_fisica_id, $ano)
     {
         $idPf = MainModel::decryption($pessoa_fisica_id);
         $form_cadastro_id = DbModel::consultaSimples("SELECT id FROM form_cadastros WHERE pessoa_fisica_id = $idPf AND ano = $ano")->fetchColumn();
 
-        return MainModel::encryption($form_cadastro_id);
+        if ($form_cadastro_id) {
+            return MainModel::encryption($form_cadastro_id);
+        } else {
+            return false;
+        }
     }
 
     public function inserePfCadastro($pagina)
     {
-        $idPf = PessoaFisicaController::inserePessoaFisica($pagina, true);
+        $idPf = (new PessoaFisicaController)->inserePessoaFisica($pagina, true);
         if ($idPf) {
             $alerta = [
                 'alerta' => 'sucesso',
