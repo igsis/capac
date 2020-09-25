@@ -1,13 +1,13 @@
 <?php
 if ($pedidoAjax) {
-    require_once "../models/MainModel.php";
+    require_once "../models/ValidacaoModel.php";
     require_once "../controllers/PessoaFisicaController.php";
 } else {
-    require_once "./models/MainModel.php";
+    require_once "./models/ValidacaoModel.php";
     require_once "./controllers/PessoaFisicaController.php";
 }
 
-class FormacaoController extends MainModel
+class FormacaoController extends ValidacaoModel
 {
     public function listaAbertura()
     {
@@ -202,4 +202,11 @@ class FormacaoController extends MainModel
         }
         return MainModel::sweetAlert($alerta);
     }
+
+    public function validaForm($idPf){
+        $idPf = MainModel::decryption($idPf);
+        $formacao = ValidacaoModel::validaFormacao($idPf);
+        return $formacao;
+    }
+
 }
