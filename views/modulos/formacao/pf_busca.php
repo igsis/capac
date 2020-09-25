@@ -34,7 +34,7 @@ $url_cadastro = SERVERURL.'api/api_consulta_formacao_cadastro.php';
                                     <input type="text" class="form-control" id="cpf" name="pf_cpf" maxlength="14"
                                            required onkeypress="mask(this, '999.999.999-99')" minlength="14">
                                     <div id="dialogError" class="invalid-feedback">CPF inválido</div>
-                                    <div id="CadastroError" class="invalid-feedback">CPF já cadastrado para o ano do edital</div>
+                                    <div id="cadastroError" class="invalid-feedback">CPF já cadastrado para o ano do edital</div>
                                 </div>
                             </div>
 
@@ -73,20 +73,6 @@ $url_cadastro = SERVERURL.'api/api_consulta_formacao_cadastro.php';
             if (!validado) {
                 event.preventDefault()
                 $('#dialogError').show();
-            } else {
-                fetch(`${url_cadastro}?cpf=${cpf}&ano=${ano}`)
-                    .then(function(cadastro) {
-                        if (cadastro > 1) {
-                            event.preventDefault();
-                            console.log('entrou no if');
-                            console.log(cadastro);
-                        } else {
-                            event.preventDefault();
-                            console.log('entrou no else');
-                            console.log(cadastro);
-                        }
-                    })
-            }
-        }
+            }        }
     })
 </script>

@@ -13,7 +13,7 @@ header('Content-Type: application/json');
 
 if(isset($_GET['cpf'])){
 
-    $cpf = $_GET['programa_id'];
+    $cpf = $_GET['cpf'];
     $ano = $_GET['ano'];
 
     $pessoa_fisica_id = $db->consultaSimples("SELECT id FROM pessoa_fisicas WHERE cpf = '$cpf'")->fetchColumn();
@@ -21,5 +21,7 @@ if(isset($_GET['cpf'])){
     $sql = "SELECT id FROM form_cadastros WHERE pessoa_fisica_id = '$pessoa_fisica_id' AND ano = '$ano'";
     $res = $db->consultaSimples($sql)->rowCount();
 
-    print_r($res);
+    $cadastros = json_encode($res);
+
+    print_r($cadastros);
 }
