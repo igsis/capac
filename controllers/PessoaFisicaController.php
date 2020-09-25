@@ -291,7 +291,7 @@ class PessoaFisicaController extends PessoaFisicaModel
 
     /**
      * @param int|string $pessoa_fisica_id
-     * @param int $validacaoTipo <p>Deve conter o valor 1 para validação de pessoa física e 2 para validação de líder</p>
+     * @param int $validacaoTipo <p>Deve conter o valor 1 para validação de pessoa física, 2 para validação de líder e 3 para formação</p>
      * @param int|null $evento_id
      * @return array|bool
      */
