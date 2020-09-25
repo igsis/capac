@@ -132,3 +132,11 @@ INSERT INTO `form_lista_documentos` (`documento`, `sigla`) VALUES
 ('Comprovante de Experiência em Articulação/Coordenação 2', 'comcoord2'),
 ('Comprovante de Experiência em Articulação/Coordenação 3', 'comcoord3'),
 ('Comprovante de Experiência em Articulação/Coordenação 4', 'comcoord4');
+
+
+alter table pf_detalhes
+    add genero_id tinyint(1) null after etnia_id;
+
+alter table pf_detalhes
+    add constraint pf_detalhes_generos_id_fk
+        foreign key (genero_id) references generos (id);
