@@ -101,6 +101,7 @@ class ValidacaoModel extends MainModel
 
     protected function validaFormacao($idPf)
     {
+        $idPf = MainModel::decryption($idPf);
         $formacao = DbModel::consultaSimples("SELECT * FROM form_cadastros WHERE pessoa_fisica_id = '$idPf'");
 
          if ($formacao->rowCount() == 0) {
@@ -109,8 +110,12 @@ class ValidacaoModel extends MainModel
 
             return $erros;
         } else {
+             $naoObrigatorios = [
+                 'protocolo',
+                 'data_envio'
+             ];
             $formacao = $formacao->fetchObject();
-            $erros = ValidacaoModel::retornaMensagem($formacao);
+            $erros = ValidacaoModel::retornaMensagem($formacao, $naoObrigatorios);
         }
         if (isset($erros)){
             return $erros;
@@ -148,7 +153,8 @@ class ValidacaoModel extends MainModel
             'valor_projeto' => "Valor do projeto não foi preenchido",
             'duracao' => "Duração não foi preenchido",
             'nucleo_artistico' => "Nucleo Artistico não foi preenchido",
-            'representante_nucleo' => "Representante do Nucleo Artistico não foi preenchido"
+            'representante_nucleo' => "Representante do Nucleo Artistico não foi preenchido",
+            'rg' => 'RG não foi preenchido'
         ];
 
         if ($camposNaoObrigatorios) {
@@ -210,6 +216,26 @@ class ValidacaoModel extends MainModel
             if ($arquivo->arquivo == null) {
                 $erros[$arquivo->documento]['bol'] = true;
                 $erros[$arquivo->documento]['motivo'] = "$arquivo->anexo - $arquivo->documento não enviado";
+            }
+        }
+
+        if (isset($erros)){
+            return $erros;
+        } else {
+            return false;
+        }
+    }
+
+    protected function validaArquivosFormacao($form_cadastro_id){
+        $sql = "SELECT * FROM form_lista_documentos AS fld
+                LEFT JOIN (SELECT form_lista_documento_id, arquivo FROM form_arquivos WHERE publicado = 1 AND form_cadastro_id = '$form_cadastro_id') as fa ON fld.id = fa.form_lista_documento_id
+                WHERE fld.obrigatorio = '1' ORDER BY fld.id";
+        $arquivos = DbModel::consultaSimples($sql)->fetchAll(PDO::FETCH_OBJ);
+
+        foreach ($arquivos as $arquivo) {
+            if ($arquivo->arquivo == null) {
+                $erros[$arquivo->documento]['bol'] = true;
+                $erros[$arquivo->documento]['motivo'] = "$arquivo->documento não enviado";
             }
         }
 

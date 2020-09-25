@@ -150,10 +150,10 @@ class PessoaFisicaModel extends ValidacaoModel
                 $naoObrigatorios = [
                     'nome_artistico',
                     'ccm',
-                    'cpf',
                     'passaporte',
                 ];
 
+                $validaBanco = ValidacaoModel::validaBanco(1, $pessoa_fisica_id);
                 $validaEndereco = ValidacaoModel::validaEndereco(1, $pessoa_fisica_id);
                 $validaDetalhes = ValidacaoModel::validaDetalhes($pessoa_fisica_id);
                 break;
@@ -189,7 +189,7 @@ class PessoaFisicaModel extends ValidacaoModel
             }
         }
 
-        if ($validacaoTipo == 1) {
+        if (($validacaoTipo == 1) || $validacaoTipo == 3) {
             if ($validaBanco) {
                 if (!isset($erros) || $erros == false) {
                     $erros = [];

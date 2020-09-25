@@ -1,3 +1,5 @@
+set foreign_key_checks = 0;
+
 create table capac_modulos
 (
     id tinyint(2) auto_increment,
@@ -135,8 +137,11 @@ INSERT INTO `form_lista_documentos` (`documento`, `sigla`) VALUES
 
 
 alter table pf_detalhes
-    add genero_id tinyint(1) null after etnia_id;
+    add genero_id int null after etnia_id;
 
 alter table pf_detalhes
     add constraint pf_detalhes_generos_id_fk
         foreign key (genero_id) references generos (id);
+
+# Manter este comando na última linha
+set foreign_key_checks = 1;

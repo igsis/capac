@@ -23,7 +23,7 @@
                     <!-- /.card-header -->
                     <!-- form start -->
                     <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>formacao/pf_dados_cadastro"
-                          role="form" id="formularioPf">
+                          role="form" id="formularioCPF">
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-12">
@@ -31,6 +31,7 @@
                                     <input type="text" class="form-control" id="cpf" name="pf_cpf" maxlength="14"
                                            required onkeypress="mask(this, '999.999.999-99')" minlength="14">
                                     <div id="dialogError" class="invalid-feedback">CPF inválido</div>
+                                    <div id="cadastroError" class="invalid-feedback">CPF já cadastrado para o ano do edital</div>
                                 </div>
                             </div>
 
@@ -55,4 +56,18 @@
         $('.nav-link').removeClass('active');
         $('#buscaProponente').addClass('active');
     });
+
+    $('#formularioCPF').submit(function (event) {
+        var cpf = document.querySelector('#cpf').value
+
+        if (cpf != '') {
+            var strCpf = cpf.replace(/[^0-9]/g, '');
+
+            var validado = testaCpf(strCpf);
+
+            if (!validado) {
+                event.preventDefault()
+                $('#dialogError').show();
+            }        }
+    })
 </script>

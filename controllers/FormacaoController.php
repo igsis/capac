@@ -1,17 +1,22 @@
 <?php
 if ($pedidoAjax) {
-    require_once "../models/MainModel.php";
+    require_once "../models/ValidacaoModel.php";
     require_once "../controllers/PessoaFisicaController.php";
 } else {
-    require_once "./models/MainModel.php";
+    require_once "./models/ValidacaoModel.php";
     require_once "./controllers/PessoaFisicaController.php";
 }
 
-class FormacaoController extends MainModel
+class FormacaoController extends ValidacaoModel
 {
     public function listaAbertura()
     {
         return MainModel::consultaSimples("SELECT * FROM form_aberturas WHERE publicado = 1 ORDER BY data_publicacao DESC;")->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function verificaCadastroNoAno($usuario_id, $ano)
+    {
+        return DbModel::consultaSimples("SELECT id FROM form_cadastros WHERE usuario_id = '$usuario_id' AND ano = '$ano' AND publicado = '1'")->rowCount();
     }
 
     public function recuperaFormacaoId($pessoa_fisica_id, $ano)
@@ -19,12 +24,16 @@ class FormacaoController extends MainModel
         $idPf = MainModel::decryption($pessoa_fisica_id);
         $form_cadastro_id = DbModel::consultaSimples("SELECT id FROM form_cadastros WHERE pessoa_fisica_id = $idPf AND ano = $ano")->fetchColumn();
 
-        return MainModel::encryption($form_cadastro_id);
+        if ($form_cadastro_id) {
+            return MainModel::encryption($form_cadastro_id);
+        } else {
+            return false;
+        }
     }
 
     public function inserePfCadastro($pagina)
     {
-        $idPf = PessoaFisicaController::inserePessoaFisica($pagina, true);
+        $idPf = (new PessoaFisicaController)->inserePessoaFisica($pagina, true);
         if ($idPf) {
             $alerta = [
                 'alerta' => 'sucesso',
@@ -151,18 +160,36 @@ class FormacaoController extends MainModel
         return MainModel::consultaSimples("SELECT fc.*, pf.nome,fp.programa, fl.linguagem FROM form_cadastros fc INNER JOIN pessoa_fisicas pf on fc.pessoa_fisica_id = pf.id INNER JOIN form_programas fp ON fc.programa_id = fp.id INNER JOIN form_linguagens fl on fc.linguagem_id = fl.id WHERE fc.usuario_id = '$idUsuario' AND fc.publicado = 1")->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function recuperaFormacao($idPf)
+    public function recuperaFormacao($idPf, $ano)
     {
         $idPf = MainModel::decryption($idPf);
         $formacao = DbModel::consultaSimples("
-            SELECT *  
-            FROM form_cadastros
-            LEFT JOIN form_regioes_preferenciais frp on form_cadastros.regiao_preferencial_id = frp.id
-            LEFT JOIN form_programas fp on form_cadastros.programa_id = fp.id
-            LEFT JOIN form_linguagens fl on form_cadastros.linguagem_id = fl.id
-            LEFT JOIN form_cargos fc on form_cadastros.form_cargo_id = fc.id
-            LEFT JOIN form_cargos_adicionais fca on form_cadastros.id = fca.form_cadastro_id
-            WHERE pessoa_fisica_id = '$idPf'
+            SELECT
+                fcad.id,
+                fcad.pessoa_fisica_id,
+                fcad.ano,
+                fcad.regiao_preferencial_id,
+                frp.regiao,
+                fcad.programa_id,
+                fp.programa,
+                fcad.linguagem_id,
+                fl.linguagem,
+                fcad.form_cargo_id,
+                fc.cargo AS 'cargo1',
+                fcad.usuario_id,
+                fca.form_cargo2_id,
+                fc2.cargo AS 'cargo2',
+                fca.form_cargo3_id,
+                fc3.cargo AS 'cargo3'
+            FROM form_cadastros AS fcad
+            LEFT JOIN form_regioes_preferenciais frp on fcad.regiao_preferencial_id = frp.id
+            LEFT JOIN form_programas fp on fcad.programa_id = fp.id
+            LEFT JOIN form_linguagens fl on fcad.linguagem_id = fl.id
+            LEFT JOIN form_cargos fc on fcad.form_cargo_id = fc.id
+            LEFT JOIN form_cargos_adicionais fca on fcad.id = fca.form_cadastro_id
+            LEFT JOIN form_cargos fc2 on fca.form_cargo2_id = fc2.id
+            LEFT JOIN form_cargos fc3 on fca.form_cargo3_id = fc3.id
+            WHERE pessoa_fisica_id = '$idPf' AND ano = '$ano'
         ");
         return $formacao;
     }
@@ -193,4 +220,21 @@ class FormacaoController extends MainModel
         }
         return MainModel::sweetAlert($alerta);
     }
+
+//    public function validaForm($idPf){
+//        $idPf = MainModel::decryption($idPf);
+//        return ValidacaoModel::validaFormacao($idPf);
+//    }
+
+    public function validaForm($form_cadastro_id, $pessoa_fisica_id) {
+        $form_cadastro_id = MainModel::decryption($form_cadastro_id);
+
+        $erros['Proponente'] = (new PessoaFisicaController)->validaPf($pessoa_fisica_id, 3);
+        $erros['Formação'] = ValidacaoModel::validaFormacao($pessoa_fisica_id);
+        $erros['Arquivos'] = ValidacaoModel::validaArquivosFormacao($form_cadastro_id);
+
+        return MainModel::formataValidacaoErros($erros);
+    }
+
+
 }

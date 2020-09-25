@@ -16,7 +16,13 @@ $cadastros = $formacaoObj->listaFormacao($_SESSION['usuario_id_c']);
                 <h1 class="m-0 text-dark">Lista de Cadastros</h1>
             </div><!-- /.col -->
             <div class="col-sm-3">
-                <a href="<?= SERVERURL ?>formacao/pf_busca"><button class="btn btn-success btn-block" >Adicionar</button></a>
+                <?php if (!$formacaoObj->verificaCadastroNoAno($_SESSION['usuario_id_c'], $_SESSION['ano_c'])): ?>
+                    <a href="<?= SERVERURL ?>formacao/pf_busca" class="btn btn-success btn-block">
+                        Adicionar
+                    </a>
+                <?php else: ?>
+                    <button class="btn btn-warning btn-block" disabled>Você já possui um CPF cadastrado</button>
+                <?php endif ?>
             </div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
