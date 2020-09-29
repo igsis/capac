@@ -181,9 +181,14 @@ class ArquivoController extends ArquivoModel
         return $arquivo > 0 ? true : false;
     }
 
-    public function listarArquivosFormacao()
+    public function listarArquivosFormacao($form_cargo_id)
     {
-        return MainModel::consultaSimples("SELECT * FROM form_lista_documentos WHERE publicado = 1 ORDER BY 'ordem'");
+        $cargos = [4, 5];
+        if (in_array($form_cargo_id, $cargos)) {
+            return MainModel::consultaSimples("SELECT * FROM form_lista_documentos WHERE publicado = 1 AND id BETWEEN 1 AND 19 ORDER BY 'ordem'");
+        } else {
+            return MainModel::consultaSimples("SELECT * FROM form_lista_documentos WHERE publicado = 1 ORDER BY 'ordem'");
+        }
     }
 
     public function listarArquivosEnviadosFormacao($form_cadastro_id) {

@@ -123,18 +123,41 @@ class FormacaoController extends ValidacaoModel
 
     public function editaFormacao($id)
     {
-        /* executa limpeza nos campos */
-        $idDecrypt = MainModel::decryption($id);
-        $dados = [];
         unset($_POST['_method']);
         unset($_POST['id']);
+
+        $cargosAdicionais = ['form_cargo2_id', 'form_cargo3_id'];
+        $dados = [];
+
+        $idDecrypt = MainModel::decryption($id);
         $dados['id'] = $idDecrypt;
+
+        $cargo2 = self::recuperaFormacao($_SESSION['ano_c'], false, $id)->fetchObject()->form_cargo2_id;
+
+        /* executa limpeza nos campos */
         foreach ($_POST as $campo => $post) {
-            $dados[$campo] = MainModel::limparString($post);
+            if (!in_array($campo, $cargosAdicionais)) {
+                $dados[$campo] = MainModel::limparString($post);
+            } else {
+                $dadosAdicionais[$campo] = MainModel::limparString($post);
+            }
         }
+
         /* ./limpeza */
         DbModel::update("form_cadastros",$dados,$idDecrypt);
         if (DbModel::connection()->errorCode() == 0) {
+            if (isset($dadosAdicionais)) {
+                if ($cargo2) {
+                    DbModel::updateEspecial("form_cargos_adicionais", $dadosAdicionais, 'form_cadastro_id', $idDecrypt);
+                } else {
+                    $dadosAdicionais['form_cadastro_id'] = $idDecrypt;
+                    DbModel::insert("form_cargos_adicionais", $dadosAdicionais);
+                }
+            } else {
+                if ($cargo2) {
+                    DbModel::deleteEspecial("form_cargos_adicionais", "form_cadastro_id", $idDecrypt);
+                }
+            }
             $alerta = [
                 'alerta' => 'sucesso',
                 'titulo' => 'Detalhes do programa',
@@ -159,9 +182,15 @@ class FormacaoController extends ValidacaoModel
         return MainModel::consultaSimples("SELECT fc.*, pf.nome,fp.programa, fl.linguagem FROM form_cadastros fc INNER JOIN pessoa_fisicas pf on fc.pessoa_fisica_id = pf.id INNER JOIN form_programas fp ON fc.programa_id = fp.id INNER JOIN form_linguagens fl on fc.linguagem_id = fl.id WHERE fc.usuario_id = '$idUsuario' AND fc.publicado = 1")->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function recuperaFormacao($idPf, $ano)
+    public function recuperaFormacao($ano, $idPf = false, $formacao_id = false)
     {
-        $idPf = MainModel::decryption($idPf);
+        if ($idPf) {
+            $idPf = MainModel::decryption($idPf);
+            $busca = "fcad.pessoa_fisica_id = '$idPf' AND fcad.ano = '$ano'";
+        } elseif ($formacao_id) {
+            $formacao_id = MainModel::decryption($formacao_id);
+            $busca = "fcad.id = '$formacao_id'";
+        }
         $formacao = DbModel::consultaSimples("
             SELECT
                 fcad.id,
@@ -188,7 +217,7 @@ class FormacaoController extends ValidacaoModel
             LEFT JOIN form_cargos_adicionais fca on fcad.id = fca.form_cadastro_id
             LEFT JOIN form_cargos fc2 on fca.form_cargo2_id = fc2.id
             LEFT JOIN form_cargos fc3 on fca.form_cargo3_id = fc3.id
-            WHERE pessoa_fisica_id = '$idPf' AND ano = '$ano'
+            WHERE $busca
         ");
         return $formacao;
     }
@@ -220,12 +249,12 @@ class FormacaoController extends ValidacaoModel
         return MainModel::sweetAlert($alerta);
     }
 
-    public function validaForm($form_cadastro_id, $pessoa_fisica_id) {
+    public function validaForm($form_cadastro_id, $pessoa_fisica_id, $cargo) {
         $form_cadastro_id = MainModel::decryption($form_cadastro_id);
 
         $erros['Proponente'] = (new PessoaFisicaController)->validaPf($pessoa_fisica_id, 3);
         $erros['Formação'] = ValidacaoModel::validaFormacao($pessoa_fisica_id);
-        $erros['Arquivos'] = ValidacaoModel::validaArquivosFormacao($form_cadastro_id);
+        $erros['Arquivos'] = ValidacaoModel::validaArquivosFormacao($form_cadastro_id, $cargo);
 
         return MainModel::formataValidacaoErros($erros);
     }

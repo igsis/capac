@@ -8,7 +8,7 @@ $formObj = new FormacaoController();
 $ano = $_SESSION['ano_c'];
 
 $idPf = $_SESSION['origem_id_c'];
-$form = $formObj->recuperaFormacao($idPf, $ano)->fetch(PDO::FETCH_ASSOC);
+$form = $formObj->recuperaFormacao($ano, $idPf)->fetch(PDO::FETCH_ASSOC);
 ?>
 
 <!-- Content Header (Page header) -->

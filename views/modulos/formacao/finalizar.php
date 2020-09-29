@@ -13,8 +13,8 @@ $form_cadastro_id = $_SESSION['formacao_id_c'];
 $pessoa_fisica_id = $_SESSION['origem_id_c'];
 $pf = $pfObj->recuperaPessoaFisica($pessoa_fisica_id);
 
-$form = $formObj->recuperaFormacao($pessoa_fisica_id, $ano)->fetch(PDO::FETCH_ASSOC);
-$validacoesPrograma = $formObj->validaForm($form_cadastro_id, $pessoa_fisica_id);
+$form = $formObj->recuperaFormacao($ano, false, $form_cadastro_id)->fetch(PDO::FETCH_ASSOC);
+$validacoesPrograma = $formObj->validaForm($form_cadastro_id, $pessoa_fisica_id, $form['form_cargo_id']);
 ?>
 
 <!-- Content Header (Page header) -->

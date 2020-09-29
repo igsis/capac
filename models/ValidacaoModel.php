@@ -226,10 +226,16 @@ class ValidacaoModel extends MainModel
         }
     }
 
-    protected function validaArquivosFormacao($form_cadastro_id){
+    protected function validaArquivosFormacao($form_cadastro_id, $cargo){
+        $cargos = [4, 5];
+        if (in_array($cargo, $cargos)) {
+            $busca = "AND fld.id BETWEEN 1 AND 19 ";
+        } else {
+            $busca = "";
+        }
         $sql = "SELECT * FROM form_lista_documentos AS fld
                 LEFT JOIN (SELECT form_lista_documento_id, arquivo FROM form_arquivos WHERE publicado = 1 AND form_cadastro_id = '$form_cadastro_id') as fa ON fld.id = fa.form_lista_documento_id
-                WHERE fld.obrigatorio = '1' ORDER BY fld.id";
+                WHERE fld.obrigatorio = '1' ". $busca ."ORDER BY fld.id";
         $arquivos = DbModel::consultaSimples($sql)->fetchAll(PDO::FETCH_OBJ);
 
         foreach ($arquivos as $arquivo) {
