@@ -153,9 +153,9 @@ $validacoesPrograma = $formObj->validaForm($form_cadastro_id, $pessoa_fisica_id)
                         </div>
                     </div>
                     <div class="card-footer">
-                        <form class="form-horizontal formulario-ajax" method="POST" action="<?=SERVERURL?>ajax/jovemMonitorAjax.php" role="form" data-form="update">
-                            <input type="hidden" name="_method" value="envioJovemMonitor">
-                            <input type="hidden" name="pagina" value="jovemMonitor">
+                        <form class="form-horizontal formulario-ajax" method="POST" action="<?=SERVERURL?>ajax/formacaoAjax.php" role="form" data-form="update">
+                            <input type="hidden" name="_method" value="envioFormacao">
+                            <input type="hidden" name="id" value="<?= $form_cadastro_id ?>">
                             <button type="submit" class="btn btn-success btn-block float-right" id="cadastra">Enviar</button>
                             <div class="resposta-ajax"></div>
                         </form>

@@ -114,7 +114,8 @@ class FormacaoController extends ValidacaoModel
                 'titulo' => 'Erro!',
                 'texto' => 'Erro ao salvar!',
                 'tipo' => 'error',
-                'location' => SERVERURL . $pagina
+                //@todo: verificar se este location não gera erro
+                'location' => SERVERURL . 'formacao/formacao_cadastro'
             ];
         }
         return MainModel::sweetAlert($alerta);
@@ -125,9 +126,7 @@ class FormacaoController extends ValidacaoModel
         /* executa limpeza nos campos */
         $idDecrypt = MainModel::decryption($id);
         $dados = [];
-        $pagina = $_POST['pagina'];
         unset($_POST['_method']);
-        unset($_POST['pagina']);
         unset($_POST['id']);
         $dados['id'] = $idDecrypt;
         foreach ($_POST as $campo => $post) {
@@ -141,7 +140,7 @@ class FormacaoController extends ValidacaoModel
                 'titulo' => 'Detalhes do programa',
                 'texto' => 'Cadastro editado com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL . $pagina . '&idC=' . $id
+                'location' => SERVERURL . 'formacao/formacao_cadastro&idC=' . $id
             ];
         } else {
             $alerta = [
@@ -149,7 +148,7 @@ class FormacaoController extends ValidacaoModel
                 'titulo' => 'Erro!',
                 'texto' => 'Erro ao salvar!',
                 'tipo' => 'error',
-                'location' => SERVERURL . $pagina . '&idC=' . $id
+                'location' => SERVERURL . 'formacao/formacao_cadastro&idC=' . $id
             ];
         }
         return MainModel::sweetAlert($alerta);
@@ -221,11 +220,6 @@ class FormacaoController extends ValidacaoModel
         return MainModel::sweetAlert($alerta);
     }
 
-//    public function validaForm($idPf){
-//        $idPf = MainModel::decryption($idPf);
-//        return ValidacaoModel::validaFormacao($idPf);
-//    }
-
     public function validaForm($form_cadastro_id, $pessoa_fisica_id) {
         $form_cadastro_id = MainModel::decryption($form_cadastro_id);
 
@@ -236,5 +230,40 @@ class FormacaoController extends ValidacaoModel
         return MainModel::formataValidacaoErros($erros);
     }
 
+    public function enviarCadastro($id)
+    {
+        $id = MainModel::decryption($id);
+        $f = MainModel::encryption("F");
+        $formacao['protocolo'] = MainModel::gerarProtocolo($id,$f);
+        $formacao['data_envio'] = date("Y-m-d H:i:s");
 
+        $update = DbModel::update('form_cadastros',$formacao,$id);
+        if ($update->rowCount() >= 1 || DbModel::connection()->errorCode() == 0) {
+//            @todo: descomentar este alerta após PDF completo
+//            $alerta = [
+//                'alerta' => 'sucesso',
+//                'titulo' => 'Cadastro Enviado',
+//                'texto' => 'Cadastro enviado com sucesso!',
+//                'tipo' => 'success',
+//                'location' => SERVERURL.'fomentos/inicio',
+//                'redirecionamento' => SERVERURL.'pdf/resumo_fomento.php?id='.$id
+//            ];
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Cadastro Enviado',
+                'texto' => 'Cadastro enviado com sucesso!',
+                'tipo' => 'success',
+                'location' => SERVERURL.'fomentos/inicio',
+                'redirecionamento' => SERVERURL.'formacao/inicio'
+            ];
+        } else {
+            $alerta = [
+                'alerta' => 'simples',
+                'titulo' => 'Erro!',
+                'texto' => 'Erro ao enviar o projeto!',
+                'tipo' => 'error'
+            ];
+        }
+        return MainModel::sweetAlert($alerta);
+    }
 }

@@ -24,6 +24,9 @@ if (isset($_POST['_method'])) {
         case "apagarFormacao":
             echo $formacaoObj->apagaFormacao($_POST['id']);
             break;
+        case "envioFormacao":
+            echo $formacaoObj->enviarCadastro($_POST['id']);
+            break;
     }
 } else {
     include_once "../config/destroySession.php";
