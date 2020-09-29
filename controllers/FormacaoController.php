@@ -194,9 +194,11 @@ class FormacaoController extends ValidacaoModel
         $formacao = DbModel::consultaSimples("
             SELECT
                 fcad.id,
+                fcad.protocolo,
                 fcad.pessoa_fisica_id,
                 fcad.ano,
                 fcad.regiao_preferencial_id,
+                fcad.data_envio,
                 frp.regiao,
                 fcad.programa_id,
                 fp.programa,
@@ -269,22 +271,22 @@ class FormacaoController extends ValidacaoModel
         $update = DbModel::update('form_cadastros',$formacao,$id);
         if ($update->rowCount() >= 1 || DbModel::connection()->errorCode() == 0) {
 //            @todo: descomentar este alerta após PDF completo
-//            $alerta = [
-//                'alerta' => 'sucesso',
-//                'titulo' => 'Cadastro Enviado',
-//                'texto' => 'Cadastro enviado com sucesso!',
-//                'tipo' => 'success',
-//                'location' => SERVERURL.'fomentos/inicio',
-//                'redirecionamento' => SERVERURL.'pdf/resumo_fomento.php?id='.$id
-//            ];
             $alerta = [
                 'alerta' => 'sucesso',
                 'titulo' => 'Cadastro Enviado',
                 'texto' => 'Cadastro enviado com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL.'fomentos/inicio',
-                'redirecionamento' => SERVERURL.'formacao/inicio'
+                'location' => SERVERURL.'formacao/inicio',
+                'redirecionamento' => SERVERURL.'pdf/resumo_formacao.php?id='.MainModel::encryption($id).'&ano='.$_SESSION['ano_c']
             ];
+//            $alerta = [
+//                'alerta' => 'sucesso',
+//                'titulo' => 'Cadastro Enviado',
+//                'texto' => 'Cadastro enviado com sucesso!',
+//                'tipo' => 'success',
+//                'location' => SERVERURL.'formacao/inicio',
+//                'redirecionamento' => SERVERURL.'formacao/inicio'
+//            ];
         } else {
             $alerta = [
                 'alerta' => 'simples',

@@ -288,6 +288,16 @@ class PessoaFisicaController extends PessoaFisicaModel
         return parent::getDadosAdcFom($dados);
     }
 
+    public function recuperaPfDetalhes($id)
+    {
+        $sql = "SELECT e.descricao, g.genero, gi.grau_instrucao FROM pf_detalhes AS pd
+                INNER JOIN etnias AS e on pd.etnia_id = e.id
+                INNER JOIN generos AS g on pd.genero_id = g.id
+                INNER JOIN grau_instrucoes AS gi on pd.grau_instrucao_id = gi.id
+                WHERE pessoa_fisica_id = '$id'";
+
+        return DbModel::consultaSimples($sql);
+    }
 
     /**
      * @param int|string $pessoa_fisica_id

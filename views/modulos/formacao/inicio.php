@@ -82,7 +82,7 @@ $cadastros = $formacaoObj->listaFormacao($_SESSION['usuario_id_c']);
                                             </div>
                                         <?php else: ?>
                                             <div class="col">
-                                                <a href="<?= SERVERURL . "pdf/resumo_formacao.php?id=" . $formacaoObj->encryption($cadastro->id) ?>"
+                                                <a href="<?= SERVERURL . "pdf/resumo_formacao.php?id=" . $formacaoObj->encryption($cadastro->id)."&ano=".$_SESSION['ano_c'] ?>"
                                                    class="btn btn-sm btn-primary" target="_blank"><i class="fas fa-edit"></i> Visualizar</a>
                                             </div>
                                         <?php endif; ?>
