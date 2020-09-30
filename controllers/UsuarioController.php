@@ -35,6 +35,7 @@ class UsuarioController extends UsuarioModel
                 session_start(['name' => 'cpc']);
                 $_SESSION['usuario_id_c'] = $usuario['id'];
                 $_SESSION['nome_c'] = $usuario['nome'];
+                $_SESSION['modulo_c'] = $modulo;
 
                 MainModel::gravarLog('Fez Login');
 
