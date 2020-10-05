@@ -176,6 +176,30 @@ if (isset($_POST['pf_cpf'])){
                                         ?>
                                     </select>
                                 </div>
+                                <div class="form-group col-md-1">
+                                    <label for="dt_trans">Trans?</label><br>
+                                    <input type="checkbox" class="form-control-sm checkbox-grid-2 float-left" id="dt_trans" name="dt_trans" value="1"
+                                        <?php
+                                        if (isset($pf['trans'])){
+                                            if ($pf['trans'] == 1){
+                                                echo 'checked';
+                                            }
+                                        }
+                                        ?>
+                                    >
+                                </div>
+                                <div class="form-group col-md-1">
+                                    <label for="dt_pcd">PCD?</label><br>
+                                    <input type="checkbox" class="form-control-sm checkbox-grid-2 float-left" id="dt_pcd" name="dt_pcd" value="1"
+                                        <?php
+                                        if (isset($pf['pcd'])){
+                                            if ($pf['pcd'] == 1){
+                                                echo 'checked';
+                                            }
+                                        }
+                                        ?>
+                                    >
+                                </div>
                             </div>
                         </div>
 

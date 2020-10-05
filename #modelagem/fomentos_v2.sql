@@ -44,3 +44,9 @@ ALTER TABLE `fom_pf_dados`
 
 INSERT INTO `generos` (`genero`) VALUES ('Não Declarar');
 UPDATE `etnias` SET `descricao`='Não Declarar', `publicado`='1' WHERE `id`=1;
+
+alter table pf_detalhes
+    add trans tinyint default 0 null;
+
+alter table pf_detalhes
+    add pcd tinyint default 0 null;
