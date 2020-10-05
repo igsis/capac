@@ -74,8 +74,8 @@ if (isset($_POST['pf_cpf'])){
                                     <input type="text" class="form-control" name="pf_nome" placeholder="Digite o nome" maxlength="70" value="<?= $pf['nome'] ?? '' ?>" required>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="nomeArtistico">Nome Artistico:</label>
-                                    <input type="text" class="form-control" name="pf_nome_artistico" id="nomeArtistico" placeholder="Digite o nome artistico" maxlength="70" value="<?= $pf['nome_artistico'] ?? '' ?>">
+                                    <label for="nomeArtistico">Nome Artístico:</label>
+                                    <input type="text" class="form-control" name="pf_nome_artistico" id="nomeArtistico" placeholder="Digite o nome artístico" maxlength="70" value="<?= $pf['nome_artistico'] ?? '' ?>">
                                 </div>
                             </div>
 
