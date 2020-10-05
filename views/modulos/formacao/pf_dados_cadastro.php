@@ -71,7 +71,7 @@ if (isset($_POST['pf_cpf'])){
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label for="nome">Nome: *</label>
-                                    <input type="text" class="form-control" name="pf_nome" placeholder="Digite o nome" maxlength="70" value="<?= $pf['nome'] ?? '' ?>" required>
+                                    <input type="text" class="form-control" id="nome" name="pf_nome" placeholder="Digite o nome" maxlength="70" value="<?= $pf['nome'] ?? '' ?>" required>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="nomeArtistico">Nome Artístico:</label>
@@ -93,7 +93,7 @@ if (isset($_POST['pf_cpf'])){
                                     <input type="text" id="ccm" name="pf_ccm" class="form-control" placeholder="Digite o CCM" maxlength="11" value="<?= $pf['ccm'] ?? '' ?>">
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label for="dataNascimento">Data de Nascimento: *</label>
+                                    <label for="data_nascimento">Data de nascimento: *</label>
                                     <input type="date" class="form-control" id="data_nascimento"
                                            name="pf_data_nascimento" onkeyup="barraData(this);"
                                            value="<?= $pf['data_nascimento'] ?? '' ?>" required/>
@@ -110,27 +110,27 @@ if (isset($_POST['pf_cpf'])){
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="email">E-mail: *</label>
+                                    <label for="pf_email">E-mail: *</label>
                                     <input type="email" name="pf_email" class="form-control"
                                            maxlength="60" placeholder="Digite o E-mail"
                                            value="<?= $pf['email'] ?? '' ?>" required>
                                 </div>
                                 <div class="form-group col-md-2">
-                                    <label>Telefone #1: *</label>
+                                    <label for="telefone">Telefone #1: *</label>
                                     <input type="text" id="telefone" name="te_telefone_1"
                                            onkeyup="mascara( this, mtel );"  class="form-control"
                                            placeholder="Digite o telefone" required
                                            value="<?= $pf['telefones']['tel_0'] ?? "" ?>" maxlength="15">
                                 </div>
                                 <div class="form-group col-md-2">
-                                    <label>Telefone #2:</label>
+                                    <label for="telefone1">Telefone #2:</label>
                                     <input type="text" id="telefone1" name="te_telefone_2"
                                            onkeyup="mascara( this, mtel );"  class="form-control"
                                            placeholder="Digite o telefone" maxlength="15"
                                            value="<?= $pf['telefones']['tel_1'] ?? "" ?>">
                                 </div>
                                 <div class="form-group col-md-2">
-                                    <label>Telefone #3:</label>
+                                    <label for="telefone2">Telefone #3:</label>
                                     <input type="text" id="telefone2" name="te_telefone_3"
                                            onkeyup="mascara( this, mtel );"  class="form-control telefone"
                                            placeholder="Digite o telefone" maxlength="15"
