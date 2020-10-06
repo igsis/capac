@@ -72,7 +72,7 @@ if (isset($_POST['pf_cpf'])){
                                 <div class="form-group col-md-4">
                                     <label for="banco">Banco:</label>
                                     <select required id="banco" name="bc_banco_id" class="form-control select2bs4">
-                                        <option value="">Selecione um banco...</option>
+                                        <option value="32">Banco do Brasil S.A.</option>
                                         <?php
                                         $pfObjeto->geraOpcao("bancos", $pf['banco_id']);
                                         ?>
