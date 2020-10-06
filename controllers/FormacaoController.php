@@ -22,7 +22,7 @@ class FormacaoController extends ValidacaoModel
     public function recuperaFormacaoId($pessoa_fisica_id, $ano)
     {
         $idPf = MainModel::decryption($pessoa_fisica_id);
-        $form_cadastro_id = DbModel::consultaSimples("SELECT id FROM form_cadastros WHERE pessoa_fisica_id = $idPf AND ano = $ano")->fetchColumn();
+        $form_cadastro_id = DbModel::consultaSimples("SELECT id FROM form_cadastros WHERE pessoa_fisica_id = '$idPf' AND ano = '$ano' AND publicado = '1'")->fetchColumn();
 
         if ($form_cadastro_id) {
             return MainModel::encryption($form_cadastro_id);
@@ -228,7 +228,7 @@ class FormacaoController extends ValidacaoModel
             LEFT JOIN form_cargos_adicionais fca on fcad.id = fca.form_cadastro_id
             LEFT JOIN form_cargos fc2 on fca.form_cargo2_id = fc2.id
             LEFT JOIN form_cargos fc3 on fca.form_cargo3_id = fc3.id
-            WHERE $busca
+            WHERE fcad.publicado = 1 AND $busca
         ");
         return $formacao;
     }

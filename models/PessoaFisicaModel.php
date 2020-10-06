@@ -24,7 +24,7 @@ class PessoaFisicaModel extends ValidacaoModel
 
         foreach ($dados as $campo => $post) {
             $dig = explode("_", $campo)[0];
-            if (!empty($dados[$campo])) {
+            if (!empty($dados[$campo]) || ($dig == "pf")) {
                 switch ($dig) {
                     case "pf":
                         $campo = substr($campo, 3);
