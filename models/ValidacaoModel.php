@@ -154,7 +154,8 @@ class ValidacaoModel extends MainModel
             'duracao' => "Duração não foi preenchido",
             'nucleo_artistico' => "Nucleo Artistico não foi preenchido",
             'representante_nucleo' => "Representante do Nucleo Artistico não foi preenchido",
-            'rg' => 'RG não foi preenchido'
+            'rg' => 'RG não foi preenchido',
+            'nacionalidade_id' => 'A nacionalidade não foi selecionada'
         ];
 
         if ($camposNaoObrigatorios) {

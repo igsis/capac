@@ -97,8 +97,11 @@ class FormacaoController extends ValidacaoModel
         if (DbModel::connection()->errorCode() == 0) {
             $id = DbModel::connection()->lastInsertId();
             $_SESSION['formacao_id_c'] = MainModel::encryption($id);
-            if (isset($dadosAdicionais)) {
+            if ((isset($dadosAdicionais)) && ($dadosAdicionais['form_cargo2_id'] != "")) {
                 $dadosAdicionais['form_cadastro_id'] = $id;
+                if (isset($dadosAdicionais['form_cargo3_id'])) {
+                    $dadosAdicionais['form_cargo3_id'] = $dadosAdicionais['form_cargo3_id'] == "" ? null : $dadosAdicionais['form_cargo3_id'];
+                }
                 DbModel::insert("form_cargos_adicionais",$dadosAdicionais);
             }
             $alerta = [
@@ -146,11 +149,17 @@ class FormacaoController extends ValidacaoModel
         /* ./limpeza */
         DbModel::update("form_cadastros",$dados,$idDecrypt);
         if (DbModel::connection()->errorCode() == 0) {
-            if (isset($dadosAdicionais)) {
+            if ((isset($dadosAdicionais)) && ($dadosAdicionais['form_cargo2_id'] != "")) {
                 if ($cargo2) {
+                    if (isset($dadosAdicionais['form_cargo3_id'])) {
+                        $dadosAdicionais['form_cargo3_id'] = $dadosAdicionais['form_cargo3_id'] == "" ? null : $dadosAdicionais['form_cargo3_id'];
+                    }
                     DbModel::updateEspecial("form_cargos_adicionais", $dadosAdicionais, 'form_cadastro_id', $idDecrypt);
                 } else {
                     $dadosAdicionais['form_cadastro_id'] = $idDecrypt;
+                    if (isset($dadosAdicionais['form_cargo3_id'])) {
+                        $dadosAdicionais['form_cargo3_id'] = $dadosAdicionais['form_cargo3_id'] == "" ? null : $dadosAdicionais['form_cargo2_id'];
+                    }
                     DbModel::insert("form_cargos_adicionais", $dadosAdicionais);
                 }
             } else {

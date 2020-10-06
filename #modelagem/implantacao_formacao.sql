@@ -141,5 +141,8 @@ alter table pf_detalhes
     add constraint pf_detalhes_generos_id_fk
         foreign key (genero_id) references generos (id);
 
+ALTER TABLE `form_cargos_adicionais`
+    CHANGE COLUMN `form_cargo3_id` `form_cargo3_id` TINYINT(2) NULL DEFAULT NULL AFTER `form_cargo2_id`;
+
 # Manter este comando na última linha
 set foreign_key_checks = 1;

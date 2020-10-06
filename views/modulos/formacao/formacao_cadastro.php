@@ -7,8 +7,12 @@ $formObj = new FormacaoController();
 
 $ano = $_SESSION['ano_c'];
 
-$idPf = $_SESSION['origem_id_c'];
-$form = $formObj->recuperaFormacao($ano, $idPf)->fetch(PDO::FETCH_ASSOC);
+if ($id) {
+    $form = $formObj->recuperaFormacao($ano, false, $id)->fetch(PDO::FETCH_ASSOC);
+} else {
+    $idPf = $_SESSION['origem_id_c'];
+    $form = $formObj->recuperaFormacao($ano, $idPf)->fetch(PDO::FETCH_ASSOC);
+}
 ?>
 
 <!-- Content Header (Page header) -->
@@ -81,13 +85,13 @@ $form = $formObj->recuperaFormacao($ano, $idPf)->fetch(PDO::FETCH_ASSOC);
                                     </select>
                                 </div>
                                 <div class="form-group col">
-                                    <label for="">Função (2ª opção): *</label>
+                                    <label for="">Função (2ª opção):</label>
                                     <select class="form-control" id="cargo2" name="form_cargo2_id" disabled>
                                         <option value="">Selecione o Programa...</option>
                                     </select>
                                 </div>
                                 <div class="form-group col">
-                                    <label for="">Função (3ª opção): *</label>
+                                    <label for="">Função (3ª opção):</label>
                                     <select class="form-control" id="cargo3" name="form_cargo3_id" disabled>
                                         <option value="">Selecione o Programa...</option>
                                     </select>
@@ -152,17 +156,14 @@ $form = $formObj->recuperaFormacao($ano, $idPf)->fetch(PDO::FETCH_ASSOC);
             getCargo2(idPrograma, idCargo1)
 
             $('#cargo3').attr('disabled', true);
-            $('#cargo3').attr('required', false);
             $('#cargo3 option').remove();
-            $('#cargo3').append('<option value="">Selecione a Função 2...</option>');
+            $('#cargo3').append('<option value="">[Opcional] Selecione a Função 2...</option>');
         } else {
             $('#cargo2').attr('disabled', true);
-            $('#cargo2').attr('required', false);
             $('#cargo2 option').remove();
             $('#cargo2').append('<option value="">Opção não necessária...</option>');
 
             $('#cargo3').attr('disabled', true);
-            $('#cargo3').attr('required', false);
             $('#cargo3 option').remove();
             $('#cargo3').append('<option value="">Opção não necessária...</option>');
         }
@@ -173,31 +174,41 @@ $form = $formObj->recuperaFormacao($ano, $idPf)->fetch(PDO::FETCH_ASSOC);
         let idCargo1 = $('#cargo1 option:checked').val();
         let idCargo2 = $('#cargo2 option:checked').val();
 
-        getCargo3(idPrograma, idCargo1, idCargo2);
+        if (idCargo2 != "") {
+            getCargo3(idPrograma, idCargo1, idCargo2);
+        } else {
+            $('#cargo3').attr('disabled', true);
+            $('#cargo3 option').remove();
+            $('#cargo3').append('<option value="">[Opcional] Selecione a Função 2...</option>');
+        }
     });
-
     function getCargos(idPrograma, idCargo1, idCargo2 = false, idCargo3 = false){
 
         getCargo1(idPrograma, idCargo1);
 
         if ((idCargo1 == 4) || (idCargo1 == 5)) {
             $('#cargo2').attr('disabled', true);
-            $('#cargo2').attr('required', false);
             $('#cargo2 option').remove();
             $('#cargo2').append('<option value="">Opção não necessária...</option>');
 
             $('#cargo3').attr('disabled', true);
-            $('#cargo3').attr('required', false);
             $('#cargo3 option').remove();
             $('#cargo3').append('<option value="">Opção não necessária...</option>');
-        }
+        } else {
 
-        if (idCargo2) {
-            getCargo2(idPrograma, idCargo1, idCargo2);
-        }
+            if (idCargo2) {
+                getCargo2(idPrograma, idCargo1, idCargo2);
+            } else {
+                getCargo2(idPrograma, idCargo1);
+            }
 
-        if (idCargo3) {
-            getCargo3(idPrograma, idCargo1, idCargo2, idCargo3);
+            if (idCargo3) {
+                getCargo3(idPrograma, idCargo1, idCargo2, idCargo3);
+            } else {
+                $('#cargo3').attr('disabled', true);
+                $('#cargo3 option').remove();
+                $('#cargo3').append('<option value="">[Opcional] Selecione a Função 2...</option>');
+            }
         }
     }
 
@@ -224,9 +235,8 @@ $form = $formObj->recuperaFormacao($ano, $idPf)->fetch(PDO::FETCH_ASSOC);
             .then(response => response.json())
             .then(cargos2 => {
                 $('#cargo2').attr('disabled', false);
-                $('#cargo2').attr('required', true);
                 $('#cargo2 option').remove();
-                $('#cargo2').append('<option value="">Selecione uma opção...</option>');
+                $('#cargo2').append('<option value="">[Opcional] Selecione uma opção...</option>');
 
                 for (const cargo2 of cargos2) {
                     if(idCargo2 == cargo2.id) {
@@ -244,9 +254,8 @@ $form = $formObj->recuperaFormacao($ano, $idPf)->fetch(PDO::FETCH_ASSOC);
             .then(response => response.json())
             .then(cargos3 => {
                 $('#cargo3').attr('disabled', false);
-                $('#cargo3').attr('required', true);
                 $('#cargo3 option').remove();
-                $('#cargo3').append('<option value="">Selecione uma opção...</option>');
+                $('#cargo3').append('<option value="">[Opcional] Selecione uma opção...</option>');
                 for (const cargo3 of cargos3) {
                     if(idCargo3 == cargo3.id) {
                         $('#cargo3').append(`<option value='${cargo3.id}' selected>${cargo3.cargo}</option>`).focus();
