@@ -112,15 +112,17 @@ $validacoesPrograma = $formObj->validaForm($form_cadastro_id, $pessoa_fisica_id,
                         <div class="row">
                             <div class="col"><b>DRT:</b> <?= $pf['drt'] ?></div>
                         </div>
-                        <div class="row">
-                            <div class="col"><b>Banco:</b> <?= $pf['banco'] ?></div>
-                        </div>
-                        <div class="row">
-                            <div class="col"><b>Agência:</b> <?= $pf['agencia'] ?></div>
-                        </div>
-                        <div class="row">
-                            <div class="col"><b>Conta:</b> <?= $pf['conta'] ?></div>
-                        </div>
+                        <?php if ($pf['banco']): ?>
+                            <div class="row">
+                                <div class="col"><b>Banco:</b> <?= $pf['banco'] ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="col"><b>Agência:</b> <?= $pf['agencia'] ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="col"><b>Conta:</b> <?= $pf['conta'] ?></div>
+                            </div>
+                        <?php endif ?>
                         <br>
                         <!-- ************** Programa ************** -->
                         <hr>

@@ -63,58 +63,76 @@ $pdf->Ln(10);
 
 $pdf->SetX($x);
 
-    $pdf->SetFont('Arial', 'B', $f);
-    $pdf->Cell(14, $l, utf8_decode("Nome:"), 0, 0, 'L');
-    $pdf->SetFont('Arial', '', $f);
-    $pdf->Cell(20, $l, utf8_decode($pf['nome']), 0, 1, 'L');
+$pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(14, $l, utf8_decode("Nome:"), 0, 0, 'L');
+$pdf->SetFont('Arial', '', $f);
+$pdf->Cell(20, $l, utf8_decode($pf['nome']), 0, 1, 'L');
 
+$pdf->SetX($x);
+$pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(11, $l, utf8_decode("CPF:"), 0, 0, 'L');
+$pdf->SetFont('Arial', '', $f);
+$pdf->Cell(20, $l, utf8_decode($pf['cpf']), 0, 1, 'L');
+
+$pdf->SetX($x);
+$pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(16, $l, utf8_decode("Gênero:"), 0, 0, 'L');
+$pdf->SetFont('Arial', '', $f);
+$pdf->Cell(20, $l, utf8_decode($pfDados['genero']), 0, 1, 'L');
+
+$pdf->SetX($x);
+$pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(25, $l, utf8_decode("Raça ou cor:"), 0, 0, 'L');
+$pdf->SetFont('Arial', '', $f);
+$pdf->Cell(20, $l, utf8_decode($pfDados['descricao']), 0, 1, 'L');
+
+$pdf->SetX($x);
+$pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(39, $l, utf8_decode("Data de nascimento:"), 0, 0, 'L');
+$pdf->SetFont('Arial', '', $f);
+$pdf->Cell(20, $l, date("d/m/Y", strtotime($pf['data_nascimento'])), 0, 1, 'L');
+
+$pdf->SetX($x);
+$pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(27, $l, utf8_decode("Escolaridade:"), 0, 0, 'L');
+$pdf->SetFont('Arial', '', $f);
+$pdf->Cell(20, $l, utf8_decode($pfDados['grau_instrucao']), 0, 1, 'L');
+
+$pdf->SetX($x);
+$pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(14, $l, utf8_decode("E-mail:"), 0, 0, 'L');
+$pdf->SetFont('Arial', '', $f);
+$pdf->Cell(20, $l, utf8_decode($pf['email']), 0, 1, 'L');
+
+$pdf->SetX($x);
+$pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(21, $l, utf8_decode("Telefones:"), 0, 0, 'L');
+$pdf->SetFont('Arial', '', $f);
+$pdf->Cell(20, $l, utf8_decode(isset($pf['telefones']) ? implode(" | ", $pf['telefones']) : ""), 0, 1, 'L');
+
+$pdf->SetX($x);
+$pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(21, $l, utf8_decode("Endereço:"), 0, 0, 'L');
+$pdf->SetFont('Arial', '', $f);
+$pdf->MultiCell(150, $l, utf8_decode($pf['logradouro'] . ", " . $pf['numero'] . " " . $pf['complemento'] . " " . $pf['bairro'] . " - " . $pf['cidade'] . "-" . $pf['uf'] . " CEP: " . $pf['cep']));
+
+if ($pf['banco']) {
     $pdf->SetX($x);
     $pdf->SetFont('Arial', 'B', $f);
-    $pdf->Cell(11, $l, utf8_decode("CPF:"), 0, 0, 'L');
+    $pdf->Cell(14, $l, utf8_decode("Banco:"), 0, 0, 'L');
     $pdf->SetFont('Arial', '', $f);
-    $pdf->Cell(20, $l, utf8_decode($pf['cpf']), 0, 1, 'L');
-
+    $pdf->Cell(20, $l, utf8_decode($pf['banco']), 0, 1, 'L');
     $pdf->SetX($x);
     $pdf->SetFont('Arial', 'B', $f);
-    $pdf->Cell(16, $l, utf8_decode("Gênero:"), 0, 0, 'L');
+    $pdf->Cell(17, $l, utf8_decode("Agência:"), 0, 0, 'L');
     $pdf->SetFont('Arial', '', $f);
-    $pdf->Cell(20, $l, utf8_decode($pfDados['genero']), 0, 1, 'L');
-
+    $pdf->Cell(20, $l, utf8_decode($pf['agencia']), 0, 1, 'L');
     $pdf->SetX($x);
     $pdf->SetFont('Arial', 'B', $f);
-    $pdf->Cell(25, $l, utf8_decode("Raça ou cor:"), 0, 0, 'L');
+    $pdf->Cell(13, $l, utf8_decode("Conta:"), 0, 0, 'L');
     $pdf->SetFont('Arial', '', $f);
-    $pdf->Cell(20, $l, utf8_decode($pfDados['descricao']), 0, 1, 'L');
-
-    $pdf->SetX($x);
-    $pdf->SetFont('Arial', 'B', $f);
-    $pdf->Cell(39, $l, utf8_decode("Data de nascimento:"), 0, 0, 'L');
-    $pdf->SetFont('Arial', '', $f);
-    $pdf->Cell(20, $l, date("d/m/Y", strtotime($pf['data_nascimento'])), 0, 1, 'L');
-
-    $pdf->SetX($x);
-    $pdf->SetFont('Arial', 'B', $f);
-    $pdf->Cell(27, $l, utf8_decode("Escolaridade:"), 0, 0, 'L');
-    $pdf->SetFont('Arial', '', $f);
-    $pdf->Cell(20, $l, utf8_decode($pfDados['grau_instrucao']), 0, 1, 'L');
-
-    $pdf->SetX($x);
-    $pdf->SetFont('Arial', 'B', $f);
-    $pdf->Cell(14, $l, utf8_decode("E-mail:"), 0, 0, 'L');
-    $pdf->SetFont('Arial', '', $f);
-    $pdf->Cell(20, $l, utf8_decode($pf['email']), 0, 1, 'L');
-
-    $pdf->SetX($x);
-    $pdf->SetFont('Arial', 'B', $f);
-    $pdf->Cell(21, $l, utf8_decode("Telefones:"), 0, 0, 'L');
-    $pdf->SetFont('Arial', '', $f);
-    $pdf->Cell(20, $l, utf8_decode(isset($pf['telefones']) ? implode(" | ", $pf['telefones']) : ""), 0, 1, 'L');
-
-    $pdf->SetX($x);
-    $pdf->SetFont('Arial', 'B', $f);
-    $pdf->Cell(21, $l, utf8_decode("Endereço:"), 0, 0, 'L');
-    $pdf->SetFont('Arial', '', $f);
-    $pdf->MultiCell(150, $l, utf8_decode($pf['logradouro'] . ", " . $pf['numero'] . " " . $pf['complemento'] . " " . $pf['bairro'] . " - " . $pf['cidade'] . "-" . $pf['uf'] . " CEP: " . $pf['cep']));
+    $pdf->Cell(20, $l, utf8_decode($pf['conta']), 0, 1, 'L');
+}
 
 $pdf->Ln(10);
 
@@ -158,7 +176,9 @@ if ($formacao['cargo2']) {
     $pdf->Cell(33, $l, utf8_decode("Cargo (2º opção):"), 0, 0, 'L');
     $pdf->SetFont('Arial', '', $f);
     $pdf->Cell(20, $l, utf8_decode($formacao['cargo2']), 0, 1, 'L');
+}
 
+if ($formacao['cargo3']) {
     $pdf->SetX($x);
     $pdf->SetFont('Arial', 'B', $f);
     $pdf->Cell(33, $l, utf8_decode("Cargo (3º opção):"), 0, 0, 'L');

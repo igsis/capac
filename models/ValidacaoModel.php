@@ -29,6 +29,25 @@ class ValidacaoModel extends MainModel
         }
     }
 
+    protected function validaBancoFormacao($id) {
+        $proponente = DbModel::consultaSimples("SELECT banco_id FROM pf_bancos WHERE pessoa_fisica_id = '$id' AND publicado = '1'");
+
+        if ($proponente->rowCount()) {
+            $proponente = $proponente->fetchObject();
+
+            if ($proponente->banco_id != 32) {
+                $erros['bancos']['bol'] = true;
+                $erros['bancos']['motivo'] = "Para o cadastro, é aceito somente contas no Banco do Brasil";
+            }
+        }
+
+        if (isset($erros)){
+            return $erros;
+        } else {
+            return false;
+        }
+    }
+
     protected function validaEndereco($tipoProponente, $id) {
         if ($tipoProponente == 1) {
             $proponente = DbModel::consultaSimples("SELECT * FROM pf_enderecos WHERE pessoa_fisica_id = '$id'");
