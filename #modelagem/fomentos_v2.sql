@@ -62,3 +62,7 @@ INSERT INTO `form_lista_documentos` (`id`, `documento`, `sigla`, `ordem`, `obrig
 (29, 'ANEXO VIII: Indicação de Membros da Sociedade Civil para a Comissão de Seleção', 'f-anxVIII', 0, 1, 1);
 
 UPDATE `etnias` SET `descricao` = 'Parda' WHERE `etnias`.`id` = 2;
+
+UPDATE `form_lista_documentos` SET `publicado` = '0' WHERE `form_lista_documentos`.`id` = 7;
+UPDATE `form_lista_documentos` SET `obrigatorio` = '0' WHERE `form_lista_documentos`.`id` = 6;
+UPDATE `form_lista_documentos` SET `obrigatorio` = '0' WHERE `form_lista_documentos`.`id` = 29;
