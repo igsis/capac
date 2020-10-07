@@ -154,13 +154,23 @@ $validacoesPrograma = $formObj->validaForm($form_cadastro_id, $pessoa_fisica_id,
                             <div class="col"><b>Linguagem:</b> <?= $form['linguagem'] ?></div>
                         </div>
                     </div>
-                    <div class="card-footer">
-                        <form class="form-horizontal formulario-ajax" method="POST" action="<?=SERVERURL?>ajax/formacaoAjax.php" role="form" data-form="update">
-                            <input type="hidden" name="_method" value="envioFormacao">
-                            <input type="hidden" name="id" value="<?= $form_cadastro_id ?>">
-                            <button type="submit" class="btn btn-success btn-block float-right" id="cadastra">Enviar</button>
-                            <div class="resposta-ajax"></div>
-                        </form>
+                    <div class="card-footer" id="cardFooter">
+                        <?php if (!$validacoesPrograma): ?>
+                            <form class="form-horizontal formulario-ajax" method="POST"
+                                  action="<?= SERVERURL ?>ajax/formacaoAjax.php" role="form" data-form="update"
+                                  id="formEnviar">
+                                <input type="hidden" name="_method" value="envioFormacao">
+                                <input type="hidden" name="id" value="<?= $form_cadastro_id ?>">
+                                <button type="submit" class="btn btn-success btn-block float-right" id="cadastra">
+                                    Enviar
+                                </button>
+                                <div class="resposta-ajax"></div>
+                            </form>
+                        <?php else: ?>
+                            <button class="btn btn-warning btn-block float-right">
+                                Você possui pendencias em seu cadastro. Verifique-as no topo da tela para poder envia-lo
+                            </button>
+                        <?php endif ?>
                     </div>
 
                 </div>
@@ -171,13 +181,3 @@ $validacoesPrograma = $formObj->validaForm($form_cadastro_id, $pessoa_fisica_id,
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
-
-<script type="application/javascript">
-    $(document).ready(function () {
-        if ($('.erro-validacao').length) {
-            $('#cadastra').attr('disabled', true);
-        } else {
-            $('#cadastra').attr('disabled', false);
-        }
-    });
-</script>

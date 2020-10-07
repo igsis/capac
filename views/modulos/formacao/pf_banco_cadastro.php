@@ -47,9 +47,23 @@ if (isset($_POST['pf_cpf'])){
         <div class="row">
             <div class="col-md-12">
                 <!-- Horizontal Form -->
-                <div class="card card-info">
+                <div class="card card-info card-outline">
                     <div class="card-header">
                         <h3 class="card-title">Dados bancários</h3>
+                        <div class="card-tools">
+                            <?php if ($pf['banco_id']): ?>
+                                <form class="form-horizontal formulario-ajax" method="POST" role="form"
+                                      data-form="delete"
+                                      action="<?= SERVERURL ?>ajax/formacaoAjax.php">
+                                    <input type="hidden" name="_method" value="apagarDadosBancarios">
+                                    <input type="hidden" name="id" value="<?=$id?>">
+                                    <input type="hidden" name="pagina" value="<?=$_GET['views']?>">
+                                    <button type="submit" class="btn btn-danger btn-sm float-right">Remover Dados Bancários
+                                    </button>
+                                    <div class="resposta-ajax"></div>
+                                </form>
+                            <?php endif ?>
+                        </div>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->

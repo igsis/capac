@@ -110,9 +110,9 @@ class PessoaFisicaController extends PessoaFisicaModel
 
             if (isset($dadosLimpos['bc'])) {
                 if (count($dadosLimpos['bc']) > 0) {
-                    $banco_existe = DbModel::consultaSimples("SELECT * FROM pf_bancos WHERE pessoa_fisica_id = '$idDecryp'");
+                    $banco_existe = DbModel::consultaSimples("SELECT * FROM pf_bancos WHERE pessoa_fisica_id = '$idDecryp' AND publicado = 1");
                     if ($banco_existe->rowCount() > 0) {
-                        DbModel::updateEspecial('pf_bancos', $dadosLimpos['bc'], "pessoa_fisica_id", $idDecryp);
+                        DbModel::updateEspecialPublicado('pf_bancos', $dadosLimpos['bc'], "pessoa_fisica_id", $idDecryp);
                     } else {
                         $dadosLimpos['bc']['pessoa_fisica_id'] = $idDecryp;
                         DbModel::insert('pf_bancos', $dadosLimpos['bc']);
@@ -242,7 +242,7 @@ class PessoaFisicaController extends PessoaFisicaModel
             "SELECT pf.*, pe.*, pb.*, po.*, d.*, n.*, n2.nacionalidade, b.banco, b.codigo, pd.*, e.descricao, gi.grau_instrucao
             FROM pessoa_fisicas AS pf
             LEFT JOIN pf_enderecos pe on pf.id = pe.pessoa_fisica_id
-            LEFT JOIN pf_bancos pb on pf.id = pb.pessoa_fisica_id
+            LEFT JOIN (SELECT * FROM pf_bancos WHERE publicado = 1) pb on pf.id = pb.pessoa_fisica_id
             LEFT JOIN pf_oficinas po on pf.id = po.pessoa_fisica_id
             LEFT JOIN drts d on pf.id = d.pessoa_fisica_id
             LEFT JOIN nits n on pf.id = n.pessoa_fisica_id
@@ -313,5 +313,16 @@ class PessoaFisicaController extends PessoaFisicaModel
             $pessoa_fisica_id = MainModel::decryption($pessoa_fisica_id);
         }
         return PessoaFisicaModel::validaPfModel($pessoa_fisica_id, $validacaoTipo, $evento_id,$tipo_documentos);
+    }
+
+    public function apagaDadosBancarios($id)
+    {
+        $idDecrypt = MainModel::decryption($id);
+        $apaga = DbModel::apagaEspecial('pf_bancos', 'pessoa_fisica_id', $idDecrypt);
+        if ($apaga){
+            return true;
+        } else {
+            return false;
+        }
     }
 }

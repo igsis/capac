@@ -110,6 +110,38 @@ class DbModel
         return $statement;
     }
 
+    /**
+     * <p>Atualiza os dados de um registro onde o campo buscado não é o <i>id</i></p>
+     * @param string $table
+     * <p>Tabela do banco de dados</p>
+     * @param array $data
+     * <p>Dados a serem inseridos</p>
+     * @param array $campo
+     * <p>Campo pelo qual deve ser pesquisado o registro</p>
+     * @param array|string $campo_id
+     * <p><i>Valor</i> do registro a ser atualizado</p>
+     * @param bool $siscontrat
+     * <p><strong>FALSE</strong> por padrão. Quando <strong>TRUE</strong>, faz a consulta no banco de dados do sistema <i>SISCONTRAT</i></p>
+     * @return bool|PDOStatement
+     */
+    protected function updateEspecialPublicado($table, $data, $campo, $campo_id, $siscontrat = false){
+        $pdo = self::connection($siscontrat);
+        $new_values = "";
+        foreach($data as $key => $value) {
+            $new_values .= "$key=:$key, ";
+        }
+        $new_values = substr($new_values, 0, -2);
+        $sql = "UPDATE $table SET $new_values WHERE publicado = '1' AND $campo = :$campo";
+        $statement = $pdo->prepare($sql);
+        $statement->bindValue(":$campo", $campo_id, PDO::PARAM_STR);
+        foreach($data as $key => $value) {
+            $statement->bindValue(":$key", $value, PDO::PARAM_STR);
+        }
+        $statement->execute();
+
+        return $statement;
+    }
+
     // Método para apagar (despublicar)
 
     /**
@@ -127,6 +159,25 @@ class DbModel
         $sql = "UPDATE $table SET publicado = 0 WHERE id = :id";
         $statement = $pdo->prepare($sql);
         $statement->bindValue(":id", $id);
+        $statement->execute();
+
+        return $statement;
+    }
+
+    /**
+     * <p>Método para despublicar o registro especificado onde a chave primária não é chamadad de <i>ID</i></p>
+     * @param $table
+     * <p>Tabela do banco de dados</p>
+     * @param $campo
+     * @param $campo_id
+     * @param false $siscontrat
+     * @return bool|PDOStatement
+     */
+    protected function apagaEspecial($table, $campo, $campo_id, $siscontrat = false){
+        $pdo = self::connection($siscontrat);
+        $sql = "UPDATE $table SET publicado = 0 WHERE $campo = :$campo";
+        $statement = $pdo->prepare($sql);
+        $statement->bindValue(":$campo", $campo_id);
         $statement->execute();
 
         return $statement;

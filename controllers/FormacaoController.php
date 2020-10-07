@@ -64,7 +64,7 @@ class FormacaoController extends ValidacaoModel
                 'titulo' => 'Pessoa Física',
                 'texto' => 'Pessoa Física editada com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL.$pagina.'/pf_cadastro&id='.$id
+                'location' => SERVERURL.$pagina.'&id='.$id
             ];
         } else {
             $alerta = [
@@ -254,6 +254,28 @@ class FormacaoController extends ValidacaoModel
                 'alerta' => 'simples',
                 'titulo' => 'Oops! Algo deu Errado!',
                 'texto' => 'Falha ao salvar os dados no servidor, tente novamente mais tarde',
+                'tipo' => 'error',
+            ];
+        }
+        return MainModel::sweetAlert($alerta);
+    }
+
+    public function apagaDadosBancarios($pessoa_fisica_id, $pagina)
+    {
+        $apaga = (new PessoaFisicaController)->apagaDadosBancarios($pessoa_fisica_id);
+        if ($apaga){
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Dados Bancários',
+                'texto' => 'Dados Bancários removidos com sucesso',
+                'tipo' => 'success',
+                'location' => SERVERURL.$pagina.'&id='.$pessoa_fisica_id
+            ];
+        }else {
+            $alerta = [
+                'alerta' => 'simples',
+                'titulo' => 'Oops! Algo deu Errado!',
+                'texto' => 'Falha ao apagar os dados no servidor, tente novamente mais tarde',
                 'tipo' => 'error',
             ];
         }

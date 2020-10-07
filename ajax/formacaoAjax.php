@@ -24,6 +24,9 @@ if (isset($_POST['_method'])) {
         case "apagarFormacao":
             echo $formacaoObj->apagaFormacao($_POST['id']);
             break;
+        case "apagarDadosBancarios":
+            echo $formacaoObj->apagaDadosBancarios($_POST['id'], $_POST['pagina']);
+            break;
         case "envioFormacao":
             echo $formacaoObj->enviarCadastro($_POST['id']);
             break;

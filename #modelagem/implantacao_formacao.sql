@@ -166,5 +166,9 @@ UPDATE `form_lista_documentos` SET `obrigatorio` = '0' WHERE `form_lista_documen
 ALTER TABLE `form_cargos_adicionais`
     CHANGE COLUMN `form_cargo3_id` `form_cargo3_id` TINYINT(2) NULL DEFAULT NULL AFTER `form_cargo2_id`;
 
+ALTER TABLE `pf_bancos`
+    DROP PRIMARY KEY,
+    ADD INDEX `pessoa_fisica_id` (`pessoa_fisica_id`);
+
 # Manter este comando na última linha
 set foreign_key_checks = 1;
