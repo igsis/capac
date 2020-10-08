@@ -249,7 +249,7 @@ class ValidacaoModel extends MainModel
     protected function validaArquivosFormacao($form_cadastro_id, $cargo){
         $cargos = [4, 5];
         if (in_array($cargo, $cargos)) {
-            $busca = "AND fld.id BETWEEN 1 AND 19 ";
+            $busca = "AND fld.documento NOT LIKE '%Coordenação%'";
         } else {
             $busca = "";
         }
