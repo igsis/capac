@@ -9,8 +9,9 @@ class DbModel
 {
     public static $conn;
 
-    protected function connection($siscontrat = false) {
-        if(!isset(self::$conn)) {
+    protected function connection($siscontrat = false)
+    {
+        if (!isset(self::$conn)) {
             if (!$siscontrat) {
                 self::$conn = new PDO(SGDB1, USER1, PASS1, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
             } else {
@@ -31,13 +32,14 @@ class DbModel
      * <p><strong>FALSE</strong> por padrão. Quando <strong>TRUE</strong>, faz a consulta no banco de dados do sistema <i>SISCONTRAT</i></p>
      * @return bool|PDOStatement
      */
-    protected function insert($table, $data, $siscontrat = false) {
+    protected function insert($table, $data, $siscontrat = false)
+    {
         $pdo = self::connection($siscontrat);
         $fields = implode(", ", array_keys($data));
-        $values = ":".implode(", :", array_keys($data));
+        $values = ":" . implode(", :", array_keys($data));
         $sql = "INSERT INTO $table ($fields) VALUES ($values)";
         $statement = $pdo->prepare($sql);
-        foreach($data as $key => $value) {
+        foreach ($data as $key => $value) {
             $statement->bindValue(":$key", $value, PDO::PARAM_STR);
         }
         $statement->execute();
@@ -46,6 +48,7 @@ class DbModel
     }
 
     // Método para update
+
     /**
      * <p>Atualiza os dados do registro especificado</p>
      * @param string $table
@@ -58,17 +61,18 @@ class DbModel
      * <p><strong>FALSE</strong> por padrão. Quando <strong>TRUE</strong>, faz a consulta no banco de dados do sistema <i>SISCONTRAT</i></p>
      * @return bool|PDOStatement
      */
-    protected function update($table, $data, $id, $siscontrat = false){
+    protected function update($table, $data, $id, $siscontrat = false)
+    {
         $pdo = self::connection($siscontrat);
         $new_values = "";
-        foreach($data as $key => $value) {
+        foreach ($data as $key => $value) {
             $new_values .= "$key=:$key, ";
         }
         $new_values = substr($new_values, 0, -2);
         $sql = "UPDATE $table SET $new_values WHERE id = :id";
         $statement = $pdo->prepare($sql);
         $statement->bindValue(":id", $id, PDO::PARAM_STR);
-        foreach($data as $key => $value) {
+        foreach ($data as $key => $value) {
             $statement->bindValue(":$key", $value, PDO::PARAM_STR);
         }
         $statement->execute();
@@ -92,17 +96,18 @@ class DbModel
      * <p><strong>FALSE</strong> por padrão. Quando <strong>TRUE</strong>, faz a consulta no banco de dados do sistema <i>SISCONTRAT</i></p>
      * @return bool|PDOStatement
      */
-    protected function updateEspecial($table, $data, $campo, $campo_id, $siscontrat = false){
+    protected function updateEspecial($table, $data, $campo, $campo_id, $siscontrat = false)
+    {
         $pdo = self::connection($siscontrat);
         $new_values = "";
-        foreach($data as $key => $value) {
+        foreach ($data as $key => $value) {
             $new_values .= "$key=:$key, ";
         }
         $new_values = substr($new_values, 0, -2);
         $sql = "UPDATE $table SET $new_values WHERE $campo = :$campo";
         $statement = $pdo->prepare($sql);
         $statement->bindValue(":$campo", $campo_id, PDO::PARAM_STR);
-        foreach($data as $key => $value) {
+        foreach ($data as $key => $value) {
             $statement->bindValue(":$key", $value, PDO::PARAM_STR);
         }
         $statement->execute();
@@ -124,17 +129,18 @@ class DbModel
      * <p><strong>FALSE</strong> por padrão. Quando <strong>TRUE</strong>, faz a consulta no banco de dados do sistema <i>SISCONTRAT</i></p>
      * @return bool|PDOStatement
      */
-    protected function updateEspecialPublicado($table, $data, $campo, $campo_id, $siscontrat = false){
+    protected function updateEspecialPublicado($table, $data, $campo, $campo_id, $siscontrat = false)
+    {
         $pdo = self::connection($siscontrat);
         $new_values = "";
-        foreach($data as $key => $value) {
+        foreach ($data as $key => $value) {
             $new_values .= "$key=:$key, ";
         }
         $new_values = substr($new_values, 0, -2);
         $sql = "UPDATE $table SET $new_values WHERE publicado = '1' AND $campo = :$campo";
         $statement = $pdo->prepare($sql);
         $statement->bindValue(":$campo", $campo_id, PDO::PARAM_STR);
-        foreach($data as $key => $value) {
+        foreach ($data as $key => $value) {
             $statement->bindValue(":$key", $value, PDO::PARAM_STR);
         }
         $statement->execute();
@@ -154,7 +160,8 @@ class DbModel
      * <p><strong>FALSE</strong> por padrão. Quando <strong>TRUE</strong>, faz a consulta no banco de dados do sistema <i>SISCONTRAT</i></p>
      * @return bool|PDOStatement
      */
-    protected function apaga($table, $id, $siscontrat = false){
+    protected function apaga($table, $id, $siscontrat = false)
+    {
         $pdo = self::connection($siscontrat);
         $sql = "UPDATE $table SET publicado = 0 WHERE id = :id";
         $statement = $pdo->prepare($sql);
@@ -173,7 +180,8 @@ class DbModel
      * @param false $siscontrat
      * @return bool|PDOStatement
      */
-    protected function apagaEspecial($table, $campo, $campo_id, $siscontrat = false){
+    protected function apagaEspecial($table, $campo, $campo_id, $siscontrat = false)
+    {
         $pdo = self::connection($siscontrat);
         $sql = "UPDATE $table SET publicado = 0 WHERE $campo = :$campo";
         $statement = $pdo->prepare($sql);
@@ -195,7 +203,8 @@ class DbModel
      * <p><strong>FALSE</strong> por padrão. Quando <strong>TRUE</strong>, faz a consulta no banco de dados do sistema <i>SISCONTRAT</i></p>
      * @return bool|PDOStatement
      */
-    protected function deleteEspecial($table, $campo, $campo_id, $siscontrat = false){
+    protected function deleteEspecial($table, $campo, $campo_id, $siscontrat = false)
+    {
         $pdo = self::connection($siscontrat);
         $sql = "DELETE FROM $table WHERE $campo = :$campo";
         $statement = $pdo->prepare($sql);
@@ -205,10 +214,12 @@ class DbModel
         return $statement;
     }
 
-    public function consultaSimples($consulta, $siscontrat = false) {
+    public function consultaSimples($consulta, $siscontrat = false)
+    {
         $pdo = self::connection($siscontrat);
         $statement = $pdo->prepare($consulta);
         $statement->execute();
+        self::$conn = null;
 
         return $statement;
     }
@@ -219,12 +230,14 @@ class DbModel
      * @param $id
      * @return bool|PDOStatement
      */
-    protected function getInfo($table, $id, $siscontrat = false){
+    protected function getInfo($table, $id, $siscontrat = false)
+    {
         $pdo = self::connection($siscontrat);
         $sql = "SELECT * FROM $table WHERE id = :id";
         $statement = $pdo->prepare($sql);
         $statement->bindValue(":id", $id);
         $statement->execute();
+        self::$conn = null;
 
         return $statement;
     }
@@ -235,28 +248,31 @@ class DbModel
      * @param $id
      * @return bool|PDOStatement
      */
-    protected function getInfoEspecial($table, $campo, $campo_id, $siscontrat = false){
+    protected function getInfoEspecial($table, $campo, $campo_id, $siscontrat = false)
+    {
         $pdo = self::connection($siscontrat);
         $sql = "SELECT * FROM $table WHERE $campo = :campo_id";
         $statement = $pdo->prepare($sql);
         $statement->bindValue(":campo_id", $campo_id);
         $statement->execute();
+        self::$conn = null;
 
         return $statement;
     }
 
     // Lista publicados
-    protected function listaPublicado($table,$id = null, $siscontrat = false) {
-        if(!empty($id)){
+    protected function listaPublicado($table, $id = null, $siscontrat = false)
+    {
+        if (!empty($id)) {
             $filtro_id = "AND id = :id";
-        }
-        else{
+        } else {
             $filtro_id = "";
         }
         $pdo = self::connection($siscontrat);
         $sql = "SELECT * FROM $table WHERE publicado = 1 $filtro_id ORDER BY 2";
         $statement = $pdo->query($sql);
         $statement->execute();
+        self::$conn = null;
 
         return $statement->fetchAll();
     }
