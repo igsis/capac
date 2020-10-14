@@ -185,9 +185,9 @@ class ArquivoController extends ArquivoModel
     {
         $cargos = [4, 5];
         if (in_array($form_cargo_id, $cargos)) {
-            return MainModel::consultaSimples("SELECT * FROM form_lista_documentos WHERE publicado = 1 AND documento NOT LIKE '%Coordenação%' ORDER BY 'ordem'");
+            return MainModel::consultaSimples("SELECT * FROM siscontrat.formacao_lista_documentos WHERE publicado = 1 AND documento NOT LIKE '%Coordenação%' ORDER BY 'ordem'");
         } else {
-            return MainModel::consultaSimples("SELECT * FROM form_lista_documentos WHERE publicado = 1 ORDER BY 'ordem'");
+            return MainModel::consultaSimples("SELECT * FROM siscontrat.formacao_lista_documentos WHERE publicado = 1 ORDER BY 'ordem'");
         }
     }
 
