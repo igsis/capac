@@ -132,8 +132,8 @@ $form_cargo_id = $formacaoObj->recuperaFormacao($_SESSION['ano_c'], false, $idFo
                             </thead>
                             <tbody>
                             <?php
-                            $arquivosEnviados = $arquivosObj->listarArquivosEnviadosFormacao($idFormacao)->fetchAll(PDO::FETCH_OBJ);
-                            if (count($arquivosEnviados) != 0) {
+                            $arquivosEnviados = $arquivosObj->listarArquivosEnviadosFormacao($idFormacao);
+                            if ($arquivosEnviados) {
                                 foreach ($arquivosEnviados as $arquivo) {
                                     ?>
                                     <tr>

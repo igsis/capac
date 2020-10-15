@@ -170,5 +170,11 @@ ALTER TABLE `pf_bancos`
     DROP PRIMARY KEY,
     ADD INDEX `pessoa_fisica_id` (`pessoa_fisica_id`);
 
+
+/*TRUNCATE TABLE `form_arquivos`*/;
+ALTER TABLE `form_arquivos` DROP INDEX `form_arquivos_form_lista_documentos_id_fk`;
+ALTER TABLE form_arquivos DROP FOREIGN KEY form_arquivos_form_lista_documentos_id_fk;
+DROP TABLE form_lista_documentos;
+
 # Manter este comando na última linha
 set foreign_key_checks = 1;

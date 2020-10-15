@@ -193,10 +193,13 @@ class ArquivoController extends ArquivoModel
 
     public function listarArquivosEnviadosFormacao($form_cadastro_id) {
         $form_cadastro_id = MainModel::decryption($form_cadastro_id);
-        $sql = "SELECT a.id, a.arquivo, a.data, ld.documento FROM form_arquivos AS a
-                    INNER JOIN form_lista_documentos AS ld on a.form_lista_documento_id = ld.id
-                    WHERE form_cadastro_id = '$form_cadastro_id'  AND a.publicado = '1'";
-        return DbModel::consultaSimples($sql);
+        $arquivos = DbModel::consultaSimples("SELECT id, arquivo, form_lista_documento_id, data FROM form_arquivos WHERE form_cadastro_id = '$form_cadastro_id'  AND publicado = '1'")->fetchAll(PDO::FETCH_OBJ);
+        if (count($arquivos) != null){
+            foreach ($arquivos as $key=>$arquivo){
+                $arquivos[$key]->documento = DbModel::consultaSimples("SELECT documento FROM formacao_lista_documentos WHERE id = '{$arquivo->form_lista_documento_id}'",true)->fetchColumn();
+            }
+            return $arquivos;
+        }
     }
 
     public function consultaArquivoEnviadoFormacao($lista_documento_id, $form_cadastro_id) {
