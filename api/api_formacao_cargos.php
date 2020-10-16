@@ -16,8 +16,8 @@ if(isset($_GET['busca'])){
 
     if ($_GET['busca'] == 1) {
         $programa_id = $_GET['programa_id'];
-        $sql = "SELECT cp.form_cargo_id AS 'id', fc.cargo AS 'cargo' FROM cargo_programa AS cp
-                INNER JOIN form_cargos AS fc ON cp.form_cargo_id = fc.id
+        $sql = "SELECT cp.form_cargo_id AS 'id', fc.cargo AS 'cargo' FROM capac_new.cargo_programa AS cp
+                INNER JOIN siscontrat.formacao_cargos AS fc ON cp.form_cargo_id = fc.id
                 WHERE cp.form_programa_id = '$programa_id' ORDER BY fc.cargo";
         $res = $db->consultaSimples($sql)->fetchAll();
         $cargos = json_encode($res);
@@ -28,8 +28,8 @@ if(isset($_GET['busca'])){
         $cargo1_id = $_GET['cargo1_id'];
         $cargo1 = in_array($cargo1_id, $articuladores) ? implode(", ", $articuladores) : $cargo1_id;
 
-        $sql = "SELECT DISTINCT cp.form_cargo_id AS 'id', fc.cargo AS 'cargo' FROM cargo_programa AS cp
-                INNER JOIN form_cargos AS fc ON cp.form_cargo_id = fc.id
+        $sql = "SELECT DISTINCT cp.form_cargo_id AS 'id', fc.cargo AS 'cargo' FROM capac_new.cargo_programa AS cp
+                INNER JOIN siscontrat.formacao_cargos AS fc ON cp.form_cargo_id = fc.id
                 WHERE cp.form_programa_id = '$programa_id' AND cp.form_cargo_id NOT IN ($cargo1, 4, 5) ORDER BY fc.cargo";
         $res = $db->consultaSimples($sql)->fetchAll();
 
@@ -47,8 +47,8 @@ if(isset($_GET['busca'])){
             $cargo2 = implode(", ", $articuladores);
         }
 
-        $sql = "SELECT DISTINCT cp.form_cargo_id AS 'id', fc.cargo AS 'cargo' FROM cargo_programa AS cp
-                INNER JOIN form_cargos AS fc ON cp.form_cargo_id = fc.id
+        $sql = "SELECT DISTINCT cp.form_cargo_id AS 'id', fc.cargo AS 'cargo' FROM capac_new.cargo_programa AS cp
+                INNER JOIN siscontrat.formacao_cargos AS fc ON cp.form_cargo_id = fc.id
                 WHERE cp.form_programa_id = '$programa_id' AND cp.form_cargo_id NOT IN ($cargo1, $cargo2, 4, 5) ORDER BY fc.cargo";
         $res = $db->consultaSimples($sql)->fetchAll();
 

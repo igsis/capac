@@ -220,14 +220,14 @@ class FormacaoController extends ValidacaoModel
                 fc2.cargo AS 'cargo2',
                 fca.form_cargo3_id,
                 fc3.cargo AS 'cargo3'
-            FROM form_cadastros AS fcad
+            FROM capac_new.form_cadastros AS fcad
             LEFT JOIN form_regioes_preferenciais frp on fcad.regiao_preferencial_id = frp.id
             LEFT JOIN form_programas fp on fcad.programa_id = fp.id
             LEFT JOIN form_linguagens fl on fcad.linguagem_id = fl.id
-            LEFT JOIN form_cargos fc on fcad.form_cargo_id = fc.id
+            LEFT JOIN siscontrat.formacao_cargos fc on fcad.form_cargo_id = fc.id
             LEFT JOIN form_cargos_adicionais fca on fcad.id = fca.form_cadastro_id
-            LEFT JOIN form_cargos fc2 on fca.form_cargo2_id = fc2.id
-            LEFT JOIN form_cargos fc3 on fca.form_cargo3_id = fc3.id
+            LEFT JOIN siscontrat.formacao_cargos fc2 on fca.form_cargo2_id = fc2.id
+            LEFT JOIN siscontrat.formacao_cargos fc3 on fca.form_cargo3_id = fc3.id
             WHERE fcad.publicado = 1 AND $busca
         ");
         return $formacao;
