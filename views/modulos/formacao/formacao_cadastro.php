@@ -62,7 +62,7 @@ if ($id) {
                                     <select class="form-control" id="programa" name="programa_id" required>
                                         <option value="">Selecione uma opção...</option>
                                         <?php
-                                        $formObj->geraOpcao("form_programas",$form['programa_id']);
+                                        $formObj->geraOpcao("siscontrat.programas",$form['id'], true);
                                         ?>
                                     </select>
                                 </div>
@@ -71,7 +71,7 @@ if ($id) {
                                     <select class="form-control" id="linguagem_id" name="linguagem_id" required>
                                         <option value="">Selecione uma opção...</option>
                                         <?php
-                                        $formObj->geraOpcao("form_linguagens",$form['linguagem_id']);
+                                        $formObj->geraOpcao("siscontrat.linguagens",$form['id'], TRUE);
                                         ?>
                                     </select>
                                 </div>

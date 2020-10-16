@@ -188,7 +188,7 @@ class FormacaoController extends ValidacaoModel
 
     public function listaFormacao($idUsuario)
     {
-        return MainModel::consultaSimples("SELECT fc.*, pf.nome,fp.programa, fl.linguagem FROM form_cadastros fc INNER JOIN pessoa_fisicas pf on fc.pessoa_fisica_id = pf.id INNER JOIN form_programas fp ON fc.programa_id = fp.id INNER JOIN form_linguagens fl on fc.linguagem_id = fl.id WHERE fc.usuario_id = '$idUsuario' AND fc.publicado = 1")->fetchAll(PDO::FETCH_OBJ);
+        return MainModel::consultaSimples("SELECT fc.*, pf.nome,fp.programa, fl.linguagem FROM form_cadastros fc INNER JOIN pessoa_fisicas pf on fc.pessoa_fisica_id = pf.id INNER JOIN siscontrat.programas fp ON fc.programa_id = fp.id INNER JOIN siscontrat.linguagens fl on fc.linguagem_id = fl.id WHERE fc.usuario_id = '$idUsuario' AND fc.publicado = 1")->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function recuperaFormacao($ano, $idPf = false, $formacao_id = false)
@@ -222,8 +222,8 @@ class FormacaoController extends ValidacaoModel
                 fc3.cargo AS 'cargo3'
             FROM capac_new.form_cadastros AS fcad
             LEFT JOIN form_regioes_preferenciais frp on fcad.regiao_preferencial_id = frp.id
-            LEFT JOIN form_programas fp on fcad.programa_id = fp.id
-            LEFT JOIN form_linguagens fl on fcad.linguagem_id = fl.id
+            LEFT JOIN siscontrat.programas fp on fcad.programa_id = fp.id
+            LEFT JOIN siscontrat.linguagens fl on fcad.linguagem_id = fl.id
             LEFT JOIN siscontrat.formacao_cargos fc on fcad.form_cargo_id = fc.id
             LEFT JOIN form_cargos_adicionais fca on fcad.id = fca.form_cadastro_id
             LEFT JOIN siscontrat.formacao_cargos fc2 on fca.form_cargo2_id = fc2.id
