@@ -9,7 +9,7 @@ $ano = $_SESSION['ano_c'];
 
 if ($id) {
     $form = $formObj->recuperaFormacao($ano, false, $id)->fetch(PDO::FETCH_ASSOC);
-} else {
+    // var_dump($form);
     $idPf = $_SESSION['origem_id_c'];
     $form = $formObj->recuperaFormacao($ano, $idPf)->fetch(PDO::FETCH_ASSOC);
 }
@@ -62,7 +62,7 @@ if ($id) {
                                     <select class="form-control" id="programa" name="programa_id" required>
                                         <option value="">Selecione uma opção...</option>
                                         <?php
-                                        $formObj->geraOpcao("siscontrat.programas",$form['id'], true);
+                                        $formObj->geraOpcao("siscontrat.programas",$form['programa_id'] ?? "", true);
                                         ?>
                                     </select>
                                 </div>
@@ -71,7 +71,7 @@ if ($id) {
                                     <select class="form-control" id="linguagem_id" name="linguagem_id" required>
                                         <option value="">Selecione uma opção...</option>
                                         <?php
-                                        $formObj->geraOpcao("siscontrat.linguagens",$form['id'], TRUE);
+                                        $formObj->geraOpcao("siscontrat.linguagens",$form['linguagem_id'], TRUE);
                                         ?>
                                     </select>
                                 </div>
