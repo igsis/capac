@@ -24,7 +24,7 @@ class PessoaFisicaModel extends ValidacaoModel
 
         foreach ($dados as $campo => $post) {
             $dig = explode("_", $campo)[0];
-            if (!empty($dados[$campo])) {
+            if (!empty($dados[$campo]) || ($dig == "pf")) {
                 switch ($dig) {
                     case "pf":
                         $campo = substr($campo, 3);
@@ -116,7 +116,8 @@ class PessoaFisicaModel extends ValidacaoModel
      * @param int $pessoa_fisica_id
      * @param int $validacaoTipo
      * <p>1 - Proponente<br>
-     * 2 - Líder</p>
+     * 2 - Líder<br>
+     * 3 - Formação</p>
      * @return array|bool
      */
     protected function validaPfModel($pessoa_fisica_id, $validacaoTipo, $evento_id, $tipo_documentos = null)
@@ -153,7 +154,7 @@ class PessoaFisicaModel extends ValidacaoModel
                     'passaporte',
                 ];
 
-                $validaBanco = ValidacaoModel::validaBanco(1, $pessoa_fisica_id);
+                $validaBanco = ValidacaoModel::validaBancoFormacao($pessoa_fisica_id);
                 $validaEndereco = ValidacaoModel::validaEndereco(1, $pessoa_fisica_id);
                 $validaDetalhes = ValidacaoModel::validaDetalhes($pessoa_fisica_id);
                 break;

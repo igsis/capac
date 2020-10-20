@@ -29,6 +29,25 @@ class ValidacaoModel extends MainModel
         }
     }
 
+    protected function validaBancoFormacao($id) {
+        $proponente = DbModel::consultaSimples("SELECT banco_id FROM pf_bancos WHERE pessoa_fisica_id = '$id' AND publicado = '1'");
+
+        if ($proponente->rowCount()) {
+            $proponente = $proponente->fetchObject();
+
+            if ($proponente->banco_id != 32) {
+                $erros['bancos']['bol'] = true;
+                $erros['bancos']['motivo'] = "Para o cadastro, é aceito somente contas no Banco do Brasil";
+            }
+        }
+
+        if (isset($erros)){
+            return $erros;
+        } else {
+            return false;
+        }
+    }
+
     protected function validaEndereco($tipoProponente, $id) {
         if ($tipoProponente == 1) {
             $proponente = DbModel::consultaSimples("SELECT * FROM pf_enderecos WHERE pessoa_fisica_id = '$id'");
@@ -154,7 +173,8 @@ class ValidacaoModel extends MainModel
             'duracao' => "Duração não foi preenchido",
             'nucleo_artistico' => "Nucleo Artistico não foi preenchido",
             'representante_nucleo' => "Representante do Nucleo Artistico não foi preenchido",
-            'rg' => 'RG não foi preenchido'
+            'rg' => 'RG não foi preenchido',
+            'nacionalidade_id' => 'A nacionalidade não foi selecionada'
         ];
 
         if ($camposNaoObrigatorios) {
@@ -226,10 +246,16 @@ class ValidacaoModel extends MainModel
         }
     }
 
-    protected function validaArquivosFormacao($form_cadastro_id){
+    protected function validaArquivosFormacao($form_cadastro_id, $cargo){
+        $cargos = [4, 5];
+        if (in_array($cargo, $cargos)) {
+            $busca = "AND fld.documento NOT LIKE '%Coordenação%'";
+        } else {
+            $busca = "";
+        }
         $sql = "SELECT * FROM form_lista_documentos AS fld
                 LEFT JOIN (SELECT form_lista_documento_id, arquivo FROM form_arquivos WHERE publicado = 1 AND form_cadastro_id = '$form_cadastro_id') as fa ON fld.id = fa.form_lista_documento_id
-                WHERE fld.obrigatorio = '1' ORDER BY fld.id";
+                WHERE fld.obrigatorio = '1' ". $busca ."ORDER BY fld.id";
         $arquivos = DbModel::consultaSimples($sql)->fetchAll(PDO::FETCH_OBJ);
 
         foreach ($arquivos as $arquivo) {

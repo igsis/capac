@@ -200,11 +200,10 @@ class MainModel extends DbModel
      * @param bool $fomento
      * <p><strong>FALSE</strong> por padrão. Quando <strong>TRUE</strong>, exibe as opções que contem a coluno fomento = 1</p>
      */
-    public function geraOpcao($tabela, $selected = "", $publicado = false, $orderPorId = false, $fomento = false) {
+    public function geraOpcao($tabela, $selected = "",  $publicado = false, $orderPorId = false, $fomento = false ) {
 //        $sql = "SELECT * FROM $tabela $publicado ORDER BY $order";
         $sql = "SELECT * FROM $tabela";
         $order = $orderPorId ? 1 : 2;
-
         $where = [];
 
         if ($publicado) {

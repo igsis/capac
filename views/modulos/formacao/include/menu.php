@@ -5,7 +5,7 @@ $formObj = new FormacaoController();
 if (isset($_SESSION['origem_id_c'])){
     $idPf = $_SESSION['origem_id_c'];
     $ano = $_SESSION['ano_c'];
-    $form = $formObj->recuperaFormacao($idPf, $ano)->fetch();
+    $form = $formObj->recuperaFormacao($ano, $idPf)->fetch();
     if ($form){
         $id = MainModel::encryption($form['id']);
     }

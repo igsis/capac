@@ -13,8 +13,8 @@ $form_cadastro_id = $_SESSION['formacao_id_c'];
 $pessoa_fisica_id = $_SESSION['origem_id_c'];
 $pf = $pfObj->recuperaPessoaFisica($pessoa_fisica_id);
 
-$form = $formObj->recuperaFormacao($pessoa_fisica_id, $ano)->fetch(PDO::FETCH_ASSOC);
-$validacoesPrograma = $formObj->validaForm($form_cadastro_id, $pessoa_fisica_id);
+$form = $formObj->recuperaFormacao($ano, false, $form_cadastro_id)->fetch(PDO::FETCH_ASSOC);
+$validacoesPrograma = $formObj->validaForm($form_cadastro_id, $pessoa_fisica_id, $form['form_cargo_id']);
 ?>
 
 <!-- Content Header (Page header) -->
@@ -112,15 +112,17 @@ $validacoesPrograma = $formObj->validaForm($form_cadastro_id, $pessoa_fisica_id)
                         <div class="row">
                             <div class="col"><b>DRT:</b> <?= $pf['drt'] ?></div>
                         </div>
-                        <div class="row">
-                            <div class="col"><b>Banco:</b> <?= $pf['banco'] ?></div>
-                        </div>
-                        <div class="row">
-                            <div class="col"><b>Agência:</b> <?= $pf['agencia'] ?></div>
-                        </div>
-                        <div class="row">
-                            <div class="col"><b>Conta:</b> <?= $pf['conta'] ?></div>
-                        </div>
+                        <?php if ($pf['banco']): ?>
+                            <div class="row">
+                                <div class="col"><b>Banco:</b> <?= $pf['banco'] ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="col"><b>Agência:</b> <?= $pf['agencia'] ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="col"><b>Conta:</b> <?= $pf['conta'] ?></div>
+                            </div>
+                        <?php endif ?>
                         <br>
                         <!-- ************** Programa ************** -->
                         <hr>
@@ -152,13 +154,23 @@ $validacoesPrograma = $formObj->validaForm($form_cadastro_id, $pessoa_fisica_id)
                             <div class="col"><b>Linguagem:</b> <?= $form['linguagem'] ?></div>
                         </div>
                     </div>
-                    <div class="card-footer">
-                        <form class="form-horizontal formulario-ajax" method="POST" action="<?=SERVERURL?>ajax/jovemMonitorAjax.php" role="form" data-form="update">
-                            <input type="hidden" name="_method" value="envioJovemMonitor">
-                            <input type="hidden" name="pagina" value="jovemMonitor">
-                            <button type="submit" class="btn btn-success btn-block float-right" id="cadastra">Enviar</button>
-                            <div class="resposta-ajax"></div>
-                        </form>
+                    <div class="card-footer" id="cardFooter">
+                        <?php if (!$validacoesPrograma): ?>
+                            <form class="form-horizontal formulario-ajax" method="POST"
+                                  action="<?= SERVERURL ?>ajax/formacaoAjax.php" role="form" data-form="update"
+                                  id="formEnviar">
+                                <input type="hidden" name="_method" value="envioFormacao">
+                                <input type="hidden" name="id" value="<?= $form_cadastro_id ?>">
+                                <button type="submit" class="btn btn-success btn-block float-right" id="cadastra">
+                                    Enviar
+                                </button>
+                                <div class="resposta-ajax"></div>
+                            </form>
+                        <?php else: ?>
+                            <button class="btn btn-warning btn-block float-right">
+                                Você possui pendencias em seu cadastro. Verifique-as no topo da tela para poder envia-lo
+                            </button>
+                        <?php endif ?>
                     </div>
 
                 </div>
@@ -169,13 +181,3 @@ $validacoesPrograma = $formObj->validaForm($form_cadastro_id, $pessoa_fisica_id)
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
-
-<script type="application/javascript">
-    $(document).ready(function () {
-        if ($('.erro-validacao').length) {
-            $('#cadastra').attr('disabled', true);
-        } else {
-            $('#cadastra').attr('disabled', false);
-        }
-    });
-</script>

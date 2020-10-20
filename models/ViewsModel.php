@@ -108,8 +108,17 @@ class ViewsModel
             if (is_file("./views/modulos/$modulo/include/menu.php")) {
                 $menu = "./views/modulos/$modulo/include/menu.php";
             } else {
-                /** @TODO: Encontrar forma para que a edição de conta retorne ao módulo correto */
-                $menu = "./views/modulos/fomentos/include/menu.php";
+                switch ($_SESSION['modulo_c']) {
+                    case 5:
+                        $menu = "./views/modulos/formacao/include/menu.php";
+                        break;
+                    case 6:
+                        $menu = "./views/modulos/fomentos/include/menu.php";
+                        break;
+                    default:
+                        $menu = "./views/template/menuExemplo.php";
+                        break;
+                }
             }
         } else {
             $menu = "./views/template/menuExemplo.php";

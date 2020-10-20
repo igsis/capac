@@ -110,31 +110,29 @@ create table form_arquivos
         foreign key (form_lista_documento_id) references form_lista_documentos (id)
 );
 
-INSERT INTO `form_lista_documentos` (`documento`, `sigla`) VALUES
-('RG/RNE/PASSAPORTE', 'rg'),
-('CPF', 'cpf'),
-('Comprovante de residência', 'residencia'),
-('PIS/PASEP/NIT', 'pis_pasep_'),
-('Currículo', 'curriculo'),
-('DRT', 'drt'),
-('Anexos III a V (arquivo único)', 'anex3a5'),
-('Comprovante de formação 1', 'com_form1'),
-('Comprovante de formação 2', 'com_form2'),
-('Comprovante de formação 3', 'com_form3'),
-('Comprovante de formação 4', 'com_form4'),
-('Comprovante de experiência artística 1', 'com_art1'),
-('Comprovante de experiência artística 2', 'com_art2'),
-('Comprovante de experiência artística 3', 'com_art3'),
-('Comprovante de experiência artística 4', 'com_art4'),
-('Comprovante de experiência artístico-pedagógica 1', 'comartped1'),
-('Comprovante de experiência artístico-pedagógica 2', 'comartped2'),
-('Comprovante de experiência artístico-pedagógica 3', 'comartped3'),
-('Comprovante de experiência artístico-pedagógica 4', 'comartped4'),
-('Comprovante de Experiência em Articulação/Coordenação 1', 'comcoord1'),
-('Comprovante de Experiência em Articulação/Coordenação 2', 'comcoord2'),
-('Comprovante de Experiência em Articulação/Coordenação 3', 'comcoord3'),
-('Comprovante de Experiência em Articulação/Coordenação 4', 'comcoord4');
-
+INSERT INTO `form_lista_documentos` (`id`, `documento`, `sigla`, `ordem`, `obrigatorio`, `publicado`) VALUES (1, 'RG/RNE/PASSAPORTE', 'rg', 0, 1, 1);
+INSERT INTO `form_lista_documentos` (`id`, `documento`, `sigla`, `ordem`, `obrigatorio`, `publicado`) VALUES (2, 'CPF', 'cpf', 0, 1, 1);
+INSERT INTO `form_lista_documentos` (`id`, `documento`, `sigla`, `ordem`, `obrigatorio`, `publicado`) VALUES (3, 'Comprovante de residência', 'residencia', 0, 1, 1);
+INSERT INTO `form_lista_documentos` (`id`, `documento`, `sigla`, `ordem`, `obrigatorio`, `publicado`) VALUES (4, 'PIS/PASEP/NIT', 'pis_pasep_', 0, 1, 1);
+INSERT INTO `form_lista_documentos` (`id`, `documento`, `sigla`, `ordem`, `obrigatorio`, `publicado`) VALUES (5, 'Currículo', 'curriculo', 0, 1, 1);
+INSERT INTO `form_lista_documentos` (`id`, `documento`, `sigla`, `ordem`, `obrigatorio`, `publicado`) VALUES (6, 'DRT', 'drt', 0, 1, 1);
+INSERT INTO `form_lista_documentos` (`id`, `documento`, `sigla`, `ordem`, `obrigatorio`, `publicado`) VALUES (7, 'Anexos III a V (arquivo único)', 'anex3a5', 0, 1, 1);
+INSERT INTO `form_lista_documentos` (`id`, `documento`, `sigla`, `ordem`, `obrigatorio`, `publicado`) VALUES (8, 'Comprovante de formação 1', 'com_form1', 0, 1, 1);
+INSERT INTO `form_lista_documentos` (`id`, `documento`, `sigla`, `ordem`, `obrigatorio`, `publicado`) VALUES (9, 'Comprovante de formação 2', 'com_form2', 0, 0, 1);
+INSERT INTO `form_lista_documentos` (`id`, `documento`, `sigla`, `ordem`, `obrigatorio`, `publicado`) VALUES (10, 'Comprovante de formação 3', 'com_form3', 0, 0, 1);
+INSERT INTO `form_lista_documentos` (`id`, `documento`, `sigla`, `ordem`, `obrigatorio`, `publicado`) VALUES (11, 'Comprovante de formação 4', 'com_form4', 0, 0, 1);
+INSERT INTO `form_lista_documentos` (`id`, `documento`, `sigla`, `ordem`, `obrigatorio`, `publicado`) VALUES (12, 'Comprovante de experiência artística 1', 'com_art1', 0, 1, 1);
+INSERT INTO `form_lista_documentos` (`id`, `documento`, `sigla`, `ordem`, `obrigatorio`, `publicado`) VALUES (13, 'Comprovante de experiência artística 2', 'com_art2', 0, 0, 1);
+INSERT INTO `form_lista_documentos` (`id`, `documento`, `sigla`, `ordem`, `obrigatorio`, `publicado`) VALUES (14, 'Comprovante de experiência artística 3', 'com_art3', 0, 0, 1);
+INSERT INTO `form_lista_documentos` (`id`, `documento`, `sigla`, `ordem`, `obrigatorio`, `publicado`) VALUES (15, 'Comprovante de experiência artística 4', 'com_art4', 0, 0, 1);
+INSERT INTO `form_lista_documentos` (`id`, `documento`, `sigla`, `ordem`, `obrigatorio`, `publicado`) VALUES (16, 'Comprovante de experiência artístico-pedagógica 1', 'comartped1', 0, 1, 1);
+INSERT INTO `form_lista_documentos` (`id`, `documento`, `sigla`, `ordem`, `obrigatorio`, `publicado`) VALUES (17, 'Comprovante de experiência artístico-pedagógica 2', 'comartped2', 0, 0, 1);
+INSERT INTO `form_lista_documentos` (`id`, `documento`, `sigla`, `ordem`, `obrigatorio`, `publicado`) VALUES (18, 'Comprovante de experiência artístico-pedagógica 3', 'comartped3', 0, 0, 1);
+INSERT INTO `form_lista_documentos` (`id`, `documento`, `sigla`, `ordem`, `obrigatorio`, `publicado`) VALUES (19, 'Comprovante de experiência artístico-pedagógica 4', 'comartped4', 0, 0, 1);
+INSERT INTO `form_lista_documentos` (`id`, `documento`, `sigla`, `ordem`, `obrigatorio`, `publicado`) VALUES (20, 'Comprovante de Experiência em Articulação/Coordenação 1', 'comcoord1', 0, 1, 1);
+INSERT INTO `form_lista_documentos` (`id`, `documento`, `sigla`, `ordem`, `obrigatorio`, `publicado`) VALUES (21, 'Comprovante de Experiência em Articulação/Coordenação 2', 'comcoord2', 0, 0, 1);
+INSERT INTO `form_lista_documentos` (`id`, `documento`, `sigla`, `ordem`, `obrigatorio`, `publicado`) VALUES (22, 'Comprovante de Experiência em Articulação/Coordenação 3', 'comcoord3', 0, 0, 1);
+INSERT INTO `form_lista_documentos` (`id`, `documento`, `sigla`, `ordem`, `obrigatorio`, `publicado`) VALUES (23, 'Comprovante de Experiência em Articulação/Coordenação 4', 'comcoord4', 0, 0, 1);
 
 alter table pf_detalhes
     add genero_id int null after etnia_id;
@@ -142,6 +140,41 @@ alter table pf_detalhes
 alter table pf_detalhes
     add constraint pf_detalhes_generos_id_fk
         foreign key (genero_id) references generos (id);
+
+alter table pf_detalhes
+    add trans tinyint default 0 null;
+
+alter table pf_detalhes
+    add pcd tinyint default 0 null;
+
+UPDATE `form_cargos` SET `cargo` = 'Articulador de Processos Artístico-Pedagógicos' WHERE `form_cargos`.`id` = 7;
+
+INSERT INTO `form_lista_documentos` (`id`, `documento`, `sigla`, `ordem`, `obrigatorio`, `publicado`) VALUES
+(24, 'Anexo II a IV (arquivo único)', 'f-anxII-IV', 0, 1, 1),
+(25, 'Anexo V (carta de intenção)', 'f-anexoV', 0, 1, 1),
+(26, 'Anexo VI (somente para opção de cotas étnico-raciais)', 'f-anexoVI', 0, 0, 1),
+(27, 'Anexo VII (somente para declarar opção de uso do nome social)', 'f-anexoVII', 0, 0, 1),
+(28, 'Laudo médico com CID (somente para pessoa com deficiência)', 'f-laudopcd', 0, 0, 1),
+(29, 'ANEXO VIII: Indicação de Membros da Sociedade Civil para a Comissão de Seleção', 'f-anxVIII', 0, 1, 1);
+
+UPDATE `etnias` SET `descricao` = 'Parda' WHERE `etnias`.`id` = 2;
+
+UPDATE `form_lista_documentos` SET `publicado` = '0' WHERE `form_lista_documentos`.`id` = 7;
+UPDATE `form_lista_documentos` SET `obrigatorio` = '0' WHERE `form_lista_documentos`.`id` = 6;
+UPDATE `form_lista_documentos` SET `obrigatorio` = '0' WHERE `form_lista_documentos`.`id` = 29;
+
+ALTER TABLE `form_cargos_adicionais`
+    CHANGE COLUMN `form_cargo3_id` `form_cargo3_id` TINYINT(2) NULL DEFAULT NULL AFTER `form_cargo2_id`;
+
+ALTER TABLE `pf_bancos`
+    DROP PRIMARY KEY,
+    ADD INDEX `pessoa_fisica_id` (`pessoa_fisica_id`);
+
+
+/*TRUNCATE TABLE `form_arquivos`*/;
+ALTER TABLE `form_arquivos` DROP INDEX `form_arquivos_form_lista_documentos_id_fk`;
+ALTER TABLE form_arquivos DROP FOREIGN KEY form_arquivos_form_lista_documentos_id_fk;
+DROP TABLE form_lista_documentos;
 
 # Manter este comando na última linha
 set foreign_key_checks = 1;

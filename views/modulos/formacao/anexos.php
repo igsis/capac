@@ -5,6 +5,8 @@ $arquivosObj = new ArquivoController();
 $formacaoObj = new FormacaoController();
 
 $idFormacao = $_SESSION['formacao_id_c'];
+
+$form_cargo_id = $formacaoObj->recuperaFormacao($_SESSION['ano_c'], false, $idFormacao)->fetchObject()->form_cargo_id;
 ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -62,7 +64,7 @@ $idFormacao = $_SESSION['formacao_id_c'];
                                 <tbody>
                                 <?php
                                 $cont = 0;
-                                $arquivos = $arquivosObj->listarArquivosFormacao()->fetchAll(PDO::FETCH_OBJ);
+                                $arquivos = $arquivosObj->listarArquivosFormacao($form_cargo_id)->fetchAll(PDO::FETCH_OBJ);
                                 foreach ($arquivos as $arquivo) {
                                     $obrigatorio = $arquivo->obrigatorio == 0 ? "[Opcional]" : "*";
                                     if ($arquivosObj->consultaArquivoEnviadoFormacao($arquivo->id, $idFormacao)) {
@@ -130,8 +132,8 @@ $idFormacao = $_SESSION['formacao_id_c'];
                             </thead>
                             <tbody>
                             <?php
-                            $arquivosEnviados = $arquivosObj->listarArquivosEnviadosFormacao($idFormacao)->fetchAll(PDO::FETCH_OBJ);
-                            if (count($arquivosEnviados) != 0) {
+                            $arquivosEnviados = $arquivosObj->listarArquivosEnviadosFormacao($idFormacao);
+                            if ($arquivosEnviados) {
                                 foreach ($arquivosEnviados as $arquivo) {
                                     ?>
                                     <tr>

@@ -22,7 +22,7 @@ class FormacaoController extends ValidacaoModel
     public function recuperaFormacaoId($pessoa_fisica_id, $ano)
     {
         $idPf = MainModel::decryption($pessoa_fisica_id);
-        $form_cadastro_id = DbModel::consultaSimples("SELECT id FROM form_cadastros WHERE pessoa_fisica_id = $idPf AND ano = $ano")->fetchColumn();
+        $form_cadastro_id = DbModel::consultaSimples("SELECT id FROM form_cadastros WHERE pessoa_fisica_id = '$idPf' AND ano = '$ano' AND publicado = '1'")->fetchColumn();
 
         if ($form_cadastro_id) {
             return MainModel::encryption($form_cadastro_id);
@@ -64,7 +64,7 @@ class FormacaoController extends ValidacaoModel
                 'titulo' => 'Pessoa Física',
                 'texto' => 'Pessoa Física editada com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL.$pagina.'/pf_cadastro&id='.$id
+                'location' => SERVERURL.$pagina.'&id='.$id
             ];
         } else {
             $alerta = [
@@ -97,8 +97,11 @@ class FormacaoController extends ValidacaoModel
         if (DbModel::connection()->errorCode() == 0) {
             $id = DbModel::connection()->lastInsertId();
             $_SESSION['formacao_id_c'] = MainModel::encryption($id);
-            if (isset($dadosAdicionais)) {
+            if ((isset($dadosAdicionais)) && ($dadosAdicionais['form_cargo2_id'] != "")) {
                 $dadosAdicionais['form_cadastro_id'] = $id;
+                if (isset($dadosAdicionais['form_cargo3_id'])) {
+                    $dadosAdicionais['form_cargo3_id'] = $dadosAdicionais['form_cargo3_id'] == "" ? null : $dadosAdicionais['form_cargo3_id'];
+                }
                 DbModel::insert("form_cargos_adicionais",$dadosAdicionais);
             }
             $alerta = [
@@ -114,7 +117,8 @@ class FormacaoController extends ValidacaoModel
                 'titulo' => 'Erro!',
                 'texto' => 'Erro ao salvar!',
                 'tipo' => 'error',
-                'location' => SERVERURL . $pagina
+                //@todo: verificar se este location não gera erro
+                'location' => SERVERURL . 'formacao/formacao_cadastro'
             ];
         }
         return MainModel::sweetAlert($alerta);
@@ -122,26 +126,53 @@ class FormacaoController extends ValidacaoModel
 
     public function editaFormacao($id)
     {
-        /* executa limpeza nos campos */
-        $idDecrypt = MainModel::decryption($id);
-        $dados = [];
-        $pagina = $_POST['pagina'];
         unset($_POST['_method']);
-        unset($_POST['pagina']);
         unset($_POST['id']);
+
+        $cargosAdicionais = ['form_cargo2_id', 'form_cargo3_id'];
+        $dados = [];
+
+        $idDecrypt = MainModel::decryption($id);
         $dados['id'] = $idDecrypt;
+
+        $cargo2 = self::recuperaFormacao($_SESSION['ano_c'], false, $id)->fetchObject()->form_cargo2_id;
+
+        /* executa limpeza nos campos */
         foreach ($_POST as $campo => $post) {
-            $dados[$campo] = MainModel::limparString($post);
+            if (!in_array($campo, $cargosAdicionais)) {
+                $dados[$campo] = MainModel::limparString($post);
+            } else {
+                $dadosAdicionais[$campo] = MainModel::limparString($post);
+            }
         }
+
         /* ./limpeza */
         DbModel::update("form_cadastros",$dados,$idDecrypt);
         if (DbModel::connection()->errorCode() == 0) {
+            if ((isset($dadosAdicionais)) && ($dadosAdicionais['form_cargo2_id'] != "")) {
+                if ($cargo2) {
+                    if (isset($dadosAdicionais['form_cargo3_id'])) {
+                        $dadosAdicionais['form_cargo3_id'] = $dadosAdicionais['form_cargo3_id'] == "" ? null : $dadosAdicionais['form_cargo3_id'];
+                    }
+                    DbModel::updateEspecial("form_cargos_adicionais", $dadosAdicionais, 'form_cadastro_id', $idDecrypt);
+                } else {
+                    $dadosAdicionais['form_cadastro_id'] = $idDecrypt;
+                    if (isset($dadosAdicionais['form_cargo3_id'])) {
+                        $dadosAdicionais['form_cargo3_id'] = $dadosAdicionais['form_cargo3_id'] == "" ? null : $dadosAdicionais['form_cargo2_id'];
+                    }
+                    DbModel::insert("form_cargos_adicionais", $dadosAdicionais);
+                }
+            } else {
+                if ($cargo2) {
+                    DbModel::deleteEspecial("form_cargos_adicionais", "form_cadastro_id", $idDecrypt);
+                }
+            }
             $alerta = [
                 'alerta' => 'sucesso',
                 'titulo' => 'Detalhes do programa',
                 'texto' => 'Cadastro editado com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL . $pagina . '&idC=' . $id
+                'location' => SERVERURL . 'formacao/formacao_cadastro&idC=' . $id
             ];
         } else {
             $alerta = [
@@ -149,7 +180,7 @@ class FormacaoController extends ValidacaoModel
                 'titulo' => 'Erro!',
                 'texto' => 'Erro ao salvar!',
                 'tipo' => 'error',
-                'location' => SERVERURL . $pagina . '&idC=' . $id
+                'location' => SERVERURL . 'formacao/formacao_cadastro&idC=' . $id
             ];
         }
         return MainModel::sweetAlert($alerta);
@@ -157,18 +188,26 @@ class FormacaoController extends ValidacaoModel
 
     public function listaFormacao($idUsuario)
     {
-        return MainModel::consultaSimples("SELECT fc.*, pf.nome,fp.programa, fl.linguagem FROM form_cadastros fc INNER JOIN pessoa_fisicas pf on fc.pessoa_fisica_id = pf.id INNER JOIN form_programas fp ON fc.programa_id = fp.id INNER JOIN form_linguagens fl on fc.linguagem_id = fl.id WHERE fc.usuario_id = '$idUsuario' AND fc.publicado = 1")->fetchAll(PDO::FETCH_OBJ);
+        return MainModel::consultaSimples("SELECT fc.*, pf.nome,fp.programa, fl.linguagem FROM form_cadastros fc INNER JOIN pessoa_fisicas pf on fc.pessoa_fisica_id = pf.id INNER JOIN siscontrat.programas fp ON fc.programa_id = fp.id INNER JOIN siscontrat.linguagens fl on fc.linguagem_id = fl.id WHERE fc.usuario_id = '$idUsuario' AND fc.publicado = 1")->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function recuperaFormacao($idPf, $ano)
+    public function recuperaFormacao($ano, $idPf = false, $formacao_id = false)
     {
-        $idPf = MainModel::decryption($idPf);
+        if ($idPf) {
+            $idPf = MainModel::decryption($idPf);
+            $busca = "fcad.pessoa_fisica_id = '$idPf' AND fcad.ano = '$ano'";
+        } elseif ($formacao_id) {
+            $formacao_id = MainModel::decryption($formacao_id);
+            $busca = "fcad.id = '$formacao_id'";
+        }
         $formacao = DbModel::consultaSimples("
             SELECT
                 fcad.id,
+                fcad.protocolo,
                 fcad.pessoa_fisica_id,
                 fcad.ano,
                 fcad.regiao_preferencial_id,
+                fcad.data_envio,
                 frp.regiao,
                 fcad.programa_id,
                 fp.programa,
@@ -181,15 +220,15 @@ class FormacaoController extends ValidacaoModel
                 fc2.cargo AS 'cargo2',
                 fca.form_cargo3_id,
                 fc3.cargo AS 'cargo3'
-            FROM form_cadastros AS fcad
+            FROM capac_new.form_cadastros AS fcad
             LEFT JOIN form_regioes_preferenciais frp on fcad.regiao_preferencial_id = frp.id
-            LEFT JOIN form_programas fp on fcad.programa_id = fp.id
-            LEFT JOIN form_linguagens fl on fcad.linguagem_id = fl.id
-            LEFT JOIN form_cargos fc on fcad.form_cargo_id = fc.id
+            LEFT JOIN siscontrat.programas fp on fcad.programa_id = fp.id
+            LEFT JOIN siscontrat.linguagens fl on fcad.linguagem_id = fl.id
+            LEFT JOIN siscontrat.formacao_cargos fc on fcad.form_cargo_id = fc.id
             LEFT JOIN form_cargos_adicionais fca on fcad.id = fca.form_cadastro_id
-            LEFT JOIN form_cargos fc2 on fca.form_cargo2_id = fc2.id
-            LEFT JOIN form_cargos fc3 on fca.form_cargo3_id = fc3.id
-            WHERE pessoa_fisica_id = '$idPf' AND ano = '$ano'
+            LEFT JOIN siscontrat.formacao_cargos fc2 on fca.form_cargo2_id = fc2.id
+            LEFT JOIN siscontrat.formacao_cargos fc3 on fca.form_cargo3_id = fc3.id
+            WHERE fcad.publicado = 1 AND $busca
         ");
         return $formacao;
     }
@@ -221,20 +260,72 @@ class FormacaoController extends ValidacaoModel
         return MainModel::sweetAlert($alerta);
     }
 
-//    public function validaForm($idPf){
-//        $idPf = MainModel::decryption($idPf);
-//        return ValidacaoModel::validaFormacao($idPf);
-//    }
+    public function apagaDadosBancarios($pessoa_fisica_id, $pagina)
+    {
+        $apaga = (new PessoaFisicaController)->apagaDadosBancarios($pessoa_fisica_id);
+        if ($apaga){
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Dados Bancários',
+                'texto' => 'Dados Bancários removidos com sucesso',
+                'tipo' => 'success',
+                'location' => SERVERURL.$pagina.'&id='.$pessoa_fisica_id
+            ];
+        }else {
+            $alerta = [
+                'alerta' => 'simples',
+                'titulo' => 'Oops! Algo deu Errado!',
+                'texto' => 'Falha ao apagar os dados no servidor, tente novamente mais tarde',
+                'tipo' => 'error',
+            ];
+        }
+        return MainModel::sweetAlert($alerta);
+    }
 
-    public function validaForm($form_cadastro_id, $pessoa_fisica_id) {
+    public function validaForm($form_cadastro_id, $pessoa_fisica_id, $cargo) {
         $form_cadastro_id = MainModel::decryption($form_cadastro_id);
 
         $erros['Proponente'] = (new PessoaFisicaController)->validaPf($pessoa_fisica_id, 3);
         $erros['Formação'] = ValidacaoModel::validaFormacao($pessoa_fisica_id);
-        $erros['Arquivos'] = ValidacaoModel::validaArquivosFormacao($form_cadastro_id);
+        $erros['Arquivos'] = ValidacaoModel::validaArquivosFormacao($form_cadastro_id, $cargo);
 
         return MainModel::formataValidacaoErros($erros);
     }
 
+    public function enviarCadastro($id)
+    {
+        $id = MainModel::decryption($id);
+        $f = MainModel::encryption("F");
+        $formacao['protocolo'] = MainModel::gerarProtocolo($id,$f);
+        $formacao['data_envio'] = date("Y-m-d H:i:s");
 
+        $update = DbModel::update('form_cadastros',$formacao,$id);
+        if ($update->rowCount() >= 1 || DbModel::connection()->errorCode() == 0) {
+//            @todo: descomentar este alerta após PDF completo
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Cadastro Enviado',
+                'texto' => 'Cadastro enviado com sucesso!',
+                'tipo' => 'success',
+                'location' => SERVERURL.'formacao/inicio',
+                'redirecionamento' => SERVERURL.'pdf/resumo_formacao.php?id='.MainModel::encryption($id).'&ano='.$_SESSION['ano_c']
+            ];
+//            $alerta = [
+//                'alerta' => 'sucesso',
+//                'titulo' => 'Cadastro Enviado',
+//                'texto' => 'Cadastro enviado com sucesso!',
+//                'tipo' => 'success',
+//                'location' => SERVERURL.'formacao/inicio',
+//                'redirecionamento' => SERVERURL.'formacao/inicio'
+//            ];
+        } else {
+            $alerta = [
+                'alerta' => 'simples',
+                'titulo' => 'Erro!',
+                'texto' => 'Erro ao enviar o projeto!',
+                'tipo' => 'error'
+            ];
+        }
+        return MainModel::sweetAlert($alerta);
+    }
 }
