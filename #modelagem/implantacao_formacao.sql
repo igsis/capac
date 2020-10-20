@@ -170,11 +170,31 @@ ALTER TABLE `pf_bancos`
     DROP PRIMARY KEY,
     ADD INDEX `pessoa_fisica_id` (`pessoa_fisica_id`);
 
+/* Integração com o SisContrat a partir daqui */
 
 /*TRUNCATE TABLE `form_arquivos`*/;
 ALTER TABLE `form_arquivos` DROP INDEX `form_arquivos_form_lista_documentos_id_fk`;
 ALTER TABLE form_arquivos DROP FOREIGN KEY form_arquivos_form_lista_documentos_id_fk;
 DROP TABLE form_lista_documentos;
+
+ALTER TABLE `form_cadastros` DROP INDEX `fk_form_pre_pedidos_programas_idx`;
+ALTER TABLE `form_cadastros` DROP INDEX `fk_form_pre_pedidos_linguagem_idx`;
+ALTER TABLE `form_cadastros` DROP INDEX `fk_form_pre_pedidos_form_cargos_idx`;
+
+ALTER TABLE form_cadastros DROP FOREIGN KEY fk_form_pre_pedidos_programas;
+ALTER TABLE capac_new.form_cadastros DROP FOREIGN KEY fk_form_pre_pedidos_linguagem;
+ALTER TABLE capac_new.form_cadastros DROP FOREIGN KEY fk_form_pre_pedidos_form_cargos;
+
+ALTER TABLE `form_cargos_adicionais` DROP INDEX `fk_formacao_cargos_adicionais_formacao_cargos1_idx`;
+ALTER TABLE `form_cargos_adicionais` DROP INDEX `fk_form_cargos_adicionais_form_cadastros1_idx`;
+ALTER TABLE capac_new.form_cargos_adicionais DROP FOREIGN KEY formCargo_cargoAdicional1;
+ALTER TABLE capac_new.form_cargos_adicionais DROP FOREIGN KEY fk_formacao_cargos_adicionais_formacao_cargos1;
+
+DROP TABLE `cargo_programa`;
+
+DROP TABLE `capac_new`.`form_cargos`;
+DROP TABLE `capac_new`.`form_programas`;
+DROP TABLE `capac_new`.`form_linguagens`;
 
 # Manter este comando na última linha
 set foreign_key_checks = 1;
