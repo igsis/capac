@@ -253,15 +253,19 @@ class ValidacaoModel extends MainModel
         } else {
             $busca = "";
         }
-        $sql = "SELECT * FROM form_lista_documentos AS fld
-                LEFT JOIN (SELECT form_lista_documento_id, arquivo FROM form_arquivos WHERE publicado = 1 AND form_cadastro_id = '$form_cadastro_id') as fa ON fld.id = fa.form_lista_documento_id
-                WHERE fld.obrigatorio = '1' ". $busca ."ORDER BY fld.id";
-        $arquivos = DbModel::consultaSimples($sql)->fetchAll(PDO::FETCH_OBJ);
-
+        $sql = "SELECT * FROM formacao_lista_documentos AS fld
+                WHERE fld.publicado = 1 AND fld.obrigatorio = '1' ". $busca ." ORDER BY fld.id";
+        $arquivos = DbModel::consultaSimples($sql, true)->fetchAll(PDO::FETCH_OBJ);
         foreach ($arquivos as $arquivo) {
-            if ($arquivo->arquivo == null) {
-                $erros[$arquivo->documento]['bol'] = true;
-                $erros[$arquivo->documento]['motivo'] = "$arquivo->documento não enviado";
+            $idsArquivos[] = $arquivo->id;
+        }
+
+        $arquivosEnviados = DbModel::consultaSimples("SELECT form_lista_documento_id FROM form_arquivos WHERE form_cadastro_id = '$form_cadastro_id' AND publicado = 1")->fetchAll(PDO::FETCH_COLUMN);
+
+        foreach ($idsArquivos as $key => $valor) {
+            if (!in_array($valor, $arquivosEnviados)) {
+                $erros[$arquivos[$key]->documento]['bol'] = true;
+                $erros[$arquivos[$key]->documento]['motivo'] = $arquivos[$key]->documento." não enviado";
             }
         }
 
