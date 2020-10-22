@@ -40,7 +40,7 @@ class FormacaoController extends FormacaoModel
                 'titulo' => 'Pessoa Física',
                 'texto' => 'Cadastro realizado com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL . $pagina . '/pf_cadastro&id=' . MainModel::encryption($idPf)
+                'location' => SERVERURL . $pagina . '&id=' . MainModel::encryption($idPf)
             ];
         } else {
             $alerta = [
