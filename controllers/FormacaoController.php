@@ -1,13 +1,13 @@
 <?php
 if ($pedidoAjax) {
-    require_once "../models/ValidacaoModel.php";
+    require_once "../models/FormacaoModel.php";
     require_once "../controllers/PessoaFisicaController.php";
 } else {
-    require_once "./models/ValidacaoModel.php";
+    require_once "./models/FormacaoModel.php";
     require_once "./controllers/PessoaFisicaController.php";
 }
 
-class FormacaoController extends ValidacaoModel
+class FormacaoController extends FormacaoModel
 {
     public function listaAbertura()
     {
@@ -188,7 +188,18 @@ class FormacaoController extends ValidacaoModel
 
     public function listaFormacao($idUsuario)
     {
-        return MainModel::consultaSimples("SELECT fc.*, pf.nome,fp.programa, fl.linguagem FROM form_cadastros fc INNER JOIN pessoa_fisicas pf on fc.pessoa_fisica_id = pf.id INNER JOIN siscontrat.programas fp ON fc.programa_id = fp.id INNER JOIN siscontrat.linguagens fl on fc.linguagem_id = fl.id WHERE fc.usuario_id = '$idUsuario' AND fc.publicado = 1")->fetchAll(PDO::FETCH_OBJ);
+        $sqlFormacao = "SELECT fc.*, pf.nome FROM form_cadastros fc
+                        INNER JOIN pessoa_fisicas pf on fc.pessoa_fisica_id = pf.id
+                        WHERE fc.usuario_id = '$idUsuario' AND fc.publicado = 1";
+
+        $formacoes = MainModel::consultaSimples($sqlFormacao)->fetchAll(PDO::FETCH_OBJ);
+
+        foreach ($formacoes as $key => $formacao) {
+            $formacoes[$key]->cargo = parent::getCargo($formacao->form_cargo_id);
+            $formacoes[$key]->programa = parent::getPrograma($formacao->programa_id);
+            $formacoes[$key]->linguagem = parent::getLinguagem($formacao->linguagem_id);
+        }
+        return $formacoes;
     }
 
     public function recuperaFormacao($ano, $idPf = false, $formacao_id = false)
@@ -200,7 +211,7 @@ class FormacaoController extends ValidacaoModel
             $formacao_id = MainModel::decryption($formacao_id);
             $busca = "fcad.id = '$formacao_id'";
         }
-        $formacao = DbModel::consultaSimples("
+        return DbModel::consultaSimples("
             SELECT
                 fcad.id,
                 fcad.protocolo,
@@ -230,7 +241,6 @@ class FormacaoController extends ValidacaoModel
             LEFT JOIN siscontrat.formacao_cargos fc3 on fca.form_cargo3_id = fc3.id
             WHERE fcad.publicado = 1 AND $busca
         ");
-        return $formacao;
     }
 
     public function recuperaAnoReferenciaAtual($idEdital)
@@ -301,7 +311,6 @@ class FormacaoController extends ValidacaoModel
 
         $update = DbModel::update('form_cadastros',$formacao,$id);
         if ($update->rowCount() >= 1 || DbModel::connection()->errorCode() == 0) {
-//            @todo: descomentar este alerta após PDF completo
             $alerta = [
                 'alerta' => 'sucesso',
                 'titulo' => 'Cadastro Enviado',
@@ -310,14 +319,6 @@ class FormacaoController extends ValidacaoModel
                 'location' => SERVERURL.'formacao/inicio',
                 'redirecionamento' => SERVERURL.'pdf/resumo_formacao.php?id='.MainModel::encryption($id).'&ano='.$_SESSION['ano_c']
             ];
-//            $alerta = [
-//                'alerta' => 'sucesso',
-//                'titulo' => 'Cadastro Enviado',
-//                'texto' => 'Cadastro enviado com sucesso!',
-//                'tipo' => 'success',
-//                'location' => SERVERURL.'formacao/inicio',
-//                'redirecionamento' => SERVERURL.'formacao/inicio'
-//            ];
         } else {
             $alerta = [
                 'alerta' => 'simples',
