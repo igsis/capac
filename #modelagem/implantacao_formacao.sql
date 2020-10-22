@@ -187,8 +187,11 @@ ALTER TABLE capac_new.form_cadastros DROP FOREIGN KEY fk_form_pre_pedidos_form_c
 
 ALTER TABLE `form_cargos_adicionais` DROP INDEX `fk_formacao_cargos_adicionais_formacao_cargos1_idx`;
 ALTER TABLE `form_cargos_adicionais` DROP INDEX `fk_form_cargos_adicionais_form_cadastros1_idx`;
+ALTER TABLE `form_cargos_adicionais` DROP INDEX `formCargo_cargoAdicional1_idx`;
+
 ALTER TABLE capac_new.form_cargos_adicionais DROP FOREIGN KEY formCargo_cargoAdicional1;
 ALTER TABLE capac_new.form_cargos_adicionais DROP FOREIGN KEY fk_formacao_cargos_adicionais_formacao_cargos1;
+ALTER TABLE capac_new.form_cargos_adicionais DROP FOREIGN KEY fk_form_cargos_adicionais_form_cadastros1;
 
 DROP TABLE `cargo_programa`;
 
