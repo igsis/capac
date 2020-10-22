@@ -6,7 +6,7 @@ $formacaoObj = new FormacaoController();
 
 $idFormacao = $_SESSION['formacao_id_c'];
 
-$form_cargo_id = $formacaoObj->recuperaFormacao($_SESSION['ano_c'], false, $idFormacao)->fetchObject()->form_cargo_id;
+$form_cargo_id = $formacaoObj->recuperaFormacao($_SESSION['ano_c'], false, $idFormacao)->form_cargo_id;
 ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">

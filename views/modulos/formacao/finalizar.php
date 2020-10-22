@@ -13,8 +13,8 @@ $form_cadastro_id = $_SESSION['formacao_id_c'];
 $pessoa_fisica_id = $_SESSION['origem_id_c'];
 $pf = $pfObj->recuperaPessoaFisica($pessoa_fisica_id);
 
-$form = $formObj->recuperaFormacao($ano, false, $form_cadastro_id)->fetch(PDO::FETCH_ASSOC);
-$validacoesPrograma = $formObj->validaForm($form_cadastro_id, $pessoa_fisica_id, $form['form_cargo_id']);
+$form = $formObj->recuperaFormacao($ano, false, $form_cadastro_id);
+$validacoesPrograma = $formObj->validaForm($form_cadastro_id, $pessoa_fisica_id, $form->form_cargo_id);
 ?>
 
 <!-- Content Header (Page header) -->
@@ -129,29 +129,29 @@ $validacoesPrograma = $formObj->validaForm($form_cadastro_id, $pessoa_fisica_id,
                         <h5><b>Detalhes do programa</b></h5>
                         <hr/>
                         <div class="row">
-                            <div class="col"><b>Ano de execução do serviço:</b> <?= $form['ano'] ?></div>
+                            <div class="col"><b>Ano de execução do serviço:</b> <?= $form->ano ?></div>
                         </div>
                         <div class="row">
-                            <div class="col"><b>Região preferencial:</b> <?= $form['regiao'] ?></div>
+                            <div class="col"><b>Região preferencial:</b> <?= $form->regiao ?></div>
                         </div>
                         <div class="row">
-                            <div class="col"><b>Cargo:</b> <?= $form['cargo1'] ?></div>
+                            <div class="col"><b>Cargo:</b> <?= $form->cargo1 ?></div>
                         </div>
-                        <?php if ($form['cargo2']): ?>
+                        <?php if ($form->cargo2): ?>
                             <div class="row">
-                                <div class="col"><b>Cargo (2º Opção):</b> <?= $form['cargo2'] ?></div>
+                                <div class="col"><b>Cargo (2º Opção):</b> <?= $form->cargo2 ?></div>
                             </div>
                         <?php endif ?>
-                        <?php if ($form['cargo3']): ?>
+                        <?php if ($form->cargo3): ?>
                             <div class="row">
-                                <div class="col"><b>Cargo (3º Opção):</b> <?= $form['cargo3'] ?></div>
+                                <div class="col"><b>Cargo (3º Opção):</b> <?= $form->cargo3 ?></div>
                             </div>
                         <?php endif ?>
                         <div class="row">
-                            <div class="col"><b>Programa:</b> <?= $form['programa'] ?></div>
+                            <div class="col"><b>Programa:</b> <?= $form->programa ?></div>
                         </div>
                         <div class="row">
-                            <div class="col"><b>Linguagem:</b> <?= $form['linguagem'] ?></div>
+                            <div class="col"><b>Linguagem:</b> <?= $form->linguagem ?></div>
                         </div>
                     </div>
                     <div class="card-footer" id="cardFooter">

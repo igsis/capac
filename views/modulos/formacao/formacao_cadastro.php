@@ -8,10 +8,9 @@ $formObj = new FormacaoController();
 $ano = $_SESSION['ano_c'];
 
 if ($id) {
-    $form = $formObj->recuperaFormacao($ano, false, $id)->fetch(PDO::FETCH_ASSOC);
-    // var_dump($form);
+    $form = $formObj->recuperaFormacao($ano, false, $id);
     $idPf = $_SESSION['origem_id_c'];
-    $form = $formObj->recuperaFormacao($ano, $idPf)->fetch(PDO::FETCH_ASSOC);
+    $form = $formObj->recuperaFormacao($ano, $idPf);
 }
 ?>
 
@@ -53,7 +52,7 @@ if ($id) {
                                     <select class="form-control" id="regiao_preferencial_id" name="regiao_preferencial_id" required>
                                         <option value="">Selecione uma opção...</option>
                                         <?php
-                                        $formObj->geraOpcao("form_regioes_preferenciais",$form['regiao_preferencial_id']);
+                                        $formObj->geraOpcao("form_regioes_preferenciais",$form->regiao_preferencial_id);
                                         ?>
                                     </select>
                                 </div>
@@ -62,7 +61,7 @@ if ($id) {
                                     <select class="form-control" id="programa" name="programa_id" required>
                                         <option value="">Selecione uma opção...</option>
                                         <?php
-                                        $formObj->geraOpcao("siscontrat.programas",$form['programa_id'] ?? "", true);
+                                        $formObj->geraOpcao("siscontrat.programas",$form->programa_id ?? "", true);
                                         ?>
                                     </select>
                                 </div>
@@ -71,7 +70,7 @@ if ($id) {
                                     <select class="form-control" id="linguagem_id" name="linguagem_id" required>
                                         <option value="">Selecione uma opção...</option>
                                         <?php
-                                        $formObj->geraOpcao("siscontrat.linguagens",$form['linguagem_id'], TRUE);
+                                        $formObj->geraOpcao("siscontrat.linguagens",$form->linguagem_id, TRUE);
                                         ?>
                                     </select>
                                 </div>
@@ -127,10 +126,10 @@ if ($id) {
     let cargo2 = document.querySelector('#cargo2');
 
     if (programa.value != '') {
-        let idPrograma = <?= $form['programa_id'] ?? "false" ?>;
-        let idCargo1 = <?= $form['form_cargo_id'] ?? "false" ?>;
-        let idCargo2 = <?= $form['form_cargo2_id'] ?? "false" ?>;
-        let idCargo3 = <?= $form['form_cargo3_id'] ?? "false" ?>;
+        let idPrograma = <?= $form->programa_id ?? "false" ?>;
+        let idCargo1 = <?= $form->form_cargo_id ?? "false" ?>;
+        let idCargo2 = <?= $form->form_cargo2_id ?? "false" ?>;
+        let idCargo3 = <?= $form->form_cargo3_id ?? "false" ?>;
         getCargos(idPrograma, idCargo1, idCargo2, idCargo3);
     }
 

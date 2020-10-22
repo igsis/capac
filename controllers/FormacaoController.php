@@ -135,7 +135,7 @@ class FormacaoController extends FormacaoModel
         $idDecrypt = MainModel::decryption($id);
         $dados['id'] = $idDecrypt;
 
-        $cargo2 = self::recuperaFormacao($_SESSION['ano_c'], false, $id)->fetchObject()->form_cargo2_id;
+        $cargo2 = self::recuperaFormacao($_SESSION['ano_c'], false, $id)->form_cargo2_id;
 
         /* executa limpeza nos campos */
         foreach ($_POST as $campo => $post) {
@@ -211,36 +211,36 @@ class FormacaoController extends FormacaoModel
             $formacao_id = MainModel::decryption($formacao_id);
             $busca = "fcad.id = '$formacao_id'";
         }
-        return DbModel::consultaSimples("
-            SELECT
-                fcad.id,
-                fcad.protocolo,
-                fcad.pessoa_fisica_id,
-                fcad.ano,
-                fcad.regiao_preferencial_id,
-                fcad.data_envio,
-                frp.regiao,
-                fcad.programa_id,
-                fp.programa,
-                fcad.linguagem_id,
-                fl.linguagem,
-                fcad.form_cargo_id,
-                fc.cargo AS 'cargo1',
-                fcad.usuario_id,
-                fca.form_cargo2_id,
-                fc2.cargo AS 'cargo2',
-                fca.form_cargo3_id,
-                fc3.cargo AS 'cargo3'
-            FROM capac_new.form_cadastros AS fcad
-            LEFT JOIN form_regioes_preferenciais frp on fcad.regiao_preferencial_id = frp.id
-            LEFT JOIN siscontrat.programas fp on fcad.programa_id = fp.id
-            LEFT JOIN siscontrat.linguagens fl on fcad.linguagem_id = fl.id
-            LEFT JOIN siscontrat.formacao_cargos fc on fcad.form_cargo_id = fc.id
-            LEFT JOIN form_cargos_adicionais fca on fcad.id = fca.form_cadastro_id
-            LEFT JOIN siscontrat.formacao_cargos fc2 on fca.form_cargo2_id = fc2.id
-            LEFT JOIN siscontrat.formacao_cargos fc3 on fca.form_cargo3_id = fc3.id
-            WHERE fcad.publicado = 1 AND $busca
-        ");
+
+        $sql = "SELECT
+                    fcad.id,
+                    fcad.protocolo,
+                    fcad.pessoa_fisica_id,
+                    fcad.ano,
+                    fcad.regiao_preferencial_id,
+                    fcad.data_envio,
+                    frp.regiao,
+                    fcad.programa_id,
+                    fcad.linguagem_id,
+                    fcad.form_cargo_id,
+                    fcad.usuario_id,
+                    fca.form_cargo2_id,
+                    fca.form_cargo3_id
+                FROM capac_new.form_cadastros AS fcad
+                LEFT JOIN form_regioes_preferenciais frp on fcad.regiao_preferencial_id = frp.id
+                LEFT JOIN form_cargos_adicionais fca on fcad.id = fca.form_cadastro_id
+                WHERE fcad.publicado = 1 AND $busca";
+        $formacao = DbModel::consultaSimples($sql)->fetchObject();
+
+        if ($formacao) {
+            $formacao->programa = parent::getPrograma($formacao->programa_id);
+            $formacao->linguagem = parent::getLinguagem($formacao->linguagem_id);
+            $formacao->cargo1 = parent::getCargo($formacao->form_cargo_id);
+            $formacao->cargo2 = ($formacao->form_cargo2_id) ? parent::getCargo($formacao->form_cargo2_id) : NULL;
+            $formacao->cargo3 = ($formacao->form_cargo3_id) ? parent::getCargo($formacao->form_cargo3_id) : NULL;
+        }
+
+        return $formacao;
     }
 
     public function recuperaAnoReferenciaAtual($idEdital)

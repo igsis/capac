@@ -12,11 +12,11 @@ $id = $_GET['id'];
 $ano = $_GET['ano'];
 require_once "../controllers/FormacaoController.php";
 $formacaoObj = new FormacaoController();
-$formacao = $formacaoObj->recuperaFormacao($ano, false, $id)->fetch(PDO::FETCH_ASSOC);
+$formacao = $formacaoObj->recuperaFormacao($ano, false, $id);
 
 require_once "../controllers/PessoaFisicaController.php";
 $pfObj = new PessoaFisicaController();
-$pf = $pfObj->recuperaPessoaFisica((new MainModel)->encryption($formacao['pessoa_fisica_id']));
+$pf = $pfObj->recuperaPessoaFisica((new MainModel)->encryption($formacao->pessoa_fisica_id));
 $pfDados = $pfObj->recuperaPfDetalhes($pf['id'])->fetch(PDO::FETCH_ASSOC);
 
 class PDF extends FPDF
@@ -57,7 +57,7 @@ $pdf->Cell(50, $l, utf8_decode("Protocolo"), 'TLR', 1, 'C');
 $pdf->SetX($x);
 $pdf->SetFont('Arial', '', $f);
 $pdf->Cell(120, $l, utf8_decode(""), '0', 0, 'L');
-$pdf->Cell(50, $l, utf8_decode($formacao['protocolo']), 'BLR', 1, 'C');
+$pdf->Cell(50, $l, utf8_decode($formacao->protocolo), 'BLR', 1, 'C');
 
 $pdf->Ln(10);
 
@@ -144,46 +144,46 @@ $pdf->SetX($x);
 $pdf->SetFont('Arial', 'B', $f);
 $pdf->Cell(20, $l, utf8_decode("Programa:"), 0, 0, 'L');
 $pdf->SetFont('Arial', '', $f);
-$pdf->Cell(20, $l, utf8_decode($formacao['programa']), 0, 1, 'L');
+$pdf->Cell(20, $l, utf8_decode($formacao->programa), 0, 1, 'L');
 
 $pdf->SetX($x);
 $pdf->SetFont('Arial', 'B', $f);
 $pdf->Cell(23, $l, utf8_decode("Linguagem:"), 0, 0, 'L');
 $pdf->SetFont('Arial', '', $f);
-$pdf->Cell(20, $l, utf8_decode($formacao['linguagem']), 0, 1, 'L');
+$pdf->Cell(20, $l, utf8_decode($formacao->linguagem), 0, 1, 'L');
 
 $pdf->SetX($x);
 $pdf->SetFont('Arial', 'B', $f);
 $pdf->Cell(55, $l, utf8_decode("Ano de execução do serviço:"), 0, 0, 'L');
 $pdf->SetFont('Arial', '', $f);
-$pdf->Cell(20, $l, utf8_decode($formacao['ano']), 0, 1, 'L');
+$pdf->Cell(20, $l, utf8_decode($formacao->ano), 0, 1, 'L');
 
 $pdf->SetX($x);
 $pdf->SetFont('Arial', 'B', $f);
 $pdf->Cell(38, $l, utf8_decode("Região preferencial:"), 0, 0, 'L');
 $pdf->SetFont('Arial', '', $f);
-$pdf->Cell(20, $l, utf8_decode($formacao['regiao']), 0, 1, 'L');
+$pdf->Cell(20, $l, utf8_decode($formacao->regiao), 0, 1, 'L');
 
 $pdf->SetX($x);
 $pdf->SetFont('Arial', 'B', $f);
 $pdf->Cell(13, $l, utf8_decode("Cargo:"), 0, 0, 'L');
 $pdf->SetFont('Arial', '', $f);
-$pdf->Cell(20, $l, utf8_decode($formacao['cargo1']), 0, 1, 'L');
+$pdf->Cell(20, $l, utf8_decode($formacao->cargo1), 0, 1, 'L');
 
-if ($formacao['cargo2']) {
+if ($formacao->cargo2) {
     $pdf->SetX($x);
     $pdf->SetFont('Arial', 'B', $f);
     $pdf->Cell(33, $l, utf8_decode("Cargo (2º opção):"), 0, 0, 'L');
     $pdf->SetFont('Arial', '', $f);
-    $pdf->Cell(20, $l, utf8_decode($formacao['cargo2']), 0, 1, 'L');
+    $pdf->Cell(20, $l, utf8_decode($formacao->cargo2), 0, 1, 'L');
 }
 
-if ($formacao['cargo3']) {
+if ($formacao->cargo3) {
     $pdf->SetX($x);
     $pdf->SetFont('Arial', 'B', $f);
     $pdf->Cell(33, $l, utf8_decode("Cargo (3º opção):"), 0, 0, 'L');
     $pdf->SetFont('Arial', '', $f);
-    $pdf->Cell(20, $l, utf8_decode($formacao['cargo3']), 0, 1, 'L');
+    $pdf->Cell(20, $l, utf8_decode($formacao->cargo3), 0, 1, 'L');
 }
 
 $pdf->Ln(20);
@@ -194,6 +194,6 @@ $pdf->Cell(170, $l, utf8_decode("Cadastro enviado em:"), 0, 1, 'C');
 
 $pdf->SetX($x);
 $pdf->SetFont('Arial', '', $f);
-$pdf->Cell(170, $l, date("d/m/Y H:i:s", strtotime($formacao['data_envio'])), 0, 1, 'C');
+$pdf->Cell(170, $l, date("d/m/Y H:i:s", strtotime($formacao->data_envio)), 0, 1, 'C');
 
 $pdf->Output();
