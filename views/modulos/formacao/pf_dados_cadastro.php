@@ -150,7 +150,7 @@ if (isset($_POST['pf_cpf'])){
                                            value="<?= $pf['drt'] ?? '' ?>">
                                 </div>
                                 <div class="form-group col-md">
-                                    <label for="grau_instrucao">Grau de instrução: </label>
+                                    <label for="grau_instrucao">Grau de instrução: *</label>
                                     <select class="form-control select2bs4" style="width: 100%;" id="grau_instrucao" name="dt_grau_instrucao_id" required>
                                         <option value="">Selecione uma opção...</option>
                                         <?php
@@ -159,7 +159,7 @@ if (isset($_POST['pf_cpf'])){
                                     </select>
                                 </div>
                                 <div class="form-group col-md">
-                                    <label for="etnia">Etnia: </label>
+                                    <label for="etnia">Etnia: *</label>
                                     <select class="form-control select2bs4" style="width: 100%;" id="etnia" name="dt_etnia_id" required>
                                         <option value="">Selecione uma opção...</option>
                                         <?php
@@ -168,7 +168,7 @@ if (isset($_POST['pf_cpf'])){
                                     </select>
                                 </div>
                                 <div class="form-group col-md">
-                                    <label for="genero">Gênero: </label>
+                                    <label for="genero">Gênero: *</label>
                                     <select class="form-control select2bs4" style="width: 100%;" id="genero" name="dt_genero_id" required>
                                         <option value="">Selecione uma opção...</option>
                                         <?php
