@@ -14,6 +14,20 @@ class FormacaoController extends FormacaoModel
         return MainModel::consultaSimples("SELECT * FROM form_aberturas WHERE publicado = 1 ORDER BY data_publicacao DESC;")->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function cadastroEncerrado($ano)
+    {
+        $now = date('Y-m-d H:i:s');
+
+        $sql = "SELECT data_encerramento FROM form_aberturas WHERE data_abertura IS NOT NULL AND ano_referencia = '$ano' LIMIT 0,1";
+        $dataEncerramento = MainModel::consultaSimples($sql)->fetchColumn();
+
+        if ($now <= $dataEncerramento) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public function verificaCadastroNoAno($usuario_id, $ano)
     {
         return DbModel::consultaSimples("SELECT id FROM form_cadastros WHERE usuario_id = '$usuario_id' AND ano = '$ano' AND publicado = '1'")->rowCount();

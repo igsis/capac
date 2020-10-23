@@ -8,6 +8,8 @@ $formObj = new FormacaoController();
 $ano = $_SESSION['ano_c'];
 $form_cadastro_id = $_SESSION['formacao_id_c'];
 
+$cadastroEncerrado = $formObj->cadastroEncerrado($ano);
+
 /* ************** Pessoa Física ************** */
 
 $pessoa_fisica_id = $_SESSION['origem_id_c'];
@@ -154,25 +156,31 @@ $validacoesPrograma = $formObj->validaForm($form_cadastro_id, $pessoa_fisica_id,
                             <div class="col"><b>Linguagem:</b> <?= $form->linguagem ?></div>
                         </div>
                     </div>
-                    <div class="card-footer" id="cardFooter">
-                        <?php if (!$validacoesPrograma): ?>
-                            <form class="form-horizontal formulario-ajax" method="POST"
-                                  action="<?= SERVERURL ?>ajax/formacaoAjax.php" role="form" data-form="update"
-                                  id="formEnviar">
-                                <input type="hidden" name="_method" value="envioFormacao">
-                                <input type="hidden" name="id" value="<?= $form_cadastro_id ?>">
-                                <button type="submit" class="btn btn-success btn-block float-right" id="cadastra">
-                                    Enviar
+                    <?php if (!$cadastroEncerrado): ?>
+                        <div class="card-footer" id="cardFooter">
+                            <?php if (!$validacoesPrograma): ?>
+                                <form class="form-horizontal formulario-ajax" method="POST"
+                                      action="<?= SERVERURL ?>ajax/formacaoAjax.php" role="form" data-form="update"
+                                      id="formEnviar">
+                                    <input type="hidden" name="_method" value="envioFormacao">
+                                    <input type="hidden" name="id" value="<?= $form_cadastro_id ?>">
+                                    <button type="submit" class="btn btn-success btn-block float-right" id="cadastra">
+                                        Enviar
+                                    </button>
+                                    <div class="resposta-ajax"></div>
+                                </form>
+                            <?php else: ?>
+                                <button class="btn btn-warning btn-block float-right">
+                                    Você possui pendencias em seu cadastro. Verifique-as no topo da tela para poder
+                                    envia-lo
                                 </button>
-                                <div class="resposta-ajax"></div>
-                            </form>
-                        <?php else: ?>
-                            <button class="btn btn-warning btn-block float-right">
-                                Você possui pendencias em seu cadastro. Verifique-as no topo da tela para poder envia-lo
-                            </button>
-                        <?php endif ?>
-                    </div>
-
+                            <?php endif ?>
+                        </div>
+                    <?php else: ?>
+                        <button class="btn btn-danger btn-block float-right">
+                            O período para inscrições está encerrado.
+                        </button>
+                    <?php endif ?>
                 </div>
             </div>
             <!-- /.col-md-6 -->
