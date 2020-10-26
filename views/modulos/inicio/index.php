@@ -92,8 +92,8 @@
                                                     </a>
                                                 </div>
                                                 <div class="col-6">
-                                                    <a href="http://<?= $_SERVER['HTTP_HOST'] ?>/igsiscapac/login.php">
-                                                        <div class="btn info-box bg-teal" id="formacao">
+                                                    <a href="formacao_edital">
+                                                        <div class="btn info-box bg-teal">
                                                             <span class="info-box-icon"><i class="fas fa-child"></i></span>
                                                             <div class="card-body">
                                                                 <span class="info-box-number">Formação</span>
@@ -117,31 +117,3 @@
         </div>
     </div>
 </div>
-
-<!-- Modal Formação -->
-<div class="modal fade" id="modalFormacao" style="display: none" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Ações (Expressões Artístico-culturais)</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            </div>
-            <div class="modal-body" style="text-align: left;">
-                Aeoo
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-theme" data-dismiss="modal">Fechar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    $('#formacao').on('click', function () {
-        $('#modalFormacao').modal();
-    });
-
-    $(document).ready(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-    });
-</script>

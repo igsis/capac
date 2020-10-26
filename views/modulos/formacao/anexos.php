@@ -1,11 +1,12 @@
 <?php
 require_once "./controllers/ArquivoController.php";
+require_once "./controllers/FormacaoController.php";
 $arquivosObj = new ArquivoController();
+$formacaoObj = new FormacaoController();
 
-$tipo_documento_id = 6;
-$proponente_id = $_SESSION['origem_id_c'];
+$idFormacao = $_SESSION['formacao_id_c'];
 
-$lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id)->fetchAll(PDO::FETCH_COLUMN);
+$form_cargo_id = $formacaoObj->recuperaFormacao($_SESSION['ano_c'], false, $idFormacao)->form_cargo_id;
 ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -36,7 +37,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                     <div class="card-body">
                         <ul>
                             <li><strong>Formato Permitido:</strong> PDF</li>
-                            <li><strong>Tamanho Máximo:</strong> 6Mb</li>
+                            <li><strong>Tamanho Máximo:</strong> 05MB</li>
                             <li>Clique nos arquivos após efetuar o upload e confira a exibição do documento!</li>
                         </ul>
                     </div>
@@ -45,7 +46,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
             </div>
         </div>
         <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <!-- Horizontal Form -->
                 <div class="card card-info">
                     <div class="card-header">
@@ -53,24 +54,34 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                     </div>
                     <!-- /.card-header -->
                     <!-- table start -->
-                    <div class="card-body p-0">
+                    <div id="lista-arquivos" class="card-body p-0">
                         <form class="formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/arquivosAjax.php"
                               data-form="save" enctype="multipart/form-data">
                             <input type="hidden" name="_method" value="enviarArquivo">
-                            <input type="hidden" name="origem_id" value="<?= $proponente_id ?>">
-                            <input type="hidden" name="pagina" value="formacao/anexos_proponente">
+                            <input type="hidden" name="origem_id" value="<?= $idFormacao ?>">
+                            <input type="hidden" name="pagina" value="<?= $_GET['views'] ?>">
                             <table class="table table-striped">
                                 <tbody>
                                 <?php
-                                $arquivos = $arquivosObj->listarArquivos($tipo_documento_id)->fetchAll(PDO::FETCH_OBJ);
+                                $cont = 0;
+                                $arquivos = $arquivosObj->listarArquivosFormacao($form_cargo_id)->fetchAll(PDO::FETCH_OBJ);
                                 foreach ($arquivos as $arquivo) {
-                                    if (!($arquivosObj->consultaArquivoEnviado($arquivo->id, $proponente_id))) {
+                                    $obrigatorio = $arquivo->obrigatorio == 0 ? "[Opcional]" : "*";
+                                    if ($arquivosObj->consultaArquivoEnviadoFormacao($arquivo->id, $idFormacao)) {
                                         ?>
-                                        <tr class="d-flex flex-column">
-                                            <td>
-                                                <label for=""><?= $arquivo->documento ?></label>
+                                        <tr>
+                                            <td colspan="2">
+                                                <div class="callout callout-success text-center">
+                                                    Arquivo <strong><?="$arquivo->documento" ?></strong> já enviado!
+                                                </div>
                                             </td>
-                                            <td class="border-top-0">
+                                        </tr>
+                                    <?php } else { ?>
+                                        <tr>
+                                            <td>
+                                                <label for=""><?= "$arquivo->documento $obrigatorio" ?></label>
+                                            </td>
+                                            <td>
                                                 <input type="hidden" name="<?= $arquivo->sigla ?>"
                                                        value="<?= $arquivo->id ?>">
                                                 <input class="text-center" type='file'
@@ -78,9 +89,17 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                                             </td>
                                         </tr>
                                         <?php
+                                        $cont++;
                                     }
                                 }
-                                ?>
+
+                                if ($cont == 0): ?>
+                                    <tr>
+                                        <td colspan="2">
+                                            Todos os arquivos já foram enviados!
+                                        </td>
+                                    </tr>
+                                <?php endif; ?>
                                 </tbody>
                             </table>
                             <input type="submit" class="btn btn-success btn-md btn-block" name="enviar" value='Enviar'>
@@ -91,8 +110,9 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                 </div>
                 <!-- /.card -->
             </div>
+
             <!-- /.col -->
-            <div class="col-md-7">
+            <div class="col-md-6">
                 <!-- Horizontal Form -->
                 <div class="card card-info">
                     <div class="card-header">
@@ -101,7 +121,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                     <!-- /.card-header -->
                     <!-- table start -->
                     <div class="card-body p-0">
-                        <table class="table table-striped table-responsive">
+                        <table class="table table-striped">
                             <thead>
                             <tr>
                                 <th>Tipo do documento</th>
@@ -112,12 +132,12 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
                             </thead>
                             <tbody>
                             <?php
-                            $arquivosEnviados = $arquivosObj->listarArquivosEnviados($proponente_id, $lista_documento_ids)->fetchAll(PDO::FETCH_OBJ);
-                            if (count($arquivosEnviados) != 0) {
+                            $arquivosEnviados = $arquivosObj->listarArquivosEnviadosFormacao($idFormacao);
+                            if ($arquivosEnviados) {
                                 foreach ($arquivosEnviados as $arquivo) {
                                     ?>
                                     <tr>
-                                        <td><?= $arquivo->documento ?></td>
+                                        <td><?= "$arquivo->documento" ?></td>
                                         <td><a href="<?= SERVERURL . "uploads/" . $arquivo->arquivo ?>"
                                                target="_blank"><?= mb_strimwidth($arquivo->arquivo, '15', '25', '...') ?></a>
                                         </td>
@@ -168,7 +188,7 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
             showCancelButton: false,
             confirmButtonText: 'Confirmar'
         }).then(function () {
-            window.open('<?=$url?>', '_blank');
+            window.open('<?= SERVERURL ?>', '_blank');
         });
     }
 </script>
@@ -176,7 +196,6 @@ $lista_documento_ids = $arquivosObj->recuperaIdListaDocumento($tipo_documento_id
 <script type="application/javascript">
     $(document).ready(function () {
         $('.nav-link').removeClass('active');
-        $('#itens-proponente').addClass('menu-open');
-        $('#anexos-proponente').addClass('active');
+        $('#anexos').addClass('active');
     })
 </script>

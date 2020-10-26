@@ -6,10 +6,10 @@
 ?>
 <!-- Brand Logo -->
 <!-- TODO: Encontrar forma para que o link abaixo retorne ao módulo correto -->
-<a href="<?= SERVERURL ?>fomentos" class="brand-link">
+<div class="brand-link">
     <img src="<?= SERVERURL ?>views/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
     <span class="brand-text font-weight-light"><?= NOMESIS ?></span>
-</a>
+</div>
 
 <!-- Sidebar -->
 <div class="sidebar">

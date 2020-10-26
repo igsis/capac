@@ -33,7 +33,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- jQuery -->
     <script src="<?= SERVERURL ?>views/plugins/jquery/jquery.min.js"></script>
     <link rel="shortcut icon" href="<?= SERVERURL ?>views/dist/img/AdminLTELogo.png" />
-
+    <!-- Select2 -->
+    <link rel="stylesheet" href="<?= SERVERURL ?>views/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="<?= SERVERURL ?>views/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <style>
+        a.btn, a.btn:hover{
+            color: #fff;
+        }
+    </style>
 </head>
 <!--<body class="hold-transition login-page">-->
 <body class="hold-transition sidebar-mini">
@@ -48,6 +55,8 @@ elseif ($view == 'cadastro'):
     require_once "./views/modulos/inicio/cadastro.php";
 elseif ($view == 'fomento_edital'):
     require_once "./views/modulos/inicio/fomento_edital.php";
+elseif ($view == 'formacao_edital'):
+    require_once "./views/modulos/inicio/formacao_edital.php";
 elseif ($view == 'recupera_senha'):
     require_once "./views/modulos/inicio/recupera_senha.php";
 elseif($view == 'resete_senha'):
@@ -114,6 +123,20 @@ else:
 <script src="<?= SERVERURL ?>views/plugins/datatables/dataTables.bootstrap4.js"></script>
 <!-- date-range-picker -->
 <script src="<?= SERVERURL ?>views/plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Select2 -->
+<script src="<?= SERVERURL ?>views/plugins/select2/js/select2.full.min.js"></script>
+<script src="<?= SERVERURL ?>views/plugins/select2/js/i18n/pt-BR.js" type="text/javascript"></script>
+<script>
+    $(document).ready(function (){
+        //Initialize Select2 Elements
+        $('.select2').select2();
 
+        $('.select2bs4').select2({
+            theme: 'bootstrap4',
+            language: 'pt-BR'
+        });
+    });
+</script>
+<?= (isset($javascript)) ? $javascript : ''; ?>
 </body>
 </html>

@@ -43,6 +43,7 @@ class ViewsModel
             'evento_lista',
             'finalizar',
             'fomento_edital',
+            'formacao_edital',
             'informacoes_complementares_cadastro',
             'inicio',
             'lider',
@@ -63,7 +64,12 @@ class ViewsModel
             'recupera_senha',
             'resete_senha',
             'nucleo_artistico_lista',
-            'nucleo_artistico_cadastro'
+            'nucleo_artistico_cadastro',
+            'pf_busca',
+            'pf_dados_cadastro',
+            'pf_endereco_cadastro',
+            'pf_banco_cadastro',
+            'formacao_cadastro'
         ];
         if (self::verificaModulo($modulo)) {
             if (in_array($view, $whitelist)) {
@@ -83,6 +89,8 @@ class ViewsModel
             $conteudo = "login";
         } elseif ($modulo == "fomento_edital") {
             $conteudo = "fomento_edital";
+        } elseif ($modulo == "formacao_edital") {
+            $conteudo = "formacao_edital";
         } elseif ($modulo == "recupera_senha") {
             $conteudo = "recupera_senha";
         } elseif ($modulo == "resete_senha") {
@@ -100,8 +108,17 @@ class ViewsModel
             if (is_file("./views/modulos/$modulo/include/menu.php")) {
                 $menu = "./views/modulos/$modulo/include/menu.php";
             } else {
-                /** @TODO: Encontrar forma para que a edição de conta retorne ao módulo correto */
-                $menu = "./views/modulos/fomentos/include/menu.php";
+                switch ($_SESSION['modulo_c']) {
+                    case 5:
+                        $menu = "./views/modulos/formacao/include/menu.php";
+                        break;
+                    case 6:
+                        $menu = "./views/modulos/fomentos/include/menu.php";
+                        break;
+                    default:
+                        $menu = "./views/template/menuExemplo.php";
+                        break;
+                }
             }
         } else {
             $menu = "./views/template/menuExemplo.php";

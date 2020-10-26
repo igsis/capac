@@ -1,17 +1,9 @@
-<?php
-if (isset($_SESSION['origem_id_c'])) {
-    unset($_SESSION['origem_id_c']);
-}
-if (isset($_SESSION['pedido_id_c'])) {
-    unset($_SESSION['pedido_id_c']);
-}
-?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Cadastro</h1>
+                <h1 class="m-0 text-dark">Formação</h1>
             </div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
@@ -30,17 +22,16 @@ if (isset($_SESSION['pedido_id_c'])) {
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>formacao/pf_cadastro"
-                          role="form" id="formularioPf">
+                    <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>formacao/pf_dados_cadastro"
+                          role="form" id="formularioCPF">
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-12">
-                                    <label for="cpf">CPF: *</label>
+                                    <label for="cpf">CPF:</label>
                                     <input type="text" class="form-control" id="cpf" name="pf_cpf" maxlength="14"
                                            required onkeypress="mask(this, '999.999.999-99')" minlength="14">
-                                    <br>
-                                    <span style="display: none;" id="dialogError" class="alert alert-danger"
-                                          role="alert">CPF inválido</span>
+                                    <div id="dialogError" class="invalid-feedback">CPF inválido</div>
+                                    <div id="cadastroError" class="invalid-feedback">CPF já cadastrado para o ano do edital</div>
                                 </div>
                             </div>
 
@@ -59,9 +50,24 @@ if (isset($_SESSION['pedido_id_c'])) {
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
+
 <script type="application/javascript">
     $(document).ready(function () {
         $('.nav-link').removeClass('active');
-        $('#proponente').addClass('active');
+        $('#buscaProponente').addClass('active');
+    });
+
+    $('#formularioCPF').submit(function (event) {
+        var cpf = document.querySelector('#cpf').value
+
+        if (cpf != '') {
+            var strCpf = cpf.replace(/[^0-9]/g, '');
+
+            var validado = testaCpf(strCpf);
+
+            if (!validado) {
+                event.preventDefault()
+                $('#dialogError').show();
+            }        }
     })
 </script>
