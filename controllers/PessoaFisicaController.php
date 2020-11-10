@@ -292,7 +292,7 @@ class PessoaFisicaController extends PessoaFisicaModel
 
     public function recuperaPfDetalhes($id)
     {
-        $sql = "SELECT e.descricao, g.genero, gi.grau_instrucao FROM pf_detalhes AS pd
+        $sql = "SELECT e.descricao, g.genero, gi.grau_instrucao, trans, pcd FROM pf_detalhes AS pd
                 INNER JOIN etnias AS e on pd.etnia_id = e.id
                 INNER JOIN generos AS g on pd.genero_id = g.id
                 INNER JOIN grau_instrucoes AS gi on pd.grau_instrucao_id = gi.id

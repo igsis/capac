@@ -18,6 +18,16 @@ require_once "../controllers/PessoaFisicaController.php";
 $pfObj = new PessoaFisicaController();
 $pf = $pfObj->recuperaPessoaFisica((new MainModel)->encryption($formacao->pessoa_fisica_id));
 $pfDados = $pfObj->recuperaPfDetalhes($pf['id'])->fetch(PDO::FETCH_ASSOC);
+if ($pfDados['trans'] == 1){
+    $trans = "sim";
+} else {
+    $trans = "não";
+}
+if ($pfDados['pcd'] == 1){
+    $pcd = "sim";
+} else {
+    $pcd = "não";
+}
 
 class PDF extends FPDF
 {
@@ -44,12 +54,6 @@ $f = 11; //tamanho da fonte
 $pdf->SetXY($x, 25);// SetXY - DEFINE O X (largura) E O Y (altura) NA PÁGINA
 
 $pdf->SetX($x);
-$pdf->SetFont('Arial', 'B', 14);
-$pdf->MultiCell(170, $l, utf8_decode($pf['nome']), 0, 'C');
-
-$pdf->Ln(10);
-
-$pdf->SetX($x);
 $pdf->SetFont('Arial', 'B', $f);
 $pdf->Cell(120, $l, utf8_decode(""), '0', 0, 'L');
 $pdf->Cell(50, $l, utf8_decode("Protocolo"), 'TLR', 1, 'C');
@@ -62,7 +66,10 @@ $pdf->Cell(50, $l, utf8_decode($formacao->protocolo), 'BLR', 1, 'C');
 $pdf->Ln(10);
 
 $pdf->SetX($x);
+$pdf->SetFont('Arial', 'B', 14);
+$pdf->MultiCell(170, $l, utf8_decode("Dados Pessoais"), "B", 'C');
 
+$pdf->SetX($x);
 $pdf->SetFont('Arial', 'B', $f);
 $pdf->Cell(14, $l, utf8_decode("Nome:"), 0, 0, 'L');
 $pdf->SetFont('Arial', '', $f);
@@ -70,33 +77,33 @@ $pdf->Cell(20, $l, utf8_decode($pf['nome']), 0, 1, 'L');
 
 $pdf->SetX($x);
 $pdf->SetFont('Arial', 'B', $f);
-$pdf->Cell(11, $l, utf8_decode("CPF:"), 0, 0, 'L');
+$pdf->Cell(29, $l, utf8_decode("Nome artístico:"), 0, 0, 'L');
 $pdf->SetFont('Arial', '', $f);
-$pdf->Cell(20, $l, utf8_decode($pf['cpf']), 0, 1, 'L');
+$pdf->Cell(20, $l, utf8_decode($pf['nome_artistico']), 0, 1, 'L');
 
 $pdf->SetX($x);
 $pdf->SetFont('Arial', 'B', $f);
-$pdf->Cell(16, $l, utf8_decode("Gênero:"), 0, 0, 'L');
+$pdf->Cell(8, $l, utf8_decode("RG:"), 0, 0, 'L');
 $pdf->SetFont('Arial', '', $f);
-$pdf->Cell(20, $l, utf8_decode($pfDados['genero']), 0, 1, 'L');
-
-$pdf->SetX($x);
+$pdf->Cell(50, $l, utf8_decode($pf['rg']), 0, 0, 'L');
 $pdf->SetFont('Arial', 'B', $f);
-$pdf->Cell(25, $l, utf8_decode("Raça ou cor:"), 0, 0, 'L');
+$pdf->Cell(10, $l, utf8_decode("CPF:"), 0, 0, 'L');
 $pdf->SetFont('Arial', '', $f);
-$pdf->Cell(20, $l, utf8_decode($pfDados['descricao']), 0, 1, 'L');
+$pdf->Cell(50, $l, utf8_decode($pf['cpf']), 0, 0, 'L');
+$pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(10, $l, utf8_decode("CCM:"), 0, 0, 'L');
+$pdf->SetFont('Arial', '', $f);
+$pdf->Cell(20, $l, utf8_decode($pf['ccm']), 0, 1, 'L');
 
 $pdf->SetX($x);
 $pdf->SetFont('Arial', 'B', $f);
 $pdf->Cell(39, $l, utf8_decode("Data de nascimento:"), 0, 0, 'L');
 $pdf->SetFont('Arial', '', $f);
-$pdf->Cell(20, $l, date("d/m/Y", strtotime($pf['data_nascimento'])), 0, 1, 'L');
-
-$pdf->SetX($x);
+$pdf->Cell(55, $l, date("d/m/Y", strtotime($pf['data_nascimento'])), 0, 0, 'L');
 $pdf->SetFont('Arial', 'B', $f);
-$pdf->Cell(27, $l, utf8_decode("Escolaridade:"), 0, 0, 'L');
+$pdf->Cell(29, $l, utf8_decode("Nacionalidade:"), 0, 0, 'L');
 $pdf->SetFont('Arial', '', $f);
-$pdf->Cell(20, $l, utf8_decode($pfDados['grau_instrucao']), 0, 1, 'L');
+$pdf->Cell(20, $l, utf8_decode($pf['nacionalidade']), 0, 1, 'L');
 
 $pdf->SetX($x);
 $pdf->SetFont('Arial', 'B', $f);
@@ -109,6 +116,40 @@ $pdf->SetFont('Arial', 'B', $f);
 $pdf->Cell(21, $l, utf8_decode("Telefones:"), 0, 0, 'L');
 $pdf->SetFont('Arial', '', $f);
 $pdf->Cell(20, $l, utf8_decode(isset($pf['telefones']) ? implode(" | ", $pf['telefones']) : ""), 0, 1, 'L');
+
+$pdf->SetX($x);
+$pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(9, $l, utf8_decode("NIT:"), 0, 0, 'L');
+$pdf->SetFont('Arial', '', $f);
+$pdf->Cell(50, $l, utf8_decode($pf['nit']), 0, 0, 'L');
+$pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(11, $l, utf8_decode("DRT:"), 0, 0, 'L');
+$pdf->SetFont('Arial', '', $f);
+$pdf->Cell(20, $l, utf8_decode($pf['drt']), 0, 1, 'L');
+
+$pdf->SetX($x);
+$pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(36, $l, utf8_decode("Grau de instrução:"), 0, 0, 'L');
+$pdf->SetFont('Arial', '', $f);
+$pdf->Cell(20, $l, utf8_decode($pfDados['grau_instrucao']), 0, 1, 'L');
+
+$pdf->SetX($x);
+$pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(12, $l, utf8_decode("Etnia:"), 0, 0, 'L');
+$pdf->SetFont('Arial', '', $f);
+$pdf->Cell(35, $l, utf8_decode($pfDados['descricao']), 0, 0, 'L');
+$pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(16, $l, utf8_decode("Gênero:"), 0, 0, 'L');
+$pdf->SetFont('Arial', '', $f);
+$pdf->Cell(40, $l, utf8_decode($pfDados['genero']), 0, 0, 'L');
+$pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(13, $l, utf8_decode("Trans:"), 0, 0, 'L');
+$pdf->SetFont('Arial', '', $f);
+$pdf->Cell(30, $l, utf8_decode($trans), 0, 0, 'L');
+$pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(11, $l, utf8_decode("PCD:"), 0, 0, 'L');
+$pdf->SetFont('Arial', '', $f);
+$pdf->Cell(20, $l, utf8_decode($trans), 0, 1, 'L');
 
 $pdf->SetX($x);
 $pdf->SetFont('Arial', 'B', $f);
@@ -138,19 +179,7 @@ $pdf->Ln(10);
 
 $pdf->SetX($x);
 $pdf->SetFont('Arial', 'B', 14);
-$pdf->MultiCell(170, $l, utf8_decode("Dados do Programa"), 0, 'C');
-
-$pdf->SetX($x);
-$pdf->SetFont('Arial', 'B', $f);
-$pdf->Cell(20, $l, utf8_decode("Programa:"), 0, 0, 'L');
-$pdf->SetFont('Arial', '', $f);
-$pdf->Cell(20, $l, utf8_decode($formacao->programa), 0, 1, 'L');
-
-$pdf->SetX($x);
-$pdf->SetFont('Arial', 'B', $f);
-$pdf->Cell(23, $l, utf8_decode("Linguagem:"), 0, 0, 'L');
-$pdf->SetFont('Arial', '', $f);
-$pdf->Cell(20, $l, utf8_decode($formacao->linguagem), 0, 1, 'L');
+$pdf->MultiCell(170, $l, utf8_decode("Dados Complementares"), "B", 'C');
 
 $pdf->SetX($x);
 $pdf->SetFont('Arial', 'B', $f);
@@ -166,14 +195,26 @@ $pdf->Cell(20, $l, utf8_decode($formacao->regiao), 0, 1, 'L');
 
 $pdf->SetX($x);
 $pdf->SetFont('Arial', 'B', $f);
-$pdf->Cell(13, $l, utf8_decode("Cargo:"), 0, 0, 'L');
+$pdf->Cell(20, $l, utf8_decode("Programa:"), 0, 0, 'L');
+$pdf->SetFont('Arial', '', $f);
+$pdf->Cell(20, $l, utf8_decode($formacao->programa), 0, 1, 'L');
+
+$pdf->SetX($x);
+$pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(23, $l, utf8_decode("Linguagem:"), 0, 0, 'L');
+$pdf->SetFont('Arial', '', $f);
+$pdf->Cell(20, $l, utf8_decode($formacao->linguagem), 0, 1, 'L');
+
+$pdf->SetX($x);
+$pdf->SetFont('Arial', 'B', $f);
+$pdf->Cell(36, $l, utf8_decode("Função (1º opção):"), 0, 0, 'L');
 $pdf->SetFont('Arial', '', $f);
 $pdf->Cell(20, $l, utf8_decode($formacao->cargo1), 0, 1, 'L');
 
 if ($formacao->cargo2) {
     $pdf->SetX($x);
     $pdf->SetFont('Arial', 'B', $f);
-    $pdf->Cell(33, $l, utf8_decode("Cargo (2º opção):"), 0, 0, 'L');
+    $pdf->Cell(36, $l, utf8_decode("Função (2º opção):"), 0, 0, 'L');
     $pdf->SetFont('Arial', '', $f);
     $pdf->Cell(20, $l, utf8_decode($formacao->cargo2), 0, 1, 'L');
 }
@@ -181,7 +222,7 @@ if ($formacao->cargo2) {
 if ($formacao->cargo3) {
     $pdf->SetX($x);
     $pdf->SetFont('Arial', 'B', $f);
-    $pdf->Cell(33, $l, utf8_decode("Cargo (3º opção):"), 0, 0, 'L');
+    $pdf->Cell(36, $l, utf8_decode("Função (3º opção):"), 0, 0, 'L');
     $pdf->SetFont('Arial', '', $f);
     $pdf->Cell(20, $l, utf8_decode($formacao->cargo3), 0, 1, 'L');
 }
