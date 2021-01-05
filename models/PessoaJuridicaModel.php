@@ -33,10 +33,6 @@ class PessoaJuridicaModel extends ValidacaoModel
                             $dadosLimpos['telefones'][$campo]['telefone'] = MainModel::limparString($post);
                         }
                         break;
-                    case "of":
-                        $campo = substr($campo, 3);
-                        $dadosLimpos['of'][$campo] = MainModel::limparString($post);
-                        break;
                 }
             }
         }

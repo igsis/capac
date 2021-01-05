@@ -15,6 +15,11 @@ class OficinaController extends OficinaModel
         return $oficina;
     }
 
+    public function listaOficina()
+    {
+        return DbModel::consultaSimples("SELECT * FROM oficinas o INNER JOIN atracoes a on o.atracao_id = a.id INNER JOIN eventos e on a.evento_id = e.id WHERE e.usuario_id = {$_SESSION['usuario_id_c']} AND e.publicado = 1 AND a.publicado = 1")->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function recuperaComplementosOficina($atracao_id)
     {
         $atracao_id = MainModel::decryption($atracao_id);

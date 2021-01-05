@@ -1,14 +1,23 @@
 <?php
-if (isset($_GET['modulo'])) {
-    $_SESSION['modulo_c'] = $_GET['modulo'];
-}
+require_once "./controllers/OficinaController.php";
+unset($_SESSION['projeto_c']);
+unset($_SESSION['origem_id_c']);
+unset($_SESSION['formacao_id_c']);
+
+$oficinaObj = new OficinaController();
+$cadastros = $oficinaObj->listaOficina();
 ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
-            <div class="col-sm-12">
-                <h1 class="m-0 text-dark">Resumo das informações para preenchimento do cadastro</h1>
+            <div class="col-sm-9">
+                <h1 class="m-0 text-dark">Lista de Cadastros</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-3">
+                <a href="<?= SERVERURL ?>oficina/pf_busca" class="btn btn-success btn-block">
+                    Adicionar
+                </a>
             </div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
@@ -21,207 +30,73 @@ if (isset($_GET['modulo'])) {
         <div class="row">
             <div class="col-md-12">
                 <!-- Horizontal Form -->
-                <p class="card-text">
-                    Inicia-se aqui um processo passo-a-passo para o preenchimento dos dados do oficineiro conforme descrito abaixo. Antes de começar, tenha disponível estas informações para que o cadastro possa ser concluído.
-                </p>
-                <div class="card card-info card-outline">
+                <div class="card card-info">
                     <div class="card-header">
-                        <h3 class="card-title">
-                            <i class="fas fa-edit"></i>
-                            Cadastro de oficineiros
-                        </h3>
+                        <h3 class="card-title">Cadastros</h3>
                     </div>
+                    <!-- /.card-header -->
                     <div class="card-body">
-                        <p class="text-info"><b>Informações iniciais</b></p>
-                        <ul>
-                            <li>Nome da oficina</li>
-                            <li>Espaço em que será realizado o evento é público? (sim ou não)</li>
-                            <li>É fomento/programa? (se sim, indicar qual)</li>
-                            <li>Público (Representatividade e Visibilidade Sócio-cultural)</li>
-                            <li>Sinopse</li>
-                            <li>Ficha técnica completa</li>
-                            <li>Integrantes</li>
-                            <li>Classificação indicativa</li>
-                            <li>Links</li>
-                        </ul>
-                        <br>
-                        <p class="text-info"><b>Dados complementares da oficina</b></p>
-                        <ul>
-                            <li>Modalidade</li>
-                            <li>Data inicial</li>
-                            <li>Data final</li>
-                            <li>Dia execução 1 (segunda, terça, quarta, etc)</li>
-                            <li>Dia execução 2 (segunda, terça, quarta, etc)</li>
-                        </ul>
-                        <br>
-                        <p class="text-info"><b>Produtor</b></p>
-                        <ul>
-                            <li>Nome</li>
-                            <li>E-mail</li>
-                            <li>Telefones</li>
-                        </ul>
-                        <br>
-                        <p class="text-info"><b>Comunicação/Produção Anexos</b></p>
-                        <ul>
-                            <li>Nesta página você envia os arquivos como o rider, mapas de cenas e luz, logos de parceiros, programação de filmes de mostras de cinema, entre outros arquivos destinados à comunicação e produção.</li>
-                        </ul>
-                        <br>
-                        <p class="text-info"><b>Proponente</b></p>
-                        <p>Escolha entre "Pessoa Física" ou "Pessoa Jurídica"</p>
-
-                        <ul class="nav nav-tabs" id="custom-content-above-tab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" id="custom-content-above-home-tab" data-toggle="pill" href="#custom-content-above-home" role="tab" aria-controls="custom-content-above-home" aria-selected="true">Pessoa Física</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="custom-content-above-profile-tab" data-toggle="pill" href="#custom-content-above-profile" role="tab" aria-controls="custom-content-above-profile" aria-selected="false">Pessoa Jurídica</a>
-                            </li>
-                        </ul>
-
-                        <div class="tab-content" id="custom-content-above-tabContent">
-                            <div class="tab-pane fade show active" id="custom-content-above-home" role="tabpanel" aria-labelledby="custom-content-above-home-tab">
-                                <br>
-                                <p class="text-info"><b>Informações iniciais</b></p>
-                                <ul>
-                                    <li>Nome</li>
-                                    <li>Nome artístico</li>
-                                    <li>Tipo do documento</li>
-                                    <li>Nº do documento</li>
-                                    <li>CPF</li>
-                                    <li>CCM</li>
-                                    <li>Telefones</li>
-                                    <li>E-mail</li>
-                                    <li>Data de nascimento</li>
-                                </ul>
-                                <br>
-                                <p class="text-info"><b>Arquivos da Pessoa</b></p>
-                                <ul>
-                                    <li>RG/RNE/PASSAPORTE</li>
-                                    <li>CPF</li>
-                                    <li>PIS/PASEP/NIT</li>
-                                    <li>FDC – CCM (Ficha de Dados Cadastrais de Contribuintes Mobiliários)</li>
-                                </ul>
-                                <br>
-                                <p class="text-info"><b>Endereço</b></p>
-                                <ul>
-                                    <li>CEP</li>
-                                    <li>Número</li>
-                                    <li>Complemento</li>
-                                    <li>Prefeitura Regional</li>
-                                    <li>Comprovante de Residência</li>
-                                </ul>
-                                <br>
-                                <p class="text-info"><b>Informações Complementares</b></p>
-                                <ul>
-                                    <li>Nível</li>
-                                    <li>Linguagem</li>
-                                    <li>Curriculo</li>
-                                </ul>
-                                <br>
-                                <p class="text-info"><b>Dados Bancários</b></p>
-                                <div class="alert alert-danger">Realizamos pagamentos de valores acima de R$ 5.000,00 *SOMENTE COM CONTA CORRENTE NO BANCO DO BRASIL*.<br />Não são aceitas: conta fácil, poupança e conjunta.</div>
-                                <ul>
-                                    <li>Banco</li>
-                                    <li>Agência</li>
-                                    <li>Conta</li>
-                                </ul>
-                                <br>
-                                <p class="text-info"><b>Demais anexos</b></p>
-                                <ul>
-                                    <li>CTM - Certidão Negativa de Débitos Tributários Mobiliários Municipais</li>
-                                    <li>CADIN Municipal</li>
-                                    <li>CND Federal - (Certidão Negativa de Débitos de Tributos Federais)</li>
-                                    <li>CNDT - Certidão Negativa de Débitos de Tributos Trabalhistas</li>
-                                    <li>Comprovante de experiência artístico-pedagógica (no mínimo 2)</li>
-                                    <li>Comprovante de experiência artística (no mínimo 2)</li>
-                                </ul>
-                                <br>
-                                <p class="text-info"><b>Finalizar</b></p>
-                                <ul>
-                                    <li>Nesta tela haverá um resumo com todas as informações inseridas neste evento</li>
-                                    <li>Listará também, quando existirem, os campos pendente para preenchimento</li>
-                                </ul>
-                            </div>
-
-                            <div class="tab-pane fade" id="custom-content-above-profile" role="tabpanel" aria-labelledby="custom-content-above-profile-tab">
-                                <br>
-                                <div class="alert alert-danger">Somente com MEI</div>
-                                <p class="text-info"><b>Informações iniciais</b></p>
-                                <ul>
-                                    <li>Razão Social</li>
-                                    <li>CNPJ</li>
-                                    <li>CCM</li>
-                                    <li>Telefones</li>
-                                    <li>E-mail</li>
-                                </ul>
-                                <br>
-                                <p class="text-info"><b>Arquivos da empresa em PDF</b></p>
-                                <ul>
-                                    <li><a href="http://www.receita.fazenda.gov.br/pessoajuridica/cnpj/cnpjreva/cnpjreva_solicitacao.asp" target="_blank">Cartão CNPJ</a></li>
-                                    <li><a href="https://ccm.prefeitura.sp.gov.br/login/contribuinte?tipo=F" target="_blank">FDC CCM - Ficha de Dados Cadastrais de Contribuintes Mobiliários</a></li>
-                                    <li><a href="https://www3.prefeitura.sp.gov.br/cpom2/Consulta_Tomador.aspx" target="_blank">CPOM - Cadastro de Empresas Fora do Município</a></li>
-                                </ul>
-                                <br>
-                                <p class="text-info"><b>Endereço</b></p>
-                                <ul>
-                                    <li>CEP</li>
-                                    <li>Número</li>
-                                    <li>Complemento</li>
-                                    <li>Prefeitura Regional</li>
-                                </ul>
-                                <br>
-                                <p class="text-info"><b>Informações Complementares</b></p>
-                                <ul>
-                                    <li>Nível</li>
-                                    <li>Linguagem</li>
-                                    <li>Curriculo</li>
-                                </ul>
-                                <br>
-                                <p class="text-info"><b>Representante Legal</b></p>
-                                <ul>
-                                    <li>Nome</li>
-                                    <li>RG/RNE/PASSAPORTE</li>
-                                    <li>CPF</li>
-                                </ul>
-                                <br>
-                                <p class="text-info"><b>Arquivos do Representante Legal em PDF</b></p>
-                                <ul>
-                                    <li>RG/RNE/PASSAPORTE</li>
-                                    <li>CPF</li>
-                                </ul>
-                                <br>
-                                <p class="text-info"><b>Dados Bancários</b></p>
-                                <div class="alert alert-danger">Realizamos pagamentos de valores acima de R$ 5.000,00 *SOMENTE COM CONTA CORRENTE NO BANCO DO BRASIL*.<br />Não são aceitas: conta fácil, poupança e conjunta.<br>*A conta deve estar em nome da Pessoa Jurídica que está sendo contratada*</div>
-                                <ul>
-                                    <li>Banco</li>
-                                    <li>Agência</li>
-                                    <li>Conta</li>
-                                </ul>
-                                <br>
-                                <p class="text-info"><b>Demais anexos</b></p>
-                                <ul>
-                                    <li><a href="https://www.sifge.caixa.gov.br/Cidadao/Crf/FgeCfSCriteriosPesquisa.asp" target="_blank">CRF do FGTS</a></li>
-                                    <li><a href="https://duc.prefeitura.sp.gov.br/certidoes/forms_anonimo/frmConsultaEmissaoCertificado.aspx" target="_blank">CTM - Certidão Negativa de Débitos Tributários Mobiliários Municipais</a></li>
-                                    <li><a href="http://www3.prefeitura.sp.gov.br/cadin/Pesq_Deb.aspx" target="_blank">CADIN Municipal</a></li>
-                                    <li><a href="http://www.receita.fazenda.gov.br/Aplicacoes/ATSPO/Certidao/CNDConjuntaSegVia/NICertidaoSegVia.asp?Tipo=1" target="_blank">CND Federal - (Certidão Negativa de Débitos de Tributos Federais)</a></li>
-                                    <li>CNDT - Certidão Negativa de Débitos de Tributos Trabalhistas</li>
-                                    <li>Declaração de Aceite</li>
-                                    <li>Comprovante de experiência artístico-pedagógica (no mínimo 2)</li>
-                                    <li>Comprovante de experiência artística (no mínimo 2)</li>
-                                </ul>
-                                <br>
-                                <p class="text-info"><b>Finalizar</b></p>
-                                <ul>
-                                    <li>Nesta tela haverá um resumo com todas as informações inseridas neste evento</li>
-                                    <li>Listará também, quando existirem, os campos pendente para preenchimento</li>
-                                </ul>
-                            </div>
-                            <div class="offset-md-4 col-md-4">
-                                <a href="<?= SERVERURL ?>oficina/evento_lista"><button class="btn btn-block btn-success">Clique aqui para começar</button></a>
-                            </div>
-                        </div>
+                        <table id="tabela" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>Protocolo</th>
+                                <th>Proponente</th>
+                                <th>Programa</th>
+                                <th>Linguagem</th>
+                                <th>Envio</th>
+                                <th>Ação</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($cadastros as $cadastro): ?>
+                                <tr>
+                                    <td><?= $cadastro->protocolo ?? "Somente após envio" ?></td>
+                                    <td><?= $cadastro->nome_evento ?></td>
+                                    <td><?= $cadastro->programa ?></td>
+                                    <td><?= $cadastro->linguagem ?></td>
+                                    <td><?= $cadastro->data_envio ? date('d/m/Y H:i:s', strtotime($cadastro->data_envio)) : "Não enviado" ?></td>
+                                    <td>
+                                        <div class="row">
+                                            <?php if (!$cadastro->data_envio && $cadastro->ano == $_SESSION['ano_c']): ?>
+                                                <div class="col">
+                                                    <a href="<?= SERVERURL. 'oficina/pf_dados_cadastro&id='.$oficinaObj->encryption($cadastro->pessoa_fisica_id) ?>" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</a>
+                                                </div>
+                                                <div class="col">
+                                                    <form class="form-horizontal formulario-ajax" method="POST"
+                                                          action="<?= SERVERURL ?>ajax/oficinaAjax.php" role="form"
+                                                          data-form="delete">
+                                                        <input type="hidden" name="_method" value="apagarOficina">
+                                                        <input type="hidden" name="id" value="<?= $cadastro->id ?>">
+                                                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i>
+                                                            Apagar
+                                                        </button>
+                                                        <div class="resposta-ajax"></div>
+                                                    </form>
+                                                </div>
+                                            <?php else: ?>
+                                                <div class="col">
+                                                    <a href="<?= SERVERURL . "pdf/resumo_oficina.php?id=" . $oficinaObj->encryption($cadastro->id)."&ano=".$_SESSION['ano_c'] ?>"
+                                                       class="btn btn-sm btn-primary" target="_blank"><i class="fas fa-edit"></i> Visualizar</a>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>Proponente</th>
+                                <th>Programa</th>
+                                <th>Linguagem</th>
+                                <th>Envio</th>
+                                <th>Ação</th>
+                            </tr>
+                            </tfoot>
+                        </table>
                     </div>
-                    <!-- /.card -->
+                    <!-- /.card-body -->
+
                 </div>
                 <!-- /.card -->
             </div>
@@ -230,3 +105,9 @@ if (isset($_GET['modulo'])) {
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
+<script type="application/javascript">
+    $(document).ready(function () {
+        $('.nav-link').removeClass('active');
+        $('#oficina_inicio').addClass('active');
+    })
+</script>

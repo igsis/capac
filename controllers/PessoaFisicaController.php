@@ -51,13 +51,6 @@ class PessoaFisicaController extends PessoaFisicaModel
                 }
             }
 
-            if (isset($dadosLimpos['of'])){
-                if (count($dadosLimpos['of']) > 0) {
-                    $dadosLimpos['of']['pessoa_fisica_id'] = $id;
-                    DbModel::insert('pf_oficinas', $dadosLimpos['of']);
-                }
-            }
-
             if (isset($dadosLimpos['dt'])){
                 if (count($dadosLimpos['dt']) > 0) {
                     $dadosLimpos['dt']['pessoa_fisica_id'] = $id;
@@ -172,18 +165,6 @@ class PessoaFisicaController extends PessoaFisicaModel
                 }
             }
 
-            if (isset($dadosLimpos['of'])){
-                if (count($dadosLimpos['of']) > 0) {
-                    $oficina_existe = DbModel::consultaSimples("SELECT * FROM pf_oficinas WHERE pessoa_fisica_id = '$idDecryp'");
-                    if ($oficina_existe->rowCount() > 0) {
-                        DbModel::updateEspecial('pf_oficinas', $dadosLimpos['of'], "pessoa_fisica_id", $idDecryp);
-                    } else {
-                        $dadosLimpos['of']['pessoa_fisica_id'] = $idDecryp;
-                        DbModel::insert('pf_oficinas', $dadosLimpos['of']);
-                    }
-                }
-            }
-
             if (isset($dadosLimpos['dt'])){
                 if (count($dadosLimpos['dt']) > 0) {
                     $detalhe_existe = DbModel::consultaSimples("SELECT * FROM pf_detalhes WHERE pessoa_fisica_id = '$idDecryp'");
@@ -239,11 +220,10 @@ class PessoaFisicaController extends PessoaFisicaModel
     public function recuperaPessoaFisica($id) {
         $id = MainModel::decryption($id);
         $pf = DbModel::consultaSimples(
-            "SELECT pf.*, pe.*, pb.*, po.*, d.*, n.*, n2.nacionalidade, b.banco, b.codigo, pd.*, e.descricao, gi.grau_instrucao
+            "SELECT pf.*, pe.*, pb.*, d.*, n.*, n2.nacionalidade, b.banco, b.codigo, pd.*, e.descricao, gi.grau_instrucao
             FROM pessoa_fisicas AS pf
             LEFT JOIN pf_enderecos pe on pf.id = pe.pessoa_fisica_id
             LEFT JOIN (SELECT * FROM pf_bancos WHERE publicado = 1) pb on pf.id = pb.pessoa_fisica_id
-            LEFT JOIN pf_oficinas po on pf.id = po.pessoa_fisica_id
             LEFT JOIN drts d on pf.id = d.pessoa_fisica_id
             LEFT JOIN nits n on pf.id = n.pessoa_fisica_id
             LEFT JOIN nacionalidades n2 on pf.nacionalidade_id = n2.id

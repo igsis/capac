@@ -25,13 +25,6 @@ class PessoaJuridicaController extends PessoaJuridicaModel
                 }
             }
 
-            if (isset($dadosLimpos['of'])) {
-                if (count($dadosLimpos['of']) > 0) {
-                    $dadosLimpos['of']['pessoa_juridica_id'] = $id;
-                    DbModel::insert('pj_oficinas', $dadosLimpos['of']);
-                }
-            }
-
             if (count($dadosLimpos['en'])>0){
                 $dadosLimpos['en']['pessoa_juridica_id'] = $id;
                 DbModel::insert('pj_enderecos', $dadosLimpos['en']);
@@ -43,10 +36,6 @@ class PessoaJuridicaController extends PessoaJuridicaModel
                     DbModel::insert('pj_telefones', $telefone);
                 }
             }
-
-            /*if ($_SESSION['modulo_c'] >= 8){ //fomento
-                $_SESSION['origem_id_c'] = MainModel::encryption($id);
-            }*/
 
             if($retornaId){
                 return $id;
@@ -119,10 +108,6 @@ class PessoaJuridicaController extends PessoaJuridicaModel
                     DbModel::insert('pj_telefones', $telefone);
                 }
             }
-
-            /*if ($_SESSION['modulo_c'] == 8 || $_SESSION['modulo_c'] == 9){ //fomento
-                $_SESSION['origem_id_c'] = $id;
-            }*/
 
             if($retornaId){
                 return $idDecryp;
