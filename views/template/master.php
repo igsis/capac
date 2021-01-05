@@ -57,6 +57,8 @@ elseif ($view == 'fomento_edital'):
     require_once "./views/modulos/inicio/fomento_edital.php";
 elseif ($view == 'formacao_edital'):
     require_once "./views/modulos/inicio/formacao_edital.php";
+elseif ($view == 'oficina_edital'):
+    require_once "./views/modulos/inicio/oficina_edital.php";
 elseif ($view == 'recupera_senha'):
     require_once "./views/modulos/inicio/recupera_senha.php";
 elseif($view == 'resete_senha'):
@@ -95,7 +97,8 @@ else:
                 <h5>Sobre</h5>
                 <p>Versão 2.0</p>
                 <br>
-                <p>Desenvolvido por:</p>
+                <p><b>Desenvolvido por:</b></p>
+                <p>SMC/STI - Sistema de Informação</p>
             </div>
         </aside>
         <!-- /.control-sidebar -->

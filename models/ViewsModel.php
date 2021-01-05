@@ -91,6 +91,8 @@ class ViewsModel
             $conteudo = "fomento_edital";
         } elseif ($modulo == "formacao_edital") {
             $conteudo = "formacao_edital";
+        } elseif ($modulo == "oficina_edital") {
+            $conteudo = "oficina_edital";
         } elseif ($modulo == "recupera_senha") {
             $conteudo = "recupera_senha";
         } elseif ($modulo == "resete_senha") {
@@ -109,6 +111,9 @@ class ViewsModel
                 $menu = "./views/modulos/$modulo/include/menu.php";
             } else {
                 switch ($_SESSION['modulo_c']) {
+                    case 4:
+                        $menu = "./views/modulos/oficina/include/menu.php";
+                        break;
                     case 5:
                         $menu = "./views/modulos/formacao/include/menu.php";
                         break;

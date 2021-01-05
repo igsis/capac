@@ -82,7 +82,7 @@
 
                                             <div class="row">
                                                 <div class="col-6">
-                                                    <a href="http://<?= $_SERVER['HTTP_HOST'] ?>/igsiscapac/login.php">
+                                                    <a href="oficina_edital">
                                                         <div class="info-box bg-orange">
                                                             <span class="info-box-icon"><i class="fas fa-guitar"></i></span>
                                                             <div class="card-body">
