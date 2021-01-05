@@ -33,6 +33,6 @@ ALTER TABLE `ofic_cadastros` ADD CONSTRAINT `fk_oficinas_ofic_nivel` FOREIGN KEY
 ALTER TABLE `ofic_cadastros` ADD CONSTRAINT `fk_oficinas_ofic_linguagem` FOREIGN KEY (`ofic_linguagem_id`) REFERENCES `ofic_linguagens`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE `ofic_cadastros` ADD CONSTRAINT `fk_oficinas_ofic_sublinguagem` FOREIGN KEY (`ofic_sublinguagem_id`) REFERENCES `ofic_sublinguagens`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-ALTER TABLE `eventos` ADD `protocolo` CHAR(18) NOT NULL AFTER `id`;
+ALTER TABLE `eventos` ADD `protocolo` CHAR(18) AFTER `id`;
 
 SET FOREIGN_KEY_CHECKS = 1;
