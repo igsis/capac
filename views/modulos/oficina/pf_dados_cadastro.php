@@ -1,25 +1,20 @@
 <?php
 require_once "./controllers/PessoaFisicaController.php";
-require_once "./controllers/FormacaoController.php";
+require_once "./controllers/OficinaController.php";
 
 $pfObjeto =  new PessoaFisicaController();
-$formacaoObj = new FormacaoController();
+$oficinaObj = new OficinaController();
 
-if (isset($_GET['id'])) {
-    $_SESSION['origem_id_c'] = $id = $_GET['id'];
-} elseif (isset($_SESSION['origem_id_c'])){
-    $id = $_SESSION['origem_id_c'];
+if (isset($_GET['idPf'])) {
+    $_SESSION['pf_id_c'] = $idPf = $_GET['idPf'];
+} elseif (isset($_SESSION['pf_id_c'])){
+    $idPf = $_SESSION['pf_id_c'];
 } else {
-    $id = null;
+    $idPf = null;
 }
 
-if ($id) {
-    $pf = $pfObjeto->recuperaPessoaFisica($id);
-    $formacao_id = $formacaoObj->recuperaFormacaoId($id, $_SESSION['ano_c']);
-    if ($formacao_id) {
-        $_SESSION['formacao_id_c'] = $formacao_id;
-    }
-    $_SESSION['origem_id_c'] = $id;
+if ($idPf) {
+    $pf = $pfObjeto->recuperaPessoaFisica($idPf);
     $documento = $pf['cpf'];
 }
 
@@ -27,13 +22,12 @@ if (isset($_POST['pf_cpf'])){
     $documento = $_POST['pf_cpf'];
     $pf = $pfObjeto->getCPF($documento)->fetch();
     if ($pf){
-        $id = (new MainModel)->encryption($pf['id']);
-        $pf = $pfObjeto->recuperaPessoaFisica($id);
-        $_SESSION['origem_id_c'] = $id;
+        $idPf = (new MainModel)->encryption($pf['id']);
+        $pf = $pfObjeto->recuperaPessoaFisica($idPf);
+        $_SESSION['pf_id_c'] = $idPf;
         $documento = $pf['cpf'];
     }
 }
-
 ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -59,13 +53,12 @@ if (isset($_POST['pf_cpf'])){
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/formacaoAjax.php"
-                          role="form" data-form="<?= ($id) ? "update" : "save" ?>">
-                        <input type="hidden" name="_method" value="<?= ($id) ? "editarPf" : "cadastrarPf" ?>">
+                    <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/oficinaAjax.php" role="form" data-form="<?= ($idPf) ? "update" : "save" ?>">
+                        <input type="hidden" name="_method" value="<?= ($idPf) ? "editarPf" : "cadastrarPf" ?>">
                         <input type="hidden" name="pf_ultima_atualizacao" value="<?= date('Y-m-d H-i-s') ?>">
                         <input type="hidden" name="pagina" value="<?= $_GET['views'] ?>">
-                        <?php if ($id): ?>
-                            <input type="hidden" name="id" value="<?= $id ?>">
+                        <?php if ($idPf): ?>
+                            <input type="hidden" name="id" value="<?= $idPf ?>">
                         <?php endif; ?>
                         <div class="card-body">
                             <div class="row">
@@ -167,9 +160,6 @@ if (isset($_POST['pf_cpf'])){
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
-
-
-<script src="../views/dist/js/cep_api.js"></script>
 
 <script type="text/javascript">
     $(function() {

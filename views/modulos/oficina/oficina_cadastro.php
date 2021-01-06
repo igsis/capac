@@ -1,10 +1,10 @@
 <?php
-$atracao_id = $_SESSION['atracao_id_c'];
+$atracao_id= $_SESSION['atracao_id_c'];
 
 //$atracao_id = $_POST['atracao_id'];
 require_once "./controllers/OficinaController.php";
 $oficinaObj = new OficinaController();
-$complementos = $oficinaObj->recuperaComplementosOficina($atracao_id);
+$complementos = $oficinaObj->recuperaOficina($idEvento);
 ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">

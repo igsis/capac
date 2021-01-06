@@ -9,10 +9,14 @@ if ($pedidoAjax) {
 
 class OficinaController extends OficinaModel
 {
-    public function recuperaOficina($id) {
-        $id = MainModel::decryption($id);
-        $oficina = OficinaModel::getOficina($id);
-        return $oficina;
+    public function recuperaOficina($idEvento)
+    {
+        return DbModel::consultaSimples("
+            SELECT oc.* FROM ofic_cadastros oc
+                INNER JOIN atracoes a on oc.atracao_id = a.id
+                INNER JOIN eventos e on a.evento_id = e.id
+            WHERE a.publicado = 1 AND e.publicado = 1 AND e.id = '$idEvento'
+        ")->fetchObject();
     }
 
     public function listaOficina()
@@ -20,6 +24,53 @@ class OficinaController extends OficinaModel
         return DbModel::consultaSimples("SELECT * FROM ofic_cadastros o INNER JOIN atracoes a on o.atracao_id = a.id INNER JOIN eventos e on a.evento_id = e.id WHERE e.usuario_id = {$_SESSION['usuario_id_c']} AND e.publicado = 1 AND a.publicado = 1")->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function inserePfCadastro($pagina)
+    {
+        $idPf = (new PessoaFisicaController)->inserePessoaFisica($pagina, true);
+        if ($idPf) {
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Pessoa Física',
+                'texto' => 'Cadastro realizado com sucesso!',
+                'tipo' => 'success',
+                'location' => SERVERURL . $pagina . '&idPf=' . MainModel::encryption($idPf)
+            ];
+        } else {
+            $alerta = [
+                'alerta' => 'simples',
+                'titulo' => 'Erro!',
+                'texto' => 'Erro ao salvar!',
+                'tipo' => 'error',
+                'location' => SERVERURL . $pagina
+            ];
+        }
+        return MainModel::sweetAlert($alerta);
+    }
+
+    public function editaPfCadastro($id,$pagina)
+    {
+        $idPf = (new PessoaFisicaController)->editaPessoaFisica($id,$pagina,true);
+        if ($idPf) {
+            $_SESSION['pf_id_c'] = $id;
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Pessoa Física',
+                'texto' => 'Pessoa Física editada com sucesso!',
+                'tipo' => 'success',
+                'location' => SERVERURL.$pagina.'&idPf='.$id
+            ];
+        } else {
+            $alerta = [
+                'alerta' => 'simples',
+                'titulo' => 'Erro!',
+                'texto' => 'Erro ao salvar!',
+                'tipo' => 'error',
+                'location' => SERVERURL . $pagina . '/pf_cadastro&idPf='.$id
+            ];
+        }
+        return MainModel::sweetAlert($alerta);
+    }
+/*
     public function recuperaComplementosOficina($atracao_id)
     {
         $atracao_id = MainModel::decryption($atracao_id);
@@ -203,4 +254,5 @@ class OficinaController extends OficinaModel
     public function exibeDescricaoPublico() {
         return (new EventoController)->exibeDescricaoPublico();
     }
+*/
 }

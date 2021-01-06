@@ -2,7 +2,9 @@
 require_once "./controllers/OficinaController.php";
 unset($_SESSION['projeto_c']);
 unset($_SESSION['origem_id_c']);
-unset($_SESSION['formacao_id_c']);
+unset($_SESSION['pf_id_c']);
+unset($_SESSION['pj_id_c']);
+unset($_SESSION['lider_id_c']);
 
 $oficinaObj = new OficinaController();
 $cadastros = $oficinaObj->listaOficina();
@@ -113,8 +115,7 @@ $cadastros = $oficinaObj->listaOficina();
                     <div class="row">
                         <div class="form-group col-md-2"><label for="cpf">CPF:</label></div>
                         <div class="form-group col-md-7">
-                            <input type="text" class="form-control" id="cpf" name="pf_cpf" maxlength="14"
-                                   required onkeypress="mask(this, '999.999.999-99')" minlength="14">
+                            <input type="text" class="form-control" id="cpf" name="pf_cpf" maxlength="14" required onkeypress="mask(this, '999.999.999-99')" minlength="14">
                         </div>
                         <div class="col-md-2">
                             <button type="submit" class="btn btn-primary btn">Pesquisar</button>
@@ -166,7 +167,8 @@ $cadastros = $oficinaObj->listaOficina();
             if (!validado) {
                 event.preventDefault()
                 $('#dialogError').show();
-            }        }
+            }
+        }
     })
 </script>
 
