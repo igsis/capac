@@ -3,31 +3,19 @@ require_once "./controllers/PessoaFisicaController.php";
 
 $pfObjeto =  new PessoaFisicaController();
 
-if (isset($_GET['id'])) {
-    $_SESSION['origem_id_c'] = $id = $_GET['id'];
-} elseif (isset($_SESSION['origem_id_c'])){
-    $id = $_SESSION['origem_id_c'];
+if (isset($_GET['idPf'])) {
+    $_SESSION['pf_id_c'] = $idPf = $_GET['idPf'];
+} elseif (isset($_SESSION['pf_id_c'])){
+    $idPf = $_SESSION['pf_id_c'];
 } else {
-    $id = null;
+    $idPf = null;
 }
 
-if ($id) {
-    $pf = $pfObjeto->recuperaPessoaFisica($id);
-    $_SESSION['origem_id_c'] = $id;
+if ($idPf) {
+    $pf = $pfObjeto->recuperaPessoaFisica($idPf);
+    $_SESSION['pf_id_c'] = $idPf;
     $documento = $pf['cpf'];
 }
-
-if (isset($_POST['pf_cpf'])){
-    $documento = $_POST['pf_cpf'];
-    $pf = $pfObjeto->getCPF($documento)->fetch();
-    if ($pf){
-        $id = (new MainModel)->encryption($pf['id']);
-        $pf = $pfObjeto->recuperaPessoaFisica($id);
-        $_SESSION['origem_id_c'] = $id;
-        $documento = $pf['cpf'];
-    }
-}
-
 ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -52,14 +40,11 @@ if (isset($_POST['pf_cpf'])){
                         <h3 class="card-title">Dados bancários</h3>
                         <div class="card-tools">
                             <?php if ($pf['banco_id']): ?>
-                                <form class="form-horizontal formulario-ajax" method="POST" role="form"
-                                      data-form="delete"
-                                      action="<?= SERVERURL ?>ajax/formacaoAjax.php">
+                                <form class="form-horizontal formulario-ajax" method="POST" role="form" data-form="delete" action="<?= SERVERURL ?>ajax/oficinaAjax.php">
                                     <input type="hidden" name="_method" value="apagarDadosBancarios">
-                                    <input type="hidden" name="id" value="<?=$id?>">
+                                    <input type="hidden" name="id" value="<?=$idPf?>">
                                     <input type="hidden" name="pagina" value="<?=$_GET['views']?>">
-                                    <button type="submit" class="btn btn-danger btn-sm float-right">Remover Dados Bancários
-                                    </button>
+                                    <button type="submit" class="btn btn-danger btn-sm float-right">Remover Dados Bancários</button>
                                     <div class="resposta-ajax"></div>
                                 </form>
                             <?php endif ?>
@@ -67,13 +52,12 @@ if (isset($_POST['pf_cpf'])){
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/formacaoAjax.php"
-                          role="form" data-form="<?= ($id) ? "update" : "save" ?>">
-                        <input type="hidden" name="_method" value="<?= ($id) ? "editarPf" : "cadastrarPf" ?>">
+                    <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/oficinaAjax.php" role="form" data-form="<?= ($idPf) ? "update" : "save" ?>">
+                        <input type="hidden" name="_method" value="<?= ($idPf) ? "editarPf" : "cadastrarPf" ?>">
                         <input type="hidden" name="pf_ultima_atualizacao" value="<?= date('Y-m-d H-i-s') ?>">
                         <input type="hidden" name="pagina" value="<?= $_GET['views'] ?>">
-                        <?php if ($id): ?>
-                            <input type="hidden" name="id" value="<?= $id ?>">
+                        <?php if ($idPf): ?>
+                            <input type="hidden" name="id" value="<?= $idPf ?>">
                         <?php endif; ?>
                         <div class="card-body">
                             <div class="alert alert-warning alert-dismissible">
@@ -94,15 +78,11 @@ if (isset($_POST['pf_cpf'])){
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="agencia">Agência: *</label>
-                                    <input type="text" id="agencia" name="bc_agencia" class="form-control"
-                                           placeholder="Digite a Agência" maxlength="12"
-                                           value="<?= $pf['agencia'] ?? '' ?>" required>
+                                    <input type="text" id="agencia" name="bc_agencia" class="form-control" placeholder="Digite a Agência" maxlength="12" value="<?= $pf['agencia'] ?? '' ?>" required>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="conta">Conta: *</label>
-                                    <input type="text" id="conta" name="bc_conta" class="form-control"
-                                           placeholder="Digite a Conta" maxlength="12" value="<?= $pf['conta'] ?? '' ?>"
-                                           required>
+                                    <input type="text" id="conta" name="bc_conta" class="form-control" placeholder="Digite a Conta" maxlength="12" value="<?= $pf['conta'] ?? '' ?>" required>
                                 </div>
                             </div>
                         </div>
@@ -123,9 +103,6 @@ if (isset($_POST['pf_cpf'])){
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
-
-
-<script src="../views/dist/js/cep_api.js"></script>
 
 <script type="text/javascript">
     $(function() {

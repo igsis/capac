@@ -15,6 +15,7 @@ if (isset($_GET['idPf'])) {
 
 if ($idPf) {
     $pf = $pfObjeto->recuperaPessoaFisica($idPf);
+    $_SESSION['pf_id_c'] = $idPf;
     $documento = $pf['cpf'];
 }
 
