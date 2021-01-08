@@ -11,6 +11,7 @@ class OficinaController extends OficinaModel
 {
     public function recuperaOficina($idEvento)
     {
+        $idEvento = MainModel::decryption($idEvento);
         return DbModel::consultaSimples("
             SELECT oc.* FROM ofic_cadastros oc
                 INNER JOIN atracoes a on oc.atracao_id = a.id
@@ -69,6 +70,18 @@ class OficinaController extends OficinaModel
             ];
         }
         return MainModel::sweetAlert($alerta);
+    }
+
+    public function insereOficina()
+    {
+        //1º insere o evento
+        //2º recupera a pessoa física e insere o produtor
+        //3º insere a atração
+        //4º insere o pedido
+    }
+
+    public function exibeDescricaoPublico() {
+        return (new EventoController)->exibeDescricaoPublico();
     }
 /*
     public function recuperaComplementosOficina($atracao_id)
@@ -250,9 +263,6 @@ class OficinaController extends OficinaModel
 
         return MainModel::sweetAlert($alerta);
     }
-
-    public function exibeDescricaoPublico() {
-        return (new EventoController)->exibeDescricaoPublico();
-    }
 */
+
 }

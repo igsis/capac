@@ -17,6 +17,21 @@ if (isset($_SESSION['origem_id_c'])){
     </a>
 </li>
 <hr/>
+
+<li class="nav-item">
+    <a href="<?= SERVERURL ?>oficina/oficina_cadastro&idC=<?= $_SESSION['origem_id_c'] ?? "" ?>" class="nav-link" id="oficina">
+        <i class="far fa-circle nav-icon"></i>
+        <p>Dados da oficina</p>
+    </a>
+</li>
+<?php if (isset($_SESSION['origem_id_c'])) { ?>
+    <li class="nav-item">
+        <a href="<?= SERVERURL ?>oficina/oficina_complemento_cadastro&idC=<?= $_SESSION['origem_id_c'] ?>" class="nav-link" id="oficina">
+            <i class="far fa-circle nav-icon"></i>
+            <p>Complemento da oficina</p>
+        </a>
+    </li>
+<?php } ?>
 <?php if (isset($_SESSION['pj_id_c'])){ ?>
     <li class="nav-item">
         <a href="<?= SERVERURL ?>oficina/pj_dados_cadastro<?= $idPj ? '&idPj='.$idPj : NULL ?>" class="nav-link" id="dados_cadastrais">
@@ -33,7 +48,10 @@ if (isset($_SESSION['origem_id_c'])){
         </a>
     </li>
 <?php } ?>
-<?php if (isset($_SESSION['pf_id_c'])){ ?>
+<?php
+if (isset($_SESSION['pf_id_c'])){
+    $idPf = $_SESSION['pf_id_c'];
+    ?>
     <li class="nav-item">
         <a href="<?= SERVERURL ?>oficina/pf_dados_cadastro<?= $idPf ? '&idPf='.$idPf : NULL ?>" class="nav-link" id="dados_cadastrais">
             <i class="far fa-circle nav-icon"></i>
@@ -52,6 +70,14 @@ if (isset($_SESSION['origem_id_c'])){
             <p>Dados bancários</p>
         </a>
     </li>
+    <li class="nav-item">
+        <a href="<?= SERVERURL ?>oficina/anexos" class="nav-link" id="anexos">
+            <i class="far fa-circle nav-icon"></i>
+            <p>Anexos pessoais</p>
+        </a>
+    </li>
+
+    <?php $_SESSION['origem_id_c'] = $_SESSION['pf_id_c'] ?>
 
     <?php if (isset($_SESSION['origem_id_c'])) { ?>
         <li class="nav-item">
@@ -61,9 +87,21 @@ if (isset($_SESSION['origem_id_c'])){
             </a>
         </li>
         <li class="nav-item">
+            <a href="<?= SERVERURL ?>oficina/oficina_complemento_cadastro&idC=<?= $_SESSION['origem_id_c'] ?>" class="nav-link" id="oficina">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Complemento da oficina</p>
+            </a>
+        </li>
+        <li class="nav-item">
             <a href="<?= SERVERURL ?>oficina/anexos" class="nav-link" id="anexos">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Anexos</p>
+                <p>Anexos pessoais</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="<?= SERVERURL ?>oficina/anexos" class="nav-link" id="anexos">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Anexos comunic./produc.</p>
             </a>
         </li>
         <li class="nav-item">
