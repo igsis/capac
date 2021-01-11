@@ -13,16 +13,60 @@ class OficinaController extends OficinaModel
     {
         $idEvento = MainModel::decryption($idEvento);
         return DbModel::consultaSimples("
-            SELECT oc.* FROM ofic_cadastros oc
-                INNER JOIN atracoes a on oc.atracao_id = a.id
-                INNER JOIN eventos e on a.evento_id = e.id
-            WHERE a.publicado = 1 AND e.publicado = 1 AND e.id = '$idEvento'
+            SELECT * FROM eventos e
+            WHERE e.id = '$idEvento'
         ")->fetchObject();
     }
 
-    public function listaOficina()
+    public function listaOficina(): array
     {
-        return DbModel::consultaSimples("SELECT * FROM ofic_cadastros o INNER JOIN atracoes a on o.atracao_id = a.id INNER JOIN eventos e on a.evento_id = e.id WHERE e.usuario_id = {$_SESSION['usuario_id_c']} AND e.publicado = 1 AND a.publicado = 1")->fetchAll(PDO::FETCH_ASSOC);
+        return DbModel::consultaSimples("SELECT e.id, e.protocolo, e.nome_evento, e.data_cadastro FROM eventos e WHERE e.usuario_id = {$_SESSION['usuario_id_c']} AND e.publicado = 1 AND tipo_contratacao_id = 5 ORDER BY e.data_cadastro DESC")->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function cadastraEvento($post)
+    {
+        $eventoObj = new EventoController();
+        $evento_id = $eventoObj->insereEvento($post, true);
+        if ($evento_id){
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Evento Cadastrado!',
+                'texto' => 'Dados cadastrados com sucesso!',
+                'tipo' => 'success',
+                'location' => SERVERURL . 'oficina/evento_cadastro&key=' . MainModel::encryption($evento_id)
+            ];
+        } else {
+            $alerta = [
+                'alerta' => 'simples',
+                'titulo' => 'Oops! Algo deu Errado!',
+                'texto' => 'Falha ao salvar os dados no servidor, tente novamente mais tarde',
+                'tipo' => 'error',
+            ];
+        }
+        return MainModel::sweetAlert($alerta);
+    }
+
+    public function editaEvento($post,$evento_id)
+    {
+        $eventoObj = new EventoController();
+        $evento_id = $eventoObj->editaEvento($post,$evento_id,true);
+        if ($evento_id){
+            $alerta = [
+                'alerta' => 'sucesso',
+                'titulo' => 'Evento',
+                'texto' => 'Dados editados com sucesso!',
+                'tipo' => 'success',
+                'location' => SERVERURL . 'oficina/evento_cadastro&key=' . MainModel::encryption($evento_id)
+            ];
+        } else {
+            $alerta = [
+                'alerta' => 'simples',
+                'titulo' => 'Oops! Algo deu Errado!',
+                'texto' => 'Falha ao salvar os dados no servidor, tente novamente mais tarde',
+                'tipo' => 'error',
+            ];
+        }
+        return MainModel::sweetAlert($alerta);
     }
 
     public function inserePfCadastro($pagina)

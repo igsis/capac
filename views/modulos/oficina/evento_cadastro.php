@@ -1,6 +1,4 @@
 <?php
-$tipoContratacao = $_SESSION['modulo_c'];
-
 if (isset($_GET['key'])) {
     $_SESSION['origem_id_c'] = $id = $_GET['key'];
     require_once "./controllers/PedidoController.php";
@@ -16,10 +14,10 @@ if (isset($_GET['key'])) {
 require_once "./controllers/OficinaController.php";
 $oficinaObj = new OficinaController();
 $oficina = $oficinaObj->recuperaOficina($id);
-if ($oficina) {
+/*if ($oficina) {
     $_SESSION['atracao_id_c'] = $oficinaObj->encryption($oficina->atracao_id);
     $tipoContratacao = $oficina->tipo_contratacao_id;
-}
+}*/
 
 ?>
 
@@ -49,11 +47,13 @@ if ($oficina) {
                     <!-- form start -->
                     <form class="form-horizontal formulario-ajax" method="POST" action="<?=SERVERURL?>ajax/oficinaAjax.php" role="form" data-form="<?= ($id) ? "update" : "save" ?>">
                         <input type="hidden" name="_method" value="<?= ($id) ? "editarEvento" : "cadastrarEvento" ?>">
-                        <input type="hidden" name="tipo_contratacao_id" value="<?=$tipoContratacao?>">
+                        <input type="hidden" name="tipo_contratacao_id" value="5">
                         <input type="hidden" name="espaco_publico" value="1">
                         <input type="hidden" name="fomento" value="0">
+                        <input type="hidden" name="usuario_id" value="<?= $_SESSION['usuario_id_c'] ?>">
+                        <input type="hidden" name="data_cadastro" value="<?= date('Y-m-d H:i:s') ?>">
                         <?php if ($id): ?>
-                            <input type="hidden" name="evento_id" value="<?=$oficinaObj->encryption($oficina->id)?>">
+                            <input type="hidden" name="id" value="<?=$oficinaObj->encryption($oficina->id)?>">
                         <?php endif; ?>
                         <div class="card-body">
                             <div class="form-group row">
@@ -83,16 +83,9 @@ if ($oficina) {
                                 <i>Esse campo deve conter uma breve descrição do que será apresentado no evento.</i>
                                 <p align="justify"><span style="color: gray; "><strong><i>Texto de exemplo:</strong><br/>Ana Cañas faz o show de lançamento do seu quarto disco, “Tô na Vida” (Som Livre/Guela Records). Produzido por Lúcio Maia (Nação Zumbi) em parceria com Ana e mixado por Mario Caldato Jr, é o primeiro disco totalmente autoral da carreira da cantora e traz parcerias com Arnaldo Antunes e Dadi entre outros.</span></i>
                                 </p>
-                                <textarea name="ev_sinopse" id="sinopse" class="form-control" rows="5" required><?=$oficina->sinopse ?? ""?></textarea>
+                                <textarea name="sinopse" id="sinopse" class="form-control" rows="5" required><?=$oficina->sinopse ?? ""?></textarea>
                             </div>
 
-                            <div class="form-group">
-                                <label for="links">Links</label><br/>
-                                <i>Esse campo deve conter os links relacionados ao espetáculo, ao artista/grupo que auxiliem na divulgação do evento.</i>
-                                <p align="justify"><span style="color: gray; "><strong><i>Links de exemplo:</i></strong><br/> https://www.facebook.com/anacanasoficial/<br/>https://www.youtube.com/user/anacanasoficial</i></span>
-                                </p>
-                                <textarea id="links" name="at_links" class="form-control" rows="5"><?=$oficina->links ?? ""?></textarea>
-                            </div>
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">
@@ -171,5 +164,5 @@ if ($oficina) {
     $(document).ready(publicoValidacao);
 
     $('.publicos').on("change", publicoValidacao);
-    $('.publicos').attr("name", "ev_publicos[]");
+    $('.publicos').attr("name", "publicos[]");
 </script>
