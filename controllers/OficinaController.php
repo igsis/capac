@@ -49,14 +49,15 @@ class OficinaController extends OficinaModel
     public function editaEvento($post,$evento_id)
     {
         $eventoObj = new EventoController();
-        $evento_id = $eventoObj->editaEvento($post,$evento_id,true);
-        if ($evento_id){
+        $idEveDecr = MainModel::decryption($evento_id);
+        $evento = $eventoObj->editaEvento($post,$idEveDecr,true);
+        if ($evento){
             $alerta = [
                 'alerta' => 'sucesso',
                 'titulo' => 'Evento',
                 'texto' => 'Dados editados com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL . 'oficina/evento_cadastro&key=' . MainModel::encryption($evento_id)
+                'location' => SERVERURL . 'oficina/evento_cadastro&key=' . $evento_id
             ];
         } else {
             $alerta = [
@@ -64,6 +65,7 @@ class OficinaController extends OficinaModel
                 'titulo' => 'Oops! Algo deu Errado!',
                 'texto' => 'Falha ao salvar os dados no servidor, tente novamente mais tarde',
                 'tipo' => 'error',
+                'location' => SERVERURL . 'oficina/evento_cadastro&key=' . $evento_id
             ];
         }
         return MainModel::sweetAlert($alerta);
