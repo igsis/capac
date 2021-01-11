@@ -1,26 +1,11 @@
 <?php
-$tipoContratacao = $_SESSION['modulo_c'];
-
-if (isset($_GET['key'])) {
-    $_SESSION['origem_id_c'] = $id = $_GET['key'];
-    require_once "./controllers/PedidoController.php";
-    $pedidoObj = new PedidoController();
-    $pedidoObj->startPedido();
-
-} elseif (isset($_SESSION['origem_id_c'])) {
-    $id = $_SESSION['origem_id_c'];
-} else {
-    $id = null;
-}
-
 require_once "./controllers/OficinaController.php";
 $oficinaObj = new OficinaController();
-$oficina = $oficinaObj->recuperaOficina($id);
-if ($oficina) {
-    $_SESSION['atracao_id_c'] = $oficinaObj->encryption($oficina->atracao_id);
-    $tipoContratacao = $oficina->tipo_contratacao_id;
-}
 
+$id = $_GET['id'] ?? null;
+
+$evento_id = $_SESSION['origem_id_c'];
+$oficina = $oficinaObj->recuperaOficina($evento_id);
 ?>
 
 <!-- Content Header (Page header) -->
@@ -49,44 +34,49 @@ if ($oficina) {
                     <!-- form start -->
                     <form class="form-horizontal formulario-ajax" method="POST" action="<?=SERVERURL?>ajax/oficinaAjax.php" role="form" data-form="<?= ($id) ? "update" : "save" ?>">
                         <input type="hidden" name="_method" value="<?= ($id) ? "editarOficina" : "cadastrarOficina" ?>">
-                        <input type="hidden" name="ev_tipo_contratacao_id" value="<?=$tipoContratacao?>">
                         <?php if ($id): ?>
-                            <input type="hidden" name="evento_id" value="<?=$oficinaObj->encryption($oficina->id)?>">
-                            <input type="hidden" name="atracao_id" value="<?=$oficinaObj->encryption($oficina->atracao_id)?>">
+                            <input type="hidden" name="id" value="<?=$oficinaObj->encryption($oficina->id)?>">
                         <?php endif; ?>
                         <div class="card-body">
 
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="ficha_tecnica">Ficha técnica completa *</label><br/>
-                                    <i>Esse campo deve conter a listagem de pessoas envolvidas no espetáculo, como elenco, técnicos, e outros profissionais envolvidos na realização do mesmo.</i>
-                                    <p align="justify"><span style="color: gray; ">
-                                        <i><strong>Elenco de exemplo:</strong><br/>Lúcio Silva (guitarra e vocal)<br/>Fabio Sá (baixo)<br/>Marco da Costa (bateria)<br/>Eloá Faria (figurinista)<br/>Leonardo Kuero (técnico de som)</i>
-                                    </span></p>
-                                    <textarea id="ficha_tecnica" name="at_ficha_tecnica" class="form-control" rows="8" required><?=$oficina->ficha_tecnica ?? ""?></textarea>
+                                    <div class="row">
+                                        <div class="form-group col-md">
+                                            <label for="links">Links</label><br>
+                                            <i>Esse campo deve conter os links relacionados ao espetáculo, ao artista/grupo que auxiliem na divulgação do evento.</i>
+                                            <p style="color: gray; ">
+                                                <strong><i>Links de exemplo:</i></strong><br>
+                                                <i>
+                                                    https://www.facebook.com/anacanasoficial/<br>
+                                                    https://www.youtube.com/user/anacanasoficial
+                                                </i>
+                                            </p>
+                                            <textarea id="links" name="links" class="form-control" rows="5"><?= $oficina->links ?? "" ?></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label for="classificacao_indicativa_id">Classificação indicativa * </label>
+                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-default"><i class="fa fa-info"></i></button>
+                                            <select class="form-control" id="classificacao_indicativa_id" name="classificacao_indicativa_id" required>
+                                                <option value="">Selecione...</option>
+                                                <?php $oficinaObj->geraOpcao('classificacao_indicativas', $oficina->classificacao_indicativa_id ?? ""); ?>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="quantidade_apresentacao">Quantidade de apresentação *</label>
+                                            <input type="number" id="quantidade_apresentacao" name="quantidade_apresentacao" class="form-control" value="<?= $oficina->quantidade_apresentacao ?? "" ?>" required>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="integrantes">Integrantes *</label><br/>
                                     <i>Esse campo deve conter a listagem de pessoas envolvidas no espetáculo <span style="color: #FF0000; ">incluindo o líder do grupo</span>. Apenas o <span style="color: #FF0000; ">nome civil, RG e CPF</span> de quem irá se apresentar, excluindo técnicos.</i>
                                     <p align="justify"><span style="color: gray; ">
-                                        <i><strong>Elenco de exemplo:</strong><br/>Ana Cañas RG 00000000-0 CPF 000.000.000-00<br/>Lúcio Maia RG 00000000-0 CPF 000.000.000-00<br/>Fabá Jimenez RG 00000000-0 CPF 000.000.000-00<br/>Fabio Sá RG 00000000-0 CPF 000.000.000-00<br/>Marco da Costa RG 00000000-0 CPF 000.000.000-00</i>
+                                        <i><strong>Elenco de exemplo:</strong><br/>Ana Cañas RG 00000000-0 CPF 000.000.000-00<br/>Lúcio Maia RG 00000000-0 CPF 000.000.000-00</i>
                                     </span></p>
-                                    <textarea id="integrantes" name="at_integrantes" class="form-control" rows="8" required><?=$oficina->integrantes ?? ""?></textarea>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="classificacao_indicativa_id">Classificação indicativa * </label>
-                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-default"><i class="fa fa-info"></i></button>
-                                    <select class="form-control" id="classificacao_indicativa_id" name="at_classificacao_indicativa_id" required>
-                                        <option value="">Selecione...</option>
-                                        <?php $oficinaObj->geraOpcao('classificacao_indicativas', $oficina->classificacao_indicativa_id ?? ""); ?>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="quantidade_apresentacao">Quantidade de apresentação *</label>
-                                    <input type="number" id="quantidade_apresentacao" name="at_quantidade_apresentacao" class="form-control" value="<?= $oficina->quantidade_apresentacao ?? "" ?>" required>
+                                    <textarea id="integrantes" name="integrantes" class="form-control" rows="8" required><?=$oficina->integrantes ?? ""?></textarea>
                                 </div>
                             </div>
 
@@ -207,65 +197,3 @@ if ($oficina) {
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
-
-<!-- modal público -->
-<div class="modal fade" id="modalPublico" style="display: none" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Público (Representatividade e Visibilidade Sócio-cultural)</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            </div>
-            <div class="modal-body" style="text-align: left;">
-                <table class="table table-bordered table-responsive">
-                    <thead>
-                    <tr>
-                        <th>Público</th>
-                        <th>Descrição</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php $oficinaObj->exibeDescricaoPublico() ?>
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-theme" data-dismiss="modal">Fechar</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- /.modal público -->
-
-
-<script>
-    function publicoValidacao() {
-        var isMsg = $('#msgEsconde');
-        isMsg.hide();
-
-        var i = 0;
-        var counter = 0;
-        var publico = $('.publicos');
-
-        for (; i < publico.length; i++) {
-            if (publico[i].checked) {
-                counter++;
-            }
-        }
-
-        if (counter == 0) {
-            $('#cadastra').attr("disabled", true);
-            isMsg.show();
-            return false;
-        }
-
-        $('#cadastra').attr("disabled", false);
-        isMsg.hide();
-        return true;
-    }
-
-    $(document).ready(publicoValidacao);
-
-    $('.publicos').on("change", publicoValidacao);
-    $('.publicos').attr("name", "ev_publicos[]");
-</script>

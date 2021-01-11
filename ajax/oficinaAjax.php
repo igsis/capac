@@ -9,10 +9,16 @@ if (isset($_POST['_method'])) {
 
     switch ($_POST['_method']) {
         case "cadastrarEvento":
-            echo $oficinaObj->cadastraEvento($_POST);
+            echo $oficinaObj->insereEvento($_POST);
             break;
         case "editarEvento":
             echo $oficinaObj->editaEvento($_POST,$_POST['id']);
+            break;
+        case "cadastrarOficina":
+            echo $oficinaObj->insereOficina($_POST);
+            break;
+        case "editarOficina":
+            echo $oficinaObj->editaOficina($_POST,$_POST['id']);
             break;
         /*
     case "cadastrarPf":

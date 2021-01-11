@@ -21,13 +21,13 @@ if (isset($_SESSION['origem_id_c'])){
 
 <?php if (isset($_SESSION['origem_id_c'])) { ?>
     <li class="nav-item">
-        <a href="<?= SERVERURL ?>oficina/evento_cadastro&idC=<?= $_SESSION['origem_id_c'] ?? "" ?>" class="nav-link" id="evento_cadastro">
+        <a href="<?= SERVERURL ?>oficina/evento_cadastro&key=<?= $_SESSION['origem_id_c'] ?? "" ?>" class="nav-link" id="evento_cadastro">
             <i class="far fa-circle nav-icon"></i>
             <p>Dados da oficina</p>
         </a>
     </li>
     <li class="nav-item">
-        <a href="<?= SERVERURL ?>oficina/oficina_cadastro&idC=<?= $_SESSION['origem_id_c'] ?>" class="nav-link" id="oficina">
+        <a href="<?= SERVERURL ?>oficina/oficina_cadastro&id=<?= $_SESSION['oficina_id_c'] ?? "" ?>" class="nav-link" id="oficina">
             <i class="far fa-circle nav-icon"></i>
             <p>Complemento da oficina</p>
         </a>

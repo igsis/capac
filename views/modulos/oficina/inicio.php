@@ -43,7 +43,8 @@ $cadastros = $oficinaObj->listaOficina();
                             <tr>
                                 <th>Protocolo</th>
                                 <th>Nome da oficina</th>
-                                <th>Envio</th>
+                                <th>Data do cadastro</th>
+                                <th>Data do envio</th>
                                 <th>Ação</th>
                             </tr>
                             </thead>
@@ -52,28 +53,26 @@ $cadastros = $oficinaObj->listaOficina();
                                 <tr>
                                     <td><?= $cadastro->protocolo ?? "Somente após envio" ?></td>
                                     <td><?= $cadastro->nome_evento ?></td>
+                                    <td><?= date('d/m/Y H:i:s', strtotime($cadastro->data_cadastro)) ?></td>
                                     <td><?= $cadastro->data_envio ? date('d/m/Y H:i:s', strtotime($cadastro->data_envio)) : "Não enviado" ?></td>
                                     <td>
                                         <div class="row">
-                                            <?php if (!$cadastro->data_envio && $cadastro->ano == $_SESSION['ano_c']): ?>
+                                            <?php if (!$cadastro->data_envio): ?>
                                                 <div class="col">
-                                                    <a href="<?= SERVERURL. 'oficina/pf_dados_cadastro&id='.$oficinaObj->encryption($cadastro->pessoa_fisica_id) ?>" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</a>
+                                                    <a href="<?= SERVERURL. 'oficina/evento_cadastro&key='.$oficinaObj->encryption($cadastro->id) ?>" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Editar</a>
                                                 </div>
                                                 <div class="col">
                                                     <form class="form-horizontal formulario-ajax" method="POST"
-                                                          action="<?= SERVERURL ?>ajax/oficinaAjax.php" role="form"
-                                                          data-form="delete">
+                                                          action="<?= SERVERURL ?>ajax/oficinaAjax.php" role="form" data-form="delete">
                                                         <input type="hidden" name="_method" value="apagarOficina">
                                                         <input type="hidden" name="id" value="<?= $cadastro->id ?>">
-                                                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i>
-                                                            Apagar
-                                                        </button>
+                                                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Apagar</button>
                                                         <div class="resposta-ajax"></div>
                                                     </form>
                                                 </div>
                                             <?php else: ?>
                                                 <div class="col">
-                                                    <a href="<?= SERVERURL . "pdf/resumo_oficina.php?id=" . $oficinaObj->encryption($cadastro->id)."&ano=".$_SESSION['ano_c'] ?>"
+                                                    <a href="<?= SERVERURL . "pdf/resumo_oficina.php?id=" . $oficinaObj->encryption($cadastro->id) ?>"
                                                        class="btn btn-sm btn-primary" target="_blank"><i class="fas fa-edit"></i> Visualizar</a>
                                                 </div>
                                             <?php endif; ?>
@@ -86,7 +85,8 @@ $cadastros = $oficinaObj->listaOficina();
                             <tr>
                                 <th>Protocolo</th>
                                 <th>Nome da oficina</th>
-                                <th>Envio</th>
+                                <th>Data do cadastro</th>
+                                <th>Data do envio</th>
                                 <th>Ação</th>
                             </tr>
                             </tfoot>
