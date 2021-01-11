@@ -2,6 +2,7 @@
 require_once "./controllers/OficinaController.php";
 unset($_SESSION['projeto_c']);
 unset($_SESSION['origem_id_c']);
+unset($_SESSION['oficina_id_c']);
 unset($_SESSION['pf_id_c']);
 unset($_SESSION['pj_id_c']);
 unset($_SESSION['lider_id_c']);
@@ -17,7 +18,8 @@ $cadastros = $oficinaObj->listaOficina();
                 <h1 class="m-0 text-dark">Lista de Cadastros</h1>
             </div><!-- /.col -->
             <div class="col-sm-3">
-                <button class="btn btn-success btn-block" data-toggle="modal" data-target="#modal-default">Adicionar</button>
+                <a href="<?= SERVERURL ?>oficina/evento_cadastro" class="btn btn-success btn-block">Adicionar</a>
+                <!--<button class="btn btn-success btn-block" data-toggle="modal" data-target="#modal-default">Adicionar</button>-->
             </div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->

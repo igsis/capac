@@ -55,35 +55,6 @@ if ($oficina) {
                             <input type="hidden" name="atracao_id" value="<?=$oficinaObj->encryption($oficina->atracao_id)?>">
                         <?php endif; ?>
                         <div class="card-body">
-                            <div class="form-group row">
-                                <label for="nomeEvento">Nome da oficina *</label>
-                                <input type="text" class="form-control" id="nomeEvento" name="ev_nome_evento"
-                                       placeholder="Digite o nome da oficina. Exemplo: Oficina de ponto cruz"
-                                       maxlength="240" value="<?=$oficina->nome_evento ?? ""?>" required>
-                            </div>
-
-                            <div class="row">
-                                <div class="form-group col-md-7">
-                                    <label for="acao">Público (Representatividade e Visibilidade Sócio-cultural)* <i>(multipla escolha) </i></label>
-                                    <button class='btn btn-default' type='button' data-toggle='modal'
-                                            data-target='#modalPublico' style="border-radius: 30px;">
-                                        <i class="fa fa-question-circle"></i></button>
-                                    <div class="row" id="msgEsconde">
-                                        <div class="form-group col-md-6">
-                                            <span style="color: red;">Selecione ao menos uma representatividade!</span>
-                                        </div>
-                                    </div>
-                                    <?php $oficinaObj->geraCheckbox('publicos', 'evento_publico', 'evento_id',$oficina->id ?? null, true); ?>
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label for="sinopse">Sinopse *</label><br/>
-                                <i>Esse campo deve conter uma breve descrição do que será apresentado no evento.</i>
-                                <p align="justify"><span style="color: gray; "><strong><i>Texto de exemplo:</strong><br/>Ana Cañas faz o show de lançamento do seu quarto disco, “Tô na Vida” (Som Livre/Guela Records). Produzido por Lúcio Maia (Nação Zumbi) em parceria com Ana e mixado por Mario Caldato Jr, é o primeiro disco totalmente autoral da carreira da cantora e traz parcerias com Arnaldo Antunes e Dadi entre outros.</span></i>
-                                </p>
-                                <textarea name="ev_sinopse" id="sinopse" class="form-control" rows="5" required><?=$oficina->sinopse ?? ""?></textarea>
-                            </div>
 
                             <div class="row">
                                 <div class="form-group col-md-6">
@@ -119,12 +90,59 @@ if ($oficina) {
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label for="links">Links</label><br/>
-                                <i>Esse campo deve conter os links relacionados ao espetáculo, ao artista/grupo que auxiliem na divulgação do evento.</i>
-                                <p align="justify"><span style="color: gray; "><strong><i>Links de exemplo:</i></strong><br/> https://www.facebook.com/anacanasoficial/<br/>https://www.youtube.com/user/anacanasoficial</i></span>
-                                </p>
-                                <textarea id="links" name="at_links" class="form-control" rows="5"><?=$oficina->links ?? ""?></textarea>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label for="modalidade_id">Modalidade: *</label>
+                                    <select class="form-control" name="modalidade_id" id="modalidade_id" required>
+                                        <option value="">Selecione uma opção...</option>
+                                        <?php $oficinaObj->geraOpcao('modalidades', $oficina->modalidade_id ?? "", true) ?>
+                                    </select>
+                                </div>
+
+                                <div class="form-group col-md-2">
+                                    <label for="data_inicio">Data inicial: *</label><br/>
+                                    <input type="date" class="form-control" name="data_inicio" id="data_inicio" value="<?= date("d/m/Y", strtotime($oficina->data_inicio)) ?? "" ?>" required>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="data_fim">Data final: *</label><br/>
+                                    <input type="date" class="form-control" name="data_fim" id="data_fim" value="<?= date("d/m/Y", strtotime($oficina->data_fim)) ?? "" ?>" required>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="execucao_dia1_id">Dia execução 1: *</label><br/>
+                                    <select class="form-control" name="execucao_dia1_id" id="execucao_dia1_id" required>
+                                        <option value="">Selecione uma opção...</option>
+                                        <?php $oficinaObj->geraOpcao('execucao_dias', $oficina->execucao_dia1_id ?? "", false, true) ?>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="execucao_dia2_id">Dia execução 2: *</label><br/>
+                                    <select class="form-control" name="execucao_dia2_id" id="execucao_dia2_id" required>
+                                        <option value="">Selecione uma opção...</option>
+                                        <?php $oficinaObj->geraOpcao('execucao_dias', $oficina->execucao_dia2_id ?? "", false, true) ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label for="nivel">Nível *</label>
+                                    <select class="form-control" name="nivel" id="nivel" required>
+                                        <option value="">Selecione uma opção...</option>
+                                        <?php $oficinaObj->geraOpcao('ofic_niveis', $oficina->nivel_id ?? "") ?>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="linguagem_id">Linguagem: *</label>
+                                    <select class="form-control" name="linguagem_id" id="linguagem_id" required>
+                                        <option value="">Selecione uma opção...</option>
+                                        <?php $oficinaObj->geraOpcao('ofic_linguagens', $oficina->linguagem_id ?? "") ?>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="sublinguagem_id">Sub Linguagem: *</label>
+                                    <select class="form-control" name="sublinguagem_id" id="sublinguagem_id" required>
+                                        <option value="">Selecione uma opção...</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <!-- /.card-body -->
