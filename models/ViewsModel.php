@@ -71,7 +71,8 @@ class ViewsModel
             'pf_banco_cadastro',
             'formacao_cadastro',
             'oficina_cadastro',
-            'oficina_complemento_cadastro'
+            'oficina_complemento_cadastro',
+            'proponente'
         ];
         if (self::verificaModulo($modulo)) {
             if (in_array($view, $whitelist)) {
