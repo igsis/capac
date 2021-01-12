@@ -199,16 +199,13 @@ $oficina = $oficinaObj->recuperaOficina($evento_id);
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
-<?php
-$oficina->ofic_sublinguagem_id != '' ? $oficina->ofic_sublinguagem_id : 0;
-?>;
 <script>
     const url = `<?=$url?>`;
 
     let linguagem = document.querySelector("#linguagem");
 
     if(linguagem.value != ''){
-        let sublinguagem_id = <?= $oficina->ofic_sublinguagem_id ?>
+        let sublinguagem_id = <?=$oficina->ofic_sublinguagem_id ?? "''"?>;
         getSublinguagem(linguagem.value, sublinguagem_id)
     }
 
@@ -223,7 +220,7 @@ $oficina->ofic_sublinguagem_id != '' ? $oficina->ofic_sublinguagem_id : 0;
                 $('#sublinguagem').append('<option value="">Selecione... </option>');
 
                 for (const sublinguagem of sublinguagens) {
-                    $('#sublinguagem').append(`<option value='${sublinguagem.id}'>${sublinguagem.sublinguagem}</option>`).focus();
+                    $('#sublinguagem').append(`<option value='${sublinguagem.id}'>${sublinguagem.sublinguagem}</option>`).focus();;
                 }
             })
     })
@@ -236,9 +233,9 @@ $oficina->ofic_sublinguagem_id != '' ? $oficina->ofic_sublinguagem_id : 0;
 
                 for (const sublinguagem of sublinguagens) {
                     if(selectedId == sublinguagem.id){
-                        $('#sublinguagem').append(`<option value='${sublinguagem.id}' selected>${sublinguagem.sublinguagem}</option>`).focus();
+                        $('#sublinguagem').append(`<option value='${sublinguagem.id}' selected>${sublinguagem.sublinguagem}</option>`).focus();;
                     }else{
-                        $('#sublinguagem').append(`<option value='${sublinguagem.id}'>${sublinguagem.sublinguagem}</option>`).focus();
+                        $('#sublinguagem').append(`<option value='${sublinguagem.id}'>${sublinguagem.sublinguagem}</option>`).focus();;
                     }
                 }
             })
