@@ -1,4 +1,6 @@
 <?php
+$url = SERVERURL.'api/api_oficina_linguagens.php';
+
 require_once "./controllers/OficinaController.php";
 $oficinaObj = new OficinaController();
 
@@ -122,14 +124,14 @@ $oficina = $oficinaObj->recuperaOficina($evento_id);
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="linguagem_id">Linguagem: *</label>
-                                    <select class="form-control" name="linguagem_id" id="linguagem_id" required>
+                                    <select class="form-control" name="linguagem_id" id="linguagem" required>
                                         <option value="">Selecione uma opção...</option>
-                                        <?php $oficinaObj->geraOpcao('ofic_linguagens', $oficina->linguagem_id ?? "") ?>
+                                        <?php $oficinaObj->geraOpcao('ofic_linguagens', $oficina->ofic_linguagem_id ?? "") ?>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="sublinguagem_id">Sub Linguagem: *</label>
-                                    <select class="form-control" name="sublinguagem_id" id="sublinguagem_id" required>
+                                    <select class="form-control" name="sublinguagem_id" id="sublinguagem" required>
                                         <option value="">Selecione uma opção...</option>
                                     </select>
                                 </div>
@@ -197,3 +199,49 @@ $oficina = $oficinaObj->recuperaOficina($evento_id);
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+<?php
+$oficina->ofic_sublinguagem_id != '' ? $oficina->ofic_sublinguagem_id : 0;
+?>;
+<script>
+    const url = `<?=$url?>`;
+
+    let linguagem = document.querySelector("#linguagem");
+
+    if(linguagem.value != ''){
+        let sublinguagem_id = <?= $oficina->ofic_sublinguagem_id ?>
+        getSublinguagem(linguagem.value, sublinguagem_id)
+    }
+
+    linguagem.addEventListener('change', async e => {
+        let idLinguagem = $('#linguagem option:checked').val();
+        getSublinguagem(idLinguagem, '')
+
+        fetch(`${url}?linguagem_id=${idLinguagem}`)
+            .then(response => response.json())
+            .then(sublinguagens => {
+                $('#sublinguagem option').remove();
+                $('#sublinguagem').append('<option value="">Selecione... </option>');
+
+                for (const sublinguagem of sublinguagens) {
+                    $('#sublinguagem').append(`<option value='${sublinguagem.id}'>${sublinguagem.sublinguagem}</option>`).focus();
+                }
+            })
+    })
+
+    function getSublinguagem(idLinguagem, selectedId){
+        fetch(`${url}?linguagem_id=${idLinguagem}`)
+            .then(response => response.json())
+            .then(sublinguagens => {
+                $('#sublinguagem option').remove();
+
+                for (const sublinguagem of sublinguagens) {
+                    if(selectedId == sublinguagem.id){
+                        $('#sublinguagem').append(`<option value='${sublinguagem.id}' selected>${sublinguagem.sublinguagem}</option>`).focus();
+                    }else{
+                        $('#sublinguagem').append(`<option value='${sublinguagem.id}'>${sublinguagem.sublinguagem}</option>`).focus();
+                    }
+                }
+            })
+    }
+
+</script>
