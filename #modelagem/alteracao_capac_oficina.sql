@@ -1,3 +1,5 @@
+USE capac_new;
+
 SET FOREIGN_KEY_CHECKS = 0;
 
 ALTER TABLE `pf_oficinas` DROP INDEX `fk_pf_oficina_oficina_niveis1_idx`;
@@ -34,5 +36,23 @@ ALTER TABLE `ofic_cadastros` ADD CONSTRAINT `fk_oficinas_ofic_linguagem` FOREIGN
 ALTER TABLE `ofic_cadastros` ADD CONSTRAINT `fk_oficinas_ofic_sublinguagem` FOREIGN KEY (`ofic_sublinguagem_id`) REFERENCES `ofic_sublinguagens`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 ALTER TABLE `eventos` ADD `protocolo` CHAR(18) AFTER `id`;
+
+# Adicionando colunas a tabela de Oficina Cadastro
+
+ALTER TABLE `eventos`
+    ADD COLUMN `data_envio` DATETIME NULL AFTER `data_cadastro`;
+
+ALTER TABLE `ofic_cadastros`
+    ADD COLUMN `evento_id` INT(11) NOT NULL DEFAULT '0' AFTER `id`,
+    ADD COLUMN `integrantes` LONGTEXT NULL DEFAULT NULL COLLATE 'utf8_general_ci' AFTER `ofic_sublinguagem_id`,
+    ADD COLUMN `classificacao_indicativa_id` TINYINT(1) NOT NULL AFTER `integrantes`,
+    ADD COLUMN `links` LONGTEXT NULL DEFAULT NULL COLLATE 'utf8_general_ci' AFTER `classificacao_indicativa_id`,
+    ADD COLUMN `quantidade_apresentacao` TINYINT(2) NOT NULL AFTER `links`,
+    DROP COLUMN `atracao_id`,
+    DROP FOREIGN KEY `fk_oficinas_atracoes1`,
+    ADD INDEX `fk_ofic_cadastro_evento` (`evento_id`),
+    ADD INDEX `fk_ofic_cadastro_classificacao_idx` (`classificacao_indicativa_id`),
+    ADD CONSTRAINT `fk_ofic_cadastro_classificacao` FOREIGN KEY (`classificacao_indicativa_id`) REFERENCES `classificacao_indicativas` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION,
+    ADD CONSTRAINT `fk_ofic_cadastros_eventos` FOREIGN KEY (`evento_id`) REFERENCES `eventos` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 SET FOREIGN_KEY_CHECKS = 1;
