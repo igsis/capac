@@ -9,11 +9,11 @@ if ($pedidoAjax) {
 
 class OficinaController extends OficinaModel
 {
-    public function recuperaOficina($idEvento)
+    public function recuperaEventoOficina($idEvento)
     {
         $idEvento = MainModel::decryption($idEvento);
         return DbModel::consultaSimples("
-            SELECT e.id, e.protocolo, e.nome_evento, e.sinopse, e.data_cadastro, e.data_envio, m.modalidade, ofn.nivel, os.sublinguagem, oc.ofic_linguagem_id, oc.ofic_sublinguagem_id, oc.execucao_dia1_id, oc.execucao_dia2_id, oc.data_inicio, oc.data_fim 
+            SELECT e.id, e.protocolo, e.nome_evento, e.sinopse, e.data_cadastro, e.data_envio, m.modalidade, ofn.nivel, os.sublinguagem, oc.ofic_linguagem_id, oc.ofic_sublinguagem_id, oc.execucao_dia1_id, oc.execucao_dia2_id, oc.data_inicio, oc.data_fim, oc.id as idOficina 
             FROM eventos e
                 LEFT JOIN ofic_cadastros oc on e.id = oc.evento_id
                 LEFT JOIN modalidades m on oc.modalidade_id = m.id
@@ -103,7 +103,7 @@ class OficinaController extends OficinaModel
                 'titulo' => 'Oficina',
                 'texto' => 'Dados cadastrados com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL . 'eventos/oficina_cadastro&id=' . MainModel::encryption($oficina_id)
+                'location' => SERVERURL . 'oficina/oficina_cadastro&id=' . MainModel::encryption($oficina_id)
             ];
         } else {
             $alerta = [
@@ -130,14 +130,15 @@ class OficinaController extends OficinaModel
         /* /.limpeza */
 
         // edição
-        $edita = DbModel::update("ofic_cadastros",$dadosOficina,$id);
+        $idDecr = MainModel::decryption($id);
+        $edita = DbModel::update("ofic_cadastros",$dadosOficina,$idDecr);
         if ($edita->rowCount() >= 1 || DbModel::connection()->errorCode() == 0) {
             $alerta = [
                 'alerta' => 'sucesso',
                 'titulo' => 'Oficina',
                 'texto' => 'Dados cadastrados com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL . 'eventos/oficina_cadastro&id=' . MainModel::encryption($oficina_id)
+                'location' => SERVERURL . 'oficina/oficina_cadastro&id=' . MainModel::encryption($id)
             ];
         } else {
             $alerta = [
@@ -151,6 +152,18 @@ class OficinaController extends OficinaModel
         return MainModel::sweetAlert($alerta);
     }
 
+    public function recuperaOficina($idOficina)
+    {
+        $idOficina = MainModel::decryption($idOficina);
+        return $this->consultaSimples("
+            SELECT oc.*, ofn.nivel, ol.linguagem, os.sublinguagem FROM ofic_cadastros oc 
+            LEFT JOIN modalidades m on oc.modalidade_id = m.id
+                LEFT JOIN ofic_niveis ofn on oc.ofic_nivel_id = ofn.id
+                LEFT JOIN ofic_linguagens ol on oc.ofic_linguagem_id = ol.id
+                LEFT JOIN ofic_sublinguagens os on ol.id = os.oficina_linguagem_id
+            WHERE oc.id = '$idOficina' AND publicado = 1
+            ")->fetchObject();
+    }
 
     /*
         public function inserePfCadastro($pagina)

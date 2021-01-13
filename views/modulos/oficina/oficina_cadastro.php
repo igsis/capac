@@ -4,10 +4,11 @@ $url = SERVERURL.'api/api_oficina_linguagens.php';
 require_once "./controllers/OficinaController.php";
 $oficinaObj = new OficinaController();
 
-$id = $_GET['id'] ?? null;
-
-$evento_id = $_SESSION['origem_id_c'];
-$oficina = $oficinaObj->recuperaOficina($evento_id);
+if (isset($_SESSION['oficina_id_c'])){
+    $oficina = $oficinaObj->recuperaOficina($_SESSION['oficina_id_c']);
+} else {
+    $id = null;
+}
 ?>
 
 <!-- Content Header (Page header) -->
@@ -34,9 +35,9 @@ $oficina = $oficinaObj->recuperaOficina($evento_id);
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal formulario-ajax" method="POST" action="<?=SERVERURL?>ajax/oficinaAjax.php" role="form" data-form="<?= ($id) ? "update" : "save" ?>">
-                        <input type="hidden" name="_method" value="<?= ($id) ? "editarOficina" : "cadastrarOficina" ?>">
-                        <?php if ($id): ?>
+                    <form class="form-horizontal formulario-ajax" method="POST" action="<?=SERVERURL?>ajax/oficinaAjax.php" role="form" data-form="<?= ($oficina->id) ? "update" : "save" ?>">
+                        <input type="hidden" name="_method" value="<?= ($oficina->id) ? "editarOficina" : "cadastrarOficina" ?>">
+                        <?php if ($oficina->id): ?>
                             <input type="hidden" name="id" value="<?=$oficinaObj->encryption($oficina->id)?>">
                         <?php endif; ?>
                         <div class="card-body">
@@ -93,11 +94,11 @@ $oficina = $oficinaObj->recuperaOficina($evento_id);
 
                                 <div class="form-group col-md-2">
                                     <label for="data_inicio">Data inicial: *</label><br/>
-                                    <input type="date" class="form-control" name="data_inicio" id="data_inicio" value="<?= date("d/m/Y", strtotime($oficina->data_inicio)) ?? "" ?>" required>
+                                    <input type="date" class="form-control" name="data_inicio" id="data_inicio" value="<?= $oficina->data_inicio ?? "" ?>" required>
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label for="data_fim">Data final: *</label><br/>
-                                    <input type="date" class="form-control" name="data_fim" id="data_fim" value="<?= date("d/m/Y", strtotime($oficina->data_fim)) ?? "" ?>" required>
+                                    <input type="date" class="form-control" name="data_fim" id="data_fim" value="<?= $oficina->data_fim ?? "" ?>" required>
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label for="execucao_dia1_id">Dia execução 1: *</label><br/>
@@ -117,21 +118,21 @@ $oficina = $oficinaObj->recuperaOficina($evento_id);
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label for="nivel">Nível *</label>
-                                    <select class="form-control" name="nivel" id="nivel" required>
+                                    <select class="form-control" name="ofic_nivel_id" id="nivel" required>
                                         <option value="">Selecione uma opção...</option>
-                                        <?php $oficinaObj->geraOpcao('ofic_niveis', $oficina->nivel_id ?? "") ?>
+                                        <?php $oficinaObj->geraOpcao('ofic_niveis', $oficina->ofic_nivel_id ?? "") ?>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="linguagem_id">Linguagem: *</label>
-                                    <select class="form-control" name="linguagem_id" id="linguagem" required>
+                                    <select class="form-control" name="ofic_linguagem_id" id="linguagem" required>
                                         <option value="">Selecione uma opção...</option>
                                         <?php $oficinaObj->geraOpcao('ofic_linguagens', $oficina->ofic_linguagem_id ?? "") ?>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="sublinguagem_id">Sub Linguagem: *</label>
-                                    <select class="form-control" name="sublinguagem_id" id="sublinguagem" required>
+                                    <select class="form-control" name="ofic_sublinguagem_id" id="sublinguagem" required>
                                         <option value="">Selecione uma opção...</option>
                                     </select>
                                 </div>

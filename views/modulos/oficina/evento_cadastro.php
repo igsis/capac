@@ -13,7 +13,7 @@ if (isset($_GET['key'])) {
 
 require_once "./controllers/OficinaController.php";
 $oficinaObj = new OficinaController();
-$oficina = $oficinaObj->recuperaOficina($id);
+$oficina = $oficinaObj->recuperaEventoOficina($id);
 /*if ($oficina) {
     $_SESSION['atracao_id_c'] = $oficinaObj->encryption($oficina->atracao_id);
     $tipoContratacao = $oficina->tipo_contratacao_id;

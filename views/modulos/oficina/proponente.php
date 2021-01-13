@@ -22,18 +22,15 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>oficinas/pj_dados_cadastro"
+                    <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>oficina/pj_dados_cadastro"
                           role="form" id="formularioPj">
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-12">
                                     <label for="cnpj">CNPJ:</label>
-                                    <input type="text" onkeypress="mask(this,'##.###.###/####-##')" class="form-control"
-                                           id="cnpj" name="pj_cnpj" maxlength="18"
-                                           required>
+                                    <input type="text" onkeypress="mask(this,'##.###.###/####-##')" class="form-control" id="cnpj" name="pj_cnpj" maxlength="18" required>
                                     <br>
-                                    <span style="display: none;" id="dialogErrorCnpj" class="alert alert-danger"
-                                          role="alert">CNPJ inválido</span>
+                                    <span style="display: none;" id="dialogErrorCnpj" class="alert alert-danger" role="alert">CNPJ inválido</span>
                                 </div>
                             </div>
 
@@ -55,17 +52,14 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>oficinas/pf_dados_cadastro"
-                          role="form" id="formularioPf">
+                    <form class="form-horizontal" method="POST" action="<?= SERVERURL ?>oficina/pf_dados_cadastro" role="form" id="formularioPf">
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-12">
                                     <label for="cpf">CPF:</label>
-                                    <input type="text" class="form-control" id="cpf" name="pf_cpf" maxlength="14"
-                                           required onkeypress="mask(this, '999.999.999-99')" minlength="14">
+                                    <input type="text" class="form-control" id="cpf" name="pf_cpf" maxlength="14" required onkeypress="mask(this, '999.999.999-99')" minlength="14">
                                     <br>
-                                    <span style="display: none;" id="dialogError" class="alert alert-danger"
-                                          role="alert">CPF inválido</span>
+                                    <span style="display: none;" id="dialogError" class="alert alert-danger" role="alert">CPF inválido</span>
                                 </div>
                             </div>
 

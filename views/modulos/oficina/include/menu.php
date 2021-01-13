@@ -3,10 +3,12 @@ require_once "./controllers/OficinaController.php";
 $oficObj = new OficinaController();
 
 if (isset($_SESSION['origem_id_c'])){
-    $idPf = $_SESSION['origem_id_c'];
-    $ofic = $oficObj->recuperaOficina($_SESSION['usuario_id_c']);
+    $ofic = $oficObj->recuperaEventoOficina($_SESSION['origem_id_c']);
     if ($ofic){
         $id = MainModel::encryption($ofic->id);
+        if (isset($ofic->idOficina)){
+            $_SESSION['oficina_id_c'] = MainModel::encryption($ofic->idOficina);
+        }
     }
 }
 ?>
@@ -17,7 +19,6 @@ if (isset($_SESSION['origem_id_c'])){
     </a>
 </li>
 <hr/>
-
 
 <?php if (isset($_SESSION['origem_id_c'])) { ?>
     <li class="nav-item">
@@ -33,11 +34,19 @@ if (isset($_SESSION['origem_id_c'])){
         </a>
     </li>
     <li class="nav-item">
-        <a href="<?= SERVERURL ?>oficina/proponente&idC=<?= $_SESSION['origem_id_c'] ?>" class="nav-link" id="oficina">
+        <a href="<?= SERVERURL ?>oficina/anexos" class="nav-link" id="anexos">
             <i class="far fa-circle nav-icon"></i>
-            <p>Proponente</p>
+            <p>Anexos comunic./produc.</p>
         </a>
     </li>
+    <?php if (!isset($_SESSION['pf_id_c']) || !isset($_SESSION['pj_id_c'])){ ?>
+        <li class="nav-item">
+            <a href="<?= SERVERURL ?>oficina/proponente" class="nav-link" id="oficina">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Proponente</p>
+            </a>
+        </li>
+    <?php } ?>
 <?php } ?>
 <?php if (isset($_SESSION['pj_id_c'])){ ?>
     <li class="nav-item">
@@ -84,32 +93,7 @@ if (isset($_SESSION['pf_id_c'])){
         </a>
     </li>
 
-
     <?php if (isset($_SESSION['origem_id_c'])) { ?>
-        <li class="nav-item">
-            <a href="<?= SERVERURL ?>oficina/oficina_cadastro&idC=<?= $_SESSION['origem_id_c'] ?>" class="nav-link" id="oficina">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Dados da oficina</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="<?= SERVERURL ?>oficina/oficina_complemento_cadastro&idC=<?= $_SESSION['origem_id_c'] ?>" class="nav-link" id="oficina">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Complemento da oficina</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="<?= SERVERURL ?>oficina/anexos" class="nav-link" id="anexos">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Anexos pessoais</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="<?= SERVERURL ?>oficina/anexos" class="nav-link" id="anexos">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Anexos comunic./produc.</p>
-            </a>
-        </li>
         <li class="nav-item">
             <a href="<?= SERVERURL ?>oficina/finalizar" class="nav-link" id="finalizar">
                 <i class="far fa-circle nav-icon"></i>
