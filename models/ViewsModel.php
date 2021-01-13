@@ -72,7 +72,9 @@ class ViewsModel
             'formacao_cadastro',
             'oficina_cadastro',
             'oficina_complemento_cadastro',
-            'proponente'
+            'proponente',
+            'pj_dados_cadastro',
+            'lider_cadastro'
         ];
         if (self::verificaModulo($modulo)) {
             if (in_array($view, $whitelist)) {
