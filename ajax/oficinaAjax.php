@@ -5,7 +5,9 @@ require_once "../config/configGeral.php";
 if (isset($_POST['_method'])) {
     session_start(['name' => 'cpc']);
     require_once "../controllers/OficinaController.php";
+    require_once "../controllers/PedidoController.php";
     $oficinaObj = new OficinaController();
+    $pedidoObj = new PedidoController();
 
     switch ($_POST['_method']) {
         case "cadastrarEvento":
@@ -20,6 +22,19 @@ if (isset($_POST['_method'])) {
         case "editarOficina":
             echo $oficinaObj->editaOficina($_POST,$_POST['id']);
             break;
+        case "cadastrarPf":
+            echo $pedidoObj->inserePedidoFisica("oficina",1);
+            break;
+        case "editarPf":
+            echo $pedidoObj->editaPedidoFisica($_POST['id'],"oficina",1);
+            break;
+        case "cadastrarPj":
+            echo $pedidoObj->inserePedidoJuridica("oficina",1);
+            break;
+        case "editarPj":
+            echo $pedidoObj->editaPedidoJuridica($_POST['id'],"oficina",1);
+            break;
+
         /*
     case "cadastrarPf":
         echo $oficinaObj->inserePfCadastro($_POST['pagina']);
