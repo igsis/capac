@@ -90,8 +90,8 @@ class RecuperaSenhaController extends RecuperaSenhaModel
 //            $email->Debugoutput = 'html';
 
             $email->setFrom(SMTP);
-            $email->FromName = "Siscontrat";
-            $email->addReplyTo('no-reply@siscontrat.com.br');
+            $email->FromName = "CAPAC";
+            $email->addReplyTo('no-reply@capac.com.br');
             $email->addAddress($endEmail);
 
             $email->isHTML(true);
