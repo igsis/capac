@@ -20,7 +20,6 @@ if ($id) {
 }
 
 $pessoa_tipos_id = $objFomento->recuperaEdital($_SESSION['edital_c'])->pessoa_tipos_id;
-
 ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -135,6 +134,28 @@ $pessoa_tipos_id = $objFomento->recuperaEdital($_SESSION['edital_c'])->pessoa_ti
                                            value="<?= $projeto['coletivo_produtor'] ?? null ?>" required>
                                 </div>
                             </div>
+                            <?php if ($pessoa_tipos_id ==1) : ?>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="fom_linguagem_projeto_id">Linguagem do projeto: *</label>
+                                        <select class="form-control" id="fom_linguagem_projeto_id" name="fom_linguagem_projeto_id" required>
+                                            <option value="">Selecione uma opção...</option>
+                                            <?php
+                                            $objFomento->geraOpcao("fom_linguagem_projetos",$projeto['fom_linguagem_projeto_id'] ?? null,true);
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="fom_tematica_projeto_id">Temática do projeto: *</label>
+                                        <select class="form-control" id="fom_tematica_projeto_id" name="fom_tematica_projeto_id" required>
+                                            <option value="">Selecione uma opção...</option>
+                                            <?php
+                                            $objFomento->geraOpcao("fom_tematica_projetos",$projeto['fom_tematica_projeto_id'] ?? null,true);
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">

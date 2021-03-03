@@ -173,6 +173,10 @@ $validacaoArquivos = $projetoObj->validaProjeto($idProj, $_SESSION['edital_c']);
                         <li class="my-2"><span
                                 class="subtitulos mr-2">Nome do coletivo/produtor independente: </span><?= $projeto['coletivo_produtor'] ?>
                         </li>
+                        <?php if ($pessoa_tipos_id == 1): ?>
+                            <li class="my-2"><span class="subtitulos mr-2">Linguagem do projeto:</span> <?= $projeto['linguagem'] ?></li>
+                            <li class="my-2"><span class="subtitulos mr-2">Temática do projeto:</span> <?= $projeto['tematica'] ?></li>
+                        <?php endif ?>
                         <li class="my-2"><span class="subtitulos mr-2">Status: </span><?= $status ?> </li>
                         <li class="my-2"><span class="subtitulos mr-2">Fomento: </span><?= $nomeEdital ?></li>
                         <?= $projeto['data_inscricao'] ? "<li class=\"my-2\"><span class=\"subtitulos mr-2\">Data de Envio: </span> {$dataEnvio} </li>" : '' ?>

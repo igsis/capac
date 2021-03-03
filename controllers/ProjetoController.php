@@ -11,7 +11,7 @@ if ($pedidoAjax) {
 
 class ProjetoController extends ProjetoModel
 {
-    public function inserePjProjeto()
+    public function inserePjProjeto(): string
     {
         session_start(['name' => 'cpc']);
         if (!isset($_SESSION['origem_id_c'])){
@@ -85,7 +85,7 @@ class ProjetoController extends ProjetoModel
         return MainModel::sweetAlert($alerta);
     }
 
-    public function removePjProjeto()
+    public function removePjProjeto(): string
     {
         session_start(['name' => 'cpc']);
         $id = MainModel::decryption($_SESSION['projeto_c']);
@@ -114,7 +114,7 @@ class ProjetoController extends ProjetoModel
         return MainModel::sweetAlert($alerta);
     }
 
-    public function inserePfProjeto()
+    public function inserePfProjeto(): string
     {
         session_start(['name' => 'cpc']);
         if (!isset($_SESSION['origem_id_c'])){
@@ -188,7 +188,7 @@ class ProjetoController extends ProjetoModel
         return MainModel::sweetAlert($alerta);
     }
 
-    public function removePfProjeto()
+    public function removePfProjeto(): string
     {
         session_start(['name' => 'cpc']);
         $id = MainModel::decryption($_SESSION['projeto_c']);
@@ -217,7 +217,8 @@ class ProjetoController extends ProjetoModel
         return MainModel::sweetAlert($alerta);
     }
 
-    public function listaProjetos(){
+    public function listaProjetos(): array
+    {
         $usuario_id = $_SESSION['usuario_id_c'];
         $edital_id = MainModel::decryption($_SESSION['edital_c']);
         $sql = "SELECT fe.titulo, fp.* FROM fom_projetos AS fp
@@ -227,7 +228,8 @@ class ProjetoController extends ProjetoModel
         return $consultaEvento->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function insereProjeto($post){
+    public function insereProjeto($post): string
+    {
         session_start(['name' => 'cpc']);
 
         /* executa limpeza nos campos */
@@ -239,8 +241,10 @@ class ProjetoController extends ProjetoModel
         $dados['fom_edital_id'] = $edital_id;
         $dados['fom_status_id'] = 1;
 
-        $camposComp = ['instituicao', 'site'];
-        $dadosComp = [];
+        $camposCompPj = ['instituicao', 'site'];
+        $dadosCompPj = [];
+        $camposCompPf = ['fom_linguagem_projeto_id', 'fom_tematica_projeto_id'];
+        $dadosCompPf = [];
 
         foreach ($post as $campo => $valor) {
             if ($campo != "modulo") {
@@ -248,8 +252,10 @@ class ProjetoController extends ProjetoModel
                     $valor = MainModel::dinheiroDeBr($valor);
                 }
                 $dado = MainModel::limparString($valor);
-                if (in_array($campo, $camposComp)) {
-                    $dadosComp[$campo] = $dado;
+                if (in_array($campo, $camposCompPj)) {
+                    $dadosCompPj[$campo] = $dado;
+                } elseif (in_array($campo, $camposCompPf)){
+                    $dadosCompPf[$campo] = $dado;
                 } else {
                     $dados[$campo] = $dado;
                 }
@@ -261,9 +267,13 @@ class ProjetoController extends ProjetoModel
         if ($insere->rowCount() >= 1) {
             $projeto_id = DbModel::connection()->lastInsertId();
 
-            if (count($dadosComp)) {
-                $dadosComp['fom_projeto_id'] = $projeto_id;
-                DbModel::insert('fom_projeto_dados', $dadosComp);
+            if (count($dadosCompPj)) {
+                $dadosCompPj['fom_projeto_id'] = $projeto_id;
+                DbModel::insert('fom_projeto_dado_pjs', $dadosCompPj);
+            }
+            if (count($dadosCompPf)) {
+                $dadosCompPf['fom_projeto_id'] = $projeto_id;
+                DbModel::insert('fom_projeto_dado_pfs', $dadosCompPf);
             }
 
             $_SESSION['projeto_c'] = MainModel::encryption($projeto_id);
@@ -287,7 +297,8 @@ class ProjetoController extends ProjetoModel
     }
 
     /* edita */
-    public function editaProjeto($post, $id){
+    public function editaProjeto($post, $id): string
+    {
         $id = MainModel::decryption($id);
 
         unset($post['_method']);
@@ -296,8 +307,10 @@ class ProjetoController extends ProjetoModel
         unset($post['pagina']);
         $dados = [];
 
-        $camposComp = ['instituicao', 'site'];
-        $dadosComp = [];
+        $camposCompPj = ['instituicao', 'site'];
+        $dadosCompPj = [];
+        $camposCompPf = ['fom_linguagem_projeto_id', 'fom_tematica_projeto_id'];
+        $dadosCompPf = [];
 
         foreach ($post as $campo => $valor) {
             if ($campo != "pagina") {
@@ -305,8 +318,10 @@ class ProjetoController extends ProjetoModel
                     $valor = MainModel::dinheiroDeBr($valor);
                 }
                 $dado = MainModel::limparString($valor);
-                if (in_array($campo, $camposComp)) {
-                    $dadosComp[$campo] = $dado;
+                if (in_array($campo, $camposCompPj)) {
+                    $dadosCompPj[$campo] = $dado;
+                } elseif (in_array($campo, $camposCompPf)) {
+                    $dadosCompPf[$campo] = $dado;
                 } else {
                     $dados[$campo] = $dado;
                 }
@@ -315,9 +330,13 @@ class ProjetoController extends ProjetoModel
 
         $edita = DbModel::update('fom_projetos', $dados, $id);
         if ($edita->rowCount() >= 1 || DbModel::connection()->errorCode() == 0) {
-            if (count($dadosComp)) {
-                $dadosComp['fom_projeto_id'] = $id;
-                DbModel::updateEspecial('fom_projeto_dados', $dadosComp, 'fom_projeto_id', $id);
+            if (count($dadosCompPj)) {
+                $dadosCompPj['fom_projeto_id'] = $id;
+                DbModel::updateEspecial('fom_projeto_dado_pjs', $dadosCompPj, 'fom_projeto_id', $id);
+            }
+            if (count($dadosCompPf)) {
+                $dadosCompPf['fom_projeto_id'] = $id;
+                DbModel::updateEspecial('fom_projeto_dado_pfs', $dadosCompPf, 'fom_projeto_id', $id);
             }
             $alerta = [
                 'alerta' => 'sucesso',
@@ -338,11 +357,16 @@ class ProjetoController extends ProjetoModel
         return MainModel::sweetAlert($alerta);
     }
 
-    public function recuperaProjeto($id) {
+    public function recuperaProjeto($id): array
+    {
         $id = MainModel::decryption($id);
 
-        $sql = "SELECT fp.*, fpd.instituicao, fpd.site FROM fom_projetos AS fp
-                LEFT JOIN fom_projeto_dados fpd on fp.id = fpd.fom_projeto_id
+        $sql = "SELECT fp.*, fpdj.instituicao, fpdj.site, fpdf.fom_linguagem_projeto_id, flp.linguagem, fpdf.fom_tematica_projeto_id , ftp.tematica 
+                FROM fom_projetos AS fp
+                LEFT JOIN fom_projeto_dado_pjs fpdj on fp.id = fpdj.fom_projeto_id
+                LEFT JOIN fom_projeto_dado_pfs fpdf on fp.id = fpdf.fom_projeto_id
+                LEFT JOIN fom_linguagem_projetos flp on fpdf.fom_linguagem_projeto_id = flp.id
+                LEFT JOIN fom_tematica_projetos ftp on fpdf.fom_tematica_projeto_id = ftp.id 
                 WHERE fp.id = '$id'";
         $projeto = DbModel::consultaSimples($sql)->fetch(PDO::FETCH_ASSOC);
 
@@ -364,7 +388,10 @@ class ProjetoController extends ProjetoModel
             FROM fom_projetos fp
             INNER JOIN fom_editais fe on fp.fom_edital_id = fe.id
             INNER JOIN fom_status fs on fp.fom_status_id = fs.id
-            LEFT JOIN fom_projeto_dados fpd on fp.id = fpd.fom_projeto_id
+            LEFT JOIN fom_projeto_dado_pjs fpd on fp.id = fpd.fom_projeto_id
+            LEFT JOIN fom_projeto_dado_pfs fpdpf on fp.id = fpdpf.fom_projeto_id
+            LEFT JOIN fom_linguagem_projetos flp on fpdpf.fom_linguagem_projeto_id = flp.id
+            LEFT JOIN fom_tematica_projetos ftp on fpdpf.fom_tematica_projeto_id = ftp.id
             LEFT JOIN pessoa_juridicas pj on fp.pessoa_juridica_id = pj.id
             LEFT JOIN pessoa_fisicas pf on fp.pessoa_fisica_id = pf.id
             INNER JOIN usuarios u on fp.usuario_id = u.id
@@ -384,7 +411,8 @@ class ProjetoController extends ProjetoModel
         return DbModel::consultaSimples("SELECT valor_max_projeto FROM fom_editais WHERE id = '$idEdital'")->fetchColumn();
     }
 
-    public function finalizarProjeto($id){
+    public function finalizarProjeto($id): string
+    {
         session_start(['name' => 'cpc']);
 
         $projetoId = MainModel::encryption($id);
@@ -414,7 +442,8 @@ class ProjetoController extends ProjetoModel
         return MainModel::sweetAlert($alerta);
     }
 
-    public function apagaProjeto($id){
+    public function apagaProjeto($id): string
+    {
         $apaga = DbModel::apaga("fom_projetos", $id);
         if ($apaga){
             $alerta = [

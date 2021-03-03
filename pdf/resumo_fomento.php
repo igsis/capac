@@ -127,11 +127,25 @@ $pdf->Cell(63, $l, utf8_decode("Nome do produtor independente:"), 0, 0, 'L');
 $pdf->SetFont('Arial', '', $f);
 $pdf->Cell(20, $l, utf8_decode($projeto['coletivo_produtor']), 0, 1, 'L');
 
-$pdf->SetX($x);
-$pdf->SetFont('Arial', 'B', $f);
-$pdf->Cell(32, $l, utf8_decode("Núcleo artístico:"), 0, 0, 'L');
-$pdf->SetFont('Arial', '', $f);
-$pdf->MultiCell(170, $l, utf8_decode($projeto['nucleo_artistico']), 0, 'L');
+if ($projeto['pessoa_tipos_id'] == 1) {
+    $pdf->SetX($x);
+    $pdf->SetFont('Arial', 'B', $f);
+    $pdf->Cell(32, $l, utf8_decode("Núcleo artístico:"), 0, 0, 'L');
+    $pdf->SetFont('Arial', '', $f);
+    $pdf->MultiCell(170, $l, utf8_decode($projeto['nucleo_artistico']), 0, 'L');
+
+    $pdf->SetX($x);
+    $pdf->SetFont('Arial', 'B', $f);
+    $pdf->Cell(23, $l, utf8_decode("Linguagem:"), 0, 0, 'L');
+    $pdf->SetFont('Arial', '', $f);
+    $pdf->MultiCell(147, $l, utf8_decode($projeto['linguagem']), 0, 'L');
+
+    $pdf->SetX($x);
+    $pdf->SetFont('Arial', 'B', $f);
+    $pdf->Cell(19, $l, utf8_decode("Temática:"), 0, 0, 'L');
+    $pdf->SetFont('Arial', '', $f);
+    $pdf->Cell(151, $l, utf8_decode($projeto['tematica']), 0, 1, 'L');
+}
 
 $pdf->Ln(10);
 
