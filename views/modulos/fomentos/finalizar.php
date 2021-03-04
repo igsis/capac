@@ -5,24 +5,22 @@ require_once "./config/configAPP.php";
 //CONTROLLERS
 require_once "./controllers/ProjetoController.php";
 require_once "./controllers/FomentoController.php";
-require_once "./controllers/PessoaJuridicaController.php";
-require_once "./controllers/RepresentanteController.php";
 require_once "./controllers/UsuarioController.php";
 
 $projetoObj = new ProjetoController();
 $fomentoObj = new FomentoController();
-$pjObj = new PessoaJuridicaController();
-$repObj = new RepresentanteController();
 
 //Projeto
 $idProj = $_SESSION['projeto_c'];
 $projeto = $projetoObj->recuperaProjeto($idProj);
 
-//Pessoa Juridica
-$pj = $pjObj->recuperaPessoaJuridica(MainModel::encryption($projeto['pessoa_juridica_id']));
+$pessoa_tipos_id = $fomentoObj->recuperaEdital($_SESSION['edital_c'])->pessoa_tipos_id;
 
-//Representante
-$repre = $repObj->recuperaRepresentante(MainModel::encryption($pj['representante_legal1_id']))->fetch(PDO::FETCH_ASSOC);
+if ($pessoa_tipos_id == 2) {
+    include_once "./views/modulos/fomentos/include/finalizar_pj.php";
+} else {
+    include_once "./views/modulos/fomentos/include/finalizar_pf.php";
+}
 
 $status = $projetoObj->recuperaStatusProjeto($projeto['fom_status_id']);
 if ($projeto['data_inscricao']) {
@@ -30,7 +28,6 @@ if ($projeto['data_inscricao']) {
 }
 
 $nomeEdital = $fomentoObj->recuperaNomeEdital($_SESSION['edital_c']);
-
 $validacaoArquivos = $projetoObj->validaProjeto($idProj, $_SESSION['edital_c']);
 ?>
 
@@ -96,39 +93,90 @@ $validacaoArquivos = $projetoObj->validaProjeto($idProj, $_SESSION['edital_c']);
                     <ul id="lista-finalizar-fom">
                         <?= $projeto['protocolo'] ? "<li class=\"my-2\"><span class=\"subtitulos mr-2\">Código de cadastro:</span> {$projeto['protocolo']}</li>" : '' ?>
                         <li class="my-2"><span
+                                class="subtitulos mr-2">Nome do Projeto: </span> <?= $projeto['nome_projeto'] ?>
+                        </li>
+                        <li class="my-2"><span
+                                class="subtitulos mr-2">Responsável pela inscrição: </span> <?= $_SESSION['nome_c'] ?>
+                        </li>
+                        <?php if ($pessoa_tipos_id == 2): ?>
+                            <li class="my-2"><span
                                     class="subtitulos mr-2">Instituição responsável: </span> <?= $projeto['instituicao'] ?>
-                        </li>
-                        <li class="my-2"><span
-                                    class="subtitulos mr-2">Responsável pela inscrição: </span> <?= $_SESSION['nome_c'] ?>
-                        </li>
-                        <li class="my-2"><span
-                                    class="subtitulos mr-2">Razão social: </span><?= $pj['razao_social'] ?>
-                            <span class="ml-5 subtitulos mr-2">CNPJ: </span> <?= $pj['cnpj'] ?> </li>
-                        <li class="my-2"><span
-                                    class="subtitulos mr-2">Representante Legal da empresa: </span> <?= $repre['nome'] ?? '' ?>
-                            <span class="ml-5 subtitulos mr-2">RG: </span> <?= $repre['rg'] ?? '' ?> <span
-                                    class="ml-5 subtitulos mr-2">CPF: </span> <?= $repre['cpf'] ?? '' ?></li>
-                        <li class="my-2"><span class="subtitulos mr-2">E-mail: </span> teste@test.com <span
-                                    class="ml-5 subtitulos mr-2">Telefone: </span> (11) 99999-9999
-                        </li>
-                        <li class="my-2"><span
-                                    class="subtitulos mr-2">Endereço: </span> <?= "{$pj['logradouro']}, {$pj['numero']}  {$pj['complemento']} - {$pj['bairro']}, {$pj['cidade']} - {$pj['uf']}, {$pj['cep']}" ?>
-                        </li>
-                        <li class="my-2"><span class="subtitulos mr-2">Site:</span> <a
+                            </li>
+                            <li class="my-2"><span class="subtitulos mr-2">Site:</span> <a
                                     href="<?= "http://{$projeto['site']}" ?>"
                                     target="_blank"><?= $projeto['site'] ?></a></li>
+                            <li class="my-2">
+                                <span class="subtitulos mr-2">Razão social: </span><?= $pj['razao_social'] ?>
+                                <span class="ml-5 subtitulos mr-2">CNPJ: </span> <?= $pj['cnpj'] ?>
+                            </li>
+                            <li class="my-2">
+                                <span class="subtitulos mr-2">E-mail: </span> <?= $pj['email'] ?? '' ?>
+                                <span
+                                    class="ml-5 subtitulos mr-2">Telefone: </span> <?= isset($pj['telefones']) ? implode(" | ", $pj['telefones']) : "" ?>
+                            </li>
+                            <li class="my-2">
+                                <span
+                                    class="subtitulos mr-2">Endereço: </span> <?= "{$pj['logradouro']}, {$pj['numero']}  {$pj['complemento']} - {$pj['bairro']}, {$pj['cidade']} - {$pj['uf']}, {$pj['cep']}" ?>
+                            </li>
+                            <li class="my-2">
+                                <span
+                                    class="subtitulos mr-2">Representante Legal da empresa: </span> <?= $repre['nome'] ?? '' ?>
+                                <span class="ml-5 subtitulos mr-2">RG: </span> <?= $repre['rg'] ?? '' ?> <span
+                                    class="ml-5 subtitulos mr-2">CPF: </span> <?= $repre['cpf'] ?? '' ?>
+                            </li>
+                        <?php else: ?>
+                            <li class="my-2">
+                                <span class="subtitulos mr-2">Nome: </span><?= $pf['nome'] ?>
+                                <span class="ml-5 subtitulos mr-2">CPF: </span> <?= $pf['cpf'] ?>
+                            </li>
+                            <li class="my-2">
+                                <span class="subtitulos mr-2">Etnia: </span><?= $etnia ?>
+                                <span class="ml-5 subtitulos mr-2">Gênero: </span> <?= $genero ?>
+                            </li>
+                            <li class="my-2">
+                                <span class="subtitulos mr-2">Grau de Instrução: </span><?= $grau_inst ?>
+                            </li>
+
+                            <li class="my-2">
+                                <span class="subtitulos mr-2">E-mail: </span><?= $pf['email'] ?>
+                                <span class="ml-5 subtitulos mr-2">Telefones: </span> <?= isset($pf['telefones']) ? implode(" | ", $pf['telefones']) : "" ?>
+                            </li>
+                            <li class="my-2">
+                                <span class="subtitulos mr-2">Endereço: </span> <?= "{$pf['logradouro']}, {$pf['numero']}  {$pf['complemento']} - {$pf['bairro']}, {$pf['cidade']} - {$pf['uf']}, {$pf['cep']}" ?>
+                            </li>
+                            <li class="my-2">
+                                <span class="subtitulos mr-2">Subprefeitura: </span> <?= $subpref ?>
+                            </li>
+                            <li class="my-2">
+                                <span class="subtitulos mr-2">Rede Social:</span> <a href="<?= "http://{$pf['rede_social']}" ?>"
+                                                                                     target="_blank"><?= $pf['rede_social'] ?></a>
+                            </li>
+                        <?php endif ?>
                         <li class="my-2"><span class="subtitulos mr-2">Valor do projeto:</span> <span
-                                    id="dinheiro"><?= $projeto['valor_projeto'] ?></span></li>
+                                id="dinheiro"><?= $projeto['valor_projeto'] ?></span></li>
                         <li class="my-2"><span
-                                    class="subtitulos mr-2">Duração do projeto em meses: </span><?= $projeto['duracao'] ?>
+                                class="subtitulos mr-2">Duração do projeto em meses: </span><?= $projeto['duracao'] ?>
                             meses
                         </li>
+                        <?php if ($projeto['representante_nucleo'] != "Não se aplica"): ?>
+                            <li class="my-2"><span
+                                        class="subtitulos mr-2">Núcleo artístico: </span>
+                                <?= nl2br($projeto['nucleo_artistico']) ?>
+                            </li>
+                        <?php endif ?>
                         <li class="my-2"><span
-                                    class="subtitulos mr-2">Núcleo artístico: </span><?= $projeto['nucleo_artistico'] ?>
+                                    class="subtitulos mr-2">Nome do núcleo artístico/coletivo artístico: </span><?= $projeto['nome_nucleo'] ?>
                         </li>
                         <li class="my-2"><span
-                                    class="subtitulos mr-2">Representante do núcleo: </span><?= $projeto['representante_nucleo'] ?>
+                                class="subtitulos mr-2">Nome do representante do núcleo: </span><?= $projeto['representante_nucleo'] ?>
                         </li>
+                        <li class="my-2"><span
+                                class="subtitulos mr-2">Nome do coletivo/produtor independente: </span><?= $projeto['coletivo_produtor'] ?>
+                        </li>
+                        <?php if ($pessoa_tipos_id == 1): ?>
+                            <li class="my-2"><span class="subtitulos mr-2">Linguagem do projeto:</span> <?= $projeto['linguagem'] ?></li>
+                            <li class="my-2"><span class="subtitulos mr-2">Temática do projeto:</span> <?= $projeto['tematica'] ?></li>
+                        <?php endif ?>
                         <li class="my-2"><span class="subtitulos mr-2">Status: </span><?= $status ?> </li>
                         <li class="my-2"><span class="subtitulos mr-2">Fomento: </span><?= $nomeEdital ?></li>
                         <?= $projeto['data_inscricao'] ? "<li class=\"my-2\"><span class=\"subtitulos mr-2\">Data de Envio: </span> {$dataEnvio} </li>" : '' ?>

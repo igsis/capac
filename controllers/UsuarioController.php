@@ -2,9 +2,14 @@
 
 if ($pedidoAjax) {
     require_once "../models/UsuarioModel.php";
+    require_once "../controllers/FomentoController.php";
+    require_once "../controllers/FormacaoController.php";
 } else {
     require_once "./models/UsuarioModel.php";
+    require_once "./controllers/FomentoController.php";
+    require_once "./controllers/FormacaoController.php";
 }
+
 
 class UsuarioController extends UsuarioModel
 {
@@ -30,15 +35,25 @@ class UsuarioController extends UsuarioModel
                 session_start(['name' => 'cpc']);
                 $_SESSION['usuario_id_c'] = $usuario['id'];
                 $_SESSION['nome_c'] = $usuario['nome'];
+                $_SESSION['modulo_c'] = $modulo;
 
                 MainModel::gravarLog('Fez Login');
 
                 if (!$modulo) {
                     return $urlLocation = "<script> window.location='inicio/inicio' </script>";
                 } else {
-                    if ($modulo == 8) {
-                        $_SESSION['edital_c'] = $edital;
-                        return $urlLocation = "<script> window.location='fomentos/inicio&modulo=$modulo' </script>";
+                    switch ($modulo){
+                        case 5:
+                            $formacaoObj = new FormacaoController();
+                            $_SESSION['ano_c'] = $formacaoObj->recuperaAnoReferenciaAtual($edital);
+                            return $urlLocation = "<script> window.location='formacao/inicio' </script>";
+                            break;
+                        case 6:
+                            $_SESSION['edital_c'] = $edital;
+                            $EditalObj = new FomentoController();
+                            $_SESSION['tipo_pessoa'] = $EditalObj->recuperaTipoPessoaEdital($edital);
+                            return $urlLocation = "<script> window.location='fomentos/inicio&modulo=$modulo' </script>";
+                            break;
                     }
                 }
             } else {

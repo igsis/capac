@@ -23,6 +23,7 @@ if (isset($_POST['pf_cpf'])){
         $documento = $pf['cpf'];
     }
 }
+
 if (isset($_POST['pf_passaporte'])){
     $documento = $_POST['pf_passaporte'];
     $pf = $insPessoaFisica->getPassaporte($documento)->fetch();

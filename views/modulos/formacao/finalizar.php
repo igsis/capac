@@ -1,17 +1,22 @@
 <?php
-/* ************** Pessoa Física ************** */
 require_once "./controllers/PessoaFisicaController.php";
-$pfObj = new PessoaFisicaController();
-$idPf = $_SESSION['origem_id_c'];
-$pf = $pfObj->recuperaPessoaFisica($idPf);
-$erros = $pfObj->validaPf($idPf, 3);
-$validacoesForm = $erros ? $pfObj->existeErro($erros) : false;
-
 require_once "./controllers/FormacaoController.php";
+
+$pfObj = new PessoaFisicaController();
 $formObj = new FormacaoController();
-$form = $formObj->recuperaFormacao($idPf)->fetch();
-$erroForm = $formObj->validaForm($idPf);
-$validacoesPrograma = $erroForm ? $formObj->existeErro($erroForm) : false;
+
+$ano = $_SESSION['ano_c'];
+$form_cadastro_id = $_SESSION['formacao_id_c'];
+
+$cadastroEncerrado = $formObj->cadastroEncerrado($ano);
+
+/* ************** Pessoa Física ************** */
+
+$pessoa_fisica_id = $_SESSION['origem_id_c'];
+$pf = $pfObj->recuperaPessoaFisica($pessoa_fisica_id);
+
+$form = $formObj->recuperaFormacao($ano, false, $form_cadastro_id);
+$validacoesPrograma = $formObj->validaForm($form_cadastro_id, $pessoa_fisica_id, $form->form_cargo_id);
 ?>
 
 <!-- Content Header (Page header) -->
@@ -22,36 +27,30 @@ $validacoesPrograma = $erroForm ? $formObj->existeErro($erroForm) : false;
                 <h1 class="m-0 text-dark">Finalizar o Envio</h1>
             </div><!-- /.col -->
         </div><!-- /.row -->
-        <?php if ($validacoesForm): ?>
+        <?php
+        if ($validacoesPrograma) {
+            ?>
             <div class="row erro-validacao">
-                <div class="col">
-                    <div class="card bg-danger">
-                        <div class="card-header">
-                            <h3 class="card-title"><i class="fa fa-exclamation mr-3"></i><strong>Erros no cadastro</strong></h3>
-                        </div>
-                        <div class="card-body">
-                            <?php foreach ($validacoesForm as $erro): ?>
-                                <li><?= $erro ?></li>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
-                </div>
-                <?php if ($validacoesPrograma){ ?>
-                    <div class="col">
+                <?php foreach ($validacoesPrograma as $titulo => $erros): ?>
+                    <div class="col-md-4">
                         <div class="card bg-danger">
                             <div class="card-header">
-                                <h3 class="card-title"><i class="fa fa-exclamation mr-3"></i><strong>Erros no cadastro</strong></h3>
+                                <h3 class="card-title"><i class="fa fa-exclamation mr-3"></i><strong>Erros
+                                        em <?= $titulo ?></strong></h3>
                             </div>
                             <div class="card-body">
-                                <?php foreach ($validacoesPrograma as $erro): ?>
+                                <?php foreach ($erros as $erro): ?>
                                     <li><?= $erro ?></li>
                                 <?php endforeach; ?>
                             </div>
+                            <!-- /.card-body -->
                         </div>
                     </div>
-                <?php } ?>
+                <?php endforeach; ?>
             </div>
-        <?php endif; ?>
+            <?php
+        }
+        ?>
     </div>
     <!-- /.container-fluid -->
 </div>
@@ -104,9 +103,6 @@ $validacoesPrograma = $erroForm ? $formObj->existeErro($erroForm) : false;
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col"><b>Região:</b> <?= $pf['regiao'] ?></div>
-                        </div>
-                        <div class="row">
                             <div class="col"><b>Etnia:</b> <?= $pf['descricao'] ?></div>
                         </div>
                         <div class="row">
@@ -118,49 +114,73 @@ $validacoesPrograma = $erroForm ? $formObj->existeErro($erroForm) : false;
                         <div class="row">
                             <div class="col"><b>DRT:</b> <?= $pf['drt'] ?></div>
                         </div>
-                        <div class="row">
-                            <div class="col"><b>Banco:</b> <?= $pf['banco'] ?></div>
-                        </div>
-                        <div class="row">
-                            <div class="col"><b>Agência:</b> <?= $pf['agencia'] ?></div>
-                        </div>
-                        <div class="row">
-                            <div class="col"><b>Conta:</b> <?= $pf['conta'] ?></div>
-                        </div>
+                        <?php if ($pf['banco']): ?>
+                            <div class="row">
+                                <div class="col"><b>Banco:</b> <?= $pf['banco'] ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="col"><b>Agência:</b> <?= $pf['agencia'] ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="col"><b>Conta:</b> <?= $pf['conta'] ?></div>
+                            </div>
+                        <?php endif ?>
                         <br>
                         <!-- ************** Programa ************** -->
                         <hr>
                         <h5><b>Detalhes do programa</b></h5>
                         <hr/>
                         <div class="row">
-                            <div class="col"><b>Ano de execução do serviço:</b> <?= $form['ano'] ?></div>
+                            <div class="col"><b>Ano de execução do serviço:</b> <?= $form->ano ?></div>
                         </div>
                         <div class="row">
-                            <div class="col"><b>Região preferencial:</b> <?= $form['regiao'] ?></div>
+                            <div class="col"><b>Região preferencial:</b> <?= $form->regiao ?></div>
                         </div>
                         <div class="row">
-                            <div class="col"><b>Cargo:</b> <?= $form['cargo'] ?></div>
+                            <div class="col"><b>Cargo:</b> <?= $form->cargo1 ?></div>
+                        </div>
+                        <?php if ($form->cargo2): ?>
+                            <div class="row">
+                                <div class="col"><b>Cargo (2º Opção):</b> <?= $form->cargo2 ?></div>
+                            </div>
+                        <?php endif ?>
+                        <?php if ($form->cargo3): ?>
+                            <div class="row">
+                                <div class="col"><b>Cargo (3º Opção):</b> <?= $form->cargo3 ?></div>
+                            </div>
+                        <?php endif ?>
+                        <div class="row">
+                            <div class="col"><b>Programa:</b> <?= $form->programa ?></div>
                         </div>
                         <div class="row">
-                            <div class="col"><b>Programa:</b> <?= $form['programa'] ?></div>
+                            <div class="col"><b>Linguagem:</b> <?= $form->linguagem ?></div>
                         </div>
-                        <div class="row">
-                            <div class="col"><b>Linguagem:</b> <?= $form['linguagem'] ?></div>
-                        </div>
-                        <div class="row">
-                            <div class="col"><b>Projeto:</b> <?= $form['projeto'] ?></div>
-                        </div>
-
                     </div>
-                    <div class="card-footer">
-                        <form class="form-horizontal formulario-ajax" method="POST" action="<?=SERVERURL?>ajax/jovemMonitorAjax.php" role="form" data-form="update">
-                            <input type="hidden" name="_method" value="envioJovemMonitor">
-                            <input type="hidden" name="pagina" value="jovemMonitor">
-                            <button type="submit" class="btn btn-success btn-block float-right" id="cadastra">Enviar</button>
-                            <div class="resposta-ajax"></div>
-                        </form>
-                    </div>
-
+                    <?php if (!$cadastroEncerrado): ?>
+                        <div class="card-footer" id="cardFooter">
+                            <?php if (!$validacoesPrograma): ?>
+                                <form class="form-horizontal formulario-ajax" method="POST"
+                                      action="<?= SERVERURL ?>ajax/formacaoAjax.php" role="form" data-form="update"
+                                      id="formEnviar">
+                                    <input type="hidden" name="_method" value="envioFormacao">
+                                    <input type="hidden" name="id" value="<?= $form_cadastro_id ?>">
+                                    <button type="submit" class="btn btn-success btn-block float-right" id="cadastra">
+                                        Enviar
+                                    </button>
+                                    <div class="resposta-ajax"></div>
+                                </form>
+                            <?php else: ?>
+                                <button class="btn btn-warning btn-block float-right">
+                                    Você possui pendencias em seu cadastro. Verifique-as no topo da tela para poder
+                                    envia-lo
+                                </button>
+                            <?php endif ?>
+                        </div>
+                    <?php else: ?>
+                        <button class="btn btn-danger btn-block float-right">
+                            O período para inscrições está encerrado.
+                        </button>
+                    <?php endif ?>
                 </div>
             </div>
             <!-- /.col-md-6 -->
@@ -169,17 +189,3 @@ $validacoesPrograma = $erroForm ? $formObj->existeErro($erroForm) : false;
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
-
-<script type="application/javascript">
-    $(document).ready(function () {
-        $('.nav-link').removeClass('active');
-        $('#itens-proponente').addClass('menu-open');
-        $('#finalizar').addClass('active');
-
-        if ($('.erro-validacao').length) {
-            $('#cadastra').attr('disabled', true);
-        } else {
-            $('#cadastra').attr('disabled', false);
-        }
-    });
-</script>

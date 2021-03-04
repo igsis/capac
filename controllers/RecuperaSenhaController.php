@@ -10,6 +10,14 @@ if ($pedidoAjax) {
     require_once "../controllers/UsuarioController.php";
 }
 
+require_once  "../views/plugins/phpmailer/src/PHPMailer.php";
+require_once  "../views/plugins/phpmailer/src/SMTP.php";
+require_once  "../views/plugins/phpmailer/src/Exception.php";
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
 
 class RecuperaSenhaController extends RecuperaSenhaModel
 {
@@ -62,22 +70,44 @@ class RecuperaSenhaController extends RecuperaSenhaModel
 
     public function enviarEmail($endEmail,$token)
     {
-        // Send email to user with the token in a link they can click on
-        $destinatario = $endEmail;
-        $subject = "CAPAC - Recuperação de Senha";
-        $email = $this->geraEmail($token);
+        $email =  new PHPMailer();
 
-        // To send HTML mail, the Content-type header must be set
-        $headers = 'MIME-Version: 1.0' . "\r\n";
-        $headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
+        try{
 
-        // Create email headers
-        $headers .= 'From: no.reply.smcsistemas@gmail.com' . "\r\n";
-        if (mail($destinatario, $subject, $email, $headers))
-            return true;
+            $email->isSMTP();
+            $email->CharSet = "UTF-8";
+            $email->Host = 'smtp.gmail.com';
+            $email->SMTPAuth = true;
+            $email->Username = SMTP;
+            $email->Password = SENHASMTP;
+            $email->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $email->Port = 587;
 
-        return false;
+//            DEBUG
+//            $email->SMTPDebug =  SMTP::DEBUG_SERVER;
+//            $email->setLanguage('pt');
+//            $email->SMTPDebug = 3;
+//            $email->Debugoutput = 'html';
 
+            $email->setFrom(SMTP);
+            $email->FromName = "CAPAC";
+            $email->addReplyTo('no-reply@capac.com.br');
+            $email->addAddress($endEmail);
+
+            $email->isHTML(true);
+            $email->Subject = "Siscontrat - Recuperação de Senha";
+            $email->Body = $this->geraEmail($token);
+
+            if ($email->send())
+                return true;
+
+            return false;
+
+        } catch (Exception $e){
+            MainModel::gravarLog("Erro ao enviar e-mail: {$email->ErrorInfo}");
+
+            return false;
+        }
     }
 
     public function geraEmail($token)
@@ -315,7 +345,7 @@ class RecuperaSenhaController extends RecuperaSenhaModel
 
     public function novaSenha($senha, $token)
     {
-        $query = "SELECT `email` FROM `capac_new`.`resete_senhas` WHERE token = '".$token."'";
+        $query = "SELECT `email` FROM `siscontrat`.`resete_senhas` WHERE token = '".$token."'";
         $resultado = DbModel::consultaSimples($query);
         if ($resultado->rowCount() == 1) {
             $email = $resultado->fetch(PDO::FETCH_COLUMN);
@@ -339,18 +369,18 @@ class RecuperaSenhaController extends RecuperaSenhaModel
                 $alert = $this->erroToken();
             }
         } else {
-            $alert = $this->erroToken();
+            $alert = $this->erroToken('Esse link já foi utilizado para trocar senha.<br>Faça uma nova solicitação para trocar senha.');
         }
 
         return MainModel::sweetAlert($alert);
     }
 
-    private function erroToken()
+    private function erroToken($textErro = 'Erro ao tentar trocar senha. Tente novamente.')
     {
         return [
             'alerta' => 'simples',
             'titulo' => 'Erro',
-            'texto' => "Erro ao tentar trocar senha. Tente novamente.",
+            'texto' => $textErro,
             'tipo' => 'error',
         ];
     }

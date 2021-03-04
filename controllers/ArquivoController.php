@@ -6,6 +6,7 @@ if ($pedidoAjax) {
 } else {
     require_once "./models/ArquivoModel.php";
     require_once "./controllers/FomentoController.php";
+    require_once "./controllers/FormacaoController.php";
     define('UPLOADDIR', "./uploads/");
 }
 
@@ -103,12 +104,13 @@ class ArquivoController extends ArquivoModel
 
     public function enviarArquivo($origem_id, $pagina) {
         $fomentos = $pagina == "fomentos/anexos" ? true : false;
+        $formacao = $pagina == "formacao/anexos" ? true : false;
         unset($_POST['pagina']);
         $origem_id = MainModel::decryption($origem_id);
         foreach ($_FILES as $key => $arquivo){
             $_FILES[$key]['lista_documento_id'] = $_POST[$key];
         }
-        $erros = ArquivoModel::enviaArquivos($_FILES, $origem_id,6, true, $fomentos);
+        $erros = ArquivoModel::enviaArquivos($_FILES, $origem_id,5, true, $fomentos,$formacao);
         $erro = MainModel::in_array_r(true, $erros, true);
 
         if ($erro) {
@@ -139,11 +141,14 @@ class ArquivoController extends ArquivoModel
 
     public function apagarArquivo ($arquivo_id, $pagina){
         $fomentos = $pagina == "fomentos/anexos" ? true : false;
+        $formacao = $pagina == "formacao/anexos" ? true : false;
         $arquivo_id = MainModel::decryption($arquivo_id);
-        if (!$fomentos) {
-            $remover = DbModel::apaga('arquivos', $arquivo_id);
-        } else {
+        if ($fomentos) {
             $remover = DbModel::apaga('fom_arquivos', $arquivo_id);
+        } elseif ($formacao){
+            $remover = DbModel::apaga('form_arquivos', $arquivo_id);
+        } else {
+            $remover = DbModel::apaga('arquivos', $arquivo_id);
         }
         if ($remover->rowCount() > 0) {
             $alerta = [
@@ -172,6 +177,35 @@ class ArquivoController extends ArquivoModel
         } else {
             $sql = "SELECT * FROM fom_arquivos WHERE fom_lista_documento_id = '$lista_documento_id' AND fom_projeto_id = '$origem_id' AND publicado = '1'";
         }
+        $arquivo = DbModel::consultaSimples($sql)->rowCount();
+        return $arquivo > 0 ? true : false;
+    }
+
+    public function listarArquivosFormacao($form_cargo_id)
+    {
+        $cargos = [4, 5];
+        if (in_array($form_cargo_id, $cargos)) {
+            return MainModel::consultaSimples("SELECT * FROM formacao_lista_documentos WHERE publicado = 1 AND documento NOT LIKE '%Coordenação%' ORDER BY 'ordem'", true);
+        } else {
+            return MainModel::consultaSimples("SELECT * FROM formacao_lista_documentos WHERE publicado = 1 ORDER BY 'ordem'", true);
+        }
+    }
+
+    public function listarArquivosEnviadosFormacao($form_cadastro_id) {
+        $form_cadastro_id = MainModel::decryption($form_cadastro_id);
+        $arquivos = DbModel::consultaSimples("SELECT id, arquivo, form_lista_documento_id, data FROM form_arquivos WHERE form_cadastro_id = '$form_cadastro_id'  AND publicado = '1'")->fetchAll(PDO::FETCH_OBJ);
+        if (count($arquivos) != null){
+            foreach ($arquivos as $key=>$arquivo){
+                $arquivos[$key]->documento = DbModel::consultaSimples("SELECT documento FROM formacao_lista_documentos WHERE id = '{$arquivo->form_lista_documento_id}'",true)->fetchColumn();
+            }
+            return $arquivos;
+        }
+    }
+
+    public function consultaArquivoEnviadoFormacao($lista_documento_id, $form_cadastro_id) {
+        $form_cadastro_id = MainModel::decryption($form_cadastro_id);
+        $sql = "SELECT * FROM form_arquivos WHERE form_lista_documento_id = '$lista_documento_id' AND form_cadastro_id = '$form_cadastro_id' AND publicado = '1'";
+
         $arquivo = DbModel::consultaSimples($sql)->rowCount();
         return $arquivo > 0 ? true : false;
     }

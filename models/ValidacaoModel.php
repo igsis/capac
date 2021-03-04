@@ -29,6 +29,25 @@ class ValidacaoModel extends MainModel
         }
     }
 
+    protected function validaBancoFormacao($id) {
+        $proponente = DbModel::consultaSimples("SELECT banco_id FROM pf_bancos WHERE pessoa_fisica_id = '$id' AND publicado = '1'");
+
+        if ($proponente->rowCount()) {
+            $proponente = $proponente->fetchObject();
+
+            if ($proponente->banco_id != 32) {
+                $erros['bancos']['bol'] = true;
+                $erros['bancos']['motivo'] = "Para o cadastro, é aceito somente contas no Banco do Brasil";
+            }
+        }
+
+        if (isset($erros)){
+            return $erros;
+        } else {
+            return false;
+        }
+    }
+
     protected function validaEndereco($tipoProponente, $id) {
         if ($tipoProponente == 1) {
             $proponente = DbModel::consultaSimples("SELECT * FROM pf_enderecos WHERE pessoa_fisica_id = '$id'");
@@ -101,6 +120,7 @@ class ValidacaoModel extends MainModel
 
     protected function validaFormacao($idPf)
     {
+        $idPf = MainModel::decryption($idPf);
         $formacao = DbModel::consultaSimples("SELECT * FROM form_cadastros WHERE pessoa_fisica_id = '$idPf'");
 
          if ($formacao->rowCount() == 0) {
@@ -109,8 +129,12 @@ class ValidacaoModel extends MainModel
 
             return $erros;
         } else {
+             $naoObrigatorios = [
+                 'protocolo',
+                 'data_envio'
+             ];
             $formacao = $formacao->fetchObject();
-            $erros = ValidacaoModel::retornaMensagem($formacao);
+            $erros = ValidacaoModel::retornaMensagem($formacao, $naoObrigatorios);
         }
         if (isset($erros)){
             return $erros;
@@ -148,7 +172,9 @@ class ValidacaoModel extends MainModel
             'valor_projeto' => "Valor do projeto não foi preenchido",
             'duracao' => "Duração não foi preenchido",
             'nucleo_artistico' => "Nucleo Artistico não foi preenchido",
-            'representante_nucleo' => "Representante do Nucleo Artistico não foi preenchido"
+            'representante_nucleo' => "Representante do Nucleo Artistico não foi preenchido",
+            'rg' => 'RG não foi preenchido',
+            'nacionalidade_id' => 'A nacionalidade não foi selecionada'
         ];
 
         if ($camposNaoObrigatorios) {
@@ -202,13 +228,44 @@ class ValidacaoModel extends MainModel
         $sql = "SELECT * FROM capac_new.contratacao_documentos AS cd
                 INNER JOIN capac_new.fom_lista_documentos AS fld ON cd.fom_lista_documento_id = fld.id
                 LEFT JOIN (SELECT fom_lista_documento_id, arquivo FROM capac_new.fom_arquivos WHERE publicado = 1 AND fom_projeto_id = '$projeto_id') as fa ON fld.id = fa.fom_lista_documento_id
-                WHERE tipo_contratacao_id = '$tipo_contratacao_id';";
+                WHERE tipo_contratacao_id = '$tipo_contratacao_id' AND cd.obrigatorio = '1'
+                ORDER BY cd.ordem";
         $arquivos = DbModel::consultaSimples($sql)->fetchAll(PDO::FETCH_OBJ);
 
         foreach ($arquivos as $arquivo) {
             if ($arquivo->arquivo == null) {
                 $erros[$arquivo->documento]['bol'] = true;
                 $erros[$arquivo->documento]['motivo'] = "$arquivo->anexo - $arquivo->documento não enviado";
+            }
+        }
+
+        if (isset($erros)){
+            return $erros;
+        } else {
+            return false;
+        }
+    }
+
+    protected function validaArquivosFormacao($form_cadastro_id, $cargo){
+        $cargos = [4, 5];
+        if (in_array($cargo, $cargos)) {
+            $busca = "AND fld.documento NOT LIKE '%Coordenação%'";
+        } else {
+            $busca = "";
+        }
+        $sql = "SELECT * FROM formacao_lista_documentos AS fld
+                WHERE fld.publicado = 1 AND fld.obrigatorio = '1' ". $busca ." ORDER BY fld.id";
+        $arquivos = DbModel::consultaSimples($sql, true)->fetchAll(PDO::FETCH_OBJ);
+        foreach ($arquivos as $arquivo) {
+            $idsArquivos[] = $arquivo->id;
+        }
+
+        $arquivosEnviados = DbModel::consultaSimples("SELECT form_lista_documento_id FROM form_arquivos WHERE form_cadastro_id = '$form_cadastro_id' AND publicado = 1")->fetchAll(PDO::FETCH_COLUMN);
+
+        foreach ($idsArquivos as $key => $valor) {
+            if (!in_array($valor, $arquivosEnviados)) {
+                $erros[$arquivos[$key]->documento]['bol'] = true;
+                $erros[$arquivos[$key]->documento]['motivo'] = $arquivos[$key]->documento." não enviado";
             }
         }
 

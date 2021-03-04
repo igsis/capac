@@ -1,6 +1,5 @@
 <?php
 require_once "./controllers/PessoaJuridicaController.php";
-require_once "./controllers/PessoaJuridicaController.php";
 
 if (isset($_GET['id'])) {
     $_SESSION['origem_id_c'] = $id = $_GET['id'];

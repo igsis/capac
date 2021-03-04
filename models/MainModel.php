@@ -57,7 +57,7 @@ class MainModel extends DbModel
 
     public function dataHora($data) {
         $novaData = new DateTime($data);
-        return $novaData->format('d/m/Y H:m:s');
+        return $novaData->format('d/m/Y H:i:s');
     }
 
     public function dataParaSQL($data) {
@@ -195,12 +195,31 @@ class MainModel extends DbModel
      * <p>Valor a qual deve vir selecionado</p>
      * @param bool $publicado [opcional]
      * <p><strong>FALSE</strong> por padrão. Quando <strong>TRUE</strong>, busca valores onde a coluna <i>publicado</i> seja 1</p>
+     * @param bool $orderPorId
+     * <p><strong>FALSE</strong> por padrão. Quando <strong>TRUE</strong>, organiza os valores por id</p>
+     * @param bool $fomento
+     * <p><strong>FALSE</strong> por padrão. Quando <strong>TRUE</strong>, exibe as opções que contem a coluno fomento = 1</p>
+     * @param bool $siscontrat
+     * <p><strong>FALSE</strong> por padrão. Quando <strong>TRUE</strong>, faz a consulta no banco de dados do sistema <i>SISCONTRAT</i></p>
      */
-    public function geraOpcao($tabela, $selected = "", $publicado = false, $orderPorId = false) {
-        $publicado = $publicado ? 'WHERE publicado = 1' : '';
+    public function geraOpcao($tabela, $selected = "",  $publicado = false, $orderPorId = false, $fomento = false, $siscontrat = false) {
+        $sql = "SELECT * FROM $tabela";
         $order = $orderPorId ? 1 : 2;
-        $sql = "SELECT * FROM $tabela $publicado ORDER BY $order";
-        $consulta = DbModel::consultaSimples($sql);
+        $where = [];
+
+        if ($publicado) {
+            $where[] = "publicado = 1";
+        }
+        if ($fomento) {
+            $where[] = "fomentos = 1";
+        }
+
+        if (count($where) > 0) {
+            $sql .= " WHERE " . implode(' AND ', $where);
+        }
+
+        $sql .= " ORDER BY $order";
+        $consulta = DbModel::consultaSimples($sql, $siscontrat);
         if ($consulta->rowCount() >= 1) {
             foreach ($consulta->fetchAll() as $option) {
                 if ($option[0] == $selected) {

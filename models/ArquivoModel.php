@@ -30,7 +30,7 @@ class ArquivoModel extends MainModel
      * @param $validaPDF
      * @return mixed
      */
-    protected function enviaArquivos($arquivos, $origem_id, $tamanhoMaximo, $validaPDF = false, $fomento = false) {
+    protected function enviaArquivos($arquivos, $origem_id, $tamanhoMaximo, $validaPDF = false, $fomento = false, $formacao = false) {
         foreach ($arquivos as $key => $arquivo) {
             $erros[$key]['bol'] = false;
             if ($arquivo['error'] != 4) {
@@ -50,21 +50,28 @@ class ArquivoModel extends MainModel
 
                 $dataAtual = date("Y-m-d H:i:s");
                 $novoNome = date('YmdHis')."_".MainModel::retiraAcentos($nomeArquivo);
-                $maximoPermitido = ($tamanhoMaximo*1000)*1000;
+                $maximoPermitido = $tamanhoMaximo*1048576;
 
-                if ($tamanhoArquivo < $maximoPermitido) {
+                if ($tamanhoArquivo <= $maximoPermitido) {
                     if (move_uploaded_file($arquivoTemp, UPLOADDIR . $novoNome)) {
-                        if (!$fomento) {
-                            $tabela = "arquivos";
-                            $dadosInsertArquivo = [
-                                'origem_id' => $origem_id,
-                                'lista_documento_id' => $lista_documento_id,
-                            ];
-                        } else {
+                        if ($fomento) {
                             $tabela = "fom_arquivos";
                             $dadosInsertArquivo = [
                                 'fom_projeto_id' => $origem_id,
                                 'fom_lista_documento_id' => $lista_documento_id,
+                            ];
+                        } elseif ($formacao){
+                            $tabela = "form_arquivos";
+                            $dadosInsertArquivo = [
+                                'form_cadastro_id' => $origem_id,
+                                'form_lista_documento_id' => $lista_documento_id,
+                            ];
+                        }
+                        else {
+                            $tabela = "arquivos";
+                            $dadosInsertArquivo = [
+                                'origem_id' => $origem_id,
+                                'lista_documento_id' => $lista_documento_id,
                             ];
                         }
 
@@ -93,7 +100,7 @@ class ArquivoModel extends MainModel
     }
 
     protected function listaArquivosFomentos($tipo_contratacao_id) {
-        $sql = "SELECT fld.id, fld.sigla, fld.documento, tc.tipo_contratacao, cd.anexo
+        $sql = "SELECT fld.id, fld.sigla, fld.documento, tc.tipo_contratacao, cd.anexo, cd.obrigatorio
                 FROM contratacao_documentos AS cd
                 INNER JOIN fom_lista_documentos AS fld ON fld.id = cd.fom_lista_documento_id
                 INNER JOIN tipos_contratacoes AS tc ON cd.tipo_contratacao_id = tc.id

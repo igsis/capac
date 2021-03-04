@@ -12,6 +12,11 @@ class FomentoController extends MainModel
         return DbModel::listaPublicado("fom_editais");
     }
 
+    public function recuperaEdital($edital_id){
+        $edital_id = MainModel::decryption($edital_id);
+        return DbModel::getInfo('fom_editais', $edital_id)->fetchObject();
+    }
+
     public function recuperaTipoContratacao($edital_id) {
         $tipo = gettype($edital_id);
         if ($tipo == "string") {
@@ -25,5 +30,11 @@ class FomentoController extends MainModel
         $edital_id = MainModel::decryption($edital_id);
         $edital = DbModel::getInfo('fom_editais', $edital_id)->fetchObject();
         return $edital->titulo;
+    }
+
+    public function recuperaTipoPessoaEdital($edital_id) {
+        $edital_id = MainModel::decryption($edital_id);
+        $edital = DbModel::getInfo('fom_editais', $edital_id)->fetchObject();
+        return $edital->pessoa_tipos_id;
     }
 }
