@@ -5,9 +5,9 @@ if ($pedidoAjax) {
     require_once "../controllers/RecuperaSenhaController.php";
     require_once "../controllers/UsuarioController.php";
 } else {
-    require_once "../models/RecuperaSenhaModel.php";
-    require_once "../controllers/RecuperaSenhaController.php";
-    require_once "../controllers/UsuarioController.php";
+    require_once "./models/RecuperaSenhaModel.php";
+    require_once "./controllers/RecuperaSenhaController.php";
+    require_once "./controllers/UsuarioController.php";
 }
 
 require_once  "../views/plugins/phpmailer/src/PHPMailer.php";
@@ -84,10 +84,10 @@ class RecuperaSenhaController extends RecuperaSenhaModel
             $email->Port = 587;
 
 //            DEBUG
-//            $email->SMTPDebug =  SMTP::DEBUG_SERVER;
-//            $email->setLanguage('pt');
-//            $email->SMTPDebug = 3;
-//            $email->Debugoutput = 'html';
+            $email->SMTPDebug =  SMTP::DEBUG_SERVER;
+            $email->setLanguage('pt');
+            $email->SMTPDebug = 3;
+            $email->Debugoutput = 'html';
 
             $email->setFrom(SMTP);
             $email->FromName = "CAPAC";
@@ -345,7 +345,7 @@ class RecuperaSenhaController extends RecuperaSenhaModel
 
     public function novaSenha($senha, $token)
     {
-        $query = "SELECT `email` FROM `siscontrat`.`resete_senhas` WHERE token = '".$token."'";
+        $query = "SELECT `email` FROM `capac_new`.`resete_senhas` WHERE token = '".$token."'";
         $resultado = DbModel::consultaSimples($query);
         if ($resultado->rowCount() == 1) {
             $email = $resultado->fetch(PDO::FETCH_COLUMN);
