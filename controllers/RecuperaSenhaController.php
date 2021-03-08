@@ -84,10 +84,10 @@ class RecuperaSenhaController extends RecuperaSenhaModel
             $email->Port = 587;
 
 //            DEBUG
-            $email->SMTPDebug =  SMTP::DEBUG_SERVER;
-            $email->setLanguage('pt');
-            $email->SMTPDebug = 3;
-            $email->Debugoutput = 'html';
+//            $email->SMTPDebug =  SMTP::DEBUG_SERVER;
+//            $email->setLanguage('pt');
+//            $email->SMTPDebug = 3;
+//            $email->Debugoutput = 'html';
 
             $email->setFrom(SMTP);
             $email->FromName = "CAPAC";
