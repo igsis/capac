@@ -95,7 +95,7 @@ class RecuperaSenhaController extends RecuperaSenhaModel
             $email->addAddress($endEmail);
 
             $email->isHTML(true);
-            $email->Subject = "Siscontrat - Recuperação de Senha";
+            $email->Subject = "CAPAC - Recuperação de Senha";
             $email->Body = $this->geraEmail($token);
 
             if ($email->send())
