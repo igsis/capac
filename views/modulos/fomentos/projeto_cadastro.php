@@ -136,7 +136,7 @@ $pessoa_tipos_id = $objFomento->recuperaEdital($_SESSION['edital_c'])->pessoa_ti
                             </div>
                             <?php if ($pessoa_tipos_id ==1) : ?>
                                 <div class="row">
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md">
                                         <label for="fom_linguagem_projeto_id">Linguagem do projeto: *</label>
                                         <select class="form-control" id="fom_linguagem_projeto_id" name="fom_linguagem_projeto_id" required>
                                             <option value="">Selecione uma opção...</option>
@@ -145,7 +145,7 @@ $pessoa_tipos_id = $objFomento->recuperaEdital($_SESSION['edital_c'])->pessoa_ti
                                             ?>
                                         </select>
                                     </div>
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md">
                                         <label for="fom_tematica_projeto_id">Temática do projeto: *</label>
                                         <select class="form-control" id="fom_tematica_projeto_id" name="fom_tematica_projeto_id" required>
                                             <option value="">Selecione uma opção...</option>
@@ -154,6 +154,17 @@ $pessoa_tipos_id = $objFomento->recuperaEdital($_SESSION['edital_c'])->pessoa_ti
                                             ?>
                                         </select>
                                     </div>
+                                    <?php if ($objFomento->recuperaTipoContratacao($_SESSION['edital_c']) == 24): ?>
+                                    <div class="form-group col-md">
+                                        <label for="fom_area_id">Área: *</label>
+                                        <select class="form-control" id="fom_area_id" name="fom_area_id" required>
+                                            <option value="">Selecione uma opção...</option>
+                                            <?php
+                                            $objFomento->geraOpcao("fom_areas",$projeto['fom_area_id'] ?? null);
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <?php endif; ?>
                                 </div>
                             <?php endif; ?>
                         </div>
