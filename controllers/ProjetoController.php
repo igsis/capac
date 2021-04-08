@@ -3,10 +3,12 @@ if ($pedidoAjax) {
     require_once "../models/ProjetoModel.php";
     require_once '../controllers/PessoaJuridicaController.php';
     require_once '../controllers/PessoaFisicaController.php';
+    require_once '../controllers/FomentoController.php';
 } else {
     require_once "./models/ProjetoModel.php";
     require_once './controllers/PessoaJuridicaController.php';
     require_once './controllers/PessoaFisicaController.php';
+    require_once './controllers/FomentoController.php';
 }
 
 class ProjetoController extends ProjetoModel
@@ -245,6 +247,8 @@ class ProjetoController extends ProjetoModel
         $dadosCompPj = [];
         $camposCompPf = ['fom_linguagem_projeto_id', 'fom_tematica_projeto_id'];
         $dadosCompPf = [];
+        $camposCompPeriferias = ['fom_area_id'];
+        $dadosCompPeriferias = [];
 
         foreach ($post as $campo => $valor) {
             if ($campo != "modulo") {
@@ -254,8 +258,10 @@ class ProjetoController extends ProjetoModel
                 $dado = MainModel::limparString($valor);
                 if (in_array($campo, $camposCompPj)) {
                     $dadosCompPj[$campo] = $dado;
-                } elseif (in_array($campo, $camposCompPf)){
+                } elseif (in_array($campo, $camposCompPf)) {
                     $dadosCompPf[$campo] = $dado;
+                } elseif (in_array($campo, $camposCompPeriferias)){
+                    $dadosCompPeriferias[$campo] = $dado;
                 } else {
                     $dados[$campo] = $dado;
                 }
@@ -274,6 +280,10 @@ class ProjetoController extends ProjetoModel
             if (count($dadosCompPf)) {
                 $dadosCompPf['fom_projeto_id'] = $projeto_id;
                 DbModel::insert('fom_projeto_dado_pfs', $dadosCompPf);
+            }
+            if (count($dadosCompPf)) {
+                $dadosCompPeriferias['fom_projeto_id'] = $projeto_id;
+                DbModel::insert('fom_edital_periferias', $dadosCompPeriferias);
             }
 
             $_SESSION['projeto_c'] = MainModel::encryption($projeto_id);
@@ -311,6 +321,8 @@ class ProjetoController extends ProjetoModel
         $dadosCompPj = [];
         $camposCompPf = ['fom_linguagem_projeto_id', 'fom_tematica_projeto_id'];
         $dadosCompPf = [];
+        $camposCompPeriferias = ['fom_area_id'];
+        $dadosCompPeriferias = [];
 
         foreach ($post as $campo => $valor) {
             if ($campo != "pagina") {
@@ -322,6 +334,8 @@ class ProjetoController extends ProjetoModel
                     $dadosCompPj[$campo] = $dado;
                 } elseif (in_array($campo, $camposCompPf)) {
                     $dadosCompPf[$campo] = $dado;
+                } elseif (in_array($campo, $camposCompPeriferias)) {
+                    $dadosCompPeriferias[$campo] = $dado;
                 } else {
                     $dados[$campo] = $dado;
                 }
@@ -337,6 +351,10 @@ class ProjetoController extends ProjetoModel
             if (count($dadosCompPf)) {
                 $dadosCompPf['fom_projeto_id'] = $id;
                 DbModel::updateEspecial('fom_projeto_dado_pfs', $dadosCompPf, 'fom_projeto_id', $id);
+            }
+            if (count($dadosCompPeriferias)) {
+                $dadosCompPeriferias['fom_projeto_id'] = $id;
+                DbModel::updateEspecial('fom_edital_periferias', $dadosCompPeriferias, 'fom_projeto_id', $id);
             }
             $alerta = [
                 'alerta' => 'sucesso',
@@ -361,12 +379,13 @@ class ProjetoController extends ProjetoModel
     {
         $id = MainModel::decryption($id);
 
-        $sql = "SELECT fp.*, fpdj.instituicao, fpdj.site, fpdf.fom_linguagem_projeto_id, flp.linguagem, fpdf.fom_tematica_projeto_id , ftp.tematica 
+        $sql = "SELECT fp.*, fpdj.instituicao, fpdj.site, fpdf.fom_linguagem_projeto_id, flp.linguagem, fpdf.fom_tematica_projeto_id, ftp.tematica, fep.fom_area_id 
                 FROM fom_projetos AS fp
                 LEFT JOIN fom_projeto_dado_pjs fpdj on fp.id = fpdj.fom_projeto_id
                 LEFT JOIN fom_projeto_dado_pfs fpdf on fp.id = fpdf.fom_projeto_id
                 LEFT JOIN fom_linguagem_projetos flp on fpdf.fom_linguagem_projeto_id = flp.id
                 LEFT JOIN fom_tematica_projetos ftp on fpdf.fom_tematica_projeto_id = ftp.id 
+                LEFT JOIN fom_edital_periferias fep on fp.id = fep.fom_projeto_id 
                 WHERE fp.id = '$id'";
         $projeto = DbModel::consultaSimples($sql)->fetch(PDO::FETCH_ASSOC);
 
@@ -472,5 +491,9 @@ class ProjetoController extends ProjetoModel
         $erros['Arquivos'] = ProjetoModel::validaArquivosProjeto($projeto_id, $edital_id);
 
         return MainModel::formataValidacaoErros($erros);
+    }
+
+    private function insereDadosPeriferias($dados) {
+
     }
 }
