@@ -43,7 +43,7 @@ class UsuarioController extends UsuarioModel
                     return $urlLocation = "<script> window.location='inicio/inicio' </script>";
                 } else {
                     switch ($modulo){
-                        case 5:
+                        case 5 || 7:
                             $formacaoObj = new FormacaoController();
                             $_SESSION['ano_c'] = $formacaoObj->recuperaAnoReferenciaAtual($edital);
                             return $urlLocation = "<script> window.location='formacao/inicio' </script>";

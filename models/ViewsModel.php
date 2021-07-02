@@ -70,6 +70,7 @@ class ViewsModel
             'pf_endereco_cadastro',
             'pf_banco_cadastro',
             'formacao_cadastro',
+            'piapi_edital',
             'piapi_cadastro'
         ];
         if (self::verificaModulo($modulo)) {
@@ -92,6 +93,8 @@ class ViewsModel
             $conteudo = "fomento_edital";
         } elseif ($modulo == "formacao_edital") {
             $conteudo = "formacao_edital";
+        } elseif ($modulo == "piap_edital") {
+            $conteudo = "piap_edital";
         } elseif ($modulo == "recupera_senha") {
             $conteudo = "recupera_senha";
         } elseif ($modulo == "resete_senha") {

@@ -9,9 +9,10 @@ if ($pedidoAjax) {
 
 class FormacaoController extends FormacaoModel
 {
-    public function listaAbertura()
+    public function listaAbertura($piap = false)
     {
-        return MainModel::consultaSimples("SELECT * FROM form_aberturas WHERE publicado = 1 ORDER BY data_publicacao DESC;")->fetchAll(PDO::FETCH_OBJ);
+        $piap = $piap ? 2 : 1;
+        return MainModel::consultaSimples("SELECT * FROM form_aberturas WHERE publicado = 1 AND tipo_abertura_id = $piap ORDER BY data_publicacao DESC;")->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function cadastroEncerrado($ano)
