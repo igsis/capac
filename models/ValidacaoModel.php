@@ -246,15 +246,22 @@ class ValidacaoModel extends MainModel
         }
     }
 
-    protected function validaArquivosFormacao($form_cadastro_id, $cargo){
+    protected function validaArquivosFormacao($form_cadastro_id, $cargo, $piapi = false){
         $cargos = [4, 5];
         if (in_array($cargo, $cargos)) {
             $busca = "AND fld.documento NOT LIKE '%Coordenação%'";
         } else {
             $busca = "";
         }
+
+        if ($piapi) {
+            $not_in = "('24','25','26','27')";
+        } else {
+            $not_in = "('30','31','32','33')";
+        }
+
         $sql = "SELECT * FROM formacao_lista_documentos AS fld
-                WHERE fld.publicado = 1 AND fld.obrigatorio = '1' ". $busca ." ORDER BY fld.id";
+                WHERE fld.id NOT IN $not_in AND fld.publicado = 1 AND fld.obrigatorio = '1' ". $busca;
         $arquivos = DbModel::consultaSimples($sql, true)->fetchAll(PDO::FETCH_OBJ);
         foreach ($arquivos as $arquivo) {
             $idsArquivos[] = $arquivo->id;

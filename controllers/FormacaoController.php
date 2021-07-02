@@ -9,17 +9,19 @@ if ($pedidoAjax) {
 
 class FormacaoController extends FormacaoModel
 {
-    public function listaAbertura($piap = false)
+    public function listaAbertura($piapi = false)
     {
-        $piap = $piap ? 2 : 1;
-        return MainModel::consultaSimples("SELECT * FROM form_aberturas WHERE publicado = 1 AND tipo_abertura_id = $piap ORDER BY data_publicacao DESC;")->fetchAll(PDO::FETCH_OBJ);
+        $piapi = $piapi ? 2 : 1;
+        return MainModel::consultaSimples("SELECT * FROM form_aberturas WHERE publicado = 1 AND tipo_abertura_id = $piapi ORDER BY data_publicacao DESC;")->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function cadastroEncerrado($ano)
+    public function cadastroEncerrado($ano, $piapi)
     {
+        $tipo_abertura = $piapi ? 2 : 1;
+
         $now = date('Y-m-d H:i:s');
 
-        $sql = "SELECT data_encerramento FROM form_aberturas WHERE data_abertura IS NOT NULL AND ano_referencia = '$ano' LIMIT 0,1";
+        $sql = "SELECT data_encerramento FROM form_aberturas WHERE tipo_abertura_id = '$tipo_abertura' AND data_abertura IS NOT NULL AND ano_referencia = '$ano' LIMIT 0,1";
         $dataEncerramento = MainModel::consultaSimples($sql)->fetchColumn();
 
         if ($now <= $dataEncerramento) {
@@ -322,12 +324,12 @@ class FormacaoController extends FormacaoModel
         return MainModel::sweetAlert($alerta);
     }
 
-    public function validaForm($form_cadastro_id, $pessoa_fisica_id, $cargo) {
+    public function validaForm($form_cadastro_id, $pessoa_fisica_id, $cargo, $piapi = false) {
         $form_cadastro_id = MainModel::decryption($form_cadastro_id);
 
         $erros['Proponente'] = (new PessoaFisicaController)->validaPf($pessoa_fisica_id, 3);
         $erros['Formação'] = ValidacaoModel::validaFormacao($pessoa_fisica_id);
-        $erros['Arquivos'] = ValidacaoModel::validaArquivosFormacao($form_cadastro_id, $cargo);
+        $erros['Arquivos'] = ValidacaoModel::validaArquivosFormacao($form_cadastro_id, $cargo, $piapi);
 
         return MainModel::formataValidacaoErros($erros);
     }
