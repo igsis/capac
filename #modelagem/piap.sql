@@ -34,3 +34,7 @@ INSERT INTO `programas` (`id`, `programa`, `verba_id`, `edital`, `descricao`, `p
 INSERT INTO `cargo_programas` (`formacao_cargo_id`, `programa_id`) VALUES (1, 3);
 INSERT INTO `cargo_programas` (`formacao_cargo_id`, `programa_id`) VALUES (5, 3);
 
+INSERT INTO `formacao_lista_documentos` (`id`, `documento`, `sigla`, `ordem`, `obrigatorio`, `publicado`) VALUES (30, 'Anexo I a III (arquivo único)', 'f-anxI-III', 0, 1, 1);
+INSERT INTO `formacao_lista_documentos` (`id`, `documento`, `sigla`, `ordem`, `obrigatorio`, `publicado`) VALUES (31, 'Anexo IV (carta de intenção e link vídeo)', 'f-anexoIV', 0, 1, 1);
+INSERT INTO `formacao_lista_documentos` (`id`, `documento`, `sigla`, `ordem`, `obrigatorio`, `publicado`) VALUES (32, 'Anexo V (somente para opção de cotas étnico-raciais)', 'f-anexoV2', 0, 0, 1);
+INSERT INTO `formacao_lista_documentos` (`id`, `documento`, `sigla`, `ordem`, `obrigatorio`, `publicado`) VALUES (33, 'Anexo VI (somente para declarar opção de uso do nome social)', 'f-anexoVI2', 0, 0, 1);
