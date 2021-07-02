@@ -344,4 +344,30 @@ class FormacaoController extends FormacaoModel
         }
         return MainModel::sweetAlert($alerta);
     }
+
+    /**
+     * Função sobreescrita na classe FormacaoController
+     * @param string $tabela
+     * @param string $selected
+     * @param false $publicado
+     * @param false $orderPorId
+     * @param false $fomento
+     * @param false $siscontrat
+     */
+    public function geraOpcaoCargosPiapi($selected = "", $siscontrat = true) {
+        $sql = "SELECT cp.formacao_cargo_id, fc.cargo FROM cargo_programas AS cp
+                INNER JOIN formacao_cargos AS fc ON cp.formacao_cargo_id = fc.id
+                WHERE cp.programa_id = 3";
+
+        $consulta = DbModel::consultaSimples($sql, $siscontrat);
+        if ($consulta->rowCount() >= 1) {
+            foreach ($consulta->fetchAll() as $option) {
+                if ($option[0] == $selected) {
+                    echo "<option value='" . $option[0] . "' selected >" . $option[1] . "</option>";
+                } else {
+                    echo "<option value='" . $option[0] . "'>" . $option[1] . "</option>";
+                }
+            }
+        }
+    }
 }
