@@ -52,7 +52,7 @@ if ($id) {
                                     <select class="form-control" id="regiao_preferencial_id" name="regiao_preferencial_id" required>
                                         <option value="">Selecione uma opção...</option>
                                         <?php
-                                        $formObj->geraOpcao("form_regioes_preferenciais",$form->regiao_preferencial_id);
+                                        $formObj->geraOpcao("form_regioes_preferenciais",$form->regiao_preferencial_id, true);
                                         ?>
                                     </select>
                                 </div>
@@ -61,7 +61,7 @@ if ($id) {
                                     <select class="form-control" id="programa" name="programa_id" required>
                                         <option value="">Selecione uma opção...</option>
                                         <?php
-                                        $formObj->geraOpcao("programas",$form->programa_id ?? "", true, false, false, true);
+                                        $formObj->geraOpcaoProgramas($form->programa_id ?? "");
                                         ?>
                                     </select>
                                 </div>

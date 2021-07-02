@@ -48,7 +48,9 @@ if ($id) {
                                 <div class="form-group col">
                                     <label for="programa_id">Programa: *</label>
                                     <select class="form-control" id="programa" name="programa_id" required readonly>
-                                        <option value="3">Piapi</option>
+                                        <?php
+                                        $formObj->geraOpcaoProgramas($form->programa_id ?? "", true);
+                                        ?>
                                     </select>
                                 </div>
                             </div>
@@ -57,7 +59,7 @@ if ($id) {
                                 <div class="form-group col">
                                     <label for="">Função: *</label>
                                     <select class="form-control" name="form_cargo_id" required>
-                                        <option value="">Selecione o Programa...</option>
+                                        <option value="">Selecione...</option>
                                         <?php
                                         $formObj->geraOpcaoCargosPiapi($form->form_cargo_id ?? "");
                                         ?>

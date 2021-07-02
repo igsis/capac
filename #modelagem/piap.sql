@@ -2,7 +2,10 @@ USE capac_new;
 
 INSERT INTO capac_modulos (id, modulo) VALUES ('7', 'Formação (PIAPI)');
 
-INSERT INTO form_regioes_preferenciais (id, regiao) VALUES ('0', 'Não aplicável');
+ALTER TABLE `form_regioes_preferenciais`
+    ADD COLUMN `publicado` TINYINT(1) NOT NULL DEFAULT '1' AFTER `regiao`;
+
+INSERT INTO form_regioes_preferenciais (id, regiao, publicado) VALUES ('0', 'Não aplicável', '0');
 
 CREATE TABLE `form_tipo_aberturas` (
     `id` TINYINT(1) NOT NULL AUTO_INCREMENT,
@@ -17,8 +20,14 @@ ALTER TABLE `form_aberturas`
     ADD INDEX `tipo_abertura_id` (`tipo_abertura_id`),
     ADD CONSTRAINT `form_abertura_tipo_abertura_fk` FOREIGN KEY (`tipo_abertura_id`) REFERENCES `form_tipo_aberturas` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION;
 
+ALTER TABLE `form_cadastros`
+    CHANGE COLUMN `regiao_preferencial_id` `regiao_preferencial_id` TINYINT(1) NOT NULL DEFAULT '0' AFTER `ano`,
+    CHANGE COLUMN `linguagem_id` `linguagem_id` TINYINT(2) NOT NULL DEFAULT '0' AFTER `programa_id`;
+
 
 USE siscontrat;
+
+INSERT INTO `linguagens` (`id`, `linguagem`, `publicado`) VALUES (0, 'Não Aplicável', 0);
 
 INSERT INTO `programas` (`id`, `programa`, `verba_id`, `edital`, `descricao`, `publicado`) VALUES (3, 'Piapi', 19, 'Edital 026/2020 - SMC/CFOC/SFC', 'O PIÁ atende crianças e jovens de 5 a 14 anos. A proposta artístico-pedagógica do PIÁ considera na sua abordagem as sensações, sentimentos, conceitos, valores e significados culturais e sociais. As brincadeiras, experimentações e vivências entre artistas-educadores, crianças e jovens geram os processos artísticos que revelam, em suas incessantes transformações, o desenvolvimento da sensibilidade, percepção e imaginação.', 1);
 
