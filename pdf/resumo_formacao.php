@@ -244,5 +244,4 @@ $pdf->Cell(50, $l, utf8_decode($formacao->protocolo), 0, 1, 'L');
 $pdf->SetX($x+25);
 $pdf->Cell(155, $l, utf8_decode("smcsistemas.prefeitura.sp.gov.br/capac"), 0, 1, 'L',false,"http://smcsistemas.prefeitura.sp.gov.br/capac");
 
-
 $pdf->Output();
