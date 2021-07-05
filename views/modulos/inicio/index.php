@@ -92,22 +92,14 @@
                                                     </a>
                                                 </div>
                                                 <div class="col-6">
-                                                    <div class="dropdown">
-                                                        <div class="info-box bg-teal" type="button"
-                                                             id="dropdownMenuButton" data-toggle="dropdown"
-                                                             aria-haspopup="true" aria-expanded="false">
-                                                            <span class="info-box-icon"><i
-                                                                        class="fas fa-child"></i></span>
+                                                    <a href="formacao_edital">
+                                                        <div class="info-box bg-teal">
+                                                            <span class="info-box-icon"><i class="fas fa-child"></i></span>
                                                             <div class="card-body">
                                                                 <span class="info-box-number">Formação</span>
                                                             </div>
                                                         </div>
-                                                        <div class="dropdown-menu"
-                                                             aria-labelledby="dropdownMenuButton">
-                                                            <a class="dropdown-item" href="formacao_edital">Vocacional / Piá</a>
-                                                            <a class="dropdown-item" href="piap_edital">Piap</a>
-                                                        </div>
-                                                    </div>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>

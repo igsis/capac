@@ -9,19 +9,18 @@ if ($pedidoAjax) {
 
 class FormacaoController extends FormacaoModel
 {
-    public function listaAbertura($piapi = false)
+    public function listaAbertura()
     {
-        $piapi = $piapi ? 2 : 1;
-        return MainModel::consultaSimples("SELECT * FROM form_aberturas WHERE publicado = 1 AND tipo_abertura_id = $piapi ORDER BY data_publicacao DESC;")->fetchAll(PDO::FETCH_OBJ);
+        return MainModel::consultaSimples("SELECT * FROM form_aberturas WHERE publicado = 1 ORDER BY data_publicacao DESC;")->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function cadastroEncerrado($ano, $piapi)
     {
-        $tipo_abertura = $piapi ? 2 : 1;
+        $edital = $piapi ? 2 : 1;
 
         $now = date('Y-m-d H:i:s');
 
-        $sql = "SELECT data_encerramento FROM form_aberturas WHERE tipo_abertura_id = '$tipo_abertura' AND data_abertura IS NOT NULL AND ano_referencia = '$ano' LIMIT 0,1";
+        $sql = "SELECT data_encerramento FROM form_aberturas WHERE form_edital_id = '$edital' AND data_abertura IS NOT NULL AND ano_referencia = '$ano' LIMIT 0,1";
         $dataEncerramento = MainModel::consultaSimples($sql)->fetchColumn();
 
         if ($now <= $dataEncerramento) {
@@ -31,9 +30,9 @@ class FormacaoController extends FormacaoModel
         }
     }
 
-    public function verificaCadastroNoAno($usuario_id, $ano)
+    public function verificaCadastroNoAno($usuario_id, $ano, $edital)
     {
-        return DbModel::consultaSimples("SELECT id FROM form_cadastros WHERE usuario_id = '$usuario_id' AND ano = '$ano' AND publicado = '1'")->rowCount();
+        return DbModel::consultaSimples("SELECT id FROM form_cadastros WHERE usuario_id = '$usuario_id' AND ano = '$ano' AND form_edital_id = '$edital' AND publicado = '1'")->rowCount();
     }
 
     public function recuperaFormacaoId($pessoa_fisica_id, $ano)
@@ -222,7 +221,7 @@ class FormacaoController extends FormacaoModel
     {
         $sqlFormacao = "SELECT fc.*, pf.nome FROM form_cadastros fc
                         INNER JOIN pessoa_fisicas pf on fc.pessoa_fisica_id = pf.id
-                        WHERE fc.usuario_id = '$idUsuario' AND fc.publicado = 1";
+                        WHERE fc.usuario_id = '$idUsuario' AND form_edital_id = '{$_SESSION['edital_c']}' AND fc.publicado = 1";
 
         $formacoes = MainModel::consultaSimples($sqlFormacao)->fetchAll(PDO::FETCH_OBJ);
 
@@ -278,7 +277,7 @@ class FormacaoController extends FormacaoModel
     public function recuperaAnoReferenciaAtual($idEdital)
     {
         $idEdital = MainModel::decryption($idEdital);
-        return MainModel::consultaSimples("SELECT ano_referencia FROM form_aberturas WHERE id='$idEdital'")->fetchColumn();
+        return MainModel::consultaSimples("SELECT ano_referencia, form_edital_id FROM form_aberturas WHERE id='$idEdital'")->fetchObject();
     }
 
     public function apagaFormacao($id){

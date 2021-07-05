@@ -5,7 +5,6 @@ unset($_SESSION['origem_id_c']);
 unset($_SESSION['formacao_id_c']);
 
 $formacaoObj = new FormacaoController();
-
 $cadastros = $formacaoObj->listaFormacao($_SESSION['usuario_id_c']);
 ?>
 <!-- Content Header (Page header) -->
@@ -16,7 +15,7 @@ $cadastros = $formacaoObj->listaFormacao($_SESSION['usuario_id_c']);
                 <h1 class="m-0 text-dark">Lista de Cadastros</h1>
             </div><!-- /.col -->
             <div class="col-sm-3">
-                <?php if (!$formacaoObj->verificaCadastroNoAno($_SESSION['usuario_id_c'], $_SESSION['ano_c'])): ?>
+                <?php if (!$formacaoObj->verificaCadastroNoAno($_SESSION['usuario_id_c'], $_SESSION['ano_c'], $_SESSION['edital_c'])): ?>
                     <a href="<?= SERVERURL ?>formacao/pf_busca" class="btn btn-success btn-block">
                         Adicionar
                     </a>

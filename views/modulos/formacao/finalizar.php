@@ -2,7 +2,7 @@
 require_once "./controllers/PessoaFisicaController.php";
 require_once "./controllers/FormacaoController.php";
 
-$piapi = $_SESSION['modulo_c'] == 7;
+$piapi = $_SESSION['edital_c'] == 2;
 
 $pfObj = new PessoaFisicaController();
 $formObj = new FormacaoController();
@@ -173,8 +173,8 @@ $validacoesPrograma = $formObj->validaForm($form_cadastro_id, $pessoa_fisica_id,
                                 </form>
                             <?php else: ?>
                                 <button class="btn btn-warning btn-block float-right">
-                                    Você possui pendencias em seu cadastro. Verifique-as no topo da tela para poder
-                                    envia-lo
+                                    Você possui pendências em seu cadastro. Verifique-as no topo da tela para poder
+                                    enviá-lo.
                                 </button>
                             <?php endif ?>
                         </div>

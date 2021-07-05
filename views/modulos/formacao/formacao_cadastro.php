@@ -41,6 +41,7 @@ if ($id) {
                     <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/formacaoAjax.php" role="form" data-form="<?= ($id) ? "update" : "save" ?>">
                         <input type="hidden" name="_method" value="<?= ($id) ? "editar" : "cadastrar" ?>">
                         <input type="hidden" name="ano" value="<?= $_SESSION['ano_c'] ?>">
+                        <input type="hidden" name="form_edital_id" value="<?= $_SESSION['edital_c'] ?>">
                         <input type="hidden" name="usuario_id" value="<?= $_SESSION['usuario_id_c'] ?>">
                         <?php if ($id): ?>
                             <input type="hidden" name="id" value="<?= $id ?>">

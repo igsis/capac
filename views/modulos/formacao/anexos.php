@@ -8,7 +8,7 @@ $idFormacao = $_SESSION['formacao_id_c'];
 
 $form = $formacaoObj->recuperaFormacao($_SESSION['ano_c'], false, $idFormacao);
 $form_cargo_id = $form->form_cargo_id;
-$piapi = $_SESSION['modulo_c'] == 7;
+$piapi = $_SESSION['edital_c'] == 2;
 ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
