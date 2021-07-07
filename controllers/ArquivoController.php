@@ -181,13 +181,18 @@ class ArquivoController extends ArquivoModel
         return $arquivo > 0 ? true : false;
     }
 
-    public function listarArquivosFormacao($form_cargo_id)
+    public function listarArquivosFormacao($form_cargo_id, $piapi = false)
     {
+        if ($piapi) {
+            $not_in = "('24','25','26','27')";
+        } else {
+            $not_in = "('30','31','32','33')";
+        }
         $cargos = [4, 5];
         if (in_array($form_cargo_id, $cargos)) {
-            return MainModel::consultaSimples("SELECT * FROM formacao_lista_documentos WHERE publicado = 1 AND documento NOT LIKE '%Coordenação%' ORDER BY 'ordem'", true);
+            return MainModel::consultaSimples("SELECT * FROM formacao_lista_documentos WHERE id NOT IN $not_in AND publicado = 1 AND documento NOT LIKE '%Coordenação%' ORDER BY 'ordem'", true);
         } else {
-            return MainModel::consultaSimples("SELECT * FROM formacao_lista_documentos WHERE publicado = 1 ORDER BY 'ordem'", true);
+            return MainModel::consultaSimples("SELECT * FROM formacao_lista_documentos WHERE id NOT IN $not_in AND publicado = 1 ORDER BY 'ordem'", true);
         }
     }
 

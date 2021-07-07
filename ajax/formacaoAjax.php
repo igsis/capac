@@ -15,6 +15,12 @@ if (isset($_POST['_method'])) {
         case "editar":
             echo $formacaoObj->editaFormacao($_POST['id']);
             break;
+        case "cadastrarPiapi":
+            echo $formacaoObj->insereFormacao(true);
+            break;
+        case "editarPiapi":
+            echo $formacaoObj->editaFormacao($_POST['id'], true);
+            break;
         case "cadastrarPf":
             echo $formacaoObj->inserePfCadastro($_POST['pagina']);
             break;

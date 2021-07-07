@@ -93,7 +93,7 @@
                                                 </div>
                                                 <div class="col-6">
                                                     <a href="formacao_edital">
-                                                        <div class="btn info-box bg-teal">
+                                                        <div class="info-box bg-teal">
                                                             <span class="info-box-icon"><i class="fas fa-child"></i></span>
                                                             <div class="card-body">
                                                                 <span class="info-box-number">Formação</span>

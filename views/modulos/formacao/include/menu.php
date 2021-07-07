@@ -40,7 +40,7 @@ if (isset($_SESSION['origem_id_c'])){
 
     <?php if (isset($_SESSION['formacao_id_c'])) { ?>
         <li class="nav-item">
-            <?php if ($_SESSION['modulo']==7) { ?>
+            <?php if ($_SESSION['edital_c'] == 2) { ?>
                 <a href="<?= SERVERURL ?>formacao/piapi_cadastro&idC=<?= $_SESSION['formacao_id_c'] ?>" class="nav-link" id="programa">
             <?php } else { ?>
                 <a href="<?= SERVERURL ?>formacao/formacao_cadastro&idC=<?= $_SESSION['formacao_id_c'] ?>" class="nav-link" id="programa">
@@ -64,7 +64,12 @@ if (isset($_SESSION['origem_id_c'])){
         </li>
     <?php } else { ?>
         <li class="nav-item">
-            <a href="<?= SERVERURL ?>formacao/formacao_cadastro<?= $form != NULL ? '&idPf='.$idPf : NULL ?>" class="nav-link" id="programa">
+            <?php if ($_SESSION['edital_c'] == 2): ?>
+                <a href="<?= SERVERURL ?>formacao/piapi_cadastro<?= $form != NULL ? '&idPf='.$idPf : NULL ?>" class="nav-link" id="programa">
+            <?php else: ?>
+                <a href="<?= SERVERURL ?>formacao/formacao_cadastro<?= $form != NULL ? '&idPf='.$idPf : NULL ?>" class="nav-link" id="programa">
+            <?php endif; ?>
+
                 <i class="far fa-circle nav-icon"></i>
                 <p>Dados complementares</p>
             </a>

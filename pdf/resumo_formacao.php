@@ -91,9 +91,9 @@ $pdf->Cell(10, $l, utf8_decode("CPF:"), 0, 0, 'L');
 $pdf->SetFont('Arial', '', $f);
 $pdf->Cell(50, $l, utf8_decode($pf['cpf']), 0, 0, 'L');
 $pdf->SetFont('Arial', 'B', $f);
-$pdf->Cell(10, $l, utf8_decode("CCM:"), 0, 0, 'L');
+$pdf->Cell(11, $l, utf8_decode("CCM:"), 0, 0, 'L');
 $pdf->SetFont('Arial', '', $f);
-$pdf->Cell(20, $l, utf8_decode($pf['ccm']), 0, 1, 'L');
+$pdf->Cell(19, $l, utf8_decode($pf['ccm']), 0, 1, 'L');
 
 $pdf->SetX($x);
 $pdf->SetFont('Arial', 'B', $f);
@@ -141,11 +141,11 @@ $pdf->Cell(35, $l, utf8_decode($pfDados['descricao']), 0, 0, 'L');
 $pdf->SetFont('Arial', 'B', $f);
 $pdf->Cell(16, $l, utf8_decode("Gênero:"), 0, 0, 'L');
 $pdf->SetFont('Arial', '', $f);
-$pdf->Cell(40, $l, utf8_decode($pfDados['genero']), 0, 0, 'L');
+$pdf->Cell(50, $l, utf8_decode($pfDados['genero']), 0, 0, 'L');
 $pdf->SetFont('Arial', 'B', $f);
 $pdf->Cell(13, $l, utf8_decode("Trans:"), 0, 0, 'L');
 $pdf->SetFont('Arial', '', $f);
-$pdf->Cell(30, $l, utf8_decode($trans), 0, 0, 'L');
+$pdf->Cell(20, $l, utf8_decode($trans), 0, 0, 'L');
 $pdf->SetFont('Arial', 'B', $f);
 $pdf->Cell(11, $l, utf8_decode("PCD:"), 0, 0, 'L');
 $pdf->SetFont('Arial', '', $f);
@@ -227,14 +227,21 @@ if ($formacao->cargo3) {
     $pdf->Cell(20, $l, utf8_decode($formacao->cargo3), 0, 1, 'L');
 }
 
-$pdf->Ln(20);
+$pdf->Ln(30);
 
 $pdf->SetX($x);
-$pdf->SetFont('Arial', 'B', $f);
-$pdf->Cell(170, $l, utf8_decode("Cadastro enviado em:"), 0, 1, 'C');
+$pdf->Cell(180, $l, "", 'T', 1, 'L');
+$pdf->SetFont('Arial', '', $f-1);
+$pdf->SetTextColor(70,70,70);
 
 $pdf->SetX($x);
-$pdf->SetFont('Arial', '', $f);
-$pdf->Cell(170, $l, date("d/m/Y H:i:s", strtotime($formacao->data_envio)), 0, 1, 'C');
+$pdf->Cell(25, $l, $pdf->Image('../views/dist/img/AdminLTELogo.png',$x,$pdf->GetY(),20), 0, 0, 'L');
+$pdf->Cell(155, $l, utf8_decode("Cadastro enviado em ".date('d/m/Y - H:i:s', strtotime($formacao->data_envio))), 0, 1, 'L');
+
+$pdf->SetX($x+25);
+$pdf->Cell(50, $l, utf8_decode($formacao->protocolo), 0, 1, 'L');
+
+$pdf->SetX($x+25);
+$pdf->Cell(155, $l, utf8_decode("smcsistemas.prefeitura.sp.gov.br/capac"), 0, 1, 'L',false,"http://smcsistemas.prefeitura.sp.gov.br/capac");
 
 $pdf->Output();

@@ -41,6 +41,7 @@ if ($id) {
                     <form class="form-horizontal formulario-ajax" method="POST" action="<?= SERVERURL ?>ajax/formacaoAjax.php" role="form" data-form="<?= ($id) ? "update" : "save" ?>">
                         <input type="hidden" name="_method" value="<?= ($id) ? "editar" : "cadastrar" ?>">
                         <input type="hidden" name="ano" value="<?= $_SESSION['ano_c'] ?>">
+                        <input type="hidden" name="form_edital_id" value="<?= $_SESSION['edital_c'] ?>">
                         <input type="hidden" name="usuario_id" value="<?= $_SESSION['usuario_id_c'] ?>">
                         <?php if ($id): ?>
                             <input type="hidden" name="id" value="<?= $id ?>">
@@ -52,7 +53,7 @@ if ($id) {
                                     <select class="form-control" id="regiao_preferencial_id" name="regiao_preferencial_id" required>
                                         <option value="">Selecione uma opção...</option>
                                         <?php
-                                        $formObj->geraOpcao("form_regioes_preferenciais",$form->regiao_preferencial_id);
+                                        $formObj->geraOpcao("form_regioes_preferenciais",$form->regiao_preferencial_id, true);
                                         ?>
                                     </select>
                                 </div>
@@ -61,7 +62,7 @@ if ($id) {
                                     <select class="form-control" id="programa" name="programa_id" required>
                                         <option value="">Selecione uma opção...</option>
                                         <?php
-                                        $formObj->geraOpcao("programas",$form->programa_id ?? "", true, false, false, true);
+                                        $formObj->geraOpcaoProgramas($form->programa_id ?? "");
                                         ?>
                                     </select>
                                 </div>

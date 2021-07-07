@@ -45,7 +45,9 @@ class UsuarioController extends UsuarioModel
                     switch ($modulo){
                         case 5:
                             $formacaoObj = new FormacaoController();
-                            $_SESSION['ano_c'] = $formacaoObj->recuperaAnoReferenciaAtual($edital);
+                            $referencia = $formacaoObj->recuperaAnoReferenciaAtual($edital);
+                            $_SESSION['ano_c'] = $referencia->ano_referencia;
+                            $_SESSION['edital_c'] = $referencia->form_edital_id;
                             return $urlLocation = "<script> window.location='formacao/inicio' </script>";
                             break;
                         case 6:

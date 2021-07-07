@@ -14,11 +14,13 @@ class FormacaoController extends FormacaoModel
         return MainModel::consultaSimples("SELECT * FROM form_aberturas WHERE publicado = 1 ORDER BY data_publicacao DESC;")->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function cadastroEncerrado($ano)
+    public function cadastroEncerrado($ano, $piapi)
     {
+        $edital = $piapi ? 2 : 1;
+
         $now = date('Y-m-d H:i:s');
 
-        $sql = "SELECT data_encerramento FROM form_aberturas WHERE data_abertura IS NOT NULL AND ano_referencia = '$ano' LIMIT 0,1";
+        $sql = "SELECT data_encerramento FROM form_aberturas WHERE form_edital_id = '$edital' AND data_abertura IS NOT NULL AND ano_referencia = '$ano' LIMIT 0,1";
         $dataEncerramento = MainModel::consultaSimples($sql)->fetchColumn();
 
         if ($now <= $dataEncerramento) {
@@ -28,9 +30,9 @@ class FormacaoController extends FormacaoModel
         }
     }
 
-    public function verificaCadastroNoAno($usuario_id, $ano)
+    public function verificaCadastroNoAno($usuario_id, $ano, $edital)
     {
-        return DbModel::consultaSimples("SELECT id FROM form_cadastros WHERE usuario_id = '$usuario_id' AND ano = '$ano' AND publicado = '1'")->rowCount();
+        return DbModel::consultaSimples("SELECT id FROM form_cadastros WHERE usuario_id = '$usuario_id' AND ano = '$ano' AND form_edital_id = '$edital' AND publicado = '1'")->rowCount();
     }
 
     public function recuperaFormacaoId($pessoa_fisica_id, $ano)
@@ -92,8 +94,13 @@ class FormacaoController extends FormacaoModel
         return MainModel::sweetAlert($alerta);
     }
 
-    public function insereFormacao()
+    public function insereFormacao($piapi = false)
     {
+        if ($piapi) {
+            $location = "piapi_cadastro";
+        } else {
+            $location = "formacao_cadastro";
+        }
         /* executa limpeza nos campos */
         unset($_POST['_method']);
         $dados['pessoa_fisica_id'] = MainModel::decryption($_SESSION['origem_id_c']);
@@ -111,19 +118,21 @@ class FormacaoController extends FormacaoModel
         if (DbModel::connection()->errorCode() == 0) {
             $id = DbModel::connection()->lastInsertId();
             $_SESSION['formacao_id_c'] = MainModel::encryption($id);
-            if ((isset($dadosAdicionais)) && ($dadosAdicionais['form_cargo2_id'] != "")) {
-                $dadosAdicionais['form_cadastro_id'] = $id;
-                if (isset($dadosAdicionais['form_cargo3_id'])) {
-                    $dadosAdicionais['form_cargo3_id'] = $dadosAdicionais['form_cargo3_id'] == "" ? null : $dadosAdicionais['form_cargo3_id'];
+            if (!$piapi) {
+                if ((isset($dadosAdicionais)) && ($dadosAdicionais['form_cargo2_id'] != "")) {
+                    $dadosAdicionais['form_cadastro_id'] = $id;
+                    if (isset($dadosAdicionais['form_cargo3_id'])) {
+                        $dadosAdicionais['form_cargo3_id'] = $dadosAdicionais['form_cargo3_id'] == "" ? null : $dadosAdicionais['form_cargo3_id'];
+                    }
+                    DbModel::insert("form_cargos_adicionais", $dadosAdicionais);
                 }
-                DbModel::insert("form_cargos_adicionais",$dadosAdicionais);
             }
             $alerta = [
                 'alerta' => 'sucesso',
                 'titulo' => 'Detalhes do programa',
                 'texto' => 'Cadastro realizado com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL . 'formacao/formacao_cadastro&idC=' . $_SESSION['formacao_id_c']
+                'location' => SERVERURL . 'formacao/'.$location.'&idC=' . $_SESSION['formacao_id_c']
             ];
         } else {
             $alerta = [
@@ -132,14 +141,20 @@ class FormacaoController extends FormacaoModel
                 'texto' => 'Erro ao salvar!',
                 'tipo' => 'error',
                 //@todo: verificar se este location não gera erro
-                'location' => SERVERURL . 'formacao/formacao_cadastro'
+                'location' => SERVERURL . 'formacao/'.$location
             ];
         }
         return MainModel::sweetAlert($alerta);
     }
 
-    public function editaFormacao($id)
+    public function editaFormacao($id, $piapi = false)
     {
+        if ($piapi) {
+            $location = "piapi_cadastro";
+        } else {
+            $location = "formacao_cadastro";
+        }
+
         unset($_POST['_method']);
         unset($_POST['id']);
 
@@ -163,22 +178,24 @@ class FormacaoController extends FormacaoModel
         /* ./limpeza */
         DbModel::update("form_cadastros",$dados,$idDecrypt);
         if (DbModel::connection()->errorCode() == 0) {
-            if ((isset($dadosAdicionais)) && ($dadosAdicionais['form_cargo2_id'] != "")) {
-                if ($cargo2) {
-                    if (isset($dadosAdicionais['form_cargo3_id'])) {
-                        $dadosAdicionais['form_cargo3_id'] = $dadosAdicionais['form_cargo3_id'] == "" ? null : $dadosAdicionais['form_cargo3_id'];
+            if (!$piapi) {
+                if ((isset($dadosAdicionais)) && ($dadosAdicionais['form_cargo2_id'] != "")) {
+                    if ($cargo2) {
+                        if (isset($dadosAdicionais['form_cargo3_id'])) {
+                            $dadosAdicionais['form_cargo3_id'] = $dadosAdicionais['form_cargo3_id'] == "" ? null : $dadosAdicionais['form_cargo3_id'];
+                        }
+                        DbModel::updateEspecial("form_cargos_adicionais", $dadosAdicionais, 'form_cadastro_id', $idDecrypt);
+                    } else {
+                        $dadosAdicionais['form_cadastro_id'] = $idDecrypt;
+                        if (isset($dadosAdicionais['form_cargo3_id'])) {
+                            $dadosAdicionais['form_cargo3_id'] = $dadosAdicionais['form_cargo3_id'] == "" ? null : $dadosAdicionais['form_cargo2_id'];
+                        }
+                        DbModel::insert("form_cargos_adicionais", $dadosAdicionais);
                     }
-                    DbModel::updateEspecial("form_cargos_adicionais", $dadosAdicionais, 'form_cadastro_id', $idDecrypt);
                 } else {
-                    $dadosAdicionais['form_cadastro_id'] = $idDecrypt;
-                    if (isset($dadosAdicionais['form_cargo3_id'])) {
-                        $dadosAdicionais['form_cargo3_id'] = $dadosAdicionais['form_cargo3_id'] == "" ? null : $dadosAdicionais['form_cargo2_id'];
+                    if ($cargo2) {
+                        DbModel::deleteEspecial("form_cargos_adicionais", "form_cadastro_id", $idDecrypt);
                     }
-                    DbModel::insert("form_cargos_adicionais", $dadosAdicionais);
-                }
-            } else {
-                if ($cargo2) {
-                    DbModel::deleteEspecial("form_cargos_adicionais", "form_cadastro_id", $idDecrypt);
                 }
             }
             $alerta = [
@@ -186,7 +203,7 @@ class FormacaoController extends FormacaoModel
                 'titulo' => 'Detalhes do programa',
                 'texto' => 'Cadastro editado com sucesso!',
                 'tipo' => 'success',
-                'location' => SERVERURL . 'formacao/formacao_cadastro&idC=' . $id
+                'location' => SERVERURL . 'formacao/'.$location.'&idC=' . $id
             ];
         } else {
             $alerta = [
@@ -194,7 +211,7 @@ class FormacaoController extends FormacaoModel
                 'titulo' => 'Erro!',
                 'texto' => 'Erro ao salvar!',
                 'tipo' => 'error',
-                'location' => SERVERURL . 'formacao/formacao_cadastro&idC=' . $id
+                'location' => SERVERURL . 'formacao/'.$location.'&idC=' . $id
             ];
         }
         return MainModel::sweetAlert($alerta);
@@ -204,7 +221,7 @@ class FormacaoController extends FormacaoModel
     {
         $sqlFormacao = "SELECT fc.*, pf.nome FROM form_cadastros fc
                         INNER JOIN pessoa_fisicas pf on fc.pessoa_fisica_id = pf.id
-                        WHERE fc.usuario_id = '$idUsuario' AND fc.publicado = 1";
+                        WHERE fc.usuario_id = '$idUsuario' AND form_edital_id = '{$_SESSION['edital_c']}' AND fc.publicado = 1";
 
         $formacoes = MainModel::consultaSimples($sqlFormacao)->fetchAll(PDO::FETCH_OBJ);
 
@@ -260,7 +277,7 @@ class FormacaoController extends FormacaoModel
     public function recuperaAnoReferenciaAtual($idEdital)
     {
         $idEdital = MainModel::decryption($idEdital);
-        return MainModel::consultaSimples("SELECT ano_referencia FROM form_aberturas WHERE id='$idEdital'")->fetchColumn();
+        return MainModel::consultaSimples("SELECT ano_referencia, form_edital_id FROM form_aberturas WHERE id='$idEdital'")->fetchObject();
     }
 
     public function apagaFormacao($id){
@@ -306,12 +323,12 @@ class FormacaoController extends FormacaoModel
         return MainModel::sweetAlert($alerta);
     }
 
-    public function validaForm($form_cadastro_id, $pessoa_fisica_id, $cargo) {
+    public function validaForm($form_cadastro_id, $pessoa_fisica_id, $cargo, $piapi = false) {
         $form_cadastro_id = MainModel::decryption($form_cadastro_id);
 
         $erros['Proponente'] = (new PessoaFisicaController)->validaPf($pessoa_fisica_id, 3);
         $erros['Formação'] = ValidacaoModel::validaFormacao($pessoa_fisica_id);
-        $erros['Arquivos'] = ValidacaoModel::validaArquivosFormacao($form_cadastro_id, $cargo);
+        $erros['Arquivos'] = ValidacaoModel::validaArquivosFormacao($form_cadastro_id, $cargo, $piapi);
 
         return MainModel::formataValidacaoErros($erros);
     }
@@ -342,5 +359,44 @@ class FormacaoController extends FormacaoModel
             ];
         }
         return MainModel::sweetAlert($alerta);
+    }
+
+    public function geraOpcaoCargosPiapi($selected = "") {
+        $sql = "SELECT cp.formacao_cargo_id, fc.cargo FROM cargo_programas AS cp
+                INNER JOIN formacao_cargos AS fc ON cp.formacao_cargo_id = fc.id
+                WHERE cp.programa_id = 3";
+
+        $consulta = DbModel::consultaSimples($sql, true);
+        if ($consulta->rowCount() >= 1) {
+            foreach ($consulta->fetchAll() as $option) {
+                if ($option[0] == $selected) {
+                    echo "<option value='" . $option[0] . "' selected >" . $option[1] . "</option>";
+                } else {
+                    echo "<option value='" . $option[0] . "'>" . $option[1] . "</option>";
+                }
+            }
+        }
+    }
+
+    public function geraOpcaoProgramas($selected = "", $piapi = false)
+    {
+        $sql = "SELECT id, programa FROM programas";
+
+        if (!$piapi) {
+            $sql .= " WHERE id NOT IN (3)";
+        } else {
+            $sql .= " WHERE id = 3";
+        }
+
+        $consulta = DbModel::consultaSimples($sql, true);
+        if ($consulta->rowCount() >= 1) {
+            foreach ($consulta->fetchAll() as $option) {
+                if ($option[0] == $selected) {
+                    echo "<option value='" . $option[0] . "' selected >" . $option[1] . "</option>";
+                } else {
+                    echo "<option value='" . $option[0] . "'>" . $option[1] . "</option>";
+                }
+            }
+        }
     }
 }
